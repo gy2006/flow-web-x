@@ -1,27 +1,32 @@
 <template>
-  <div>
-    <v-navigation-drawer v-model="drawer" fixed app>
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+  <v-navigation-drawer v-model="drawer" fixed clipped app>
+    <v-list dense>
+      <v-list-tile class="mt-3">
+        <v-text-field
+          placeholder="输入关键词搜索"
+          single-line
+          append-icon="search"/>
+      </v-list-tile>
 
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-  </div>
+      <v-list-tile @click="onItemClick">
+        <v-list-tile-action>
+          <v-icon>home</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Home</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="onItemClick">
+        <v-list-tile-action>
+          <i class="flow-icon flow-icon-agents"/>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Contact</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -29,10 +34,18 @@
     name: 'FlowList',
     props: {
       drawer: Boolean
+    },
+    data () {
+      return {}
+    },
+    methods: {
+      onItemClick (item) {
+        console.log(item)
+      }
     }
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="sass" scoped>
 
 </style>

@@ -1,0 +1,370 @@
+@import 'media';
+
+$font-size-root: 20px !default; // use for rem, chrome default mini size is 10px
+
+$icomoon-font-path: "fonts" !default;
+$icon-drag: "\e905";
+$icon-circle-check: "\e934";
+$icon-social-github: "\e91b";
+$icon-check: "\e904";
+$icon-running: "\e949";
+$icon-failure: "\e947";
+$icon-timeout: "\e91a";
+$icon-stopped: "\e93a";
+$icon-trash: "\e91c";
+$icon-pending: "\e91e";
+$icon-cross: "\ea0f";
+$icon-logo: "\e908";
+$icon-bookmark: "\e916";
+$icon-jigsaw: "\e917";
+$icon-notification: "\e918";
+$icon-equalizer: "\e90d";
+$icon-git-branch: "\e90e";
+$icon-branches: "\e903";
+$icon-layergroup: "\e90f";
+$icon-off: "\e910";
+$icon-code: "\e912";
+$icon-search2: "\e911";
+$icon-search: "\e90c";
+$icon-arrow-left: "\e314";
+$icon-key: "\e900";
+$icon-user: "\e901";
+$icon-users: "\e919";
+$icon-plus-sm: "\e913";
+$icon-add_circle: "\e147";
+$icon-control_point: "\e3ba";
+$icon-agents: "\e902";
+$icon-logout: "\e90b";
+$icon-question-thin: "\e914";
+$icon-warning: "\e915";
+$icon-question: "\e91d";
+$icon-loading: "\e64d";
+$icon-loading1: "\e6ae";
+$icon-radio-checked: "\e838";
+$icon-radio-unchecked: "\e837";
+$icon-checkbox-checked: "\e834";
+$icon-checkbox-unchecked: "\e835";
+$icon-checkbox-indeterminate: "\e909";
+$icon-caretdown: "\e606";
+$icon-pencil: "\e907";
+$icon-settings: "\e90a";
+
+@font-face {
+  font-family: 'flowci';
+  src: url('fonts/flowci.ttf') format('truetype'),
+  url('fonts/flowci.woff') format('woff'),
+  url('fonts/flowci.svg#flowci') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.flow-icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'flowci' !important;
+  speak: none;
+  font-size: $font-size-root;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.flow-icon-drag {
+  &:before {
+    content: $icon-drag;
+  }
+}
+
+.flow-icon-circle-check {
+  &:before {
+    content: $icon-circle-check;
+  }
+}
+
+.flow-icon-social-github {
+  &:before {
+    content: $icon-social-github;
+  }
+}
+
+.flow-icon-check {
+  &:before {
+    content: $icon-check;
+  }
+}
+
+.flow-icon-running {
+  &:before {
+    content: $icon-running;
+  }
+}
+
+.flow-icon-failure {
+  &:before {
+    content: $icon-failure;
+  }
+}
+
+.flow-icon-timeout {
+  &:before {
+    content: $icon-timeout;
+  }
+}
+
+.flow-icon-stopped {
+  &:before {
+    content: $icon-stopped;
+  }
+}
+
+.flow-icon-trash {
+  &:before {
+    content: $icon-trash;
+  }
+}
+
+.flow-icon-pending {
+  &:before {
+    content: $icon-pending;
+  }
+}
+
+.flow-icon-cross {
+  &:before {
+    content: $icon-cross;
+  }
+}
+
+.flow-icon-logo {
+  &:before {
+    content: $icon-logo;
+  }
+}
+
+.flow-icon-bookmark {
+  &:before {
+    content: $icon-bookmark;
+  }
+}
+
+.flow-icon-jigsaw {
+  &:before {
+    content: $icon-jigsaw;
+  }
+}
+
+.flow-icon-notification {
+  &:before {
+    content: $icon-notification;
+  }
+}
+
+.flow-icon-equalizer {
+  &:before {
+    content: $icon-equalizer;
+  }
+}
+
+.flow-icon-git-branch {
+  &:before {
+    content: $icon-git-branch;
+  }
+}
+
+.flow-icon-branches {
+  &:before {
+    content: $icon-branches;
+  }
+}
+
+.flow-icon-layergroup {
+  &:before {
+    content: $icon-layergroup;
+  }
+}
+
+.flow-icon-off {
+  &:before {
+    content: $icon-off;
+  }
+}
+
+.flow-icon-code {
+  &:before {
+    content: $icon-code;
+  }
+}
+
+.flow-icon-search2 {
+  &:before {
+    content: $icon-search2;
+  }
+}
+
+.flow-icon-search {
+  &:before {
+    content: $icon-search;
+  }
+}
+
+.flow-icon-arrow-left {
+  &:before {
+    content: $icon-arrow-left;
+  }
+}
+
+.flow-icon-key {
+  &:before {
+    content: $icon-key;
+  }
+}
+
+.flow-icon-user {
+  &:before {
+    content: $icon-user;
+  }
+}
+
+.flow-icon-users {
+  &:before {
+    content: $icon-users;
+  }
+}
+
+.flow-icon-plus-sm {
+  &:before {
+    content: $icon-plus-sm;
+  }
+}
+
+.flow-icon-add_circle {
+  &:before {
+    content: $icon-add_circle;
+  }
+}
+
+.flow-icon-control_point {
+  &:before {
+    content: $icon-control_point;
+  }
+}
+
+.flow-icon-agents {
+  &:before {
+    content: $icon-agents;
+  }
+}
+
+.flow-icon-logout {
+  &:before {
+    content: $icon-logout;
+  }
+}
+
+.flow-icon-question-thin {
+  &:before {
+    content: $icon-question-thin;
+  }
+}
+
+.flow-icon-warning {
+  &:before {
+    content: $icon-warning;
+  }
+}
+
+.flow-icon-question {
+  &:before {
+    content: $icon-question;
+  }
+}
+
+.flow-icon-loading {
+  &:before {
+    content: $icon-loading;
+  }
+}
+
+.flow-icon-loading1 {
+  &:before {
+    content: $icon-loading1;
+  }
+}
+
+.flow-icon-radio-checked {
+  &:before {
+    content: $icon-radio-checked;
+  }
+}
+
+.flow-icon-radio-unchecked {
+  &:before {
+    content: $icon-radio-unchecked;
+  }
+}
+
+.flow-icon-checkbox-checked {
+  &:before {
+    content: $icon-checkbox-checked;
+  }
+}
+
+.flow-icon-checkbox-unchecked {
+  &:before {
+    content: $icon-checkbox-unchecked;
+  }
+}
+
+.flow-icon-checkbox-indeterminate {
+  &:before {
+    content: $icon-checkbox-indeterminate;
+  }
+}
+
+.flow-icon-caretdown {
+  &:before {
+    content: $icon-caretdown;
+  }
+}
+
+.flow-icon-pencil {
+  &:before {
+    content: $icon-pencil;
+  }
+}
+
+.flow-icon-settings {
+  &:before {
+    content: $icon-settings;
+  }
+}
+
+@media screen and (max-width: $screen-desktop) {
+  .flow-icon {
+    font-size: ceil($font-size-root * 0.8);
+  }
+}
+
+@media screen and (max-width: $screen-tablet) {
+  .flow-icon {
+    font-size: ceil($font-size-root * 0.75);
+  }
+}
+
+@media screen and (max-width: $screen-phone) {
+  .flow-icon {
+    font-size: ceil($font-size-root * 0.5);
+  }
+}

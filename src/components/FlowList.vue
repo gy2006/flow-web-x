@@ -3,7 +3,7 @@
     <v-list dense>
       <v-list-tile class="mt-3">
         <v-text-field
-          placeholder="输入关键词搜索"
+          :placeholder="$t('flow_search_text')"
           single-line
           append-icon="search"/>
       </v-list-tile>
@@ -13,7 +13,7 @@
           <v-icon>home</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ $t(message.hello) }}</v-list-tile-title>
+          <v-list-tile-title>home</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 

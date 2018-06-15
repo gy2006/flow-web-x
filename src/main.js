@@ -6,7 +6,8 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 
-import messages from './messages'
+import messages from './i18n/index'
+
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
 import './assets/styles/style.scss'
@@ -16,18 +17,14 @@ Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueI18n)
 
-console.log(messages)
-
-const i18n = new VueI18n({
-  locale: 'cn',
-  fallbackLocale: 'en',
-  messages
-})
-
 /* eslint-disable no-new */
 new Vue({
+  i18n: new VueI18n({
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages
+  }),
   el: '#app',
-  i18n,
   router,
   components: { App },
   template: '<App/>'

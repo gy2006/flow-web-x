@@ -40,7 +40,7 @@
     },
     methods: {
       onItemClick (item) {
-        console.log(item)
+        this.$store.dispatch('list')
       }
     }
   }

@@ -28,7 +28,18 @@ const actions = {
   }
 }
 
-export default {
+/**
+ * Export action in text
+ */
+export const Actions = {
+  'List': 'flows/list'
+}
+
+/**
+ * Export Vuex store object
+ */
+export const Store = {
+  namespaced: true,
   state,
   mutations,
   actions

@@ -32,8 +32,7 @@
       drawer: Boolean
     },
     data () {
-      return {
-      }
+      return {}
     },
     computed: mapState({
       flows: state => state.flows.items
@@ -49,6 +48,5 @@
   }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
 </style>

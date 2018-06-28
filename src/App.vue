@@ -2,11 +2,11 @@
   <v-app id="inspire">
 
     <!--flow list-->
-    <flow-list v-bind:drawer="drawer"/>
+    <flow-list v-bind:drawer="isShowFlows"/>
 
     <!--toolbar-->
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
-      <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.native="isShowFlows = !isShowFlows"></v-toolbar-side-icon>
       <v-toolbar-title>
         <i class="flow-icon flow-icon-logo"/>
       </v-toolbar-title>
@@ -14,9 +14,25 @@
 
     <!--content-->
     <v-content>
-      <v-container fill-height>
+      <v-container fluid fill-height>
+
       </v-container>
     </v-content>
+
+    <!--btn for add flow-->
+    <v-fab-transition>
+      <v-btn
+        v-show="isShowFlows"
+        fab
+        bottom
+        right
+        color="pink"
+        dark
+        fixed
+        class="btn-add-flow">
+        <v-icon>add</v-icon>
+      </v-btn>
+    </v-fab-transition>
 
     <!--footer-->
     <v-footer class="caption" app>
@@ -49,19 +65,18 @@
     },
     data () {
       return {
-        drawer: false
+        isShowFlows: true
       }
     }
   }
 </script>
 
-<style lang="scss">
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+<style lang="scss" scoped>
+  .btn--floating .icon {
+    height: unset !important;
+  }
+
+  .btn-add-flow {
+    margin-bottom: 2%;
   }
 </style>

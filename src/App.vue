@@ -2,11 +2,11 @@
   <v-app id="inspire">
 
     <!--flow list-->
-    <flow-list v-bind:drawer="isShowFlows"/>
+    <flow-list v-bind:drawer="isShowFlowList"/>
 
     <!--toolbar-->
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
-      <v-toolbar-side-icon @click.native="isShowFlows = !isShowFlows"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.native="isShowFlowList = !isShowFlowList"></v-toolbar-side-icon>
       <v-toolbar-title>
         <i class="flow-icon flow-icon-logo"/>
       </v-toolbar-title>
@@ -15,20 +15,21 @@
     <!--content-->
     <v-content>
       <v-container fluid fill-height>
-
+        <router-view/>
       </v-container>
     </v-content>
 
     <!--btn for add flow-->
     <v-fab-transition>
       <v-btn
-        v-show="isShowFlows"
+        v-show="isShowFlowList"
         fab
         bottom
         right
         color="pink"
         dark
         fixed
+        to="/flows/create"
         class="btn-add-flow">
         <v-icon>add</v-icon>
       </v-btn>
@@ -56,7 +57,7 @@
 </template>
 
 <script>
-  import FlowList from './components/FlowList'
+  import FlowList from '@/components/FlowList'
 
   export default {
     name: 'App',
@@ -65,7 +66,7 @@
     },
     data () {
       return {
-        isShowFlows: true
+        isShowFlowList: true
       }
     }
   }
@@ -74,6 +75,7 @@
 <style lang="scss" scoped>
   .btn--floating .icon {
     height: unset !important;
+    width: unset !important;
   }
 
   .btn-add-flow {

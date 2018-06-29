@@ -29,11 +29,15 @@
         color="pink"
         dark
         fixed
-        to="/flows/create"
+        @click.native="isOpenCreateFlow = !isOpenCreateFlow"
         class="btn-add-flow">
         <v-icon>add</v-icon>
       </v-btn>
     </v-fab-transition>
+
+    <v-layout row justify-center>
+      <create-flow :show="isOpenCreateFlow" v-bind:onCancel="onCancelCreateFlow"></create-flow>
+    </v-layout>
 
     <!--footer-->
     <v-footer class="caption" app>
@@ -58,15 +62,23 @@
 
 <script>
   import FlowList from '@/components/FlowList'
+  import CreateFlow from '@/components/CreateFlow'
 
   export default {
     name: 'App',
     components: {
+      CreateFlow,
       FlowList
     },
     data () {
       return {
-        isShowFlowList: true
+        isShowFlowList: true,
+        isOpenCreateFlow: false
+      }
+    },
+    methods: {
+      onCancelCreateFlow () {
+        this.isOpenCreateFlow = false
       }
     }
   }

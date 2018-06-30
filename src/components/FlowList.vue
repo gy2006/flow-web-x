@@ -28,16 +28,24 @@
 
   export default {
     name: 'FlowList',
-    props: {
-      drawer: Boolean
-    },
     data () {
-      return {}
+      return {
+        drawer: true
+      }
     },
     computed: mapState({
       flows: state => state.flows.items
     }),
     methods: {
+      show () {
+        this.drawer = true
+      },
+      close () {
+        this.drawer = false
+      },
+      click () {
+        this.drawer = !this.drawer
+      },
       onItemClick () {
         console.log('')
       }

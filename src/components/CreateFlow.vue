@@ -18,15 +18,13 @@
           <v-stepper-content :complete="step > 1" step="1">
             <v-card class="mb-2">
               <v-layout row>
-                <v-flex xs3>
-                  <v-subheader>Give a name for flow</v-subheader>
-                </v-flex>
                 <v-flex xs8>
                   <v-text-field
                     :rules="[flowNameRules.required, flowNameRules.format]"
                     label="flow name"
                     value=""
                     single-line
+                    hint="Give a name for flow"
                   ></v-text-field>
                 </v-flex>
               </v-layout>

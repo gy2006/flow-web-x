@@ -2,11 +2,11 @@
   <v-app id="inspire">
 
     <!--flow list-->
-    <flow-list v-bind:drawer="isShowFlowList"/>
+    <flow-list ref="flowList"/>
 
     <!--toolbar-->
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
-      <v-toolbar-side-icon @click.native="isShowFlowList = !isShowFlowList"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.native="refs('flowList').click()"></v-toolbar-side-icon>
       <v-toolbar-title>
         <i class="flow-icon flow-icon-logo"/>
       </v-toolbar-title>
@@ -22,7 +22,6 @@
     <!--btn for add flow-->
     <v-fab-transition>
       <v-btn
-        v-show="isShowFlowList"
         fab
         bottom
         right
@@ -36,7 +35,7 @@
     </v-fab-transition>
 
     <v-layout row justify-center>
-      <create-flow ref="vueCreateFlow"></create-flow>
+      <create-flow ref="createFlow"></create-flow>
     </v-layout>
 
     <!--footer-->
@@ -71,13 +70,14 @@
       FlowList
     },
     data () {
-      return {
-        isShowFlowList: true
-      }
+      return { }
     },
     methods: {
       openCreateFlow () {
-        this.$refs.vueCreateFlow.open()
+        this.refs('createFlow').open()
+      },
+      refs (name) {
+        return this.$refs[name]
       }
     }
   }

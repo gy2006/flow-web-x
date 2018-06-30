@@ -29,14 +29,14 @@
         color="pink"
         dark
         fixed
-        @click.native="isOpenCreateFlow = !isOpenCreateFlow"
+        @click.native="openCreateFlow"
         class="btn-add-flow">
         <v-icon>add</v-icon>
       </v-btn>
     </v-fab-transition>
 
     <v-layout row justify-center>
-      <create-flow :show="isOpenCreateFlow" v-bind:onCancel="onCancelCreateFlow"></create-flow>
+      <create-flow ref="vueCreateFlow"></create-flow>
     </v-layout>
 
     <!--footer-->
@@ -72,13 +72,12 @@
     },
     data () {
       return {
-        isShowFlowList: true,
-        isOpenCreateFlow: false
+        isShowFlowList: true
       }
     },
     methods: {
-      onCancelCreateFlow () {
-        this.isOpenCreateFlow = false
+      openCreateFlow () {
+        this.$refs.vueCreateFlow.open()
       }
     }
   }

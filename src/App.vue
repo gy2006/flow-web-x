@@ -61,7 +61,7 @@
 
 <script>
   import FlowList from '@/components/FlowList'
-  import CreateFlow from '@/components/CreateFlow'
+  import CreateFlow from '@/components/CreateFlow/Index'
 
   export default {
     name: 'App',

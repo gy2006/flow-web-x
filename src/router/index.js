@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import CreateFlow from '@/components/CreateFlow'
+import CreateFlow from '@/components/CreateFlow/Index'
 
 Vue.use(Router)
 

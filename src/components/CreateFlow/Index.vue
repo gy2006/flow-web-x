@@ -16,20 +16,8 @@
             Input Flow Name
           </v-stepper-step>
           <v-stepper-content :complete="step > 1" step="1">
-            <v-card class="mb-2">
-              <v-layout row>
-                <v-flex xs8>
-                  <v-text-field
-                    :rules="[flowNameRules.required, flowNameRules.format]"
-                    label="flow name"
-                    value=""
-                    single-line
-                    hint="Give a name for flow"
-                  ></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-card>
-            <v-btn color="primary" @click.native="step = 2">Continue</v-btn>
+            <name-input init-value="" v-on:input="onNameInput"/>
+            <v-btn color="primary" @click.native="step = 2" :disabled="hasError">Next</v-btn>
           </v-stepper-content>
 
           <!--setup git info-->
@@ -37,8 +25,8 @@
             Config Git Repo
           </v-stepper-step>
           <v-stepper-content :complete="step > 2" step="2">
-            <v-card color="grey lighten-1" class="mb-2" height="200px"></v-card>
-            <v-btn color="primary" @click.native="step = 3">Continue</v-btn>
+            <git-config/>
+            <v-btn color="primary" @click.native="step = 3" :disabled="hasError">Continue</v-btn>
           </v-stepper-content>
 
           <!--config yml-->
@@ -56,8 +44,13 @@
 </template>
 
 <script>
+  // import Envs from '@/api/envs'
+  import NameInput from './NameInput'
+  import GitConfig from './GitConfig'
+
   export default {
     name: 'CreateFlow',
+    components: {GitConfig, NameInput},
     methods: {
       open () {
         this.show = true
@@ -71,26 +64,20 @@
       },
       onSave () {
         console.log('save flow')
+      },
+      onNameInput (name, errors) {
+        this.hasError = errors > 0
+        this.flow.name = name
       }
     },
     data () {
       return {
         show: false,
         step: 0,
-        hasError: false,
-        flowNameRules: {
-          required: (value) => {
-            if (value) {
-              this.hasError = false
-              return true
-            }
-
-            this.hasError = true
-            return 'flow name is required'
-          },
-          format: (value) => {
-            return true
-          }
+        hasError: true,
+        flow: {
+          name: '',
+          envs: {}
         }
       }
     }

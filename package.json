@@ -5,12 +5,13 @@
   "author": "Yang Guo <gy@fir.im>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "dev": "webpack-dev-server  --inline --progress --config build/webpack.dev.conf.js",
+    "start": "FLOW_API_URL=http://47.94.156.230:8080 npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "material-design-icons-iconfont": "^3.0.3",
     "vue": "^2.5.2",

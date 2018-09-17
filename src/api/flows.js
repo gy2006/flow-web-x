@@ -1,8 +1,8 @@
 import Config from './config'
-import Vue from 'vue'
+// import Vue from 'vue'
+import axios from 'axios'
 
 const rootUrl = `${Config.host}/flows`
-
 const state = {
   items: [],
   error: null
@@ -11,11 +11,17 @@ const state = {
 const mutations = {
   list (state) {
     const url = `${rootUrl}`
-    Vue.http.get(url).then(
+    axios({
+      method: 'get',
+      url: url,
+      headers: { 'Token': 'helloflowciadmin' }
+    }).then(
       (response) => {
+        console.log(response)
         state.items = response.body
       },
       (error) => {
+        console.log(error)
         state.error = error
       }
     )

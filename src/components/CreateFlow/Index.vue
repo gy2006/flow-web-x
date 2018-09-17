@@ -68,6 +68,7 @@
       onNameInput (name, errors) {
         this.hasError = errors > 0
         this.flow.name = name
+        console.log(name, errors)
       }
     },
     data () {

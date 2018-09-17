@@ -33,9 +33,11 @@
         drawer: true
       }
     },
-    computed: mapState({
-      flows: state => state.flows.items
-    }),
+    computed: {
+      ...mapState({
+        flows: state => state.flows.items
+      })
+    },
     methods: {
       show () {
         this.drawer = true

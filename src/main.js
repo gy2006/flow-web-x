@@ -21,6 +21,7 @@ Vue.use(Vuetify)
 Vue.use(VueI18n)
 // Vue.use(VueResource)
 
+axios.defaults.headers.common['Token'] = 'helloflowciadmin'
 // Vue.http.headers.common['Token'] = 'helloflowciadmin'
 /* eslint-disable no-new */
 new Vue({

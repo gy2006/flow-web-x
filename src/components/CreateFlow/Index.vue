@@ -17,7 +17,7 @@
           </v-stepper-step>
           <v-stepper-content :complete="step > 1" step="1">
             <name-input init-value="" v-on:input="onNameInput"/>
-            <v-btn color="primary" @click.native="step = 2" :disabled="hasError">Next</v-btn>
+            <v-btn color="primary" @click.native="flowsCreate" :disabled="hasError">Next</v-btn>
           </v-stepper-content>
 
           <!--setup git info-->
@@ -47,6 +47,7 @@
   // import Envs from '@/api/envs'
   import NameInput from './NameInput'
   import GitConfig from './GitConfig'
+  import Actions from '@/api/actions'
 
   export default {
     name: 'CreateFlow',
@@ -57,6 +58,7 @@
         this.reset()
       },
       close () {
+        this.$store.dispatch(Actions.Flows.Delete, this.flow.name)
         this.show = false
       },
       reset () {
@@ -68,7 +70,10 @@
       onNameInput (name, errors) {
         this.hasError = errors > 0
         this.flow.name = name
-        console.log(name, errors)
+      },
+      flowsCreate () {
+        this.step = 2
+        this.$store.dispatch(Actions.Flows.Create, this.flow.name)
       }
     },
     data () {

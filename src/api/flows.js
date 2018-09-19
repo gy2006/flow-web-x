@@ -1,5 +1,4 @@
 import Config from './config'
-// import Vue from 'vue'
 import axios from 'axios'
 
 const rootUrl = `${Config.host}/flows`
@@ -9,20 +8,28 @@ const state = {
 }
 
 const mutations = {
-  list (state) {
-    const url = `${rootUrl}`
-    axios({
-      method: 'get',
-      url: url,
-      headers: { 'Token': 'helloflowciadmin' }
-    }).then(
+  list (state, res) {
+    state.items = res
+  },
+  create (state, u) {
+    const url = `${rootUrl}/${u}`
+    axios.post(url).then(
       (response) => {
-        console.log(response)
-        state.items = response.body
+        return response
       },
       (error) => {
-        console.log(error)
-        state.error = error
+        return error
+      }
+    )
+  },
+  delete (state, u) {
+    const url = `${rootUrl}/${u}`
+    axios.delete(url).then(
+      (response) => {
+        return response
+      },
+      (error) => {
+        return error
       }
     )
   }
@@ -30,7 +37,19 @@ const mutations = {
 
 const actions = {
   list ({commit}) {
-    commit('list')
+    const url = `${rootUrl}`
+    return new Promise(async (resolve, reject) => {
+      const res = await axios.get(url)
+      if (res === null) return
+      commit('list', res.data.data)
+      resolve()
+    })
+  },
+  create ({commit}, args) {
+    commit('create', args)
+  },
+  delete ({commit}, args) {
+    commit('delete', args)
   }
 }
 
@@ -38,7 +57,9 @@ const actions = {
  * Export action in text
  */
 export const Actions = {
-  'List': 'flows/list'
+  'List': 'flows/list',
+  'Create': 'flows/create',
+  'Delete': 'flows/delete'
 }
 
 /**

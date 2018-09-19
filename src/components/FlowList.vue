@@ -5,16 +5,22 @@
         <v-text-field
           :placeholder="$t('flow_search_text')"
           single-line
-          append-icon="search"/>
+          append-icon="search"
+          v-model="searchVal"/>
       </v-list-tile>
-
-      <template v-for="(item, index) in flows">
+      <div class="text-xs-center mt-5"  v-if="!flows">
+        <v-progress-circular
+        indeterminate
+        color="purple"
+        ></v-progress-circular>
+      </div>
+      <template v-else v-for="(item, index) in items">
         <v-list-tile @click="onItemClick" :key="index">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+            <v-list-tile-title>{{ item }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </template>
@@ -30,7 +36,9 @@
     name: 'FlowList',
     data () {
       return {
-        drawer: true
+        drawer: false,
+        searchVal: '',
+        items: []
       }
     },
     computed: {
@@ -39,21 +47,37 @@
       })
     },
     methods: {
-      show () {
-        this.drawer = true
-      },
-      close () {
-        this.drawer = false
-      },
       click () {
         this.drawer = !this.drawer
+        if (this.drawer === true) {
+          this.$store.dispatch(Actions.Flows.List).then(() => {
+            this.items = this.arr()
+          })
+        }
       },
       onItemClick () {
         console.log('')
+      },
+      querySelections (v) {
+        this.items = this.arr().filter(e => {
+          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        })
+      },
+      arr () {
+        var arr = []
+        for (var i = 0; i < this.flows.length; i++) {
+          arr.push(this.flows[i].name)
+        }
+        return arr
       }
     },
     created () {
       this.$store.dispatch(Actions.Flows.List)
+    },
+    watch: {
+      searchVal (val) {
+        this.querySelections(val)
+      }
     }
   }
 </script>

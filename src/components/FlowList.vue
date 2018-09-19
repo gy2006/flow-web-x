@@ -15,12 +15,12 @@
         ></v-progress-circular>
       </div>
       <template v-else v-for="(item, index) in items">
-        <v-list-tile @click="onItemClick" :key="index">
+        <v-list-tile @click="onItemClick(item)" :key="index">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ item }}</v-list-tile-title>
+            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </template>
@@ -51,24 +51,18 @@
         this.drawer = !this.drawer
         if (this.drawer === true) {
           this.$store.dispatch(Actions.Flows.List).then(() => {
-            this.items = this.arr()
+            this.items = this.flows
           })
         }
       },
-      onItemClick () {
-        console.log('')
+      onItemClick (item) {
+        this.$router.push({path: `/flows/${item.name}/jobs`})
+        this.$store.dispatch(Actions.Flows.Name, item.name)
       },
       querySelections (v) {
-        this.items = this.arr().filter(e => {
-          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        this.items = this.flows.filter(e => {
+          return (e.name || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         })
-      },
-      arr () {
-        var arr = []
-        for (var i = 0; i < this.flows.length; i++) {
-          arr.push(this.flows[i].name)
-        }
-        return arr
       }
     },
     created () {

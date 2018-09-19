@@ -4,12 +4,16 @@ import axios from 'axios'
 const rootUrl = `${Config.host}/flows`
 const state = {
   items: [],
-  error: null
+  error: null,
+  name: ''
 }
 
 const mutations = {
   list (state, res) {
     state.items = res
+  },
+  name (state, res) {
+    state.name = res
   },
   create (state, u) {
     const url = `${rootUrl}/${u}`
@@ -45,6 +49,9 @@ const actions = {
       resolve()
     })
   },
+  name ({commit}, args) {
+    commit('name', args)
+  },
   create ({commit}, args) {
     commit('create', args)
   },
@@ -59,7 +66,8 @@ const actions = {
 export const Actions = {
   'List': 'flows/list',
   'Create': 'flows/create',
-  'Delete': 'flows/delete'
+  'Delete': 'flows/delete',
+  'Name': 'flows/name'
 }
 
 /**

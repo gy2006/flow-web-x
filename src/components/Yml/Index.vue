@@ -39,7 +39,7 @@
       getYml(this.$route.params.id).then(res => {
         this.$store.dispatch(Actions.Flows.Editor, res.data)
       }).catch(() => {
-        this.$store.dispatch(Actions.Flows.Editor, 'aaaaa')
+        this.$store.dispatch(Actions.Flows.Editor, '# flow.ci templates\n\nflow:\n  - envs:\n      FLOW_WELCOME_MESSAGE: "hello.world"\n      \n    steps:\n      - name: Init\n        script: |\n          echo ${FLOW_WELCOME_MESSAGE}')
       })
     },
     methods: {

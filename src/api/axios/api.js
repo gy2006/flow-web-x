@@ -32,3 +32,10 @@ export function setYml (name, editor) {
     }
   })
 }
+
+export function deleteFlow (name) {
+  return fetch({
+    url: `${api.flows}/${name}`,
+    method: 'delete'
+  })
+}

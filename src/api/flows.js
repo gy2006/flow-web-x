@@ -18,17 +18,6 @@ const mutations = {
   },
   editor (state, res) {
     state.editor = res
-  },
-  delete (state, u) {
-    const url = `${rootUrl}/${u}`
-    axios.delete(url).then(
-      (response) => {
-        return response
-      },
-      (error) => {
-        return error
-      }
-    )
   }
 }
 
@@ -47,9 +36,6 @@ const actions = {
   },
   name ({commit}, args) {
     commit('name', args)
-  },
-  delete ({commit}, args) {
-    commit('delete', args)
   }
 }
 
@@ -58,7 +44,6 @@ const actions = {
  */
 export const Actions = {
   'List': 'flows/list',
-  'Delete': 'flows/delete',
   'Name': 'flows/name',
   'Editor': 'flows/editor'
 }

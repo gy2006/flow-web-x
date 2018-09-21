@@ -21,8 +21,7 @@
   // import Envs from '@/api/envs'
   import NameInput from './NameInput'
   import GitConfig from './GitConfig'
-  import Actions from '@/api/actions'
-
+  import { createFlow } from '@/api/axios/api'
   export default {
     name: 'CreateFlow',
     components: {GitConfig, NameInput},
@@ -31,7 +30,6 @@
         this.show = true
       },
       close () {
-        // this.$store.dispatch(Actions.Flows.Delete, this.flow.name)
         this.show = false
       },
       onSave () {
@@ -42,7 +40,11 @@
         this.flow.name = name
       },
       flowsCreate () {
-        this.$store.dispatch(Actions.Flows.Create, this.flow.name)
+        createFlow(this.flow.name).then(res => {
+          return res
+        }).catch(err => {
+          return err
+        })
         this.show = false
       }
     },

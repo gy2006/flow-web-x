@@ -5,7 +5,8 @@ const rootUrl = `${Config.host}/flows`
 const state = {
   items: [],
   error: null,
-  name: ''
+  name: '',
+  editor: ''
 }
 
 const mutations = {
@@ -15,16 +16,8 @@ const mutations = {
   name (state, res) {
     state.name = res
   },
-  create (state, u) {
-    const url = `${rootUrl}/${u}`
-    axios.post(url).then(
-      (response) => {
-        return response
-      },
-      (error) => {
-        return error
-      }
-    )
+  editor (state, res) {
+    state.editor = res
   },
   delete (state, u) {
     const url = `${rootUrl}/${u}`
@@ -49,11 +42,11 @@ const actions = {
       resolve()
     })
   },
+  editor ({commit}, args) {
+    commit('editor', args)
+  },
   name ({commit}, args) {
     commit('name', args)
-  },
-  create ({commit}, args) {
-    commit('create', args)
   },
   delete ({commit}, args) {
     commit('delete', args)
@@ -65,9 +58,9 @@ const actions = {
  */
 export const Actions = {
   'List': 'flows/list',
-  'Create': 'flows/create',
   'Delete': 'flows/delete',
-  'Name': 'flows/name'
+  'Name': 'flows/name',
+  'Editor': 'flows/editor'
 }
 
 /**

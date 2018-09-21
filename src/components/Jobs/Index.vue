@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+  import { jobsList } from '@/api/axios/api'
   import { mapState } from 'vuex'
   export default {
     name: 'Jobs',
@@ -30,22 +30,18 @@
       })
     },
     mounted () {
-      this.$http.get(`http://47.94.156.230:8080/jobs/${this.$route.params.id}`).then(
-        (res) => {
-          console.log(res)
-        },
-        (err) => {
-          return err
+      jobsList(this.$route.params.id).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
       })
     },
     watch: {
       $route (to, form) {
-        this.$http.get(`http://47.94.156.230:8080/jobs/${this.$route.params.id}`).then(
-          (res) => {
-            console.log(res.data.data)
-          },
-          (err) => {
-            return err
+        jobsList(this.$route.params.id).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
         })
       }
     }

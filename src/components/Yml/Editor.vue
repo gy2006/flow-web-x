@@ -1,11 +1,11 @@
 <template>
     <MonacoEditor
-      :language='language'
+      language='yaml'
       :code='editor'
+      theme='vs-dark'
       :options='options'
       :highlighted='highlightLines'
       :changeThrottle='500'
-      theme='vs-dark'
       @mounted='onMounted'
       @codeChange='onCodeChange'
       ref='vscode'>
@@ -23,9 +23,6 @@
     },
     data () {
       return {
-        // code: '',
-        // 语言
-        language: 'yaml',
         // 高亮
         highlightLines: [{number: 0, class: 'red'}],
         options: {
@@ -46,6 +43,8 @@
         },
         newCode: ''
       }
+    },
+    mounted () {
     },
     methods: {
       // 编辑器挂载时触发

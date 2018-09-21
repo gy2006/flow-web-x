@@ -14,7 +14,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "material-design-icons-iconfont": "^3.0.3",
-    "monaco-editor": "^0.14.3",
+    "monaco-editor": "^0.10.1",
     "vue": "^2.5.2",
     "vue-i18n": "^7.8.0",
     "vue-monaco-editor": "0.0.19",

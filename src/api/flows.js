@@ -4,7 +4,6 @@ import axios from 'axios'
 const rootUrl = `${Config.host}/flows`
 const state = {
   items: [],
-  error: null,
   name: '',
   editor: ''
 }

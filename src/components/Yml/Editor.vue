@@ -4,7 +4,6 @@
       :code='editor'
       theme='vs-dark'
       :options='options'
-      :highlighted='highlightLines'
       :changeThrottle='500'
       @mounted='onMounted'
       @codeChange='onCodeChange'
@@ -23,8 +22,6 @@
     },
     data () {
       return {
-        // 高亮
-        highlightLines: [{number: 0, class: 'red'}],
         options: {
           // 选项
           selectOnLineNumbers: false,
@@ -44,8 +41,6 @@
         newCode: ''
       }
     },
-    mounted () {
-    },
     methods: {
       // 编辑器挂载时触发
       onMounted (editor) {
@@ -62,7 +57,7 @@
         time = setTimeout(() => {
           this.$refs.vscode.destroyMonaco() // 销毁
           this.$refs.vscode.createMonaco() // 创建
-        }, 0)
+        }, 2000)
       }
     },
     computed: {
@@ -71,7 +66,7 @@
       })
     },
     watch: {
-      editor () {
+      editor (val) {
         this.reload()
       }
     }

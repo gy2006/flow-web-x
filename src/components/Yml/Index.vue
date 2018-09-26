@@ -1,10 +1,14 @@
 <template>
   <v-card height='100%' width="100%">
     <v-card-title>
-      yml 设置
+      <h4>配置 YML 工作流</h4>
+      <v-spacer/>
+      <v-btn color="orange darken-2" dark @click="goback">
+        <v-icon dark left>arrow_back</v-icon>返回
+      </v-btn>
     </v-card-title>
     <v-card-text>
-      <Editor :codes=codes></Editor>
+      <Editor></Editor>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -27,9 +31,7 @@
   export default {
     data () {
       return {
-        loader: null,
-        loading: false,
-        codes: ''
+        loading: false
       }
     },
     components: {
@@ -39,33 +41,26 @@
       getYml(this.$route.params.id).then(res => {
         this.$store.dispatch(Actions.Flows.Editor, res.data)
       }).catch(() => {
-        this.$store.dispatch(Actions.Flows.Editor, '# flow.ci templates\n\nflow:\n  - envs:\n      FLOW_WELCOME_MESSAGE: "hello.world"\n      \n    steps:\n      - name: Init\n        script: |\n          echo ${FLOW_WELCOME_MESSAGE}')
+        this.$store.dispatch(Actions.Flows.Editor, '# flow.ci templates')
       })
     },
     methods: {
       save () {
-        // this.loader = 'loading',
+        this.loading = true
         setYml(this.$route.params.id, this.editor).then(res => {
-          console.log(res)
+          if (res.data.code === 200) this.loading = false
         }).catch(err => {
           console.log(err)
         })
+      },
+      goback () {
+        this.$router.push({path: `/flows/${this.$route.params.id}/jobs`})
       }
     },
     computed: {
       ...mapState({
         editor: state => state.flows.editor
       })
-    },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
-        this.loader = null
-      }
     }
   }
 </script>

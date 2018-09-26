@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import CreateFlow from '@/components/CreateFlow/Index'
 import Jobs from '@/components/Jobs/Index'
 import Yml from '@/components/Yml/Index'
+import JobDetail from '@/components/JobDetail/Index'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/flows/:id/yml',
       name: 'Yml',
       component: Yml
+    },
+    {
+      path: '/flows/:id/jobs/:num',
+      name: 'JobDetail',
+      component: JobDetail
     }
   ]
 })

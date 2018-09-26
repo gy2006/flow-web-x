@@ -8,7 +8,7 @@
           append-icon="search"
           v-model="searchVal"/>
       </v-list-tile>
-      <div class="text-xs-center mt-5"  v-if="!flows">
+      <div class="text-xs-center mt-5"  v-if="loading">
         <v-progress-circular
         indeterminate
         color="purple"
@@ -38,7 +38,8 @@
       return {
         drawer: false,
         searchVal: '',
-        items: []
+        items: [],
+        loading: false
       }
     },
     computed: {
@@ -50,7 +51,9 @@
       click () {
         this.drawer = !this.drawer
         if (this.drawer === true) {
+          this.loading = true
           this.$store.dispatch(Actions.Flows.List).then(() => {
+            this.loading = false
             this.items = this.flows
           })
         }

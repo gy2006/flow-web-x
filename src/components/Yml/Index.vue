@@ -8,7 +8,7 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      <Editor></Editor>
+      <Editor readonly="false"></Editor>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -41,7 +41,21 @@
       getYml(this.$route.params.id).then(res => {
         this.$store.dispatch(Actions.Flows.Editor, res.data)
       }).catch(() => {
-        this.$store.dispatch(Actions.Flows.Editor, '# flow.ci templates')
+        this.$store.dispatch(Actions.Flows.Editor, `envs:
+    FLOW_WORKSPACE: "echo hello"
+    FLOW_VERSION: "echo version"
+
+  steps:
+  - envs:
+      FLOW_WORKSPACE: "echo step"
+      FLOW_VERSION: "echo step version"
+    allowFailure: true
+    script: |
+      echo hello
+
+  - name: step2
+    allowFailure: false
+    script: "echo 2"`)
       })
     },
     methods: {
@@ -49,6 +63,7 @@
         this.loading = true
         setYml(this.$route.params.id, this.editor).then(res => {
           if (res.data.code === 200) this.loading = false
+          if (res.data.code === 500) this.loading = false
         }).catch(err => {
           console.log(err)
         })

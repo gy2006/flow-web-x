@@ -43,7 +43,7 @@
             return (value.length >= 4 && value.length <= 20) || 'Length between 4 and 20'
           },
           format: (value) => {
-            const nameReg = /^[a-zA-Z]+$/i
+            const nameReg = /^[a-zA-Z_]+$/i
             return nameReg.test(value) ? true : 'Incorrect name format'
           }
         }

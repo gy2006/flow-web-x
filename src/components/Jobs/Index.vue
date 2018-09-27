@@ -1,10 +1,22 @@
 <template>
     <v-card height='100%' width="100%">
+      <v-alert
+        :value="alert"
+        type="error"
+        transition="scale-transition"
+        icon="warning"
+        class="alert"
+      >
+        Please configure yml.
+      </v-alert>
         <v-card-title>
-            <h2>name : {{this.$route.params.id}}</h2>
-            <v-chip label color="" outline text-color="galy" @click="yml">
-                <v-icon left>settings</v-icon>工作流设置
-            </v-chip>
+          <h2 class="pr-4">
+            <v-icon>layers</v-icon>
+            {{this.$route.params.id}}
+          </h2>
+          <v-chip label color="" outline text-color="black" @click="yml">
+              <v-icon left>settings</v-icon>工作流设置
+          </v-chip>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -66,7 +78,8 @@
         size: 10,
         page: 0,
         pages: 0,
-        loading: false
+        loading: false,
+        alert: false
       }
     },
     methods: {
@@ -78,6 +91,12 @@
           this.loading = true
           if (res.data.code === 200) {
             this.loading = false
+          } else if (res.data.code === 404) {
+            this.loading = false
+            this.alert = true
+            setTimeout(() => {
+              this.alert = false
+            }, 1000)
           }
         }).catch(err => {
           console.log(err)
@@ -123,6 +142,11 @@
 </script>
 
 <style scoped>
+.alert {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
 .list {
   cursor: pointer;
   background: transparent;

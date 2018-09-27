@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>初始页</div>
 </template>
 
 <script>

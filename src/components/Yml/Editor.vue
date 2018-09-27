@@ -20,6 +20,7 @@
     components: {
       MonacoEditor
     },
+    props: ['readonly'],
     data () {
       return {
         options: {
@@ -36,7 +37,7 @@
           glyphMargin: true,
           useTabStops: false,
           // 字体大小
-          fontSize: 18
+          fontSize: 14
         },
         newCode: ''
       }

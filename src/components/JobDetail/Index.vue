@@ -7,7 +7,7 @@
         ></v-progress-circular>
       </div>
     <v-card height='100%' width="100%" v-if="jobdetail">
-        <v-card-title :class="state">
+        <v-card-title class="state-text" :class="state">
             <div class="state">{{ jobdetail.status }}</div>
             <div class="way">{{ jobdetail.trigger }}构建</div>
             <v-spacer/>
@@ -29,15 +29,13 @@
                 >
                     <v-card flat>
                         <v-card-text v-if="n === '详细信息'">
-                            <Message :jobdetail="jobdetail"></Message>
+                          <Message :jobdetail="jobdetail"></Message>
                         </v-card-text>
                         <v-card-text v-if="n === '构建日志'">
-                            <div>
-                                {{ jobsteps }}
-                            </div>
+                          <Log></Log>
                         </v-card-text>
                         <v-card-text v-if="n === 'YML 配置'">
-                            <Editor></Editor>
+                          <Editor :readonly="true"></Editor>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -50,6 +48,7 @@
 <script>
   import { jobDetail, jobSteps, getYml } from '@/api/axios/api'
   import Message from './Message'
+  import Log from './Log'
   import Editor from '@/components/Yml/Editor'
   import Actions from '@/api/actions'
   export default {
@@ -73,9 +72,11 @@
       jobDetail(name, num).then(res => {
         this.jobdetail = res.data.data
         if (this.jobdetail.status === 'TIMEOUT') {
-          this.state = 'gray'
+          this.state = 'timeout'
         } else if (this.jobdetail.status === 'SUCCESS') {
-          this.state = 'green'
+          this.state = 'success'
+        } else if (this.jobdetail.status === 'ENQUEUE') {
+          this.state = 'info'
         }
       }).catch(err => {
         return err
@@ -93,26 +94,33 @@
     },
     components: {
       Message,
-      Editor
+      Editor,
+      Log
     }
   }
 </script>
 
-<style scoped>
-.gray {
-    background: gray;
+<style scoped lang="scss">
+.timeout {
+    background: #607D8B;
 }
-.green {
-    background: green;
+.success {
+}
+.info {
+}
+.state-text {
+  .state {
+    border-right: 1px solid #fff;
+    padding-right: 20px;
+    color: #fff;
+  }
+  .way {
+      padding: 0 20px;
+      color: #fff;
+  }
 }
 .card__text {
     height: 500px;
 }
-.state {
-    border-right: 1px solid white;
-    padding-right: 20px;
-}
-.way {
-    padding: 0 20px;
-}
+
 </style>

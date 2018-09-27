@@ -1,5 +1,13 @@
 <template>
+  <div style="height: 100%; width: 100%; background: #1e1e1e;">
+    <div class="text-xs-center loading"  v-if="!editor">
+      <v-progress-circular
+      indeterminate
+      color="purple"
+      ></v-progress-circular>
+    </div>
     <MonacoEditor
+      v-if="editor"
       language='yaml'
       :code='editor'
       theme='vs-dark'
@@ -9,18 +17,18 @@
       @codeChange='onCodeChange'
       ref='vscode'>
     </MonacoEditor>
+  </div>
 </template>
 
 <script>
   import MonacoEditor from 'vue-monaco-editor'
+  import { getYml } from '@/api/axios/api'
   import Actions from '@/api/actions'
-  import { mapState } from 'vuex'
   export default {
     name: 'Yml',
     components: {
       MonacoEditor
     },
-    props: ['readonly'],
     data () {
       return {
         options: {
@@ -39,37 +47,38 @@
           // 字体大小
           fontSize: 14
         },
-        newCode: ''
+        newCode: '',
+        editor: ''
       }
     },
     methods: {
-      // 编辑器挂载时触发
       onMounted (editor) {
-        this.$store.dispatch(Actions.Flows.Editor, editor.getValue())
       },
       // 代码发生变化时触发
       onCodeChange (editor) {
         this.$store.dispatch(Actions.Flows.Editor, editor.getValue())
-      },
-      // 重载编辑框
-      reload () {
-        let time
-        clearTimeout(time)
-        time = setTimeout(() => {
-          this.$refs.vscode.destroyMonaco() // 销毁
-          this.$refs.vscode.createMonaco() // 创建
-        }, 2000)
       }
     },
-    computed: {
-      ...mapState({
-        editor: state => state.flows.editor
+    created () {
+      getYml(this.$route.params.id).then(res => {
+        this.editor = res.data
+      }).catch(() => {
+        this.editor = `envs:
+  FLOW_WORKSPACE: "echo hello"
+  FLOW_VERSION: "echo version"
+
+steps:
+- envs:
+    FLOW_WORKSPACE: "echo step"
+    FLOW_VERSION: "echo step version"
+  allowFailure: true
+  script: |
+    echo hello
+
+- name: step2
+  allowFailure: false
+  script: "echo 2"`
       })
-    },
-    watch: {
-      editor (val) {
-        this.reload()
-      }
     }
   }
 </script>
@@ -82,4 +91,11 @@
       height: 33px;
       width: 20%;
 	}
+  .loading {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

@@ -8,7 +8,7 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      <Editor readonly="false"></Editor>
+      <Editor></Editor>
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -25,9 +25,8 @@
 
 <script>
   import Editor from './Editor'
+  import { setYml } from '@/api/axios/api'
   import { mapState } from 'vuex'
-  import Actions from '@/api/actions'
-  import { getYml, setYml } from '@/api/axios/api'
   export default {
     data () {
       return {
@@ -36,27 +35,6 @@
     },
     components: {
       Editor
-    },
-    created () {
-      getYml(this.$route.params.id).then(res => {
-        this.$store.dispatch(Actions.Flows.Editor, res.data)
-      }).catch(() => {
-        this.$store.dispatch(Actions.Flows.Editor, `envs:
-    FLOW_WORKSPACE: "echo hello"
-    FLOW_VERSION: "echo version"
-
-  steps:
-  - envs:
-      FLOW_WORKSPACE: "echo step"
-      FLOW_VERSION: "echo step version"
-    allowFailure: true
-    script: |
-      echo hello
-
-  - name: step2
-    allowFailure: false
-    script: "echo 2"`)
-      })
     },
     methods: {
       save () {

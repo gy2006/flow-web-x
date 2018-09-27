@@ -63,3 +63,10 @@ export function jobSteps (name, num) {
     method: 'get'
   })
 }
+
+export function stepsLog (name, num, base) {
+  return fetch({
+    url: `${api.jobs}/${name}/${num}/${base}`,
+    method: 'get'
+  })
+}

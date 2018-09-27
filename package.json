@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "js-base64": "^2.4.9",
     "material-design-icons-iconfont": "^3.0.3",
     "monaco-editor": "^0.10.1",
     "vue": "^2.5.2",

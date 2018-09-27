@@ -8,7 +8,17 @@
       </div>
     <v-card height='100%' width="100%" v-if="jobdetail">
         <v-card-title class="state-text" :class="state">
-            <div class="state">{{ jobdetail.status }}</div>
+            <div class="state">
+              <v-progress-circular
+                indeterminate
+                :size="20"
+                color="primary"
+                v-if="state === 'info'"
+              ></v-progress-circular>
+              <v-icon v-if="state === 'timeout'">error_outline</v-icon>
+              <v-icon v-if="state === 'success'">check_circle</v-icon>
+              <span class="ml-2">{{ jobdetail.status }}</span>
+            </div>
             <div class="way">{{ jobdetail.trigger }}构建</div>
             <v-spacer/>
             <v-btn color="orange darken-2" dark @click="goback">
@@ -46,7 +56,7 @@
 </template>
 
 <script>
-  import { jobDetail, jobSteps, getYml } from '@/api/axios/api'
+  import { jobDetail, getYml } from '@/api/axios/api'
   import Message from './Message'
   import Log from './Log'
   import Editor from '@/components/Yml/Editor'
@@ -57,7 +67,6 @@
       return {
         tab: ['详细信息', '构建日志', 'YML 配置'],
         jobdetail: null,
-        jobsteps: null,
         state: ''
       }
     },
@@ -78,11 +87,6 @@
         } else if (this.jobdetail.status === 'ENQUEUE') {
           this.state = 'info'
         }
-      }).catch(err => {
-        return err
-      })
-      jobSteps(name, num).then(res => {
-        this.jobsteps = res.data.data
       }).catch(err => {
         return err
       })
@@ -113,6 +117,8 @@
     border-right: 1px solid #fff;
     padding-right: 20px;
     color: #fff;
+    display: flex;
+    align-items: center;
   }
   .way {
       padding: 0 20px;

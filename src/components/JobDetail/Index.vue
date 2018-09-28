@@ -104,6 +104,10 @@
   }
 </script>
 
+<style>
+
+</style>
+
 <style scoped lang="scss">
 .timeout {
     background: #607D8B;
@@ -125,7 +129,7 @@
       color: #fff;
   }
 }
-.card__text {
+.v-card__text {
     height: 500px;
 }
 

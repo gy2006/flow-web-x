@@ -59,10 +59,10 @@
 </script>
 
 <style scoped>
-  .card__text {
+  .v-card__text {
     height: 500px !important;
   }
-  .card__actions {
+  .v-card__actions {
     padding: 16px;
   }
 </style>

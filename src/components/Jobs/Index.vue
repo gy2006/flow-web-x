@@ -147,11 +147,11 @@
   width: 100%;
   z-index: 1000;
 }
-.list {
+.v-list {
   cursor: pointer;
   background: transparent;
 }
-.list__tile__sub-title {
+.v-list__tile__sub-title {
   font-size: 12px;
 }
 .branch {

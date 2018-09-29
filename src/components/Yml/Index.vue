@@ -42,6 +42,7 @@
         setYml(this.$route.params.id, this.editor).then(res => {
           if (res.data.code === 200) this.loading = false
           if (res.data.code === 500) this.loading = false
+          alert(res.data.code)
         }).catch(err => {
           console.log(err)
         })

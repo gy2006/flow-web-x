@@ -1,15 +1,41 @@
 <template>
-    <div>
-      aaa
+<v-expansion-panel>
+  <v-expansion-panel-content v-for="(item, index) in 2" :key="index">
+    <template slot="header">{{item}}</template>
+    <div class="wrapper">
+      <Scroll
+        :data="manageList[index]"
+        :pullup="pullup"
+        @scrollEnd="scrollEnd(index)"
+      >
+      <div>
+        <p v-for="(item, i) in manageList[index]" :key="i">{{item}}</p>
+      </div>
+      </Scroll>
     </div>
+  </v-expansion-panel-content>
+</v-expansion-panel>
 </template>
 
 <script>
+  import Scroll from '@/components/iScroll/Index'
   export default {
     name: 'HelloWorld',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        pullup: true,
+        manageList: [
+          ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
+          ['2', '2', '2', '2', '2', '2']]
+      }
+    },
+    components: {
+      Scroll
+    },
+    methods: {
+      scrollEnd (index) {
+        console.log('滚动到底部了')
+        this.manageList[index].push('2')
       }
     }
   }
@@ -17,21 +43,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
+  .wrapper {
+    height: 200px;
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+    background: sandybrown;
   }
 </style>

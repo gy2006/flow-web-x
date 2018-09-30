@@ -5,24 +5,34 @@
             <v-spacer/>
             <v-btn color="info" @click="download">下载完整日志</v-btn>
         </v-card-title>
-        <v-expansion-panel :disabled="disabled" v-model="panel">
+        <v-expansion-panel :disabled="disabled">
             <v-expansion-panel-content
-              v-for="(item,i) in jobsteps"
+              v-for="(item,i) in stepnum"
               :key="i"
+              v-model="value[i]"
             >
-              <template slot="header">{{stepnum[i]}}</template>
-              <div class="card black" v-if="steplog">
+              <!-- title -->
+              <div @click="loadSpaces(item.id, value[i])" class="step-title" slot="header">{{item.name}}</div>
+              <!-- loading -->
+              <div class="text-xs-center pa-5 black"  v-if="loading">
+                <v-progress-circular
+                indeterminate
+                color="purple"
+                ></v-progress-circular>
+              </div>
+              <!-- listView -->
+              <div class="card black" v-if="!loading">
                 <Scroll
-                  v-if="steplog[i]"
-                  :data="steplog[i]"
+                  v-if="steplog"
+                  :data="steplog"
                   :pullup="pullup"
                   ref="listView"
-                  @scrollEnd="scrollEnd(steplog[i], item.id, i)"
+                  @scrollEnd="scrollEnd(steplog, item.id)"
                 >
                   <div>
                     <v-card-text
                       class="white--text pa-1"
-                      v-for="(log, index) in steplog[i]"
+                      v-for="(log, index) in steplog"
                       :key="index"
                     >
                       {{log}}
@@ -30,7 +40,6 @@
                   </div>
                 </Scroll>
               </div>
-
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-card>
@@ -45,31 +54,23 @@
     data () {
       return {
         pullup: true,
-        jobsteps: [],
-        stepnum: [],
-        steplog: [],
+        jobsteps: [], // 获取ID
+        stepnum: [], // 获取step 的name
+        steplog: [], // 获取 step 的数据
         disabled: false,
         page: 0,
-        panel: [false]
+        value: [false],
+        loading: false,
+        num: this.$route.params.num,
+        name: this.$route.params.id
       }
     },
     created () {
-      let num = this.$route.params.num
-      let name = this.$route.params.id
-      jobSteps(name, num).then(res => {
+      // 进入页面时取到渲染列表名称
+      jobSteps(this.name, this.num).then(res => {
         this.jobsteps = res.data.data
-        let promises = this.jobsteps.map((item, index) => {
-          this.stepnum.push(Base64.decode(item.id).split('/')[1])
-          return new Promise((resolve, reject) => {
-            stepsLog(name, num, item.id, this.page).then(res => {
-              resolve(res.data.data.content)
-            })
-          })
-        })
-        Promise.all(promises).then((allData) => {
-          this.steplog = allData
-        }).catch((err) => {
-          console.log(err)
+        this.jobsteps.forEach(val => {
+          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id})
         })
       }).catch(err => {
         return err
@@ -79,28 +80,37 @@
       download () {
         console.log('download')
       },
-      scrollEnd (val, id, index) {
-        let num = this.$route.params.num
-        let name = this.$route.params.id
+      // 滚动到底部加载数据
+      scrollEnd (val, id) {
         this.page++
-        stepsLog(name, num, id, this.page).then(res => {
+        stepsLog(this.name, this.num, id, this.page).then(res => {
           if (res.data.data.content) {
             res.data.data.content.forEach(val => {
-              this.steplog[index].push(val)
+              this.steplog.push(val)
             })
           }
         }).catch(err => {
           return err
         })
+      },
+      // 打开列表加载数据
+      loadSpaces (val, cut) {
+        this.page = 0
+        if (!cut) {
+          this.loading = true
+          stepsLog(this.name, this.num, val, this.page).then(res => {
+            this.steplog = res.data.data.content
+            this.loading = false
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.steplog = []
+        }
       }
     },
     components: {
       Scroll
-    },
-    watch: {
-      panel () {
-        this.$refs.listView[0].refresh()
-      }
     }
   }
 </script>
@@ -113,5 +123,8 @@
   height: 300px;
   position: relative;
   overflow: hidden;
+}
+.step-title {
+
 }
 </style>

@@ -104,7 +104,6 @@
           setTimeout(() => {
             this.refresh()
           }, this.refreshDelay)
-          console.log(this.data)
         },
         deep: true
       }

@@ -1,11 +1,11 @@
 <template>
-<div style="height:100%; width:100%;">
+  <div style="height:100%; width:100%;">
     <div class="text-xs-center mt-5"  v-if="!jobdetail">
-        <v-progress-circular
-        indeterminate
-        color="purple"
-        ></v-progress-circular>
-      </div>
+      <v-progress-circular
+      indeterminate
+      color="purple"
+      ></v-progress-circular>
+    </div>
     <v-card height='100%' width="100%" v-if="jobdetail">
         <v-card-title class="state-text" :class="state">
             <div class="state">
@@ -52,7 +52,7 @@
             </v-tabs>
         </v-card-text>
     </v-card>
-</div>
+  </div>
 </template>
 
 <script>

@@ -67,7 +67,6 @@
         loading: false,
         num: this.$route.params.num,
         name: this.$route.params.id,
-        state: false,
         stompClient: null,
         code: 0,
         totalPages: 0

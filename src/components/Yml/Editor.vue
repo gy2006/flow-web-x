@@ -22,8 +22,6 @@
 
 <script>
   import MonacoEditor from 'vue-monaco-editor'
-  import { getYml } from '@/api/axios/api'
-  import Actions from '@/api/store/actions'
   export default {
     name: 'Yml',
     components: {
@@ -47,8 +45,13 @@
           // 字体大小
           fontSize: 14
         },
-        newCode: '',
-        editor: ''
+        newCode: ''
+      }
+    },
+    props: {
+      editor: {
+        type: String,
+        default: ''
       }
     },
     methods: {
@@ -56,29 +59,8 @@
       },
       // 代码发生变化时触发
       onCodeChange (editor) {
-        this.$store.dispatch(Actions.Flows.Editor, editor.getValue())
+        this.$emit('onCodeChange', editor.getValue())
       }
-    },
-    created () {
-      getYml(this.$route.params.id).then(res => {
-        this.editor = res.data
-      }).catch(() => {
-        this.editor = `envs:
-  FLOW_WORKSPACE: "echo hello"
-  FLOW_VERSION: "echo version"
-
-steps:
-- envs:
-    FLOW_WORKSPACE: "echo step"
-    FLOW_VERSION: "echo step version"
-  allowFailure: true
-  script: |
-    echo hello
-
-- name: step2
-  allowFailure: false
-  script: "echo 2"`
-      })
     }
   }
 </script>

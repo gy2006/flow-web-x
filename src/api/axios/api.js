@@ -22,6 +22,13 @@ export function getYml (name) {
   })
 }
 
+export function jobYml (name, num) {
+  return fetch({
+    url: `${api.jobs}/${name}/${num}/yml`,
+    method: 'get'
+  })
+}
+
 export function setYml (name, editor) {
   return fetch({
     url: `${api.flows}/${name}/yml`,

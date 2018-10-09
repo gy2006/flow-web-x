@@ -13,7 +13,7 @@
                 indeterminate
                 :size="20"
                 color="primary"
-                v-if="jobdetail.status === 'RUNNING'"
+                v-if="jobdetail.status === 'RUNNING' || jobdetail.status === 'ENQUEUE'"
               ></v-progress-circular>
               <v-icon v-if="jobdetail.status === 'TIMEOUT'">error_outline</v-icon>
               <v-icon v-if="jobdetail.status === 'SUCCESS'">check_circle</v-icon>
@@ -38,15 +38,15 @@
                 :key="n"
                 >
                   <v-card flat>
-                      <v-card-text v-if="n === '详细信息'">
-                        <Message :jobdetail="jobdetail"></Message>
-                      </v-card-text>
-                      <v-card-text v-if="n === '构建日志'">
-                        <Log></Log>
-                      </v-card-text>
-                      <v-card-text v-if="n === 'YML 配置'">
-                        <Editor :readonly="true"></Editor>
-                      </v-card-text>
+                    <v-card-text v-if="n === '详细信息'">
+                      <Message :jobdetail="jobdetail"></Message>
+                    </v-card-text>
+                    <v-card-text v-if="n === '构建日志'">
+                      <Log></Log>
+                    </v-card-text>
+                    <v-card-text v-if="n === 'YML 配置'">
+                      <Editor :readonly="true" :editor="editor"></Editor>
+                    </v-card-text>
                   </v-card>
                 </v-tab-item>
             </v-tabs>
@@ -56,17 +56,17 @@
 </template>
 
 <script>
-  import { jobDetail, getYml } from '@/api/axios/api'
+  import {jobDetail, jobYml} from '@/api/axios/api'
   import Message from './Message'
   import Log from './Log'
   import Editor from '@/components/Yml/Editor'
-  import Actions from '@/api/store/actions'
   export default {
     name: 'JobDetail',
     data () {
       return {
         tab: ['详细信息', '构建日志', 'YML 配置'],
-        jobdetail: null
+        jobdetail: null,
+        editor: ''
       }
     },
     methods: {
@@ -79,13 +79,11 @@
       let name = this.$route.params.id
       jobDetail(name, num).then(res => {
         this.jobdetail = res.data.data
+        jobYml(name, this.jobdetail.buildNumber).then(res => {
+          this.editor = res.data
+        })
       }).catch(err => {
         return err
-      })
-      getYml(name).then(res => {
-        this.$store.dispatch(Actions.Flows.Editor, res.data)
-      }).catch(() => {
-        this.$store.dispatch(Actions.Flows.Editor, '# flow.ci templates')
       })
     },
     components: {

@@ -32,6 +32,8 @@ Vue.filter('Status', function (status) {
     return 'info'
   case 'SUCCESS':
     return 'success'
+  case 'ENQUEUE':
+    return 'info'
   }
 })
 

@@ -8,12 +8,12 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      <Editor></Editor>
+      <Editor :editor="editor" @onCodeChange="onCodeChange"></Editor>
     </v-card-text>
     <v-card-actions>
       <v-btn
       :loading="loading"
-      :disabled="loading"
+      :disabled="disabled"
       color="info"
       @click.native="save"
       >
@@ -25,16 +25,38 @@
 
 <script>
   import Editor from './Editor'
-  import { setYml } from '@/api/axios/api'
-  import { mapState } from 'vuex'
+  import { setYml, getYml } from '@/api/axios/api'
   export default {
     data () {
       return {
-        loading: false
+        loading: false,
+        editor: '',
+        disabled: true
       }
     },
     components: {
       Editor
+    },
+    created () {
+      getYml(this.$route.params.id).then(res => {
+        this.editor = res.data
+      }).catch(() => {
+        this.editor = `envs:
+  FLOW_WORKSPACE: "echo hello"
+  FLOW_VERSION: "echo version"
+
+steps:
+- envs:
+    FLOW_WORKSPACE: "echo step"
+    FLOW_VERSION: "echo step version"
+  allowFailure: true
+  script: |
+    echo hello
+
+- name: step2
+  allowFailure: false
+  script: "echo 2"`
+      })
     },
     methods: {
       save () {
@@ -47,14 +69,13 @@
           console.log(err)
         })
       },
+      onCodeChange (val) {
+        this.disabled = false
+        this.editor = val
+      },
       goback () {
         this.$router.push({path: `/flows/${this.$route.params.id}/jobs`})
       }
-    },
-    computed: {
-      ...mapState({
-        editor: state => state.flows.editor
-      })
     }
   }
 </script>

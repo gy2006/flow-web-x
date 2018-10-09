@@ -7,16 +7,16 @@
       ></v-progress-circular>
     </div>
     <v-card height='100%' width="100%" v-if="jobdetail">
-        <v-card-title class="state-text" :class="state">
+        <v-card-title class="state-text" :class="jobdetail.status | Status">
             <div class="state">
               <v-progress-circular
                 indeterminate
                 :size="20"
                 color="primary"
-                v-if="state === 'info'"
+                v-if="jobdetail.status === 'RUNNING'"
               ></v-progress-circular>
-              <v-icon v-if="state === 'timeout'">error_outline</v-icon>
-              <v-icon v-if="state === 'success'">check_circle</v-icon>
+              <v-icon v-if="jobdetail.status === 'TIMEOUT'">error_outline</v-icon>
+              <v-icon v-if="jobdetail.status === 'SUCCESS'">check_circle</v-icon>
               <span class="ml-2">{{ jobdetail.status }}</span>
             </div>
             <div class="way">{{ jobdetail.trigger }}构建</div>
@@ -61,14 +61,12 @@
   import Log from './Log'
   import Editor from '@/components/Yml/Editor'
   import Actions from '@/api/store/actions'
-  import { status } from '@/util/status/status'
   export default {
     name: 'JobDetail',
     data () {
       return {
         tab: ['详细信息', '构建日志', 'YML 配置'],
-        jobdetail: null,
-        state: ''
+        jobdetail: null
       }
     },
     methods: {
@@ -81,7 +79,6 @@
       let name = this.$route.params.id
       jobDetail(name, num).then(res => {
         this.jobdetail = res.data.data
-        this.state = status(this.jobdetail.status)
       }).catch(err => {
         return err
       })
@@ -104,13 +101,6 @@
 </style>
 
 <style scoped lang="scss">
-.timeout {
-    background: #607D8B;
-}
-.success {
-}
-.info {
-}
 .state-text {
   .state {
     border-right: 1px solid #fff;

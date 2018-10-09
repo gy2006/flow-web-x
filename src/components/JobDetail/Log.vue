@@ -12,7 +12,12 @@
               @input="loadSpaces($event, item.id)"
             >
               <!-- title -->
-              <div class="step-title" slot="header">{{item.name}}</div>
+              <div class="step-title" slot="header">
+                <!-- status -->
+                <v-icon class="mr-2" v-if="item.status == 'TIMEOUT' || item.status == 'PENDING'">error_outline</v-icon>
+                <v-icon class="mr-2" color="green" v-if="item.status === 'SUCCESS'">check_circle</v-icon>
+                {{item.name}}
+              </div>
               <!-- loading -->
               <div class="text-xs-center pa-5 black"  v-if="loading">
                 <v-progress-circular
@@ -23,11 +28,10 @@
               <!-- listView -->
               <div class="card black" v-if="!loading">
                 <Scroll
-                  v-if="steplog"
                   :data="steplog"
                   :pullup="pullup"
                   ref="listView"
-                  @scrollEnd="scrollEnd(steplog, item.id)"
+                  @scrollEnd="scrollEnd(item.id)"
                 >
                   <div>
                     <v-card-text
@@ -65,7 +69,8 @@
         name: this.$route.params.id,
         state: false,
         stompClient: null,
-        code: 0
+        code: 0,
+        totalPages: 0
       }
     },
     computed: {
@@ -77,9 +82,8 @@
       // 进入页面时取到渲染列表名称
       jobSteps(this.name, this.num).then(res => {
         this.jobsteps = res.data.data
-        console.log(this.jobsteps)
         this.jobsteps.forEach(val => {
-          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id})
+          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id, status: val.status})
         })
       }).catch(err => {
         return err
@@ -90,8 +94,8 @@
         console.log('download')
       },
       // 滚动到底部加载数据
-      scrollEnd (val, id) {
-        if (this.code === 200) {
+      scrollEnd (id) {
+        if (this.code === 200 && this.page < this.totalPages - 1) {
           this.page++
           stepsLog(this.name, this.num, id, this.page).then(res => {
             if (res.data.data.content) {
@@ -108,7 +112,7 @@
       loadSpaces (state, id) {
         let self = this
         this.page = 0
-        if (state) {
+        if (state) { // 判断是否是打开的状态
           this.loading = false
           stepsLog(this.name, this.num, id, this.page).then(res => {
             this.code = res.data.code
@@ -120,6 +124,7 @@
               })
             } else if (res.data.code === 200) {
               this.steplog = res.data.data.content
+              this.totalPages = res.data.data.totalPages
               this.loading = false
             }
           }).catch(err => {
@@ -144,6 +149,7 @@
   overflow: hidden;
 }
 .step-title {
-
+  display: flex;
+  align-items: center;
 }
 </style>

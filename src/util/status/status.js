@@ -7,5 +7,7 @@ export function status (status) {
     return 'info'
   } else if (status === 'RUNNING') {
     return 'info'
+  } else if (status === '"PENDING"') {
+    return 'timeout'
   }
 }

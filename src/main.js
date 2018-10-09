@@ -24,6 +24,17 @@ Vue.use(VueI18n)
 axios.defaults.headers.common['Token'] = 'helloflowciadmin'
 // Vue.http.headers.common['Token'] = 'helloflowciadmin'
 /* eslint-disable no-new */
+Vue.filter('Status', function (status) {
+  switch (status) {
+  case 'TIMEOUT':
+    return 'blue-grey'
+  case 'RUNNING':
+    return 'info'
+  case 'SUCCESS':
+    return 'success'
+  }
+})
+
 new Vue({
   i18n: new VueI18n({
     locale: 'en',

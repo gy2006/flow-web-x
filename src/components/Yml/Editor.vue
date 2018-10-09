@@ -23,7 +23,7 @@
 <script>
   import MonacoEditor from 'vue-monaco-editor'
   import { getYml } from '@/api/axios/api'
-  import Actions from '@/api/actions'
+  import Actions from '@/api/store/actions'
   export default {
     name: 'Yml',
     components: {

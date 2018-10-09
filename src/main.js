@@ -7,7 +7,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import messages from './i18n/index'
-import store from './api/index'
+import store from './api/store/index'
 
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'

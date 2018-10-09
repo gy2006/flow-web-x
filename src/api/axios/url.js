@@ -1,4 +1,4 @@
-import Config from '../config'
+import Config from '../store/config'
 export default {
   jobs: `${Config.host}/jobs`,
   flows: `${Config.host}/flows`

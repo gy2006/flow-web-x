@@ -62,7 +62,9 @@
 <script>
   import FlowList from '@/components/FlowList'
   import CreateFlow from '@/components/CreateFlow/Index'
-
+  import SockJS from 'sockjs-client'
+  import Stomp from 'stompjs'
+  import Actions from '@/api/store/actions'
   export default {
     name: 'App',
     components: {
@@ -71,6 +73,20 @@
     },
     data () {
       return { }
+    },
+    created () {
+      let self = this
+      // 建立连接对象
+      // 连接服务端提供的通信接口，连接以后才可以订阅广播消息和个人消息
+      const socket = new SockJS('http://47.94.156.230:8080/ws')
+      // 获取STOMP子协议的客户端对象
+      let stompClient = Stomp.over(socket)
+      // 取消控制台 debug 日志
+      stompClient.debug = function () {}
+      stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame)
+        self.$store.dispatch(Actions.Socket.SocketClient, stompClient)
+      })
     },
     methods: {
       openCreateFlow () {

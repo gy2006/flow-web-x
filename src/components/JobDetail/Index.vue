@@ -37,17 +37,17 @@
                 v-for="n in tab"
                 :key="n"
                 >
-                    <v-card flat>
-                        <v-card-text v-if="n === '详细信息'">
-                          <Message :jobdetail="jobdetail"></Message>
-                        </v-card-text>
-                        <v-card-text v-if="n === '构建日志'">
-                          <Log></Log>
-                        </v-card-text>
-                        <v-card-text v-if="n === 'YML 配置'">
-                          <Editor :readonly="true"></Editor>
-                        </v-card-text>
-                    </v-card>
+                  <v-card flat>
+                      <v-card-text v-if="n === '详细信息'">
+                        <Message :jobdetail="jobdetail"></Message>
+                      </v-card-text>
+                      <v-card-text v-if="n === '构建日志'">
+                        <Log></Log>
+                      </v-card-text>
+                      <v-card-text v-if="n === 'YML 配置'">
+                        <Editor :readonly="true"></Editor>
+                      </v-card-text>
+                  </v-card>
                 </v-tab-item>
             </v-tabs>
         </v-card-text>
@@ -60,7 +60,8 @@
   import Message from './Message'
   import Log from './Log'
   import Editor from '@/components/Yml/Editor'
-  import Actions from '@/api/actions'
+  import Actions from '@/api/store/actions'
+  import { status } from '@/util/status/status'
   export default {
     name: 'JobDetail',
     data () {
@@ -80,13 +81,7 @@
       let name = this.$route.params.id
       jobDetail(name, num).then(res => {
         this.jobdetail = res.data.data
-        if (this.jobdetail.status === 'TIMEOUT') {
-          this.state = 'timeout'
-        } else if (this.jobdetail.status === 'SUCCESS') {
-          this.state = 'success'
-        } else if (this.jobdetail.status === 'ENQUEUE') {
-          this.state = 'info'
-        }
+        this.state = status(this.jobdetail.status)
       }).catch(err => {
         return err
       })

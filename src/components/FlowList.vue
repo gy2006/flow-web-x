@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import Actions from '@/api/actions'
+  import Actions from '@/api/store/actions'
   import { mapState } from 'vuex'
 
   export default {

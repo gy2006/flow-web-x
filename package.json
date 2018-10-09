@@ -16,6 +16,8 @@
     "js-base64": "^2.4.9",
     "material-design-icons-iconfont": "^3.0.3",
     "monaco-editor": "^0.10.1",
+    "sockjs-client": "^1.3.0",
+    "stompjs": "^2.3.3",
     "vue": "^2.5.2",
     "vue-i18n": "^7.8.0",
     "vue-monaco-editor": "0.0.19",

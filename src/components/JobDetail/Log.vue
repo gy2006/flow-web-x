@@ -9,10 +9,10 @@
             <v-expansion-panel-content
               v-for="(item,i) in stepnum"
               :key="i"
-              v-model="value[i]"
+              @input="loadSpaces($event, item.id)"
             >
               <!-- title -->
-              <div @click="loadSpaces(item.id, value[i])" class="step-title" slot="header">{{item.name}}</div>
+              <div class="step-title" slot="header">{{item.name}}</div>
               <!-- loading -->
               <div class="text-xs-center pa-5 black"  v-if="loading">
                 <v-progress-circular
@@ -48,6 +48,7 @@
 <script>
   import Scroll from '@/components/iScroll/Index'
   import { jobSteps, stepsLog } from '@/api/axios/api'
+  import { mapState } from 'vuex'
   let Base64 = require('js-base64').Base64
   export default {
     name: 'Log',
@@ -59,16 +60,24 @@
         steplog: [], // 获取 step 的数据
         disabled: false,
         page: 0,
-        value: [false],
         loading: false,
         num: this.$route.params.num,
-        name: this.$route.params.id
+        name: this.$route.params.id,
+        state: false,
+        stompClient: null,
+        code: 0
       }
+    },
+    computed: {
+      ...mapState({
+        SocketClient: state => state.socket.SocketClient
+      })
     },
     created () {
       // 进入页面时取到渲染列表名称
       jobSteps(this.name, this.num).then(res => {
         this.jobsteps = res.data.data
+        console.log(this.jobsteps)
         this.jobsteps.forEach(val => {
           this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id})
         })
@@ -82,30 +91,40 @@
       },
       // 滚动到底部加载数据
       scrollEnd (val, id) {
-        this.page++
-        stepsLog(this.name, this.num, id, this.page).then(res => {
-          if (res.data.data.content) {
-            res.data.data.content.forEach(val => {
-              this.steplog.push(val)
-            })
-          }
-        }).catch(err => {
-          return err
-        })
+        if (this.code === 200) {
+          this.page++
+          stepsLog(this.name, this.num, id, this.page).then(res => {
+            if (res.data.data.content) {
+              res.data.data.content.forEach(val => {
+                this.steplog.push(val)
+              })
+            }
+          }).catch(err => {
+            return err
+          })
+        }
       },
       // 打开列表加载数据
-      loadSpaces (val, cut) {
+      loadSpaces (state, id) {
+        let self = this
         this.page = 0
-        if (!cut) {
-          this.loading = true
-          stepsLog(this.name, this.num, val, this.page).then(res => {
-            this.steplog = res.data.data.content
-            this.loading = false
+        if (state) {
+          this.loading = false
+          stepsLog(this.name, this.num, id, this.page).then(res => {
+            this.code = res.data.code
+            if (res.data.code === 407) {
+              const path = '/topic/logs/' + id
+              this.SocketClient.subscribe(path, function (data) { // 订阅服务端提供的某个topic
+                console.log(data.body + '=======') // data.body存放的是服务端发送给我们的信息
+                self.steplog.push(data.body.split('#')[2])
+              })
+            } else if (res.data.code === 200) {
+              this.steplog = res.data.data.content
+              this.loading = false
+            }
           }).catch(err => {
             console.log(err)
           })
-        } else {
-          this.steplog = []
         }
       }
     },

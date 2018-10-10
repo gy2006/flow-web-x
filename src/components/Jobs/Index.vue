@@ -1,5 +1,6 @@
 <template>
     <v-card height='100%' width="100%">
+      <!-- 运行工作流错误状态 -->
       <v-alert
         :value="alert"
         type="error"
@@ -30,45 +31,14 @@
           </v-btn>
         </v-card-actions>
         <v-card-text>
-          <v-data-table
-            :items="jobs.content"
-            class="elevation-1"
-            hide-actions
-            hide-headers
-          >
-            <template slot="items" slot-scope="props">
-              <td @click="jobdetail(props.item)">
-                <v-list>
-                  <v-list-tile>
-                    <v-list-tile-content>
-                      <v-list-tile-title v-text="props.item.status"></v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-content class="branch">
-                      <v-list-tile-title>
-                        <h4>#{{ props.item.buildNumber }} {{ props.item.context.FLOWCI_GIT_BRANCH }}</h4>
-                      </v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-content>
-                      <v-list-tile-sub-title>提交 ID -</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    <v-list-tile-content>
-                      <v-list-tile-sub-title inset>变更对比 -</v-list-tile-sub-title>
-                      <v-list-tile-sub-title inset>构建于 -</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list>
-              </td>
-            </template>
-          </v-data-table>
-          <div class="text-xs-center pt-2">
-            <v-pagination v-model="page" :length="pages"></v-pagination>
-          </div>
+          <JobItem :jobs="jobs" :pages="pages" @pageChange="pageChange"></JobItem>
         </v-card-text>
     </v-card>
 </template>
 
 <script>
   import { jobsList, jobRun } from '@/api/axios/api'
+  import JobItem from './JobItem'
   import { mapState } from 'vuex'
   export default {
     name: 'Jobs',
@@ -76,20 +46,22 @@
       return {
         jobs: [],
         size: 10,
-        page: 0,
         pages: 0,
         loading: false,
         alert: false
       }
     },
     methods: {
+      // 工作流设置
       yml () {
         this.$router.push({path: `/flows/${this.$route.params.id}/yml`})
       },
+      // 运行工作流
       jobrun () {
         jobRun(this.$route.params.id).then(res => {
           this.loading = true
           if (res.data.code === 200) {
+            this.jobs.unshift(res.data.data)
             this.loading = false
           } else if (res.data.code === 404) {
             this.loading = false
@@ -102,41 +74,54 @@
           console.log(err)
         })
       },
-      jobdetail (val) {
-        this.$router.push({path: `/flows/${this.$route.params.id}/jobs/${val.buildNumber}`})
+      // 分页
+      pageChange (val) {
+        jobsList(this.$route.params.id, this.size, val - 1).then(res => {
+          this.jobs = res.data.data.content
+        }).catch(err => {
+          console.log(err)
+        })
       }
     },
-    computed: {
-      ...mapState({
-        name: state => state.flows.name
-      })
-    },
-    mounted () {
-      jobsList(this.$route.params.id, this.size, this.page).then(res => {
-        this.page = res.data.data.number + 1
+    // 页面初始化 jobs
+    created () {
+      jobsList(this.$route.params.id, this.size, 0).then(res => {
         this.pages = res.data.data.totalPages
-        this.jobs = res.data.data
+        this.jobs = res.data.data.content
       }).catch(err => {
         console.log(err)
       })
     },
+    computed: {
+      ...mapState({
+        jobsStatus: state => state.jobs.JobsStatus
+      })
+    },
     watch: {
-      page (val) {
-        jobsList(this.$route.params.id, this.size, val - 1).then(res => {
-          this.jobs = res.data.data
+      //  每次监听到路由变换的时候 渲染不同的JOBS
+      $route (to, form) {
+        jobsList(this.$route.params.id, this.size, 0).then(res => {
+          this.pages = res.data.data.totalPages
+          this.jobs = res.data.data.content
         }).catch(err => {
           console.log(err)
         })
       },
-      $route (to, form) {
-        this.page = 1
-        jobsList(this.$route.params.id, this.size, this.page - 1).then(res => {
-          this.pages = res.data.data.totalPages
-          this.jobs = res.data.data
-        }).catch(err => {
-          console.log(err)
+      jobsStatus (val) {
+        console.log(val.status)
+        this.jobs.forEach(value => {
+          if (val.buildNumber === value.buildNumber) {
+            // value.status = val.status
+            setTimeout(() => {
+              console.log(val.status)
+            }, 1000)
+            // console.log(value.status, val.status)
+          }
         })
       }
+    },
+    components: {
+      JobItem
     }
   }
 </script>
@@ -147,17 +132,5 @@
   width: 100%;
   z-index: 1000;
 }
-.v-list {
-  cursor: pointer;
-  background: transparent;
-}
-.v-list__tile__sub-title {
-  font-size: 12px;
-}
-.branch {
-  border-right: 1px solid rgb(212, 220, 227);
-  margin-right: 20px;
-  width: 60%;
-  box-sizing: border-box;
-}
+
 </style>

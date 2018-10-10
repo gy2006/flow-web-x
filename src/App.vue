@@ -82,10 +82,15 @@
       // 获取STOMP子协议的客户端对象
       let stompClient = Stomp.over(socket)
       // 取消控制台 debug 日志
-      stompClient.debug = function () {}
+      stompClient.debug = function () { }
       stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame)
         self.$store.dispatch(Actions.Socket.SocketClient, stompClient)
+        const path = '/topic/jobs'
+        stompClient.subscribe(path, function (data) {
+          if (JSON.parse(data.body).event === 'STATUS_CHANGE') {
+            self.$store.dispatch(Actions.Jobs.JobsStatus, {buildNumber: JSON.parse(data.body).job.buildNumber, status: JSON.parse(data.body).job.status})
+          }
+        })
       })
     },
     methods: {

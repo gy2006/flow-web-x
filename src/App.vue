@@ -87,9 +87,7 @@
         self.$store.dispatch(Actions.Socket.SocketClient, stompClient)
         const path = '/topic/jobs'
         stompClient.subscribe(path, function (data) {
-          if (JSON.parse(data.body).event === 'STATUS_CHANGE') {
-            self.$store.dispatch(Actions.Jobs.JobsStatus, {buildNumber: JSON.parse(data.body).job.buildNumber, status: JSON.parse(data.body).job.status})
-          }
+          self.$store.dispatch(Actions.Jobs.JobsStatus, JSON.parse(data.body))
         })
       })
     },

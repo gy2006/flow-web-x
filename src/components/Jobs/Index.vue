@@ -61,7 +61,6 @@
         jobRun(this.$route.params.id).then(res => {
           this.loading = true
           if (res.data.code === 200) {
-            this.jobs.unshift(res.data.data)
             this.loading = false
           } else if (res.data.code === 404) {
             this.loading = false
@@ -108,16 +107,15 @@
         })
       },
       jobsStatus (val) {
-        console.log(val.status)
-        this.jobs.forEach(value => {
-          if (val.buildNumber === value.buildNumber) {
-            // value.status = val.status
-            setTimeout(() => {
-              console.log(val.status)
-            }, 1000)
-            // console.log(value.status, val.status)
+        if (val.event === 'NEW_CREATED') {
+          this.jobs.unshift(val.job)
+        } else if (val.event = 'STATUS_CHANGE') { 
+          for (var i = 0; i < this.jobs.length; i++) {
+            if (this.jobs[i].buildNumber === val.job.buildNumber) {
+              this.$set(this.jobs, i, val.job)
+            }
           }
-        })
+        }
       }
     },
     components: {

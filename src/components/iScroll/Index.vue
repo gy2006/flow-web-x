@@ -103,6 +103,7 @@
         handler: function () {
           setTimeout(() => {
             this.refresh()
+            this.iscroll.y = this.iscroll.maxScrollY - 30
           }, this.refreshDelay)
         },
         deep: true

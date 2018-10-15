@@ -106,10 +106,11 @@
           console.log(err)
         })
       },
+      //  推送状态监听
       jobsStatus (val) {
         if (val.event === 'NEW_CREATED') {
           this.jobs.unshift(val.job)
-        } else if (val.event = 'STATUS_CHANGE') { 
+        } else if (val.event === 'STATUS_CHANGE') {
           for (var i = 0; i < this.jobs.length; i++) {
             if (this.jobs[i].buildNumber === val.job.buildNumber) {
               this.$set(this.jobs, i, val.job)

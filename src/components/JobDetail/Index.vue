@@ -60,6 +60,7 @@
   import Message from './Message'
   import Log from './Log'
   import Editor from '@/components/Yml/Editor'
+  import { mapState } from 'vuex'
   export default {
     name: 'JobDetail',
     data () {
@@ -86,10 +87,22 @@
         return err
       })
     },
+    computed: {
+      ...mapState({
+        jobsStatus: state => state.jobs.JobsStatus
+      })
+    },
     components: {
       Message,
       Editor,
       Log
+    },
+    watch: {
+      jobsStatus (val) {
+        if (this.jobdetail.buildNumber === val.job.buildNumber) {
+          this.jobdetail = val.job
+        }
+      }
     }
   }
 </script>

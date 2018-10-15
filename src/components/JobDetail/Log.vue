@@ -33,7 +33,7 @@
                   ref="listView"
                   @scrollEnd="scrollEnd(item.id)"
                 >
-                  <div>
+                  <div id="div">
                     <v-card-text
                       class="white--text pa-1"
                       v-for="(log, index) in steplog"
@@ -69,7 +69,8 @@
         name: this.$route.params.id,
         stompClient: null,
         code: 0,
-        totalPages: 0
+        totalPages: 0,
+        listStatus: false
       }
     },
     computed: {
@@ -109,25 +110,16 @@
       },
       // 打开列表加载数据
       loadSpaces (state, id) {
-        let self = this
+        this.listStatus = state
         this.page = 0
-        if (state) { // 判断是否是打开的状态
-          this.loading = false
-          stepsLog(this.name, this.num, id, this.page).then(res => {
-            this.code = res.data.code
-            if (res.data.code === 407) {
-              const path = '/topic/logs/' + id
-              this.SocketClient.subscribe(path, function (data) { // 订阅服务端提供的某个topic
-                console.log(data.body + '=======') // data.body存放的是服务端发送给我们的信息
-                self.steplog.push(data.body.split('#')[2])
-              })
-            } else if (res.data.code === 200) {
-              this.steplog = res.data.data.content
-              this.totalPages = res.data.data.totalPages
-              this.loading = false
+        let self = this
+        if (state) {
+          const path = '/topic/logs/' + id
+          this.SocketClient.subscribe(path, function (data) { // 订阅服务端提供的某个topic
+            if (self.steplog.indexOf(data.body.split('#')[2]) === -1) { // data.body存放的是服务端发送给我们的信息
+              self.steplog.push(data.body.split('#')[2])
+              self.steplog.length > 20 && self.steplog.shift()
             }
-          }).catch(err => {
-            console.log(err)
           })
         }
       }

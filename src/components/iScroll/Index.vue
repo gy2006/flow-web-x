@@ -73,7 +73,7 @@
           interactiveScrollbars: this.interactiveScrollbars,
           shrinkScrollbars: this.shrinkScrollbars
         })
-
+        this.iscroll.y = -300
         if (this.listenScroll) {
           this.iscroll.on('scroll', () => {
             this.$emit('scroll', this.iscroll.y)
@@ -82,7 +82,7 @@
 
         if (this.pullup) {
           this.iscroll.on('scrollEnd', () => {
-            if (this.iscroll.y <= this.iscroll.maxScrollY) {
+            if (this.iscroll.y === 0) {
               this.$emit('scrollEnd')
             }
           })
@@ -90,6 +90,7 @@
       },
       refresh () {
         this.iscroll && this.iscroll.refresh()
+        // this.iscroll.y = this.iscroll.maxScrollY
       },
       scrollToElement () {
         this.iscroll && this.iscroll.scrollToElement.apply(this.iscroll, arguments)
@@ -100,10 +101,9 @@
     },
     watch: {
       data: {
-        handler: function () {
+        handler: function (val) {
           setTimeout(() => {
             this.refresh()
-            this.iscroll.y = this.iscroll.maxScrollY - 30
           }, this.refreshDelay)
         },
         deep: true

@@ -9,7 +9,7 @@
             <v-expansion-panel-content
               v-for="(item,i) in stepnum"
               :key="i"
-              @input="loadSpaces($event, item.id)"
+              @input="loadSpaces($event, item.id, item.totalPages)"
             >
               <!-- title -->
               <div class="step-title" slot="header">
@@ -19,20 +19,27 @@
                 {{item.name}}
               </div>
               <!-- loading -->
-              <div class="text-xs-center pa-5 black"  v-if="loading">
+              <div class="text-xs-center pa-5 black"  v-if="!steplog">
                 <v-progress-circular
                 indeterminate
                 color="purple"
                 ></v-progress-circular>
               </div>
               <!-- listView -->
-              <div class="card black" v-if="!loading">
+              <div class="card black" v-if="steplog">
                 <Scroll
+                  v-if="steplog"
                   :data="steplog"
                   :pullup="pullup"
                   ref="listView"
                   @scrollEnd="scrollEnd(item.id)"
                 >
+                  <div class="text-xs-center pa-5 black"  v-if="loading">
+                    <v-progress-circular
+                    indeterminate
+                    color="purple"
+                    ></v-progress-circular>
+                  </div>
                   <div id="div">
                     <v-card-text
                       class="white--text pa-1"
@@ -70,7 +77,8 @@
         stompClient: null,
         code: 0,
         totalPages: 0,
-        listStatus: false
+        listStatus: false,
+        h: 0
       }
     },
     computed: {
@@ -83,7 +91,7 @@
       jobSteps(this.name, this.num).then(res => {
         this.jobsteps = res.data.data
         this.jobsteps.forEach(val => {
-          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id, status: val.status})
+          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id, status: val.status, totalPages: Math.ceil(val.logSize / 20)})
         })
       }).catch(err => {
         return err
@@ -93,33 +101,44 @@
       download () {
         console.log('download')
       },
-      // 滚动到底部加载数据
+      // 滚动到顶部加载数据
       scrollEnd (id) {
-        if (this.code === 200 && this.page < this.totalPages - 1) {
-          this.page++
+        this.loading = true
+        if (this.code === 200 && this.page > 0) {
+          this.page--
           stepsLog(this.name, this.num, id, this.page).then(res => {
             if (res.data.data.content) {
-              res.data.data.content.forEach(val => {
-                this.steplog.push(val)
-              })
+              this.steplog.unshift(...res.data.data.content)
+              this.loading = false
             }
           }).catch(err => {
             return err
           })
+        } else {
+          this.loading = false
         }
       },
       // 打开列表加载数据
-      loadSpaces (state, id) {
+      loadSpaces (state, id, totalPages) {
+        this.totalPages = totalPages
         this.listStatus = state
-        this.page = 0
+        this.page = totalPages - 1
         let self = this
         if (state) {
+          // 在step 的推送的状态是 PENDING RUNNING的时候 渲染LOG推送的日志
           const path = '/topic/logs/' + id
           this.SocketClient.subscribe(path, function (data) { // 订阅服务端提供的某个topic
             if (self.steplog.indexOf(data.body.split('#')[2]) === -1) { // data.body存放的是服务端发送给我们的信息
               self.steplog.push(data.body.split('#')[2])
               self.steplog.length > 20 && self.steplog.shift()
             }
+          })
+          // 在step 的的推送的状态是 SUCCESS的时候 渲染LOG接口的日志
+          stepsLog(this.name, this.num, id, totalPages - 1).then(res => {
+            this.code = res.data.code
+            this.steplog = res.data.data.content
+          }).catch(err => {
+            return err
           })
         }
       }

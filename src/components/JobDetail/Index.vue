@@ -45,7 +45,10 @@
                       <Log></Log>
                     </v-card-text>
                     <v-card-text v-if="n === 'YML 配置'">
-                      <Editor :readonly="true" :editor="editor"></Editor>
+                      <pre>
+                        <code>{{editor}}</code>
+                      </pre>
+                      <!-- <Editor :readonly="true" :editor="editor"></Editor> -->
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -127,6 +130,28 @@
 }
 .v-card__text {
     height: 500px;
+}
+pre {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #313639;
+  color: #f9e890;
+  font-size: 13px;
+  border-radius: 3px;
+  display: flex;
+  position: relative;
+  code {
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    border-radius: 0;
+    position: absolute;
+  }
 }
 
 </style>

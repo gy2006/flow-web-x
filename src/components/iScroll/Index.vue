@@ -90,7 +90,7 @@
       },
       refresh () {
         this.iscroll && this.iscroll.refresh()
-        // this.iscroll.y = this.iscroll.maxScrollY
+        this.iscroll.y = this.iscroll.maxScrollY - 30
       },
       scrollToElement () {
         this.iscroll && this.iscroll.scrollToElement.apply(this.iscroll, arguments)

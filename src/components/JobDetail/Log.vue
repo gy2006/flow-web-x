@@ -5,11 +5,12 @@
             <v-spacer/>
             <v-btn color="info" @click="download">下载完整日志</v-btn>
         </v-card-title>
-        <v-expansion-panel :disabled="disabled">
+        <v-expansion-panel>
             <v-expansion-panel-content
-              v-for="(item,i) in stepnum"
+              v-for="(item,i) in Steps"
               :key="i"
-              @input="loadSpaces($event, item.id, item.totalPages)"
+              @input="loadSpaces($event, item.id, item.totalPages, item.name, i)"
+              :ref="item.name"
             >
               <!-- title -->
               <div class="step-title" slot="header">
@@ -19,21 +20,22 @@
                 {{item.name}}
               </div>
               <!-- loading -->
-              <div class="text-xs-center pa-5 black"  v-if="!steplog">
+              <div class="text-xs-center pa-5 black"  v-if="!item.content">
                 <v-progress-circular
                 indeterminate
                 color="purple"
                 ></v-progress-circular>
               </div>
               <!-- listView -->
-              <div class="card black" v-if="steplog">
+              <div class="card black">
                 <Scroll
-                  v-if="steplog"
-                  :data="steplog"
+                  v-if="item.content"
+                  :data="item.content"
                   :pullup="pullup"
                   ref="listView"
-                  @scrollEnd="scrollEnd(item.id)"
+                  @scrollEnd="scrollEnd(item.id, i)"
                 >
+                  <!-- 滚动的loading -->
                   <div class="text-xs-center pa-5 black"  v-if="loading">
                     <v-progress-circular
                     indeterminate
@@ -43,10 +45,10 @@
                   <div id="div">
                     <v-card-text
                       class="white--text pa-1"
-                      v-for="(log, index) in steplog"
+                      v-for="(log, index) in item.content"
                       :key="index"
                     >
-                      {{log}}
+                      {{log.indexOf('#') === -1 ? log : log.split('#')[2]}}
                     </v-card-text>
                   </div>
                 </Scroll>
@@ -66,19 +68,12 @@
     data () {
       return {
         pullup: true,
-        jobsteps: [], // 获取ID
-        stepnum: [], // 获取step 的name
-        steplog: [], // 获取 step 的数据
-        disabled: false,
+        Steps: [], // 获取step
         page: 0,
         loading: false,
         num: this.$route.params.num,
         name: this.$route.params.id,
-        stompClient: null,
-        code: 0,
-        totalPages: 0,
-        listStatus: false,
-        h: 0
+        code: 0
       }
     },
     computed: {
@@ -89,9 +84,13 @@
     created () {
       // 进入页面时取到渲染列表名称
       jobSteps(this.name, this.num).then(res => {
-        this.jobsteps = res.data.data
-        this.jobsteps.forEach(val => {
-          this.stepnum.push({name: Base64.decode(val.id).split('/')[1], id: val.id, status: val.status, totalPages: Math.ceil(val.logSize / 20)})
+        res.data.data.forEach(val => {
+          this.Steps.push({
+            name: Base64.decode(val.id).split('/')[1],
+            id: val.id,
+            status: val.status,
+            totalPages: Math.ceil(val.logSize / 20),
+            content: []})
         })
       }).catch(err => {
         return err
@@ -102,13 +101,13 @@
         console.log('download')
       },
       // 滚动到顶部加载数据
-      scrollEnd (id) {
+      scrollEnd (id, index) {
         this.loading = true
         if (this.code === 200 && this.page > 0) {
           this.page--
           stepsLog(this.name, this.num, id, this.page).then(res => {
             if (res.data.data.content) {
-              this.steplog.unshift(...res.data.data.content)
+              this.Steps[index].content.unshift(...res.data.data.content)
               this.loading = false
             }
           }).catch(err => {
@@ -119,24 +118,22 @@
         }
       },
       // 打开列表加载数据
-      loadSpaces (state, id, totalPages) {
-        this.totalPages = totalPages
-        this.listStatus = state
+      loadSpaces (state, id, totalPages, name, index) {
         this.page = totalPages - 1
         let self = this
         if (state) {
           // 在step 的推送的状态是 PENDING RUNNING的时候 渲染LOG推送的日志
           const path = '/topic/logs/' + id
           this.SocketClient.subscribe(path, function (data) { // 订阅服务端提供的某个topic
-            if (self.steplog.indexOf(data.body.split('#')[2]) === -1) { // data.body存放的是服务端发送给我们的信息
-              self.steplog.push(data.body.split('#')[2])
-              self.steplog.length > 20 && self.steplog.shift()
+            if (self.Steps[index].content.indexOf(data.body) === -1) { // data.body存放的是服务端发送给我们的信息
+              self.Steps[index].content.push(data.body)
+              self.Steps[index].content.length > 20 && self.Steps[index].content.shift()
             }
           })
           // 在step 的的推送的状态是 SUCCESS的时候 渲染LOG接口的日志
           stepsLog(this.name, this.num, id, totalPages - 1).then(res => {
             this.code = res.data.code
-            this.steplog = res.data.data.content
+            this.Steps[index].content = res.data.data.content
           }).catch(err => {
             return err
           })

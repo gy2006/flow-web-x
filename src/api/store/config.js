@@ -1,3 +1,3 @@
 export default {
-  host: process.env.FLOW_API_URL
+  host: process.env.FLOWCI_API_URL
 }

@@ -47,7 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env'),
-      'process.env.FLOW_API_URL': `'${process.env.FLOW_API_URL}'` || 'http://47.94.156.230:8080'
+      'process.env.FLOWCI_API_URL': `'${process.env.FLOWCI_API_URL}'` || 'http://127.0.0.1:8080'
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.

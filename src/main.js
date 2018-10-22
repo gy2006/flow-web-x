@@ -14,14 +14,13 @@ import 'vuetify/dist/vuetify.min.css'
 import './assets/styles/style.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from 'axios'
-import config from './api/config.js'
+import moment from 'moment'
 
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueI18n)
-Vue.use(config)
 // Vue.use(VueResource)
 
 axios.defaults.headers.common['Token'] = 'helloflowciadmin'
@@ -38,6 +37,11 @@ Vue.filter('Status', function (status) {
   case 'ENQUEUE':
     return 'info'
   }
+})
+
+Vue.filter('datefmt', function (val, fmtstring) {
+  // 使用momentjs这个日期格式化类库实现日期的格式化功能
+  return moment(val).format(fmtstring)
 })
 
 new Vue({

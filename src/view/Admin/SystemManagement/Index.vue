@@ -5,10 +5,6 @@
                 <v-icon>format_align_left</v-icon>
                 <span class="ml-3">Credentials</span>
             </v-btn>
-            <v-btn flat to="/admin/systemmanagement/flow">
-                <v-icon>format_align_center</v-icon>
-                <span class="ml-3">Flow</span>
-            </v-btn>
         </v-btn-toggle>
         <router-view></router-view>
     </v-layout>

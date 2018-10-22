@@ -102,7 +102,6 @@
       }
     },
     created () {
-      console.log(this.baseUrl)
       let self = this
       // 建立连接对象
       // 连接服务端提供的通信接口，连接以后才可以订阅广播消息和个人消息

@@ -77,3 +77,20 @@ export function stepsLog (name, num, base, page) {
     method: 'get'
   })
 }
+
+export function createCredentials (name) {
+  return fetch({
+    url: `${api.credentials}/rsa`,
+    method: 'post',
+    data: {
+      name: name
+    }
+  })
+}
+
+export function getCredentials () {
+  return fetch({
+    url: `${api.credentials}`,
+    method: 'get'
+  })
+}

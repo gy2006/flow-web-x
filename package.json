@@ -8,7 +8,7 @@
     "dev": "webpack-dev-server  --inline --progress --config build/webpack.dev.conf.js",
     "start": "FLOWCI_API_URL=http://127.0.0.1:8080 npm run dev",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js"
+    "build": "FLOWCI_API_URL=http://replace:me node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

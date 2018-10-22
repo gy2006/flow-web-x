@@ -10,6 +10,28 @@
       <v-toolbar-title>
         <i class="flow-icon flow-icon-logo"/>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <i class="material-icons">dvr</i>
+      </v-btn>
+      <v-menu offset-y>
+        <v-btn
+          slot="activator"
+          icon
+        >
+          <v-icon class="material-icons">account_circle</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile
+            v-for="(item, index) in items"
+            :key="index"
+            @click="settings(item.title)"
+          >
+            <v-icon small class="material-icons mr-4">{{item.icon}}</v-icon>
+            <v-list-tile-title class="caption font-weight-regular">{{ item.title }}</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
 
     <!--content-->
@@ -72,9 +94,15 @@
       FlowList
     },
     data () {
-      return { }
+      return {
+        items: [
+          { title: '个人设置', icon: 'account_circle' },
+          { title: '系统管理', icon: 'settings' }
+        ]
+      }
     },
     created () {
+      console.log(this.baseUrl)
       let self = this
       // 建立连接对象
       // 连接服务端提供的通信接口，连接以后才可以订阅广播消息和个人消息
@@ -97,6 +125,13 @@
       },
       refs (name) {
         return this.$refs[name]
+      },
+      settings (title) {
+        if (title === '个人设置') {
+          this.$router.push({path: '/admin/personalsetting'})
+        } else if (title === '系统管理') {
+          this.$router.push({path: '/admin/systemmanagement'})
+        }
       }
     }
   }

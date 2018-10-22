@@ -38,7 +38,7 @@
 
 <script>
   import { jobsList, jobRun } from '@/api/axios/api'
-  import JobItem from './JobItem'
+  import JobItem from '@/components/Jobs/JobItem'
   import { mapState } from 'vuex'
   export default {
     name: 'Jobs',

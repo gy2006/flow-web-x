@@ -14,11 +14,14 @@ import 'vuetify/dist/vuetify.min.css'
 import './assets/styles/style.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from 'axios'
+import config from './api/config.js'
+
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueI18n)
+Vue.use(config)
 // Vue.use(VueResource)
 
 axios.defaults.headers.common['Token'] = 'helloflowciadmin'

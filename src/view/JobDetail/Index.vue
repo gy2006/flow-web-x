@@ -60,8 +60,8 @@
 
 <script>
   import {jobDetail, jobYml} from '@/api/axios/api'
-  import Message from './Message'
-  import Log from './Log'
+  import Message from '@/components/JobDetail/Message'
+  import Log from '@/components/JobDetail/Log'
   import Editor from '@/components/Yml/Editor'
   import { mapState } from 'vuex'
   export default {

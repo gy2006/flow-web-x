@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import Editor from './Editor'
+  import Editor from '@/components/Yml/Editor'
   import { setYml, getYml } from '@/api/axios/api'
   export default {
     data () {

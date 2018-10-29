@@ -1,16 +1,14 @@
 <template>
-  <v-card class="mb-2">
-    <v-layout row>
-      <v-flex xs8>
-        <v-text-field
-          :rules="[nameRules.required, nameRules.counter, nameRules.format]"
-          v-model="textVal"
-          single-line
-          hint="Give a name for flow"
-        ></v-text-field>
-      </v-flex>
-    </v-layout>
-  </v-card>
+  <v-layout row>
+    <v-flex xs8>
+      <v-text-field
+        :rules="[nameRules.required, nameRules.counter, nameRules.format]"
+        v-model="textVal"
+        single-line
+        hint="Give a name for flow"
+      ></v-text-field>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

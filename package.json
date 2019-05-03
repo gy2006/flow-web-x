@@ -5,8 +5,8 @@
   "author": "Yang Guo <gy@fir.im>",
   "private": true,
   "scripts": {
-    "start": "FLOWCI_API_URL=http://127.0.0.1:8080 vue-cli-service serve",
-    "build": "FLOWCI_API_URL=http://replace:me vue-cli-service build",
+    "start": "FLOWCI_API_URL=http://127.0.0.1:8080 vue-cli-service serve --port 3000 --host localhost",
+    "build": "FLOWCI_API_URL=http://replace:me vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -17,12 +17,12 @@
     "js-base64": "^2.4.9",
     "material-design-icons-iconfont": "^3.0.3",
     "moment": "^2.22.2",
-    "monaco-editor": "^0.10.1",
+    "monaco-editor": "^0.16.2",
+    "monaco-editor-webpack-plugin": "^1.7.0",
     "sockjs-client": "^1.3.0",
     "stompjs": "^2.3.3",
     "vue": "^2.6.10",
     "vue-i18n": "^7.8.0",
-    "vue-monaco-editor": "0.0.19",
     "vue-router": "^3.0.3",
     "vuetify": "^1.5.14",
     "vuex": "^3.0.1"
@@ -41,20 +41,6 @@
     "sass": "^1.19.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
   },
   "postcss": {
     "plugins": {

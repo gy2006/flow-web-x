@@ -1,38 +1,54 @@
-import Config from '../config'
-import axios from 'axios'
+import config from '../config'
 
-const rootUrl = `${Config.host}/flows`
 const state = {
   items: [],
   name: '',
-  editor: ''
+  editor: '',
+  selected: {}
 }
 
 const mutations = {
-  list (state, res) {
-    state.items = res
+  select (state, name) {
+    state.selected.name = name
   },
+
+  list (state, items) {
+    state.items = items
+  },
+
   name (state, res) {
     state.name = res
   },
+
   editor (state, res) {
     state.editor = res
   }
 }
 
 const actions = {
-  list ({commit}) {
-    const url = `${rootUrl}`
-    return new Promise(async (resolve, reject) => {
-      const res = await axios.get(url)
-      if (res === null) return
-      commit('list', res.data.data)
-      resolve()
-    })
+  select (context) {
+    context.commit('select', 'hello flow')
   },
+
+  list ({commit}) {
+    config.call.get('flows')
+        .then((response) => {
+          console.log(response)
+          commit('list', response.data.data)
+        })
+        .catch((error) => {
+          console.log(error)
+          commit('list', [])
+        })
+        .finally(() => {
+          console.log('Debug... get flow list...')
+        })
+  },
+
   editor ({commit}, args) {
     commit('editor', args)
   },
+
   name ({commit}, args) {
     commit('name', args)
   }

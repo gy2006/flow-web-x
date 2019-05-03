@@ -86,7 +86,7 @@
   import CreateFlow from '@/components/CreateFlow/Index'
   import SockJS from 'sockjs-client'
   import Stomp from 'stompjs'
-  import Actions from '@/api/store/actions'
+  import Actions from '@/store/actions'
   export default {
     name: 'App',
     components: {

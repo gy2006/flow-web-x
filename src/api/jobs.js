@@ -1,4 +1,4 @@
-import Config from './store/config'
+import Config from '../store/config'
 
 export default {
   listLatestJobs (flows) {

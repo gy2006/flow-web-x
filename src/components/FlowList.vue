@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import Actions from '@/api/store/actions'
+  import actions from '@/store/actions'
   import { mapState } from 'vuex'
 
   export default {
@@ -42,6 +42,9 @@
         loading: false
       }
     },
+    mounted() {
+      this.$store.dispatch(actions.flow.list).then()
+    },
     computed: {
       ...mapState({
         flows: state => state.flows.items
@@ -52,7 +55,7 @@
         this.drawer = !this.drawer
         if (this.drawer === true) {
           this.loading = true
-          this.$store.dispatch(Actions.Flows.List).then(() => {
+          this.$store.dispatch(actions.Flows.List).then(() => {
             this.loading = false
             this.items = this.flows
           })
@@ -60,16 +63,13 @@
       },
       onItemClick (item) {
         this.$router.push({path: `/flows/${item.name}/jobs`})
-        this.$store.dispatch(Actions.Flows.Name, item.name)
+        this.$store.dispatch(actions.Flows.Name, item.name)
       },
       querySelections (v) {
         this.items = this.flows.filter(e => {
           return (e.name || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         })
       }
-    },
-    created () {
-      this.$store.dispatch(Actions.Flows.List)
     },
     watch: {
       searchVal (val) {

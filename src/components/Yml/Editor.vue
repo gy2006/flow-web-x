@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  // import * as monaco from 'monaco-editor'
+  import * as monaco from 'monaco-editor'
 
   export default {
     name: 'Yml',
@@ -43,12 +43,12 @@
         default: ''
       }
     },
-    // mounted: function() {
-    //   monaco.editor.create(document.getElementById('editor'), {
-    //     value: 'console.log("Hello, world")',
-    //     language: 'javascript'
-    //   });
-    // },
+    mounted: function() {
+      monaco.editor.create(document.getElementById('editor'), {
+        value: 'console.log("Hello, world")',
+        language: 'javascript'
+      });
+    },
     methods: {
       // 代码发生变化时触发
       onCodeChange (editor) {

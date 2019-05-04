@@ -4,9 +4,9 @@ import { Actions as JobsStatus } from './module/jobs'
 
 export default {
   flow: {
-    list: 'flows/list'
+    list: 'flows/list',
+    select: 'flows/select'
   },
-
 
   'Flows': {
     ...FlowAction

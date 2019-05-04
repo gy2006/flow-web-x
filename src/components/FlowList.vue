@@ -43,7 +43,9 @@
       }
     },
     mounted() {
-      this.$store.dispatch(actions.flow.list).then()
+      this.$store.dispatch(actions.flow.list).then(() => {
+        this.items = this.flows
+      })
     },
     computed: {
       ...mapState({
@@ -53,17 +55,11 @@
     methods: {
       click () {
         this.drawer = !this.drawer
-        if (this.drawer === true) {
-          this.loading = true
-          this.$store.dispatch(actions.Flows.List).then(() => {
-            this.loading = false
-            this.items = this.flows
-          })
-        }
+        this.items = this.flows
       },
       onItemClick (item) {
         this.$router.push({path: `/flows/${item.name}/jobs`})
-        this.$store.dispatch(actions.Flows.Name, item.name)
+        this.$store.dispatch(actions.flow.select, item.name).then()
       },
       querySelections (v) {
         this.items = this.flows.filter(e => {

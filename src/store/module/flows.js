@@ -1,4 +1,4 @@
-import config from '../config'
+import http from '../http'
 
 const state = {
   items: [],
@@ -8,8 +8,8 @@ const state = {
 }
 
 const mutations = {
-  select (state, name) {
-    state.selected.name = name
+  select (state, flow) {
+    state.selected = flow
   },
 
   list (state, items) {
@@ -26,23 +26,21 @@ const mutations = {
 }
 
 const actions = {
-  select (context) {
-    context.commit('select', 'hello flow')
+  select (context, flow) {
+    context.commit('select', flow)
   },
 
   list ({commit}) {
-    config.call.get('flows')
-        .then((response) => {
-          console.log(response)
-          commit('list', response.data.data)
-        })
-        .catch((error) => {
-          console.log(error)
-          commit('list', [])
-        })
-        .finally(() => {
-          console.log('Debug... get flow list...')
-        })
+    http.get('flows',
+      (list) => {
+        commit('list', list)
+      },
+
+      (error) => {
+        console.error(error)
+        commit('list', [])
+      }
+    )
   },
 
   editor ({commit}, args) {

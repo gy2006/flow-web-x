@@ -8,6 +8,10 @@ export default {
     select: 'flows/select'
   },
 
+  job: {
+    list: 'jobs/list'
+  },
+
   'Flows': {
     ...FlowAction
   },

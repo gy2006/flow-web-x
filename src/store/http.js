@@ -31,8 +31,8 @@ export default {
     ok: 200,
     fatal: 500
   },
-  get: (url, onSuccess, onError) => {
-    instance.get(url)
+  get: (url, onSuccess, onError, params) => {
+    instance.get(url, {params: params})
       .then((response) => {
         const msg = response.data
 

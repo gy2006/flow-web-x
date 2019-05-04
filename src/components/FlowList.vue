@@ -42,7 +42,7 @@
         loading: false
       }
     },
-    mounted() {
+    mounted () {
       this.$store.dispatch(actions.flow.list).then(() => {
         this.items = this.flows
       })
@@ -57,9 +57,9 @@
         this.drawer = !this.drawer
         this.items = this.flows
       },
-      onItemClick (item) {
-        this.$router.push({path: `/flows/${item.name}/jobs`})
-        this.$store.dispatch(actions.flow.select, item.name).then()
+      onItemClick (flow) {
+        this.$store.dispatch(actions.flow.select, flow).then()
+        this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
       querySelections (v) {
         this.items = this.flows.filter(e => {

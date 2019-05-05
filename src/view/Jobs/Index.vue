@@ -1,32 +1,29 @@
 <template>
-  <v-card height="100%" width="100%">
+  <v-layout fill-height warp class="elevation-1 white">
+    <v-layout wrap>
+      <v-flex xs12 class="header pa-1">
+        <h2 class="pr-4">
+          <v-icon>layers</v-icon>
+          {{this.name}}
+        </h2>
 
-    <!-- header of job page -->
-    <v-card-title>
-      <h2 class="pr-4">
-        <v-icon>layers</v-icon>
-        {{this.name}}
-      </h2>
+        <v-chip label color="" outline text-color="black" @click="yml">
+          <v-icon left>settings</v-icon>
+          工作流设置
+        </v-chip>
+      </v-flex>
 
-      <v-chip label color="" outline text-color="black" @click="yml">
-        <v-icon left>settings</v-icon>
-        工作流设置
-      </v-chip>
-    </v-card-title>
+      <v-flex xs12 class="body mt-1 pa-1">
+        title
+      </v-flex>
 
-    <!-- job item list -->
-    <v-card-text class="job-list">
-      <v-container fill-height>
-        <!-- pagination -->
-        <v-layout align-end justify-center fill-height>
-          <v-pagination
-              v-model="page"
-              :length="6"/>
-        </v-layout>
-      </v-container>
-    </v-card-text>
-  </v-card>
-
+      <v-flex xs12 class="footer text-md-center">
+        <v-pagination
+            v-model="page"
+            :length="6"/>
+      </v-flex>
+    </v-layout>
+  </v-layout>
 
   <!--  <v-card height='100%' width="100%">-->
   <!--    &lt;!&ndash; 运行工作流错误状态 &ndash;&gt;-->
@@ -129,8 +126,14 @@
 </script>
 
 <style lang="scss" scoped>
-  .job-list {
-    height: 90%;
+  .header {
+    height: 10%;
+    display: flex;
+    align-items: center;
+  }
+
+  .body {
+    height: 75%;
   }
 
   .alert {

@@ -36,7 +36,7 @@
 
     <!--content-->
     <v-content class="main-content">
-      <v-container class="sm-padding" fluid fill-height>
+      <v-container fluid fill-height class="pa-2">
         <router-view/>
       </v-container>
     </v-content>
@@ -51,7 +51,7 @@
         dark
         fixed
         @click.native="openCreateFlow"
-        class="btn-add-flow">
+        class="mb-3">
         <v-icon>add</v-icon>
       </v-btn>
     </v-fab-transition>
@@ -122,16 +122,8 @@
     height: 100%;
   }
 
-  .sm-padding {
-    padding: 10px;
-  }
-
   .btn--floating .icon {
     height: unset !important;
     width: unset !important;
-  }
-
-  .btn-add-flow {
-    margin-bottom: 2%;
   }
 </style>

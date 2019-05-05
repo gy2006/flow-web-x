@@ -1,50 +1,65 @@
 <template>
-  <v-layout align-start fill-height>
-    <v-toolbar>
+  <v-card height="100%" width="100%">
+
+    <!-- header of job page -->
+    <v-card-title>
       <h2 class="pr-4">
         <v-icon>layers</v-icon>
         {{this.name}}
       </h2>
+
       <v-chip label color="" outline text-color="black" @click="yml">
         <v-icon left>settings</v-icon>
         工作流设置
       </v-chip>
-    </v-toolbar>
-  </v-layout>
+    </v-card-title>
+
+    <!-- job item list -->
+    <v-card-text class="job-list">
+      <v-container fill-height>
+        <!-- pagination -->
+        <v-layout align-end justify-center fill-height>
+          <v-pagination
+              v-model="page"
+              :length="6"/>
+        </v-layout>
+      </v-container>
+    </v-card-text>
+  </v-card>
 
 
-<!--  <v-card height='100%' width="100%">-->
-<!--    &lt;!&ndash; 运行工作流错误状态 &ndash;&gt;-->
-<!--    <v-alert-->
-<!--        :value="alert"-->
-<!--        type="error"-->
-<!--        transition="scale-transition"-->
-<!--        icon="warning"-->
-<!--        class="alert"-->
-<!--    >-->
-<!--      Please configure yml.-->
-<!--    </v-alert>-->
+  <!--  <v-card height='100%' width="100%">-->
+  <!--    &lt;!&ndash; 运行工作流错误状态 &ndash;&gt;-->
+  <!--    <v-alert-->
+  <!--        :value="alert"-->
+  <!--        type="error"-->
+  <!--        transition="scale-transition"-->
+  <!--        icon="warning"-->
+  <!--        class="alert"-->
+  <!--    >-->
+  <!--      Please configure yml.-->
+  <!--    </v-alert>-->
 
 
-<!--    <v-card-actions>-->
-<!--      <v-spacer></v-spacer>-->
-<!--      <v-btn-->
-<!--          :loading="loading"-->
-<!--          :disabled="loading"-->
-<!--          color="success"-->
-<!--          @click.native="jobrun">-->
-<!--        运行工作流-->
-<!--      </v-btn>-->
-<!--    </v-card-actions>-->
+  <!--    <v-card-actions>-->
+  <!--      <v-spacer></v-spacer>-->
+  <!--      <v-btn-->
+  <!--          :loading="loading"-->
+  <!--          :disabled="loading"-->
+  <!--          color="success"-->
+  <!--          @click.native="jobrun">-->
+  <!--        运行工作流-->
+  <!--      </v-btn>-->
+  <!--    </v-card-actions>-->
 
-<!--    <v-card-text>-->
-<!--      <JobItem :jobs="jobs" :pages="pages" @pageChange="pageChange"></JobItem>-->
-<!--    </v-card-text>-->
-<!--  </v-card>-->
+  <!--    <v-card-text>-->
+  <!--      <JobItem :jobs="jobs" :pages="pages" @pageChange="pageChange"></JobItem>-->
+  <!--    </v-card-text>-->
+  <!--  </v-card>-->
 </template>
 
 <script>
-  import { jobsList, jobRun } from '@/api/axios/api'
+  import { jobsList } from '@/api/axios/api'
   import JobItem from '@/components/Jobs/JobItem'
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
@@ -113,7 +128,11 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .job-list {
+    height: 90%;
+  }
+
   .alert {
     position: absolute;
     width: 100%;

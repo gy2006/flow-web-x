@@ -35,8 +35,8 @@
     </v-toolbar>
 
     <!--content-->
-    <v-content class="main-frame">
-      <v-container fluid fill-height>
+    <v-content class="main-content">
+      <v-container class="sm-padding" fluid fill-height>
         <router-view/>
       </v-container>
     </v-content>
@@ -118,8 +118,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .main-frame {
+  .main-content {
     height: 100%;
+  }
+
+  .sm-padding {
+    padding: 10px;
   }
 
   .btn--floating .icon {

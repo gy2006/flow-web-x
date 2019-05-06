@@ -16,16 +16,16 @@
       </v-btn>
       <v-menu offset-y>
         <v-btn
-          slot="activator"
-          icon
+            slot="activator"
+            icon
         >
           <v-icon class="material-icons">account_circle</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile
-            v-for="(item, index) in items"
-            :key="index"
-            @click="settings(item.title)"
+              v-for="(item, index) in items"
+              :key="index"
+              @click="settings(item.title)"
           >
             <v-icon small class="material-icons mr-4">{{item.icon}}</v-icon>
             <v-list-tile-title class="caption font-weight-regular">{{ item.title }}</v-list-tile-title>
@@ -35,23 +35,21 @@
     </v-toolbar>
 
     <!--content-->
-    <v-content class="main-content">
-      <v-container fluid fill-height class="pa-2">
-        <router-view/>
-      </v-container>
+    <v-content class="full-height">
+      <router-view/>
     </v-content>
 
     <!--btn for add flow-->
     <v-fab-transition>
       <v-btn
-        fab
-        bottom
-        right
-        color="pink"
-        dark
-        fixed
-        @click.native="openCreateFlow"
-        class="mb-3">
+          fab
+          bottom
+          right
+          color="pink"
+          dark
+          fixed
+          @click.native="openCreateFlow"
+          class="mb-3">
         <v-icon>add</v-icon>
       </v-btn>
     </v-fab-transition>
@@ -94,8 +92,8 @@
     data () {
       return {
         items: [
-          { title: '个人设置', icon: 'account_circle' },
-          { title: '系统管理', icon: 'settings' }
+          {title: '个人设置', icon: 'account_circle'},
+          {title: '系统管理', icon: 'settings'}
         ]
       }
     },
@@ -118,10 +116,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .main-content {
-    height: 100%;
-  }
-
   .btn--floating .icon {
     height: unset !important;
     width: unset !important;

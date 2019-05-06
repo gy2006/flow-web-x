@@ -1,7 +1,9 @@
 <template>
-  <v-layout fill-height warp class="elevation-1 white">
-    <v-layout wrap>
-      <v-flex xs12 class="header pa-1">
+  <v-container fluid class="elevation-1 white pa-2 full-height">
+
+    <!-- header -->
+    <v-layout row class="pa-1">
+      <v-flex xs6 class="header">
         <h2 class="pr-4">
           <v-icon>layers</v-icon>
           {{this.name}}
@@ -12,18 +14,37 @@
           工作流设置
         </v-chip>
       </v-flex>
+    </v-layout>
 
-      <v-flex xs12 class="body mt-1 pa-1">
-        title
+    <!-- tool bar -->
+    <v-layout row justify-end class="pa-0">
+      <v-flex xs2>
+        <v-btn
+            :loading="loading"
+            :disabled="loading"
+            color="success"
+            @click.native="jobrun">
+          运行工作流
+        </v-btn>
       </v-flex>
+    </v-layout>
 
-      <v-flex xs12 class="footer text-md-center">
+    <!-- list -->
+    <v-layout row justify-center class="pa-1 body">
+      <v-flex xs12>
+        job list..
+      </v-flex>
+    </v-layout>
+
+    <!-- pagination -->
+    <v-layout row justify-center>
+      <v-flex xs4>
         <v-pagination
             v-model="page"
             :length="6"/>
       </v-flex>
     </v-layout>
-  </v-layout>
+  </v-container>
 
   <!--  <v-card height='100%' width="100%">-->
   <!--    &lt;!&ndash; 运行工作流错误状态 &ndash;&gt;-->
@@ -56,10 +77,10 @@
 </template>
 
 <script>
-  import { jobsList } from '@/api/axios/api'
+  import {jobsList} from '@/api/axios/api'
   import JobItem from '@/components/Jobs/JobItem'
   import actions from '@/store/actions'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'Jobs',
@@ -115,7 +136,7 @@
           this.jobs.unshift(val.job)
         } else if (val.event === 'STATUS_CHANGE') {
           for (var i = 0; i < this.jobs.length; i++) {
-            if (this.jobs[ i ].buildNumber === val.job.buildNumber) {
+            if (this.jobs[i].buildNumber === val.job.buildNumber) {
               this.$set(this.jobs, i, val.job)
             }
           }
@@ -127,13 +148,12 @@
 
 <style lang="scss" scoped>
   .header {
-    height: 10%;
     display: flex;
     align-items: center;
   }
 
   .body {
-    height: 75%;
+    height: 80%;
   }
 
   .alert {

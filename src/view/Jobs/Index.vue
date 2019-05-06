@@ -6,25 +6,25 @@
       <v-flex xs6 class="header">
         <h2 class="pr-4">
           <v-icon>layers</v-icon>
-          {{this.name}}
+          {{ this.name }}
         </h2>
 
         <v-chip label color="" outline text-color="black" @click="yml">
           <v-icon left>settings</v-icon>
-          工作流设置
+          {{ $t('flow_settings') }}
         </v-chip>
       </v-flex>
     </v-layout>
 
     <!-- tool bar -->
     <v-layout row justify-end class="pa-0">
-      <v-flex xs2>
+      <v-flex xs1>
         <v-btn
             :loading="loading"
             :disabled="loading"
             color="success"
             @click.native="jobrun">
-          运行工作流
+          {{ $t('job_run_manual') }}
         </v-btn>
       </v-flex>
     </v-layout>
@@ -32,16 +32,16 @@
     <!-- list -->
     <v-layout row justify-center class="pa-1 body">
       <v-flex xs12>
-        job list..
-      </v-flex>
-    </v-layout>
+        <v-data-table
+            :items="jobs"
+            class="elevation-1"
+            hide-headers>
+          <template slot="items" slot-scope="props">
+            <td @click="jobdetail(props.item)">
 
-    <!-- pagination -->
-    <v-layout row justify-center>
-      <v-flex xs4>
-        <v-pagination
-            v-model="page"
-            :length="6"/>
+            </td>
+          </template>
+        </v-data-table>
       </v-flex>
     </v-layout>
   </v-container>
@@ -153,7 +153,7 @@
   }
 
   .body {
-    height: 80%;
+    height: 90%;
   }
 
   .alert {

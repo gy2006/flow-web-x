@@ -38,42 +38,13 @@
             hide-headers>
           <template slot="items" slot-scope="props">
             <td @click="jobdetail(props.item)">
-
+              <job-item></job-item>
             </td>
           </template>
         </v-data-table>
       </v-flex>
     </v-layout>
   </v-container>
-
-  <!--  <v-card height='100%' width="100%">-->
-  <!--    &lt;!&ndash; 运行工作流错误状态 &ndash;&gt;-->
-  <!--    <v-alert-->
-  <!--        :value="alert"-->
-  <!--        type="error"-->
-  <!--        transition="scale-transition"-->
-  <!--        icon="warning"-->
-  <!--        class="alert"-->
-  <!--    >-->
-  <!--      Please configure yml.-->
-  <!--    </v-alert>-->
-
-
-  <!--    <v-card-actions>-->
-  <!--      <v-spacer></v-spacer>-->
-  <!--      <v-btn-->
-  <!--          :loading="loading"-->
-  <!--          :disabled="loading"-->
-  <!--          color="success"-->
-  <!--          @click.native="jobrun">-->
-  <!--        运行工作流-->
-  <!--      </v-btn>-->
-  <!--    </v-card-actions>-->
-
-  <!--    <v-card-text>-->
-  <!--      <JobItem :jobs="jobs" :pages="pages" @pageChange="pageChange"></JobItem>-->
-  <!--    </v-card-text>-->
-  <!--  </v-card>-->
 </template>
 
 <script>

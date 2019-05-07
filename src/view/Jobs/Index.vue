@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid class="elevation-1 white pa-2 full-height">
-
+  <v-container fluid class="elevation-1 pa-2 full-height">
     <!-- header -->
     <v-layout row class="pa-1">
       <v-flex xs6 class="header">
@@ -17,31 +16,51 @@
     </v-layout>
 
     <!-- tool bar -->
-    <v-layout row justify-end class="pa-0">
-      <v-flex xs1>
-        <v-btn
-            :loading="loading"
-            :disabled="loading"
-            color="success"
-            @click.native="jobrun">
-          {{ $t('job_run_manual') }}
-        </v-btn>
+    <v-layout row justify-end>
+      <v-flex xs12>
+        <v-toolbar flat color="white">
+          <v-spacer></v-spacer>
+          <v-btn
+              :loading="loading"
+              :disabled="loading"
+              color="success"
+              @click.native="jobrun">
+            {{ $t('job_run_manual') }}
+          </v-btn>
+        </v-toolbar>
       </v-flex>
     </v-layout>
 
     <!-- list -->
-    <v-layout row justify-center class="pa-1 body">
+    <v-layout row justify-center class="body">
       <v-flex xs12>
         <v-data-table
             :items="jobs"
-            class="elevation-1"
+            :pagination.sync="pagination"
+            hide-actions
             hide-headers>
+
           <template slot="items" slot-scope="props">
-            <td @click="jobdetail(props.item)">
-              <job-item></job-item>
+            <td>
+              <job-item :job="props.item"></job-item>
             </td>
           </template>
+
+          <template slot="no-data">
+            <v-alert :value="true" color="error" icon="warning">
+             Start the first build :)
+            </v-alert>
+          </template>
         </v-data-table>
+      </v-flex>
+    </v-layout>
+
+    <!-- pagination -->
+    <v-layout row justify-center>
+      <v-flex xs12 class="text-xs-center">
+        <v-pagination
+            v-model="pagination"
+            :length="6"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -59,7 +78,10 @@
       return {
         name: '', // flow name
         loading: false,
-        alert: false
+        alert: false,
+        pagination: {
+          page: 5
+        }
       }
     },
     components: {
@@ -124,7 +146,7 @@
   }
 
   .body {
-    height: 90%;
+    height: 78%;
   }
 
   .alert {

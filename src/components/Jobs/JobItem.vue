@@ -20,8 +20,8 @@
 
       <v-list-tile-content>
         <v-list-tile-sub-title>
-          <v-icon>flow-icon flow-icon-commit</v-icon>
-          eebd7b17
+          <v-icon small class="mr-1">flow-icon flow-icon-git-commit</v-icon>
+          <a>eebd7b17</a>
         </v-list-tile-sub-title>
         <v-list-tile-sub-title>
           Initial commit

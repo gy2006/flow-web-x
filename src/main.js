@@ -9,8 +9,8 @@ import moment from 'moment'
 
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
-import './assets/styles/style.scss'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import './assets/styles/style.scss'
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)

@@ -62,7 +62,45 @@
 <script>
   export default {
     data () {
-      return {}
+      return {
+        mapping: {
+          status: {
+            'QUEUED': {
+              icon: 'job-queued',
+              color: 'green--text'
+            },
+
+            'RUNNING': {
+              icon: 'job-running',
+              color: 'green--text'
+            },
+
+            'SUCCESS': {
+              icon: 'job-success',
+              color: 'green--text'
+            },
+
+            'FAILURE': {
+              icon: 'job-failure',
+              color: 'green--text'
+            },
+
+            'CANCELLED': {
+              icon: 'job-cancelled',
+              color: 'green--text'
+            },
+
+            'TIMEOUT': {
+              icon: 'job-timeout',
+              color: 'green--text'
+            }
+          },
+
+          trigger: {
+
+          }
+        }
+      }
     },
     props: {
       job: {

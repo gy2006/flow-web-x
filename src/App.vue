@@ -8,18 +8,17 @@
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
       <v-toolbar-side-icon @click.native="refs('flowList').click()"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <i class="flow-icon flow-icon-logo"/>
+        <v-icon class="black--text" v-text="'$vuetify.icons.logo'"></v-icon>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <i class="material-icons">dvr</i>
+        <v-icon>dvr</v-icon>
       </v-btn>
       <v-menu offset-y>
         <v-btn
             slot="activator"
-            icon
-        >
-          <v-icon class="material-icons">account_circle</v-icon>
+            icon>
+          <v-icon>account_circle</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile
@@ -27,7 +26,7 @@
               :key="index"
               @click="settings(item.title)"
           >
-            <v-icon small class="material-icons mr-4">{{item.icon}}</v-icon>
+            <v-icon small class="mr-4">{{item.icon}}</v-icon>
             <v-list-tile-title class="caption font-weight-regular">{{ item.title }}</v-list-tile-title>
           </v-list-tile>
         </v-list>

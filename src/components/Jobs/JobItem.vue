@@ -4,7 +4,7 @@
   <v-list two-line>
     <v-list-tile>
       <v-list-tile-avatar>
-        <v-icon class="green--text">done</v-icon>
+        <v-icon class="green--text" v-text="'$vuetify.icons.job-success'"></v-icon>
       </v-list-tile-avatar>
 
       <v-list-tile-content>
@@ -12,7 +12,7 @@
           <span class="font-weight-bold"># {{ job.buildNumber }}</span>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-icon small class="ml-1" v-on="on">flow-icon flow-icon-repo-push</v-icon>
+              <v-icon small class="ml-1" v-on="on" v-text="'$vuetify.icons.trigger-push'"/>
             </template>
             <span>push</span>
           </v-tooltip>
@@ -21,14 +21,14 @@
 
       <v-list-tile-content>
         <v-list-tile-sub-title>
-          <v-icon small class="mr-1">flow-icon flow-icon-git-branch</v-icon>
+          <v-icon small class="mr-1" v-text="'$vuetify.icons.git-branch'"/>
           <i>master</i>
         </v-list-tile-sub-title>
       </v-list-tile-content>
 
       <v-list-tile-content>
         <v-list-tile-sub-title>
-          <v-icon small class="mr-1">flow-icon flow-icon-git-commit</v-icon>
+          <v-icon small class="mr-1" v-text="'$vuetify.icons.git-commit'"/>
           <a>eebd7b17</a>
         </v-list-tile-sub-title>
         <v-list-tile-sub-title>
@@ -47,7 +47,7 @@
 
       <v-list-tile-content>
         <v-list-tile-sub-title class="text-xs-center">
-          <v-icon small class="mr-1">date_range</v-icon>
+          <v-icon small class="mr-1" v-text="'$vuetify.icons.date'"></v-icon>
           <time datetime="May 3, 2019 11:00am GMT+0200">4 days ago</time>
         </v-list-tile-sub-title>
       </v-list-tile-content>

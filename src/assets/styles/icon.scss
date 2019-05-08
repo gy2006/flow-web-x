@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?kf32uo');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?kf32uo#iefix') format('embedded-opentype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?kf32uo') format('truetype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?kf32uo') format('woff'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?kf32uo##{$icomoon-font-family}') format('svg');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?g573wz');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?g573wz#iefix') format('embedded-opentype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?g573wz') format('truetype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?g573wz') format('woff'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?g573wz##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,9 +26,44 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.flow-icon-git-branch {
+  &:before {
+    content: $flow-icon-git-branch;
+  }
+}
 .flow-icon-git-commit {
   &:before {
     content: $flow-icon-git-commit;
+  }
+}
+.flow-icon-git-compare {
+  &:before {
+    content: $flow-icon-git-compare;
+  }
+}
+.flow-icon-git-merge {
+  &:before {
+    content: $flow-icon-git-merge;
+  }
+}
+.flow-icon-git-pull-request {
+  &:before {
+    content: $flow-icon-git-pull-request;
+  }
+}
+.flow-icon-repo-forked {
+  &:before {
+    content: $flow-icon-repo-forked;
+  }
+}
+.flow-icon-repo-push {
+  &:before {
+    content: $flow-icon-repo-push;
+  }
+}
+.flow-icon-tag {
+  &:before {
+    content: $flow-icon-tag;
   }
 }
 .flow-icon-add_circle {
@@ -146,9 +181,9 @@
     content: $flow-icon-equalizer;
   }
 }
-.flow-icon-git-branch {
+.flow-icon-git-branch1 {
   &:before {
-    content: $flow-icon-git-branch;
+    content: $flow-icon-git-branch1;
   }
 }
 .flow-icon-layergroup {
@@ -256,139 +291,8 @@
     content: $flow-icon-cross;
   }
 }
-.flow-icon-alarm {
+.flow-icon-stopwatch {
   &:before {
-    content: $flow-icon-alarm;
+    content: $flow-icon-stopwatch;
   }
 }
-.flow-icon-calendar {
-  &:before {
-    content: $flow-icon-calendar;
-  }
-}
-.flow-icon-pie-chart {
-  &:before {
-    content: $flow-icon-pie-chart;
-  }
-}
-.flow-icon-happy {
-  &:before {
-    content: $flow-icon-happy;
-  }
-}
-.flow-icon-smile {
-  &:before {
-    content: $flow-icon-smile;
-  }
-}
-.flow-icon-tongue {
-  &:before {
-    content: $flow-icon-tongue;
-  }
-}
-.flow-icon-sad {
-  &:before {
-    content: $flow-icon-sad;
-  }
-}
-.flow-icon-wink {
-  &:before {
-    content: $flow-icon-wink;
-  }
-}
-.flow-icon-grin {
-  &:before {
-    content: $flow-icon-grin;
-  }
-}
-.flow-icon-cool {
-  &:before {
-    content: $flow-icon-cool;
-  }
-}
-.flow-icon-angry {
-  &:before {
-    content: $flow-icon-angry;
-  }
-}
-.flow-icon-evil {
-  &:before {
-    content: $flow-icon-evil;
-  }
-}
-.flow-icon-shocked {
-  &:before {
-    content: $flow-icon-shocked;
-  }
-}
-.flow-icon-baffled {
-  &:before {
-    content: $flow-icon-baffled;
-  }
-}
-.flow-icon-confused {
-  &:before {
-    content: $flow-icon-confused;
-  }
-}
-.flow-icon-neutral {
-  &:before {
-    content: $flow-icon-neutral;
-  }
-}
-.flow-icon-hipster {
-  &:before {
-    content: $flow-icon-hipster;
-  }
-}
-.flow-icon-wondering {
-  &:before {
-    content: $flow-icon-wondering;
-  }
-}
-.flow-icon-sleepy {
-  &:before {
-    content: $flow-icon-sleepy;
-  }
-}
-.flow-icon-frustrated {
-  &:before {
-    content: $flow-icon-frustrated;
-  }
-}
-.flow-icon-crying {
-  &:before {
-    content: $flow-icon-crying;
-  }
-}
-.flow-icon-play3 {
-  &:before {
-    content: $flow-icon-play3;
-  }
-}
-.flow-icon-pause2 {
-  &:before {
-    content: $flow-icon-pause2;
-  }
-}
-.flow-icon-stop2 {
-  &:before {
-    content: $flow-icon-stop2;
-  }
-}
-.flow-icon-embed {
-  &:before {
-    content: $flow-icon-embed;
-  }
-}
-.flow-icon-embed2 {
-  &:before {
-    content: $flow-icon-embed2;
-  }
-}
-.flow-icon-terminal {
-  &:before {
-    content: $flow-icon-terminal;
-  }
-}
-

@@ -1,13 +1,21 @@
 export function status (status) {
   if (status === 'SUCCESS') {
     return 'success'
-  } else if (status === 'TIMEOUT') {
+  }
+
+  if (status === 'TIMEOUT') {
     return 'timeout'
-  } else if (status === 'ENQUEUE') {
+  }
+
+  if (status === 'ENQUEUE') {
     return 'info'
-  } else if (status === 'RUNNING') {
+  }
+
+  if (status === 'RUNNING') {
     return 'info'
-  } else if (status === '"PENDING"') {
+  }
+
+  if (status === '"PENDING"') {
     return 'timeout'
   }
 }

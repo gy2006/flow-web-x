@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <!-- Item in job list table -->
   <!-- state, build number, commit(id, branch, message), by(user), time, re-run -->
   <v-list two-line>
@@ -8,7 +8,15 @@
       </v-list-tile-avatar>
 
       <v-list-tile-content>
-        <v-list-tile-title class="font-weight-bold"># {{ job.buildNumber }}</v-list-tile-title>
+        <v-list-tile-title>
+          <span class="font-weight-bold"># {{ job.buildNumber }}</span>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon small class="ml-1" v-on="on">flow-icon flow-icon-repo-push</v-icon>
+            </template>
+            <span>push</span>
+          </v-tooltip>
+        </v-list-tile-title>
       </v-list-tile-content>
 
       <v-list-tile-content>
@@ -26,6 +34,15 @@
         <v-list-tile-sub-title>
           Initial commit
         </v-list-tile-sub-title>
+      </v-list-tile-content>
+
+      <v-list-tile-content>
+      </v-list-tile-content>
+
+      <v-list-tile-content>
+      </v-list-tile-content>
+
+      <v-list-tile-content>
       </v-list-tile-content>
 
       <v-list-tile-content>

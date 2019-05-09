@@ -42,7 +42,7 @@
         <v-flex xs2>
           <v-list-tile-sub-title class="text-xs-center">
             <v-icon small class="mr-1">flow-icon-calendar</v-icon>
-            <time datetime="May 3, 2019 11:00am GMT+0200">4 days ago</time>
+            <time>{{ fromNow }}</time>
           </v-list-tile-sub-title>
         </v-flex>
 
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   import vars from '@/util/vars'
   import mapping from './mapping'
 
@@ -92,7 +93,11 @@
 
       commitMsg () {
         return this.job.context[vars.git.commit.message]
-      }
+      },
+
+      fromNow() {
+        return moment(this.job.createdAt).fromNow()
+      },
     },
 
     methods: {

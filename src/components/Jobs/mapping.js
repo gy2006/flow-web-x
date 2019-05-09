@@ -4,32 +4,32 @@ export default {
   status: {
     'QUEUED': {
       icon: 'flow-icon-pending',
-      color: 'green--text'
+      class: 'green--text'
     },
 
     'RUNNING': {
       icon: 'flow-icon-running',
-      color: ['blue--text', 'status-rotate']
+      class: ['blue--text', 'status-rotate']
     },
 
     'SUCCESS': {
       icon: 'flow-icon-check',
-      color: 'green--text'
+      class: 'green--text'
     },
 
     'FAILURE': {
       icon: 'flow-icon-failure',
-      color: 'red--text'
+      class: 'red--text'
     },
 
     'CANCELLED': {
       icon: 'flow-icon-stopped',
-      color: 'grey--text'
+      class: 'grey--text'
     },
 
     'TIMEOUT': {
       icon: 'flow-icon-timeout',
-      color: 'orange--text'
+      class: 'orange--text'
     }
   },
 

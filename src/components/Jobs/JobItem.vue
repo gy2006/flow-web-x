@@ -4,7 +4,7 @@
   <v-list two-line>
     <v-list-tile>
       <v-list-tile-avatar>
-        <v-icon small v-bind:class="[status.color]">{{ status.icon }}</v-icon>
+        <v-icon small v-bind:class="[status.class]">{{ status.icon }}</v-icon>
       </v-list-tile-avatar>
 
       <v-list-tile-content>

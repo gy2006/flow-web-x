@@ -9,7 +9,7 @@ export default {
 
     'RUNNING': {
       icon: 'flow-icon-running',
-      class: ['blue--text', 'status-rotate']
+      class: ['blue--text', 'rotate']
     },
 
     'SUCCESS': {

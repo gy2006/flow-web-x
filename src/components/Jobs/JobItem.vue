@@ -110,5 +110,28 @@
 </script>
 
 <style lang="scss" scoped>
+  .status-rotate {
+    -webkit-animation: running-rotate 2s linear infinite;
+    -moz-animation: running-rotate 2s linear infinite;
+    -ms-animation: running-rotate 2s linear infinite;
+    -o-animation: running-rotate 2s linear infinite;
+    animation: running-rotate 2s linear infinite;
+  }
 
+  @keyframes running-rotate {
+    from {
+      transform:rotate(0deg);
+      -o-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
+      -o-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+    }
+  }
 </style>

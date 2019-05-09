@@ -14,30 +14,7 @@ import './assets/styles/style.scss'
 
 Vue.config.productionTip = false
 
-Vue.use(Vuetify, {
-  icons: {
-    'date': 'date_range',
-    'logo': 'flow-icon-logo',
-
-    'job-success':'flow-icon-check',
-    'job-queued':'flow-icon-pending',
-    'job-running':'flow-icon-running',
-    'job-failure':'flow-icon-failure',
-    'job-timeout':'flow-icon-timeout',
-    'job-cancelled':'flow-icon-stopped',
-
-    'git-branch': 'flow-icon-git-branch',
-    'git-commit': 'flow-icon-git-commit',
-    'git-compare': 'flow-icon-git-compare',
-
-    'trigger-timer': 'flow-icon-stopwatch',
-    'trigger-api': 'flow-icon-code',
-    'trigger-manual': 'flow-icon-drag',
-    'trigger-push': 'flow-icon-repo-push',
-    'trigger-tag': 'flow-icon-tag',
-    'trigger-merge': 'flow-icon-git-merge',
-  }
-})
+Vue.use(Vuetify)
 
 Vue.use(VueI18n)
 

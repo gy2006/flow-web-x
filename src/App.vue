@@ -8,7 +8,7 @@
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
       <v-toolbar-side-icon @click.native="refs('flowList').click()"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <v-icon class="black--text" v-text="'$vuetify.icons.logo'"></v-icon>
+        <v-icon class="black--text">flow-icon-logo</v-icon>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>

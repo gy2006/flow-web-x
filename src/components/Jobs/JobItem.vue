@@ -4,35 +4,35 @@
   <v-list two-line>
     <v-list-tile>
       <v-list-tile-avatar>
-        <v-icon class="green--text" v-text="'$vuetify.icons.job-success'"></v-icon>
+        <v-icon small v-bind:class="[status.color]">{{ status.icon }}</v-icon>
       </v-list-tile-avatar>
 
       <v-list-tile-content>
         <v-list-tile-title>
-          <span class="font-weight-bold"># {{ job.buildNumber }}</span>
+          <span class="font-weight-bold"># {{ buildNumber }}</span>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-icon small class="ml-1" v-on="on" v-text="'$vuetify.icons.trigger-push'"/>
+              <v-icon small class="ml-1" v-on="on">{{ trigger.icon }}</v-icon>
             </template>
-            <span>push</span>
+            <span>{{ trigger.text }}</span>
           </v-tooltip>
         </v-list-tile-title>
       </v-list-tile-content>
 
       <v-list-tile-content>
         <v-list-tile-sub-title>
-          <v-icon small class="mr-1" v-text="'$vuetify.icons.git-branch'"/>
-          <i>master</i>
+          <v-icon small class="mr-1">flow-icon-git-branch</v-icon>
+          <i>{{ branch }}</i>
         </v-list-tile-sub-title>
       </v-list-tile-content>
 
       <v-list-tile-content>
         <v-list-tile-sub-title>
-          <v-icon small class="mr-1" v-text="'$vuetify.icons.git-commit'"/>
-          <a>eebd7b17</a>
+          <v-icon small class="mr-1">flow-icon-git-commit</v-icon>
+          <a>{{ commitId }}</a>
         </v-list-tile-sub-title>
         <v-list-tile-sub-title>
-          Initial commit
+          {{ commitMsg }}
         </v-list-tile-sub-title>
       </v-list-tile-content>
 
@@ -47,7 +47,7 @@
 
       <v-list-tile-content>
         <v-list-tile-sub-title class="text-xs-center">
-          <v-icon small class="mr-1" v-text="'$vuetify.icons.date'"></v-icon>
+          <v-icon small class="mr-1">date_range</v-icon>
           <time datetime="May 3, 2019 11:00am GMT+0200">4 days ago</time>
         </v-list-tile-sub-title>
       </v-list-tile-content>
@@ -60,46 +60,12 @@
 </template>
 
 <script>
+  import vars from '@/util/vars'
+  import mapping from './mapping'
+
   export default {
     data () {
       return {
-        mapping: {
-          status: {
-            'QUEUED': {
-              icon: 'job-queued',
-              color: 'green--text'
-            },
-
-            'RUNNING': {
-              icon: 'job-running',
-              color: 'green--text'
-            },
-
-            'SUCCESS': {
-              icon: 'job-success',
-              color: 'green--text'
-            },
-
-            'FAILURE': {
-              icon: 'job-failure',
-              color: 'green--text'
-            },
-
-            'CANCELLED': {
-              icon: 'job-cancelled',
-              color: 'green--text'
-            },
-
-            'TIMEOUT': {
-              icon: 'job-timeout',
-              color: 'green--text'
-            }
-          },
-
-          trigger: {
-
-          }
-        }
       }
     },
     props: {
@@ -108,6 +74,33 @@
         required: true
       }
     },
+
+    computed: {
+      status() {
+        return mapping.status[this.job.status]
+      },
+
+      trigger() {
+        return mapping.trigger[this.job.trigger]
+      },
+
+      buildNumber() {
+        return this.job.buildNumber
+      },
+
+      branch() {
+        return this.job.context[vars.git.branch]
+      },
+
+      commitId() {
+        return this.job.context[vars.git.commit.id]
+      },
+
+      commitMsg() {
+        return this.job.context[vars.git.commit.message]
+      }
+    },
+
     methods: {
       toDetail (val) {
         this.$router.push({path: `/flows/${this.$route.params.id}/jobs/${val.buildNumber}`})

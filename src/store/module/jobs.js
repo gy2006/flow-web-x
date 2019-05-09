@@ -1,4 +1,5 @@
 import http from '../http'
+import mock from '../mock/job'
 
 const state = {
   name: '', // flow name
@@ -31,19 +32,20 @@ const actions = {
    */
   list({commit, state}, flow) {
     commit('setName', flow)
+    commit('list', mock.data.content, 1)
 
-    http.get('jobs/' + flow,
-      (page) => {
-        commit('list', page.content, page.totalPages)
-      },
-      (error) => {
-        console.error(error)
-      },
-      {
-        page: state.pageable.page,
-        size: state.pageable.size
-      }
-    )
+    // http.get('jobs/' + flow,
+    //   (page) => {
+    //     commit('list', page.content, page.totalPages)
+    //   },
+    //   (error) => {
+    //     console.error(error)
+    //   },
+    //   {
+    //     page: state.pageable.page,
+    //     size: state.pageable.size
+    //   }
+    // )
   },
 
   JobsStatus ({commit}, args) {

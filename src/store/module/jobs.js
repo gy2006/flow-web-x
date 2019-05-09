@@ -23,10 +23,12 @@ const mutations = {
   setName(state, flow) {
     state.name = flow
   },
+
   list(state, jobs, total) {
     state.items = jobs
     state.pageable.total = total
   },
+
   JobsStatus (state, res) {
     state.JobsStatus = res
   }

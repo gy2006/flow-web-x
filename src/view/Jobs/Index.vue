@@ -40,7 +40,7 @@
             hide-headers>
 
           <template slot="items" slot-scope="props">
-            <td>
+            <td @click="onItemClick(props.item)">
               <job-item :job="props.item"></job-item>
             </td>
           </template>
@@ -98,6 +98,10 @@
       })
     },
     methods: {
+      onItemClick (job) {
+        this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
+      },
+
       // 工作流设置
       yml () {
         this.$router.push({path: `/flows/${this.name}/yml`})

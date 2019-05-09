@@ -1,5 +1,4 @@
 import http from '../http'
-import mock from '../mock/job'
 
 const state = {
   name: '', // flow name
@@ -13,6 +12,14 @@ const state = {
 }
 
 const mutations = {
+  add(state, job) {
+    state.items.unshift(job)
+  },
+
+  remove(state) {
+    state.items.pop()
+  },
+
   setName(state, flow) {
     state.name = flow
   },
@@ -27,25 +34,36 @@ const mutations = {
 
 const actions = {
 
+  create({commit, state}, job) {
+    if (state.page > 0) {
+      return;
+    }
+
+    if (state.items.length >= state.pageable.size) {
+      commit('remove')
+    }
+
+    commit('add', job)
+  },
+
   /**
    * Load job list by flow name
    */
   list({commit, state}, flow) {
     commit('setName', flow)
-    commit('list', mock.data.content, 1)
 
-    // http.get('jobs/' + flow,
-    //   (page) => {
-    //     commit('list', page.content, page.totalPages)
-    //   },
-    //   (error) => {
-    //     console.error(error)
-    //   },
-    //   {
-    //     page: state.pageable.page,
-    //     size: state.pageable.size
-    //   }
-    // )
+    http.get('jobs/' + flow,
+      (page) => {
+        commit('list', page.content, page.totalPages)
+      },
+      (error) => {
+        console.error(error)
+      },
+      {
+        page: state.pageable.page,
+        size: state.pageable.size
+      }
+    )
   },
 
   JobsStatus ({commit}, args) {

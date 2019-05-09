@@ -9,6 +9,7 @@ export default {
   },
 
   job: {
+    create: 'jobs/create',
     list: 'jobs/list'
   },
 

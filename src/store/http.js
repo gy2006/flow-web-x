@@ -1,12 +1,9 @@
 import axios from 'axios'
-import SockJS from 'sockjs-client'
-import Stomp from 'stompjs'
 
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
 
-const socket = new SockJS(`${url}/ws`)
-const stompClient = Stomp.over(socket)
+// config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
   timeout: 1000,
@@ -18,19 +15,11 @@ const code = {
   fatal: 500
 }
 
-// disable debug log
-stompClient.debug = function () {
-}
-
 export default {
   host: url,
   token: token,
   call: instance,
-  socket: stompClient,
-  code: {
-    ok: 200,
-    fatal: 500
-  },
+  code: code,
   get: (url, onSuccess, onError, params) => {
     instance.get(url, {params: params})
       .then((response) => {

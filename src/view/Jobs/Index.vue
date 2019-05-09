@@ -36,7 +36,6 @@
       <v-flex xs12>
         <v-data-table
             :items="jobs"
-            :pagination.sync="pagination"
             hide-actions
             hide-headers>
 

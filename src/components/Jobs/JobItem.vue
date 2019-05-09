@@ -40,7 +40,7 @@
         <v-flex xs2></v-flex>
 
         <v-flex xs2>
-          <v-list-tile-sub-title class="text-xs-center">
+          <v-list-tile-sub-title class="text-xs-left">
             <v-icon small class="mr-1">flow-icon-calendar</v-icon>
             <time>{{ fromNow }}</time>
           </v-list-tile-sub-title>

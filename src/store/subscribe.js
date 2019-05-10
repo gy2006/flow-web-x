@@ -26,7 +26,7 @@ export default (store) => {
 
     // job status changed
     if (events.change === message.event) {
-
+      store.dispatch(actions.jobs.statusUpdate, message.body).then()
     }
   }
 

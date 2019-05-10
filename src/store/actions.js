@@ -11,7 +11,8 @@ export default {
   jobs: {
     start: 'jobs/start',
     create: 'jobs/create',
-    list: 'jobs/list'
+    list: 'jobs/list',
+    statusUpdate: 'jobs/statusUpdate'
   },
 
   'Flows': {

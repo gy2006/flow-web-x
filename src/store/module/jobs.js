@@ -33,17 +33,17 @@ const mutations = {
     }
   },
 
-  updateStatus(state, jobWithNewStatus) {
+  updateStatus(state, {id, status, context}) {
     state.items.forEach((job) => {
-      if (job.id !== jobWithNewStatus.id) {
+      if (job.id !== id) {
         return
       }
 
       // assign new status
-      job.status = jobWithNewStatus.status
+      job.status = status
 
       // merge context
-      Object.assign(job.context, jobWithNewStatus.context);
+      Object.assign(job.context, context);
     })
   },
 
@@ -72,8 +72,6 @@ const actions = {
    * Add a job instance to current job list
    */
   create({commit, state}, job) {
-    console.log(job)
-
     if (state.page > 1) {
       return;
     }

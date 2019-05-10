@@ -11,11 +11,11 @@ const state = {
 
 const mutations = {
   add(state, job) {
-    state.items.unshift(job)
-  },
+    if (state.items.length >= numOfElements) {
+      state.items.pop()
+    }
 
-  remove(state) {
-    state.items.pop()
+    state.items.unshift(job)
   },
 
   setName(state, flow) {
@@ -74,10 +74,6 @@ const actions = {
   create({commit, state}, job) {
     if (state.page > 1) {
       return;
-    }
-
-    if (state.items.length >= state.pagination.size) {
-      commit('remove')
     }
 
     commit('add', job)

@@ -58,8 +58,9 @@
     <v-layout row justify-center>
       <v-flex xs12 class="text-xs-center">
         <v-pagination
-            v-model="pagination"
-            :length="6"/>
+            v-model="pagination.page"
+            @input="onPageChange"
+            :length="pagination.totalPages"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -78,9 +79,6 @@
         name: '', // flow name
         loading: false,
         alert: false,
-        pagination: {
-          page: 5
-        }
       }
     },
     components: {
@@ -92,10 +90,15 @@
     },
     computed: {
       ...mapState({
-        pages: state => state.jobs.pageable.total,
+        pagination: state => state.jobs.pagination,
         jobs: state => state.jobs.items,
         jobsStatus: state => state.jobs.JobsStatus
-      })
+      }),
+
+      pages() {
+        console.log(this.pagination)
+        return this.pagination.totalPages
+      }
     },
     methods: {
       onItemClick (job) {
@@ -107,13 +110,8 @@
         this.$router.push({path: `/flows/${this.name}/yml`})
       },
 
-      // 分页
-      pageChange (val) {
-        jobsList(this.$route.params.id, this.size, val - 1).then(res => {
-          this.jobs = res.data.data.content
-        }).catch(err => {
-          console.log(err)
-        })
+      onPageChange (page) {
+        console.log(page)
       }
     },
     watch: {
@@ -125,18 +123,6 @@
         }).catch(err => {
           console.log(err)
         })
-      },
-      //  推送状态监听
-      jobsStatus (val) {
-        if (val.event === 'NEW_CREATED') {
-          this.jobs.unshift(val.job)
-        } else if (val.event === 'STATUS_CHANGE') {
-          for (var i = 0; i < this.jobs.length; i++) {
-            if (this.jobs[i].buildNumber === val.job.buildNumber) {
-              this.$set(this.jobs, i, val.job)
-            }
-          }
-        }
       }
     }
   }

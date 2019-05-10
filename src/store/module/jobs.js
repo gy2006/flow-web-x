@@ -3,10 +3,11 @@ import http from '../http'
 const state = {
   name: '', // flow name
   items: [],
-  pageable: {
-    page: 0,
-    size: 10,
-    total: 0
+  pagination: {
+    page: 1,
+    numberOfElements: 10,
+    totalPages: 0,
+    totalElements: 0
   },
   JobsStatus: {}
 }
@@ -24,9 +25,15 @@ const mutations = {
     state.name = flow
   },
 
-  list(state, jobs, total) {
-    state.items = jobs
-    state.pageable.total = total
+  list(state, page) {
+    state.items = page.content
+
+    state.pagination = {
+      page: page.number + 1,
+      numberOfElements: page.numberOfElements,
+      totalElements: page.totalElements,
+      totalPages: page.totalPages
+    }
   },
 
   JobsStatus (state, res) {
@@ -37,11 +44,11 @@ const mutations = {
 const actions = {
 
   create({commit, state}, job) {
-    if (state.page > 0) {
+    if (state.page > 1) {
       return;
     }
 
-    if (state.items.length >= state.pageable.size) {
+    if (state.items.length >= state.pagination.size) {
       commit('remove')
     }
 
@@ -56,14 +63,14 @@ const actions = {
 
     http.get('jobs/' + flow,
       (page) => {
-        commit('list', page.content, page.totalPages)
+        commit('list', page)
       },
       (error) => {
         console.error(error)
       },
       {
-        page: state.pageable.page,
-        size: state.pageable.size
+        page: state.pagination.page - 1,
+        size: state.pagination.numberOfElements
       }
     )
   },

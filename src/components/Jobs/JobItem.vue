@@ -98,12 +98,6 @@
       fromNow() {
         return moment(this.job.createdAt).fromNow()
       },
-    },
-
-    methods: {
-      toDetail (val) {
-        this.$router.push({path: `/flows/${this.$route.params.id}/jobs/${val.buildNumber}`})
-      }
     }
   }
 </script>

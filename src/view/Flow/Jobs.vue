@@ -67,13 +67,13 @@
 </template>
 
 <script>
-  import {jobsList} from '@/api/axios/api'
+  import { mapState } from 'vuex'
+  import { jobsList } from '@/api/axios/api'
   import JobItem from '@/components/Jobs/JobItem'
   import actions from '@/store/actions'
-  import {mapState} from 'vuex'
 
   export default {
-    name: 'Jobs',
+    name: 'FlowJobs',
     data () {
       return {
         name: '', // flow name
@@ -110,7 +110,7 @@
       },
 
       onSettingsClick () {
-        this.$router.push({path: `/flows/${this.name}/yml`})
+        this.$router.push({path: `/flows/${this.name}/settings`})
       },
 
       onPageChange (page) {

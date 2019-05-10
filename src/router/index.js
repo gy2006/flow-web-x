@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Jobs from '@/view/Jobs/Index'
-import Yml from '@/view/Yml/Index'
+import FlowJobs from '@/view/Flow/Jobs'
+import FlowSettings from '@/view/Flow/Settings'
 import JobDetail from '@/view/JobDetail/Index'
 import PersonalSetting from '@/view/Admin/PersonalSetting/Index'
 import SystemManagement from '@/view/Admin/SystemManagement/Index'
@@ -21,12 +21,12 @@ export default new Router({
     {
       path: '/flows/:id/jobs',
       name: 'Jobs',
-      component: Jobs
+      component: FlowJobs
     },
     {
-      path: '/flows/:id/yml',
-      name: 'Yml',
-      component: Yml
+      path: '/flows/:id/settings',
+      name: 'FlowSettings',
+      component: FlowSettings
     },
     {
       path: '/flows/:id/jobs/:num',

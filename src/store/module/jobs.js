@@ -1,14 +1,11 @@
 import http from '../http'
 
+const numOfElements = 10
+
 const state = {
   name: '', // flow name
   items: [],
-  pagination: {
-    page: 1,
-    numberOfElements: 10,
-    totalPages: 0,
-    totalElements: 0
-  },
+  pagination: {},
   JobsStatus: {}
 }
 
@@ -30,7 +27,7 @@ const mutations = {
 
     state.pagination = {
       page: page.number + 1,
-      numberOfElements: page.numberOfElements,
+      numberOfElements: numOfElements,
       totalElements: page.totalElements,
       totalPages: page.totalPages
     }
@@ -58,7 +55,7 @@ const actions = {
   /**
    * Load job list by flow name
    */
-  list({commit, state}, flow) {
+  list({commit, state}, {flow, page}) {
     commit('setName', flow)
 
     http.get('jobs/' + flow,
@@ -69,8 +66,8 @@ const actions = {
         console.error(error)
       },
       {
-        page: state.pagination.page - 1,
-        size: state.pagination.numberOfElements
+        page: page - 1,
+        size: numOfElements
       }
     )
   },

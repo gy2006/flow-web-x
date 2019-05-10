@@ -86,7 +86,7 @@
     },
     mounted () {
       this.name = this.$route.params.id
-      this.$store.dispatch(actions.job.list, this.name).then()
+      this.$store.dispatch(actions.job.list, {flow: this.name, page: 1}).then()
     },
     computed: {
       ...mapState({
@@ -111,7 +111,7 @@
       },
 
       onPageChange (page) {
-        console.log(page)
+        this.$store.dispatch(actions.job.list, {flow: this.name, page: page}).then()
       }
     },
     watch: {

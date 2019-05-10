@@ -40,7 +40,26 @@ const mutations = {
 
 const actions = {
 
+  /**
+   * Start a new job
+   */
+  start({commit, state}) {
+    http.post('jobs/run',
+      (newJob) => {
+        // do nothing since new job will push via websocket
+      },
+      {
+        flow: state.name
+      },
+    )
+  },
+
+  /**
+   * Add a job instance to current job list
+   */
   create({commit, state}, job) {
+    console.log(job)
+
     if (state.page > 1) {
       return;
     }
@@ -61,9 +80,6 @@ const actions = {
     http.get('jobs/' + flow,
       (page) => {
         commit('list', page)
-      },
-      (error) => {
-        console.error(error)
       },
       {
         page: page - 1,

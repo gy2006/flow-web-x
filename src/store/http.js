@@ -15,12 +15,16 @@ const code = {
   fatal: 500
 }
 
+const handleError = (error) => {
+  console.log(error)
+}
+
 export default {
   host: url,
   token: token,
   call: instance,
   code: code,
-  get: (url, onSuccess, onError, params) => {
+  get: (url, onSuccess, params) => {
     instance.get(url, {params: params})
       .then((response) => {
         const msg = response.data
@@ -30,10 +34,29 @@ export default {
           return
         }
 
-        onError(msg.message)
+        handleError(msg.message)
       })
       .catch((error) => {
-        onError(error)
+        handleError(error)
+      })
+  },
+  post: (url, onSuccess, data) => {
+    instance.post(url, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        const msg = response.data
+
+        if (msg.code === code.ok) {
+          onSuccess(msg.data)
+        }
+
+        handleError(msg.message)
+      })
+      .catch((error) => {
+        handleError(error)
       })
   }
 }

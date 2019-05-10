@@ -31,14 +31,8 @@ const actions = {
   },
 
   list ({commit}) {
-    http.get('flows',
-      (list) => {
+    http.get('flows', (list) => {
         commit('list', list)
-      },
-
-      (error) => {
-        console.error(error)
-        commit('list', [])
       }
     )
   },

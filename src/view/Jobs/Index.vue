@@ -8,7 +8,7 @@
           {{ this.name }}
         </h2>
 
-        <v-chip label color="" outline text-color="black" @click="yml">
+        <v-chip label color="" outline text-color="black" @click="onSettingsClick">
           <v-icon left>settings</v-icon>
           {{ $t('flow_settings') }}
         </v-chip>
@@ -24,7 +24,7 @@
               :loading="loading"
               :disabled="loading"
               color="success"
-              @click.native="jobrun">
+              @click.native="onRunClick">
             {{ $t('job_run_manual') }}
           </v-btn>
         </v-toolbar>
@@ -86,7 +86,7 @@
     },
     mounted () {
       this.name = this.$route.params.id
-      this.$store.dispatch(actions.job.list, {flow: this.name, page: 1}).then()
+      this.$store.dispatch(actions.jobs.list, {flow: this.name, page: 1}).then()
     },
     computed: {
       ...mapState({
@@ -105,13 +105,16 @@
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
       },
 
-      // 工作流设置
-      yml () {
+      onRunClick() {
+        this.$store.dispatch(actions.jobs.start).then()
+      },
+
+      onSettingsClick () {
         this.$router.push({path: `/flows/${this.name}/yml`})
       },
 
       onPageChange (page) {
-        this.$store.dispatch(actions.job.list, {flow: this.name, page: page}).then()
+        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: page}).then()
       }
     },
     watch: {

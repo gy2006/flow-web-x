@@ -43,7 +43,7 @@
       }
     },
     mounted () {
-      this.$store.dispatch(actions.flow.list).then(() => {
+      this.$store.dispatch(actions.flows.list).then(() => {
         this.items = this.flows
       })
     },
@@ -58,7 +58,7 @@
         this.items = this.flows
       },
       onItemClick (flow) {
-        this.$store.dispatch(actions.flow.select, flow).then()
+        this.$store.dispatch(actions.flows.select, flow).then()
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
       querySelections (v) {

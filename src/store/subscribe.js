@@ -20,7 +20,7 @@ export default (store) => {
 
     // job created
     if (events.create === message.event) {
-      store.dispatch(actions.job.create, message.body).then()
+      store.dispatch(actions.jobs.create, message.body).then()
       return
     }
 

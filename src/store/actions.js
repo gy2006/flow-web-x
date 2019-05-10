@@ -3,12 +3,13 @@ import { Actions as SocketAction } from './module/socket'
 import { Actions as JobsStatus } from './module/jobs'
 
 export default {
-  flow: {
+  flows: {
     list: 'flows/list',
     select: 'flows/select'
   },
 
-  job: {
+  jobs: {
+    start: 'jobs/start',
     create: 'jobs/create',
     list: 'jobs/list'
   },

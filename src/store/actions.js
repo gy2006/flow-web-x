@@ -5,7 +5,8 @@ import { Actions as JobsStatus } from './module/jobs'
 export default {
   flows: {
     list: 'flows/list',
-    select: 'flows/select'
+    select: 'flows/select',
+    yml: 'flows/yml'
   },
 
   jobs: {

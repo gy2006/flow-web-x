@@ -47,6 +47,8 @@
 
 <script>
   import * as monaco from 'monaco-editor'
+  import { mapState } from 'vuex'
+  import actions from '@/store/actions'
 
   export default {
     name: 'FlowSettings',
@@ -59,7 +61,7 @@
       this.name = this.$route.params.id
 
       monaco.editor.create(document.getElementById('yml-editor'), {
-        value: '',
+        value: this.yml,
         language: 'yaml',
         lineNumbers: 'on',
         roundedSelection: false,
@@ -68,6 +70,13 @@
         automaticLayout: true,
         theme: 'vs-dark'
       })
+
+      this.$store.dispatch(actions.flows.yml, this.name).then()
+    },
+    computed: {
+      ...mapState({
+        yml: state => state.flows.selected.yml,
+      }),
     },
     methods: {
       onBackClick() {

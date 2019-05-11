@@ -58,7 +58,6 @@
         this.items = this.flows
       },
       onItemClick (flow) {
-        this.$store.dispatch(actions.flows.select, flow).then()
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
       querySelections (v) {

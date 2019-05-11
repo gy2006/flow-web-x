@@ -2,22 +2,24 @@ import http from '../http'
 
 const state = {
   items: [],
-  name: '',
   editor: '',
-  selected: {}
+  selected: {
+    name: undefined,
+    yml: ''
+  }
 }
 
 const mutations = {
-  select (state, flow) {
-    state.selected = flow
+  select (state, name) {
+    state.selected.name = name
+  },
+
+  setYml(state, yml) {
+    state.selected.yml = yml
   },
 
   list (state, items) {
     state.items = items
-  },
-
-  name (state, res) {
-    state.name = res
   },
 
   editor (state, res) {
@@ -27,7 +29,7 @@ const mutations = {
 
 const actions = {
   select (context, flow) {
-    context.commit('select', flow)
+    context.commit('select', flow.name)
   },
 
   list ({commit}) {
@@ -37,13 +39,19 @@ const actions = {
     )
   },
 
+  yml ({commit, state}, name) {
+    if (!name) {
+      return
+    }
+
+    http.get('flows/' + name + '/yml', (yml) => {
+      commit('setYml', yml)
+    })
+  },
+
   editor ({commit}, args) {
     commit('editor', args)
   },
-
-  name ({commit}, args) {
-    commit('name', args)
-  }
 }
 
 /**

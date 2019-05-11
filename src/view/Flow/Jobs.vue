@@ -85,6 +85,7 @@
     },
     mounted () {
       this.name = this.$route.params.id
+      this.$store.dispatch(actions.flows.select, this.name).then()
       this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
     },
     computed: {

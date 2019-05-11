@@ -12,7 +12,7 @@
 
     <v-layout row justify-center class="body">
       <v-flex xs12>
-        <v-card>
+        <v-card height="100%">
           <v-card-title>
             <h4>{{ $t('flow_config_yml') }}</h4>
             <v-spacer/>
@@ -21,7 +21,8 @@
               <span>{{ $t('back') }}</span>
             </v-btn>
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="editor">
+            <div id="yml-editor" class="full-height"/>
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" blod @click.native="save">
@@ -35,6 +36,8 @@
 </template>
 
 <script>
+  import * as monaco from 'monaco-editor'
+
   export default {
     name: 'FlowSettings',
     data () {
@@ -44,13 +47,27 @@
     },
     mounted () {
       this.name = this.$route.params.id
+
+      monaco.editor.create(document.getElementById('yml-editor'), {
+        value: "",
+        language: "yaml",
+        lineNumbers: "on",
+        roundedSelection: false,
+        scrollBeyondLastLine: false,
+        readOnly: false,
+        theme: "vs-dark",
+      })
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .body {
-    height: 100%;
+    height: 90%;
     margin: 1%;
+  }
+
+  .editor {
+    height: 65%;
   }
 </style>

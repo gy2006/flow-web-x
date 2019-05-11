@@ -17,7 +17,7 @@
     "js-base64": "^2.4.9",
     "material-design-icons-iconfont": "^3.0.3",
     "moment": "^2.22.2",
-    "monaco-editor": "^0.16.2",
+    "monaco-editor": "^0.17.0",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "sockjs-client": "^1.3.0",
     "stompjs": "^2.3.3",

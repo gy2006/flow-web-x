@@ -5,7 +5,9 @@ const numOfElements = 10
 const state = {
   name: '', // flow name
   items: [],
-  pagination: {},
+  pagination: {
+    page: 1,
+  },
   JobsStatus: {}
 }
 

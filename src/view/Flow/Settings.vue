@@ -16,7 +16,7 @@
           <v-card-title>
             <h4>{{ $t('flow_config_yml') }}</h4>
             <v-spacer/>
-            <v-btn small color="warning" @click="goback">
+            <v-btn small color="warning" @click="onBackClick">
               <v-icon small class="mr-1">arrow_back</v-icon>
               <span>{{ $t('back') }}</span>
             </v-btn>
@@ -28,13 +28,13 @@
 
           <v-card-actions>
             <div class="ml-2 mr-2">
-              <v-btn color="secondary" blod @click.native="save">
+              <v-btn color="secondary" blod @click.native="onResetClick">
                 <b>{{ $t('reset') }}</b>
               </v-btn>
             </div>
 
             <div class="ml-2 mr-2">
-              <v-btn color="primary" blod @click.native="save">
+              <v-btn color="primary" blod @click.native="onSaveClick">
                 <b>{{ $t('save') }}</b>
               </v-btn>
             </div>
@@ -68,6 +68,19 @@
         automaticLayout: true,
         theme: 'vs-dark'
       })
+    },
+    methods: {
+      onBackClick() {
+        this.$router.push({path: `/flows/${this.name}/jobs`})
+      },
+
+      onResetClick() {
+
+      },
+
+      onSaveClick() {
+
+      }
     }
   }
 </script>

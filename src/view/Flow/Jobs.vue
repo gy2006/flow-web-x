@@ -68,7 +68,6 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { jobsList } from '@/api/axios/api'
   import JobItem from '@/components/Jobs/JobItem'
   import actions from '@/store/actions'
 
@@ -86,7 +85,7 @@
     },
     mounted () {
       this.name = this.$route.params.id
-      this.$store.dispatch(actions.jobs.list, {flow: this.name, page: 1}).then()
+      this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
     },
     computed: {
       ...mapState({
@@ -94,11 +93,6 @@
         jobs: state => state.jobs.items,
         jobsStatus: state => state.jobs.JobsStatus
       }),
-
-      pages() {
-        console.log(this.pagination)
-        return this.pagination.totalPages
-      }
     },
     methods: {
       onItemClick (job) {
@@ -115,17 +109,6 @@
 
       onPageChange (page) {
         this.$store.dispatch(actions.jobs.list, {flow: this.name, page: page}).then()
-      }
-    },
-    watch: {
-      //  每次监听到路由变换的时候 渲染不同的JOBS
-      $route (to, form) {
-        jobsList(this.$route.params.id, this.size, 0).then(res => {
-          this.pages = res.data.data.totalPages
-          this.jobs = res.data.data.content
-        }).catch(err => {
-          console.log(err)
-        })
       }
     }
   }

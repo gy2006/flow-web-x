@@ -10,9 +10,9 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row justify-center class="body">
+    <v-layout row fill-height>
       <v-flex xs12>
-        <v-card height="100%">
+        <v-card height="90%">
           <v-card-title>
             <h4>{{ $t('flow_config_yml') }}</h4>
             <v-spacer/>
@@ -21,13 +21,23 @@
               <span>{{ $t('back') }}</span>
             </v-btn>
           </v-card-title>
+
           <v-card-text class="editor">
-            <div id="yml-editor" class="full-height"/>
+            <div id="yml-editor" class="full-height"></div>
           </v-card-text>
+
           <v-card-actions>
-            <v-btn color="primary" blod @click.native="save">
-              <b>{{ $t('save') }}</b>
-            </v-btn>
+            <div class="ml-2 mr-2">
+              <v-btn color="secondary" blod @click.native="save">
+                <b>{{ $t('reset') }}</b>
+              </v-btn>
+            </div>
+
+            <div class="ml-2 mr-2">
+              <v-btn color="primary" blod @click.native="save">
+                <b>{{ $t('save') }}</b>
+              </v-btn>
+            </div>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -49,25 +59,21 @@
       this.name = this.$route.params.id
 
       monaco.editor.create(document.getElementById('yml-editor'), {
-        value: "",
-        language: "yaml",
-        lineNumbers: "on",
+        value: '',
+        language: 'yaml',
+        lineNumbers: 'on',
         roundedSelection: false,
         scrollBeyondLastLine: false,
         readOnly: false,
-        theme: "vs-dark",
+        automaticLayout: true,
+        theme: 'vs-dark'
       })
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .body {
-    height: 90%;
-    margin: 1%;
-  }
-
   .editor {
-    height: 65%;
+    height: 75%;
   }
 </style>

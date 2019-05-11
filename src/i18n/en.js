@@ -1,6 +1,7 @@
 export default {
   back: 'Back',
   save: 'Save',
+  reset: 'reset',
 
   flow_search_text: 'Search key words',
   flow_settings: 'Settings',

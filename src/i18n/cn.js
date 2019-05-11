@@ -1,6 +1,7 @@
 export default {
   back: '返回',
   save: '保存',
+  reset: '重置',
 
   flow_search_text: '输入关键词搜索',
   flow_settings: '设置',

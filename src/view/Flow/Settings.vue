@@ -10,7 +10,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row fill-height>
+    <v-layout row fill-height class="mt-2">
       <v-flex xs12>
         <v-card height="90%">
           <v-card-title>

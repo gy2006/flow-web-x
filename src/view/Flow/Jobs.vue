@@ -55,7 +55,7 @@
     </v-layout>
 
     <!-- pagination -->
-    <v-layout row justify-center>
+    <v-layout row justify-center align-end class="footer">
       <v-flex xs12 class="text-xs-center">
         <v-pagination
             v-model="pagination.page"
@@ -145,6 +145,10 @@
     position: absolute;
     width: 100%;
     z-index: 1000;
+  }
+
+  .footer {
+    height: 8%;
   }
 
 </style>

@@ -14,7 +14,7 @@ const mutations = {
     state.selected.name = name
   },
 
-  setYml(state, yml) {
+  setYml (state, yml) {
     state.selected.yml = yml
   },
 
@@ -39,19 +39,33 @@ const actions = {
     )
   },
 
-  yml ({commit, state}, name) {
+  loadYml ({commit, state}, name) {
     if (!name) {
       return
     }
 
-    http.get('flows/' + name + '/yml', (yml) => {
-      commit('setYml', yml)
+    http.get('flows/' + name + '/yml', (base64Yml) => {
+      commit('setYml', atob(base64Yml))
     })
+  },
+
+  saveYml ({commit, state}, {name, yml}) {
+    if (!name || !yml) {
+      return
+    }
+
+    http.post('flows/' + name + '/yml',
+      () => {
+        commit('setYml', yml)
+      },
+      {
+        data: btoa(yml)
+      })
   },
 
   editor ({commit}, args) {
     commit('editor', args)
-  },
+  }
 }
 
 /**

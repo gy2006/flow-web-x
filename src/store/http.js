@@ -3,11 +3,6 @@ import axios from 'axios'
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
 
-const contentType = {
-  json: 'application/json',
-  text: 'text/plain'
-}
-
 // config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
@@ -32,23 +27,14 @@ export default {
   get: (url, onSuccess, params) => {
     instance.get(url, {params: params})
       .then((response) => {
-        // handle standard json message response
-        if (response.headers['content-type'].startsWith(contentType.json)) {
-          const msg = response.data
+        const msg = response.data
 
-          if (msg.code === code.ok) {
-            onSuccess(msg.data)
-            return
-          }
-
-          handleError(msg.message)
+        if (msg.code === code.ok) {
+          onSuccess(msg.data)
           return
         }
 
-        // handle text/plain message response
-        if (response.headers['content-type'].startsWith(contentType.text)) {
-          onSuccess(response.data)
-        }
+        handleError(msg.message)
       })
       .catch((error) => {
         handleError(error)

@@ -6,7 +6,10 @@ export default {
   flows: {
     list: 'flows/list',
     select: 'flows/select',
-    yml: 'flows/yml'
+    yml: {
+      load: 'flows/loadYml',
+      save: 'flows/saveYml'
+    }
   },
 
   jobs: {

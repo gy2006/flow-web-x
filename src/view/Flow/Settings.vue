@@ -28,13 +28,13 @@
 
           <v-card-actions>
             <div class="ml-2 mr-2">
-              <v-btn color="secondary" blod @click.native="onResetClick">
+              <v-btn color="secondary" blod @click="onResetClick" :disabled="!isCodeChange">
                 <b>{{ $t('reset') }}</b>
               </v-btn>
             </div>
 
             <div class="ml-2 mr-2">
-              <v-btn color="primary" blod @click.native="onSaveClick">
+              <v-btn color="primary" blod @click="onSaveClick" :disabled="!isCodeChange">
                 <b>{{ $t('save') }}</b>
               </v-btn>
             </div>
@@ -54,14 +54,15 @@
     name: 'FlowSettings',
     data () {
       return {
-        name: '' // flow name
+        name: '', // flow name
+        editor: {},
+        isCodeChange: false
       }
     },
     mounted () {
       this.name = this.$route.params.id
 
-      monaco.editor.create(document.getElementById('yml-editor'), {
-        value: this.yml,
+      this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
         language: 'yaml',
         lineNumbers: 'on',
         roundedSelection: false,
@@ -71,24 +72,35 @@
         theme: 'vs-dark'
       })
 
-      this.$store.dispatch(actions.flows.yml, this.name).then()
+      this.editor.onDidChangeModelContent(this.onCodeChange)
+
+      this.$store.dispatch(actions.flows.yml.load, this.name).then(() => {
+        this.editor.setValue(this.yml)
+      })
     },
     computed: {
       ...mapState({
-        yml: state => state.flows.selected.yml,
-      }),
+        yml: state => state.flows.selected.yml
+      })
     },
     methods: {
-      onBackClick() {
+      onCodeChange (e) {
+        this.isCodeChange = true
+      },
+
+      onBackClick () {
         this.$router.push({path: `/flows/${this.name}/jobs`})
       },
 
-      onResetClick() {
-
+      onResetClick () {
+        this.editor.setValue(this.yml)
       },
 
-      onSaveClick() {
-
+      onSaveClick () {
+        const payload = {name: this.name, yml: this.editor.getValue()}
+        this.$store.dispatch(actions.flows.yml.save, payload).then(() => {
+          this.isCodeChange = false
+        })
       }
     }
   }

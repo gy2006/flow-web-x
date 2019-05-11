@@ -13,7 +13,7 @@
     <v-layout row fill-height class="mt-2">
       <v-flex xs12>
         <v-card height="90%">
-          <v-card-title>
+          <v-card-title class="pb-0">
             <h4>{{ $t('flow_config_yml') }}</h4>
             <v-spacer/>
             <v-btn small color="warning" @click="onBackClick">
@@ -22,7 +22,7 @@
             </v-btn>
           </v-card-title>
 
-          <v-card-text class="editor">
+          <v-card-text class="editor pb-0">
             <div id="yml-editor" class="full-height"></div>
           </v-card-text>
 

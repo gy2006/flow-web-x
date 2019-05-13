@@ -20,18 +20,12 @@
         <v-tab href="#info" class="ml-0">
           {{ $t('job_detail_tab_info') }}
         </v-tab>
-        <v-tab href="#yml">
-          {{ $t('job_detail_tab_yml') }}
-        </v-tab>
         <v-tab href="#logs">
           {{ $t('job_detail_tab_logs') }}
         </v-tab>
 
         <v-tab-item value="info">
-          info
-        </v-tab-item>
-        <v-tab-item value="yml">
-          yml
+          <job-info :job="job"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
           logs
@@ -43,8 +37,10 @@
 
 <script>
   import actions from '@/store/actions'
-  import mapping from '@/util/jobs/mapping'
+  import { mapping } from '@/util/jobs'
   import {mapState} from 'vuex'
+
+  import JobInfo from '@/components/Jobs/Info'
 
   export default {
     name: 'JobDetail',
@@ -53,6 +49,9 @@
         flow: null, // flow name
         number: null, // job build number
       }
+    },
+    components: {
+      JobInfo
     },
     mounted () {
       this.flow = this.$route.params.id

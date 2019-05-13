@@ -57,7 +57,7 @@
 <script>
   import moment from 'moment'
   import vars from '@/util/vars'
-  import mapping from '@/util/jobs/mapping'
+  import { mapping } from '@/util/jobs'
 
   export default {
     data () {

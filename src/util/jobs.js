@@ -1,4 +1,8 @@
-export default {
+export const helper = {
+
+}
+
+export const mapping = {
 
   // job status mapping
   status: {

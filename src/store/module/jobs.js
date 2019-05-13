@@ -8,11 +8,12 @@ const state = {
   pagination: {
     page: 1,
   },
-  JobsStatus: {}
+  JobsStatus: {},
+  selected: {}
 }
 
 const mutations = {
-  add(state, job) {
+  add (state, job) {
     if (state.items.length >= numOfElements) {
       state.items.pop()
     }
@@ -20,11 +21,11 @@ const mutations = {
     state.items.unshift(job)
   },
 
-  setName(state, flow) {
+  setName (state, flow) {
     state.name = flow
   },
 
-  list(state, page) {
+  list (state, page) {
     state.items = page.content
 
     state.pagination = {
@@ -35,7 +36,7 @@ const mutations = {
     }
   },
 
-  updateStatus(state, {id, status, context}) {
+  updateStatus (state, {id, status, context}) {
     state.items.forEach((job) => {
       if (job.id !== id) {
         return
@@ -45,8 +46,12 @@ const mutations = {
       job.status = status
 
       // merge context
-      Object.assign(job.context, context);
+      Object.assign(job.context, context)
     })
+  },
+
+  selected (state, job) {
+    state.selected = job
   },
 
   JobsStatus (state, res) {
@@ -59,23 +64,23 @@ const actions = {
   /**
    * Start a new job
    */
-  start({commit, state}) {
+  start ({commit, state}) {
     http.post('jobs/run',
-      (newJob) => {
-        // do nothing since new job will push via websocket
-      },
-      {
-        flow: state.name
-      },
+        (newJob) => {
+          // do nothing since new job will push via websocket
+        },
+        {
+          flow: state.name
+        },
     )
   },
 
   /**
    * Add a job instance to current job list
    */
-  create({commit, state}, job) {
+  create ({commit, state}, job) {
     if (state.page > 1) {
-      return;
+      return
     }
 
     commit('add', job)
@@ -84,25 +89,36 @@ const actions = {
   /**
    * Load job list by flow name
    */
-  list({commit, state}, {flow, page}) {
+  list ({commit, state}, {flow, page}) {
     commit('setName', flow)
 
     http.get('jobs/' + flow,
-      (page) => {
-        commit('list', page)
-      },
-      {
-        page: page - 1,
-        size: numOfElements
-      }
+        (page) => {
+          commit('list', page)
+        },
+        {
+          page: page - 1,
+          size: numOfElements
+        }
     )
   },
 
   /**
    * Update job status
    */
-  statusUpdate({commit, state}, jobWithNewStatus) {
+  statusUpdate ({commit, state}, jobWithNewStatus) {
     commit('updateStatus', jobWithNewStatus)
+  },
+
+  /**
+   * Select job by flow name and build number
+   */
+  select ({commit}, {flow, buildNumber}) {
+    http.get('jobs/' + flow + '/' + buildNumber,
+        (job) => {
+          commit('selected', job)
+        }
+    )
   },
 
   JobsStatus ({commit}, args) {

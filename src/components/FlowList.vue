@@ -15,7 +15,9 @@
         ></v-progress-circular>
       </div>
       <template v-else v-for="(item, index) in items">
-        <v-list-tile @click="onItemClick(item)" :key="index">
+        <v-list-tile @click="onItemClick(item)"
+                     :key="index"
+                     v-bind:class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -39,10 +41,13 @@
         drawer: false,
         searchVal: '',
         items: [],
-        loading: false
+        loading: false,
+        current: ''
       }
     },
     mounted () {
+      this.current = this.$route.params.id
+
       this.$store.dispatch(actions.flows.list).then(() => {
         this.items = this.flows
       })
@@ -75,4 +80,5 @@
 </script>
 
 <style lang="scss" scoped>
+
 </style>

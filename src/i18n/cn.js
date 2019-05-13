@@ -7,5 +7,9 @@ export default {
   flow_settings: '设置',
   flow_config_yml: '配置 YML 工作流',
 
-  job_run_manual: 'Run'
+  job_run_manual: 'Run',
+
+  job_detail_tab_info: 'Info',
+  job_detail_tab_yml: 'Yml',
+  job_detail_tab_logs: 'Logs',
 }

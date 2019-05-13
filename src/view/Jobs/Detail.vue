@@ -1,23 +1,50 @@
 <template>
-  <v-card height='100%' width="100%">
+  <v-card height='100%' class="ma-2">
     <v-card-title>
       <div>
-        <v-icon v-bind:class="[status.class]">{{ status.icon }}</v-icon>
+        <v-icon small v-bind:class="[status.class]">{{ status.icon }}</v-icon>
       </div>
-      <div>构建</div>
+      <div class="font-weight-black title ml-3">
+        <span>{{ this.flow }}</span>
+        <span class="ml-1">#{{ this.number }}</span>
+      </div>
       <v-spacer/>
       <v-btn color="orange darken-2" dark @click="onBackClick">
         <v-icon dark left>arrow_back</v-icon>
-        {{ $t('back' )}}
+        {{ $t('back') }}
       </v-btn>
     </v-card-title>
+
+    <v-card-text>
+      <v-tabs fixed-tabs>
+        <v-tab href="#info" class="ml-0">
+          {{ $t('job_detail_tab_info') }}
+        </v-tab>
+        <v-tab href="#yml">
+          {{ $t('job_detail_tab_yml') }}
+        </v-tab>
+        <v-tab href="#logs">
+          {{ $t('job_detail_tab_logs') }}
+        </v-tab>
+
+        <v-tab-item value="info">
+          info
+        </v-tab-item>
+        <v-tab-item value="yml">
+          yml
+        </v-tab-item>
+        <v-tab-item value="logs">
+          logs
+        </v-tab-item>
+      </v-tabs>
+    </v-card-text>
   </v-card>
 </template>
 
 <script>
   import actions from '@/store/actions'
   import mapping from '@/util/jobs/mapping'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'JobDetail',
@@ -37,7 +64,13 @@
         job: state => state.jobs.selected
       }),
       status () {
-        return mapping.status[this.job.status]
+        let status = mapping.status[this.job.status]
+
+        if (!status) {
+          return mapping.status.default
+        }
+
+        return status
       },
     },
     methods: {

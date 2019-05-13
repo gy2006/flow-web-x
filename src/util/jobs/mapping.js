@@ -2,6 +2,11 @@ export default {
 
   // job status mapping
   status: {
+    default: {
+      icon: ['loading1', 'rotate'],
+      class: 'grey--text'
+    },
+
     'QUEUED': {
       icon: 'flow-icon-pending',
       class: 'green--text'

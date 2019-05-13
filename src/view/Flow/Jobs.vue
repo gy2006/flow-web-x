@@ -41,7 +41,7 @@
 
           <template slot="items" slot-scope="props">
             <td @click="onItemClick(props.item)">
-              <job-item :job="props.item"></job-item>
+              <job-list-item :job="props.item"></job-list-item>
             </td>
           </template>
 
@@ -68,7 +68,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import JobItem from '@/components/Jobs/JobItem'
+  import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
 
   export default {
@@ -81,7 +81,7 @@
       }
     },
     components: {
-      JobItem
+      JobListItem
     },
     mounted () {
       this.name = this.$route.params.id

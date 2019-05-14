@@ -17,7 +17,10 @@ export default {
     create: 'jobs/create',
     list: 'jobs/list',
     statusUpdate: 'jobs/statusUpdate',
-    select: 'jobs/select'
+    select: 'jobs/select',
+    steps: {
+      get: 'jobSteps/get'
+    }
   },
 
   'Flows': {

@@ -38,7 +38,7 @@
 <script>
   import actions from '@/store/actions'
   import { JobWrapper } from '@/util/jobs'
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
 
   import JobInfo from '@/components/Jobs/Info'
 
@@ -57,6 +57,7 @@
       this.flow = this.$route.params.id
       this.number = this.$route.params.num
       this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
+      this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
     },
     computed: {
       ...mapState({

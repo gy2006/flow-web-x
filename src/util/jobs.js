@@ -6,6 +6,10 @@ export class JobWrapper {
     this.job = job
   }
 
+  get rawInstance() {
+    return this.job
+  }
+
   get commitId() {
     return this.job.context[vars.git.commit.id]
   }
@@ -31,7 +35,32 @@ export class JobWrapper {
   }
 
   get status () {
-    return mapping.status[this.job.status]
+    if (!this.job.status) {
+      return mapping.status.default
+    }
+
+    let status = mapping.status[this.job.status]
+
+    if (!status) {
+      return mapping.status.default
+    }
+
+    return status
+  }
+
+  get contextAsList() {
+    const contextAsPairList = []
+    const context = this.job.context
+
+    if (!context) {
+      return contextAsPairList
+    }
+
+    Object.keys(context).forEach(key => {
+      contextAsPairList.push({key: key, value: context[key]})
+    })
+
+    return contextAsPairList
   }
 }
 
@@ -40,8 +69,8 @@ export const mapping = {
   // job status mapping
   status: {
     default: {
-      icon: ['loading1', 'rotate'],
-      class: 'grey--text'
+      icon: 'flow-icon-loading1',
+      class: ['grey--text', 'rotate']
     },
 
     'QUEUED': {

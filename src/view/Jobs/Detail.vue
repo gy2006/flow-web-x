@@ -2,7 +2,7 @@
   <v-card height='100%' class="ma-2">
     <v-card-title>
       <div>
-        <v-icon small v-bind:class="[status.class]">{{ status.icon }}</v-icon>
+        <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
       </div>
       <div class="font-weight-black title ml-3">
         <span>{{ this.flow }}</span>
@@ -25,7 +25,7 @@
         </v-tab>
 
         <v-tab-item value="info">
-          <job-info :job="job"></job-info>
+          <job-info :wrapper="wrapper"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
           logs
@@ -37,7 +37,7 @@
 
 <script>
   import actions from '@/store/actions'
-  import { mapping } from '@/util/jobs'
+  import { JobWrapper } from '@/util/jobs'
   import {mapState} from 'vuex'
 
   import JobInfo from '@/components/Jobs/Info'
@@ -48,6 +48,7 @@
       return {
         flow: null, // flow name
         number: null, // job build number
+        wrapper: new JobWrapper({})
       }
     },
     components: {
@@ -56,21 +57,14 @@
     mounted () {
       this.flow = this.$route.params.id
       this.number = this.$route.params.num
-      this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
+      this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then(() => {
+        this.wrapper = new JobWrapper(this.job)
+      })
     },
     computed: {
       ...mapState({
         job: state => state.jobs.selected
-      }),
-      status () {
-        let status = mapping.status[this.job.status]
-
-        if (!status) {
-          return mapping.status.default
-        }
-
-        return status
-      },
+      })
     },
     methods: {
       onBackClick () {

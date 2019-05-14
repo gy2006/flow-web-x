@@ -11,7 +11,7 @@
     <v-layout row>
       <v-flex xs12>
         <v-data-table
-            :items="context"
+            :items="wrapper.contextAsList"
             hide-headers
             hide-actions>
 
@@ -30,52 +30,16 @@
 </template>
 
 <script>
-  import vars from '@/util/vars'
-  import moment from 'moment'
-
   export default {
     name: 'JobDetailInfo',
     data () {
       return {}
     },
     props: {
-      job: {
+      wrapper: {
         required: true,
         type: Object
       }
-    },
-    computed: {
-      context () {
-        const context = this.job.context
-
-        const contextAsPairList = []
-
-        Object.keys(context).forEach(key => {
-          contextAsPairList.push({key: key, value: context[key]})
-        })
-
-        return contextAsPairList
-      },
-
-      buildNumber () {
-        return this.job.buildNumber
-      },
-
-      branch () {
-        return this.job.context[vars.git.branch]
-      },
-
-      commitId () {
-        return this.job.context[vars.git.commit.id]
-      },
-
-      commitMsg () {
-        return this.job.context[vars.git.commit.message]
-      },
-
-      fromNow() {
-        return moment(this.job.createdAt).fromNow()
-      },
     }
   }
 </script>

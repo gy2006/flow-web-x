@@ -28,7 +28,7 @@
           <job-info :wrapper="wrapper"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
-          logs
+          <job-logs></job-logs>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -41,6 +41,7 @@
   import { mapState } from 'vuex'
 
   import JobInfo from '@/components/Jobs/Info'
+  import JobLogs from '@/components/Jobs/Logs'
 
   export default {
     name: 'JobDetail',
@@ -51,7 +52,8 @@
       }
     },
     components: {
-      JobInfo
+      JobInfo,
+      JobLogs
     },
     mounted () {
       this.flow = this.$route.params.id

@@ -5,17 +5,17 @@
     <v-list-tile>
       <v-layout row class="align-center">
         <v-flex xs1>
-          <v-icon small v-bind:class="[helper.status.class]">{{ helper.status.icon }}</v-icon>
+          <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
         </v-flex>
 
         <v-flex xs1>
           <v-list-tile-title>
-            <span class="font-weight-bold"># {{ helper.buildNumber }}</span>
+            <span class="font-weight-bold"># {{ wrapper.buildNumber }}</span>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon small class="ml-1" v-on="on">{{ helper.trigger.icon }}</v-icon>
+                <v-icon small class="ml-1" v-on="on">{{ wrapper.trigger.icon }}</v-icon>
               </template>
-              <span>{{ helper.trigger.text }}</span>
+              <span>{{ wrapper.trigger.text }}</span>
             </v-tooltip>
           </v-list-tile-title>
         </v-flex>
@@ -23,17 +23,17 @@
         <v-flex xs2>
           <v-list-tile-sub-title>
             <v-icon small class="mr-1">flow-icon-git-branch</v-icon>
-            <i>{{ helper.branch }}</i>
+            <i>{{ wrapper.branch }}</i>
           </v-list-tile-sub-title>
         </v-flex>
 
         <v-flex xs3>
           <v-list-tile-sub-title>
             <v-icon small class="mr-1">flow-icon-git-commit</v-icon>
-            <a>{{ helper.commitId }}</a>
+            <a>{{ wrapper.commitId }}</a>
           </v-list-tile-sub-title>
           <v-list-tile-sub-title>
-            {{ helper.commitMsg }}
+            {{ wrapper.commitMsg }}
           </v-list-tile-sub-title>
         </v-flex>
 
@@ -42,7 +42,7 @@
         <v-flex xs2>
           <v-list-tile-sub-title class="text-xs-left">
             <v-icon small class="mr-1">flow-icon-calendar</v-icon>
-            <time>{{ helper.fromNow }}</time>
+            <time>{{ wrapper.fromNow }}</time>
           </v-list-tile-sub-title>
         </v-flex>
 
@@ -60,7 +60,7 @@
   export default {
     data () {
       return {
-        helper: new JobWrapper(this.job)
+        wrapper: new JobWrapper(this.job)
       }
     },
     props: {

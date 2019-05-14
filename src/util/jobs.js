@@ -1,5 +1,38 @@
-export const helper = {
+import vars from '@/util/vars'
+import moment from 'moment'
 
+export class JobWrapper {
+  constructor (job) {
+    this.job = job
+  }
+
+  get commitId() {
+    return this.job.context[vars.git.commit.id]
+  }
+
+  get commitMsg() {
+    return this.job.context[vars.git.commit.message]
+  }
+
+  get fromNow() {
+    return moment(this.job.createdAt).fromNow()
+  }
+
+  get branch () {
+    return this.job.context[vars.git.branch]
+  }
+
+  get buildNumber () {
+    return this.job.buildNumber
+  }
+
+  get trigger () {
+    return mapping.trigger[this.job.trigger]
+  }
+
+  get status () {
+    return mapping.status[this.job.status]
+  }
 }
 
 export const mapping = {

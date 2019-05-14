@@ -48,7 +48,6 @@
       return {
         flow: null, // flow name
         number: null, // job build number
-        wrapper: new JobWrapper({})
       }
     },
     components: {
@@ -57,14 +56,15 @@
     mounted () {
       this.flow = this.$route.params.id
       this.number = this.$route.params.num
-      this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then(() => {
-        this.wrapper = new JobWrapper(this.job)
-      })
+      this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
     },
     computed: {
       ...mapState({
         job: state => state.jobs.selected
-      })
+      }),
+      wrapper () {
+        return new JobWrapper(this.job)
+      }
     },
     methods: {
       onBackClick () {

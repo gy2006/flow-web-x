@@ -1,39 +1,39 @@
 <template>
-  <v-stepper non-linear alt-labels>
+  <v-stepper non-linear>
     <v-stepper-header>
 
       <!-- for default step, otherwise v-stepper will be occur an error -->
       <v-stepper-step
-          v-if="steps.length === 0"
+          v-if="items.length === 0"
           step="loading"
       >
         Loading..
       </v-stepper-step>
 
       <!-- for job steps -->
-      <template v-for="n in steps">
+      <template v-for="n in items">
         <v-stepper-step
             editable
             :key="`${n.id}-step`"
-            :step="n.id"
+            :step="n.index"
         >
-          {{ n.id }}
+          {{ n.name }}
         </v-stepper-step>
 
         <v-divider
-            v-if="n !== steps"
+            v-if="n !== items"
             :key="n.id"
         ></v-divider>
       </template>
     </v-stepper-header>
 
     <v-stepper-items>
-      <template v-for="n in steps">
+      <template v-for="n in items">
         <v-stepper-content
             :key="`${n.id}-content`"
-            :step="n.id"
+            :step="n.index"
         >
-          Step {{ n.id }}
+          Step {{ n.name }}
         </v-stepper-content>
       </template>
     </v-stepper-items>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+  import { StepWrapper } from '@/util/steps'
+
   export default {
     name: 'JobDetailLogs',
     data () {
@@ -51,6 +53,17 @@
       steps: {
         required: true,
         type: Array
+      }
+    },
+    computed: {
+      items () {
+        const wrapperList = []
+
+        this.steps.forEach((s, index) => {
+          wrapperList.push(new StepWrapper(s, index))
+        })
+
+        return wrapperList
       }
     }
   }

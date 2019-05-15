@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import { Store as FlowStore } from './module/flows'
 import { Store as SocketStore } from './module/socket'
 import { Store as JobsStatus } from './module/jobs'
-import { Store as JobStepsStatus } from './module/jobsteps'
+import { Store as JobStepsStatus } from './module/steps'
 
 import subscribe from './subscribe'
 
@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     'flows': FlowStore,
     'socket': SocketStore,
     'jobs': JobsStatus,
-    'jobSteps': JobStepsStatus
+    'steps': JobStepsStatus
   }
 })
 

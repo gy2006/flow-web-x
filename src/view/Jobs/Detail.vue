@@ -28,7 +28,7 @@
           <job-info :wrapper="wrapper"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
-          <job-logs></job-logs>
+          <job-logs :steps="steps"></job-logs>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -63,7 +63,8 @@
     },
     computed: {
       ...mapState({
-        job: state => state.jobs.selected
+        job: state => state.jobs.selected,
+        steps: state => state.steps.items
       }),
       wrapper () {
         return new JobWrapper(this.job)

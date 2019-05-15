@@ -5,7 +5,7 @@ import http from '../http'
 const state = {
   flow: null,
   buildNumber: null,
-  steps: []
+  items: []
 }
 
 const mutations = {
@@ -15,7 +15,7 @@ const mutations = {
   },
 
   setSteps(state, steps) {
-    state.steps = steps
+    state.items = steps
   }
 }
 

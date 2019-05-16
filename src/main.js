@@ -12,6 +12,12 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './assets/styles/style.scss'
 
+import 'xterm/dist/xterm.css'
+import { Terminal } from 'xterm'
+import * as fit from 'xterm/lib/addons/fit/fit';
+
+Terminal.applyAddon(fit);
+
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)

@@ -36,7 +36,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  placeholder
+                  <div :id="n.id + `-console`"></div>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -53,12 +53,13 @@
 
 <script>
   import { StepWrapper } from '@/util/steps'
+  import { Terminal } from 'xterm'
+  import { fit } from 'xterm/lib/addons/fit/fit';
 
   export default {
     name: 'JobDetailLogs',
     data () {
-      return {
-      }
+      return {}
     },
     props: {
       steps: {
@@ -71,7 +72,13 @@
         const wrapperList = []
 
         this.steps.forEach((s, index) => {
-          wrapperList.push(new StepWrapper(s, index))
+          const stepWrapper = new StepWrapper(s, index)
+          wrapperList.push(stepWrapper)
+
+          let term = new Terminal()
+          term.open(document.getElementById(stepWrapper.id + '-console'))
+          term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          term.fit()
         })
 
         return wrapperList

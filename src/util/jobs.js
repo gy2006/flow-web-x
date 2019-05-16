@@ -73,32 +73,32 @@ export const mapping = {
       class: ['grey--text', 'rotate']
     },
 
-    'QUEUED': {
+    QUEUED: {
       icon: 'flow-icon-pending',
       class: 'green--text'
     },
 
-    'RUNNING': {
+    RUNNING: {
       icon: 'flow-icon-running',
       class: ['blue--text', 'rotate']
     },
 
-    'SUCCESS': {
+    SUCCESS: {
       icon: 'flow-icon-check',
       class: 'green--text'
     },
 
-    'FAILURE': {
+    FAILURE: {
       icon: 'flow-icon-failure',
       class: 'red--text'
     },
 
-    'CANCELLED': {
+    CANCELLED: {
       icon: 'flow-icon-stopped',
       class: 'grey--text'
     },
 
-    'TIMEOUT': {
+    TIMEOUT: {
       icon: 'flow-icon-timeout',
       class: 'orange--text'
     }

@@ -6,6 +6,9 @@
       <v-stepper-step
           v-if="items.length === 0"
           step="loading"
+          complete
+          complete-icon="flow-icon-running rotate grey--text"
+          color=""
       >
         Loading..
       </v-stepper-step>
@@ -13,9 +16,12 @@
       <!-- for job steps -->
       <template v-for="n in items">
         <v-stepper-step
+            complete
             editable
+            :edit-icon="n.status.icon"
             :key="`${n.id}-step`"
             :step="n.index"
+            color=""
         >
           {{ n.name }}
         </v-stepper-step>
@@ -69,6 +75,10 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+  .v-stepper__step__step {
+    .v-icon {
+      color: inherit;
+    }
+  }
 </style>

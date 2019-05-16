@@ -30,4 +30,51 @@ export class StepWrapper {
   get name () {
     return this.stepName
   }
+
+  get status () {
+    let status = mapping[this.step.status]
+    return !status ? mapping.default : status
+  }
+}
+
+export const mapping = {
+  default: {
+    icon: 'flow-icon-stopped grey--text',
+    text: 'skipped'
+  },
+
+  PENDING: {
+    icon: 'flow-icon-pending grey--text',
+    text: 'pending'
+  },
+
+  RUNNING: {
+    icon: 'flow-icon-running rotate blue--text',
+    text: 'running'
+  },
+
+  SUCCESS: {
+    icon: 'flow-icon-check green--text',
+    text: 'success'
+  },
+
+  SKIPPED: {
+    icon: 'flow-icon-stopped grey--text',
+    text: 'skipped'
+  },
+
+  EXCEPTION: {
+    icon: 'flow-icon-failure red--text',
+    text: 'failure'
+  },
+
+  KILLED: {
+    icon: 'flow-icon-stopped grey--text',
+    text: 'killed'
+  },
+
+  TIMEOUT: {
+    icon: 'flow-icon-timeout orange--text',
+    text: 'pending'
+  }
 }

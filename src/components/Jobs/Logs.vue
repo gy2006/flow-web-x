@@ -1,49 +1,54 @@
-<template>
-  <v-stepper non-linear>
-    <v-stepper-header>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-timeline
+      align-top
+      dense>
 
-      <!-- for default step, otherwise v-stepper will be occur an error -->
-      <v-stepper-step
-          v-if="items.length === 0"
-          step="loading"
-          complete
-          complete-icon="flow-icon-running rotate grey--text"
-          color=""
-      >
-        Loading..
-      </v-stepper-step>
+    <!-- start status -->
+    <v-timeline-item small color="grey" fill-dot>
+      <v-layout pt-1>
+        <v-flex xs10>
+          <!-- empty expansion panel as placeholder -->
+          <v-expansion-panel class="elevation-0" disabled>
+            <v-expansion-panel-content hide-actions>
+              <template v-slot:header>
+                <div></div>
+              </template>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-flex>
+      </v-layout>
+    </v-timeline-item>
 
-      <!-- for job steps -->
-      <template v-for="n in items">
-        <v-stepper-step
-            complete
-            editable
-            :edit-icon="n.status.icon"
-            :key="`${n.id}-step`"
-            :step="n.index"
-            color=""
-        >
-          {{ n.name }}
-        </v-stepper-step>
+    <v-timeline-item
+        color=""
+        small
+        v-for="n in items"
+        :key="n.id"
+        :icon="n.status.icon"
+    >
 
-        <v-divider
-            v-if="n !== items"
-            :key="n.id"
-        ></v-divider>
-      </template>
-    </v-stepper-header>
+      <v-layout pt-1>
+        <v-flex xs10>
+          <v-expansion-panel class="elevation-0">
+            <v-expansion-panel-content>
+              <template v-slot:header>
+                <strong>{{ n.name }}</strong>
+              </template>
+              <v-card>
+                <v-card-text>
+                  placeholder
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-flex>
+      </v-layout>
 
-    <v-stepper-items>
-      <template v-for="n in items">
-        <v-stepper-content
-            :key="`${n.id}-content`"
-            :step="n.index"
-        >
-          Step {{ n.name }}
-        </v-stepper-content>
-      </template>
-    </v-stepper-items>
-  </v-stepper>
+    </v-timeline-item>
+
+    <!-- end status -->
+    <v-timeline-item small color="grey"></v-timeline-item>
+  </v-timeline>
 </template>
 
 <script>

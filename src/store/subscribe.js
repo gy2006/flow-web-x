@@ -21,7 +21,16 @@ const events = {
 // subscribe topic and callback method before connect
 const subscribeBeforeConnected = []
 
+// to record subscribed topic
+const subscribed = {}
+
 function subscribe (topic, callback) {
+  if (subscribed[topic]) {
+    return
+  }
+
+  subscribed[topic] = true
+
   if (stompClient.connected) {
     stompClient.subscribe(topic, callback)
     return

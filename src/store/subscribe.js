@@ -8,15 +8,18 @@ const url = process.env.VUE_APP_API_URL
 const socket = new SockJS(`${url}/ws`)
 const stompClient = Stomp.over(socket)
 
+// remove debug log
 stompClient.debug = function () {
 }
 
+// event type from server
 const events = {
   create: 'NEW_CREATED',
   change: 'STATUS_CHANGE'
 }
 
-const registerBeforeConnected = []
+// subscribe topic and callback method before connect
+const subscribeBeforeConnected = []
 
 function subscribe (topic, callback) {
   if (stompClient.connected) {
@@ -24,13 +27,13 @@ function subscribe (topic, callback) {
     return
   }
 
-  registerBeforeConnected.push({topic: topic, callback: callback})
+  subscribeBeforeConnected.push({topic: topic, callback: callback})
 }
 
 stompClient.connect({}, function () {
   console.log('connected')
 
-  registerBeforeConnected.forEach((item) => {
+  subscribeBeforeConnected.forEach((item) => {
     stompClient.subscribe(item.topic, item.callback)
     console.log('subscribe: ' + item.topic)
   })

@@ -16,23 +16,30 @@ const events = {
   change: 'STATUS_CHANGE'
 }
 
-const pendingFuncs = []
+const registerBeforeConnected = []
+
+function subscribe (topic, callback) {
+  if (stompClient.connected) {
+    stompClient.subscribe(topic, callback)
+    return
+  }
+
+  registerBeforeConnected.push({topic: topic, callback: callback})
+}
 
 stompClient.connect({}, function () {
   console.log('connected')
 
-  pendingFuncs.forEach((item) => {
+  registerBeforeConnected.forEach((item) => {
     stompClient.subscribe(item.topic, item.callback)
-    console.log("subscribe: " + item.topic)
+    console.log('subscribe: ' + item.topic)
   })
 })
 
 export const subsribeTopic = {
   // subscribe job changes
-  jobs(store) {
-    let topic = '/topic/jobs'
-
-    let callback = (data) => {
+  jobs (store) {
+    subscribe('/topic/jobs', (data) => {
       let message = JSON.parse(data.body)
 
       // job created
@@ -45,25 +52,12 @@ export const subsribeTopic = {
       if (events.change === message.event) {
         store.dispatch(actions.jobs.statusUpdate, message.body).then()
       }
-    }
-
-    if (!stompClient.connected) {
-      pendingFuncs.push({
-        topic: topic,
-        callback: callback
-      })
-
-      return
-    }
-
-    stompClient.subscribe(topic, callback)
+    })
   },
 
   // subscribe step changes
   steps (jobId, store) {
-    let topic = '/topic/steps/' + jobId
-
-    let callback = (data) => {
+    subscribe('/topic/steps/' + jobId, (data) => {
       let message = JSON.parse(data.body)
 
       if (events.change !== message.event) {
@@ -72,17 +66,6 @@ export const subsribeTopic = {
 
       let executedCmd = message.body
       store.dispatch(actions.jobs.steps.update, executedCmd)
-    }
-
-    if (!stompClient.connected) {
-      pendingFuncs.push({
-        topic: topic,
-        callback: callback
-      })
-
-      return
-    }
-
-    stompClient.subscribe(topic, callback)
+    })
   }
 }

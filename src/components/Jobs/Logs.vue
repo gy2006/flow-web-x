@@ -59,7 +59,7 @@
     name: 'JobDetailLogs',
     data () {
       return {
-        // key=id, value={xterm: object}
+        // key=id, value={xterm: object, expended: false}
         config: {}
       }
     },
@@ -88,21 +88,31 @@
         this.config = {}
 
         wrapperList.forEach((s) => {
-          this.config[s.id] = {xterm: null}
+          this.config[s.id] = {xterm: null, expended: false}
         })
       },
 
       onExpand (stepWrapper) {
-        const stepId = stepWrapper.id
+        let stepId = stepWrapper.id
         let instance = this.config[stepId].xterm
+        let expanded = this.config[stepId].expended
+
+        this.config[stepId].expended = expanded = !expanded
+
+        if (!expanded) {
+          return
+        }
 
         if (!instance) {
           instance = new Terminal()
           instance.open(document.getElementById(stepId + '-console'))
           instance.fit()
+          instance.on('scroll', (e) => {
+            console.log(e)
+            console.log(stepId)
+          })
 
           this.config[stepId].xterm = instance
-          console.log('cached:' + stepId)
         }
       }
     }

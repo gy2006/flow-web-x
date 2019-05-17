@@ -6,8 +6,6 @@ import { Store as SocketStore } from './module/socket'
 import { Store as JobsStatus } from './module/jobs'
 import { Store as JobStepsStatus } from './module/steps'
 
-import subscribe from './subscribe'
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -18,7 +16,5 @@ const store = new Vuex.Store({
     'steps': JobStepsStatus
   }
 })
-
-subscribe(store)
 
 export default store

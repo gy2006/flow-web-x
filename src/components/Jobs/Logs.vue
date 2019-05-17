@@ -108,12 +108,16 @@
           instance.open(document.getElementById(stepId + '-console'))
           instance.fit()
           instance.on('scroll', (e) => {
-            console.log(e)
-            console.log(stepId)
+            this.onTermScroll(stepId, e)
           })
 
           this.config[stepId].xterm = instance
         }
+      },
+
+      onTermScroll (stepId, e) {
+        console.log(e)
+        console.log(stepId)
       }
     }
   }

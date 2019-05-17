@@ -19,7 +19,8 @@ export default {
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',
     steps: {
-      get: 'steps/get'
+      get: 'steps/get',
+      update: 'steps/update'
     }
   },
 

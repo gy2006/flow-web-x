@@ -70,6 +70,7 @@
   import { mapState } from 'vuex'
   import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
+  import { subsribeTopic } from '@/store/subscribe'
 
   export default {
     name: 'FlowJobs',
@@ -87,6 +88,7 @@
       this.name = this.$route.params.id
       this.$store.dispatch(actions.flows.select, this.name).then()
       this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
+      subsribeTopic.jobs(this.$store)
     },
     computed: {
       ...mapState({

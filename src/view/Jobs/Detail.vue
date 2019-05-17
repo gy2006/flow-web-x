@@ -37,6 +37,8 @@
 
 <script>
   import actions from '@/store/actions'
+  import { subsribeTopic } from '@/store/subscribe'
+
   import { JobWrapper } from '@/util/jobs'
   import { mapState } from 'vuex'
 
@@ -73,6 +75,12 @@
     methods: {
       onBackClick () {
         this.$router.push({path: `/flows/${this.flow}/jobs`})
+      }
+    },
+    watch: {
+      // subscribe steps change when job been loaded
+      job (newJob, oldJob) {
+        subsribeTopic.steps(newJob.id, this.$store)
       }
     }
   }

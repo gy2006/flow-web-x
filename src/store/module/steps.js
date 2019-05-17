@@ -5,7 +5,8 @@ import http from '../http'
 const state = {
   flow: null,
   buildNumber: null,
-  items: []
+  items: [],
+  change: {}, // status change object needs to watch
 }
 
 const mutations = {
@@ -22,6 +23,7 @@ const mutations = {
     for (let i = 0; i < state.items.length; i++) {
       if (state.items[i].id === newStep.id) {
         state.items[i] = newStep
+        state.change = newStep
         return
       }
     }

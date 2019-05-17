@@ -50,7 +50,7 @@
     data () {
       return {
         flow: null, // flow name
-        number: null, // job build number
+        number: null // job build number
       }
     },
     components: {
@@ -66,7 +66,8 @@
     computed: {
       ...mapState({
         job: state => state.jobs.selected,
-        steps: state => state.steps.items
+        steps: state => state.steps.items,
+        change: state => state.steps.change
       }),
       wrapper () {
         return new JobWrapper(this.job)
@@ -81,6 +82,12 @@
       // subscribe steps change when job been loaded
       job (newJob, oldJob) {
         subsribeTopic.steps(newJob.id, this.$store)
+      },
+
+      change (after, before) {
+        console.log(after)
+
+        // TODO: update logs icon status
       }
     }
   }

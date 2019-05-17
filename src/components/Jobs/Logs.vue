@@ -28,8 +28,8 @@
     >
 
       <v-layout pt-1>
-        <v-flex xs10>
-          <v-expansion-panel class="elevation-0">
+        <v-flex xs10 @click="onExpand(n)">
+          <v-expansion-panel class="elevation-0" >
             <v-expansion-panel-content>
               <template v-slot:header>
                 <strong>{{ n.name }}</strong>
@@ -54,12 +54,14 @@
 <script>
   import { StepWrapper } from '@/util/steps'
   import { Terminal } from 'xterm'
-  import { fit } from 'xterm/lib/addons/fit/fit';
 
   export default {
     name: 'JobDetailLogs',
     data () {
-      return {}
+      return {
+        // key=id, value={xterm: object}
+        config: {}
+      }
     },
     props: {
       steps: {
@@ -68,20 +70,40 @@
       }
     },
     computed: {
-      items () {
+      items: function () {
         const wrapperList = []
 
         this.steps.forEach((s, index) => {
           const stepWrapper = new StepWrapper(s, index)
           wrapperList.push(stepWrapper)
-
-          let term = new Terminal()
-          term.open(document.getElementById(stepWrapper.id + '-console'))
-          term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          term.fit()
         })
 
+        this.resetConfig(wrapperList)
+
         return wrapperList
+      }
+    },
+    methods: {
+      resetConfig(wrapperList) {
+        this.config = {}
+
+        wrapperList.forEach((s) => {
+          this.config[s.id] = {xterm: null}
+        })
+      },
+
+      onExpand (stepWrapper) {
+        const stepId = stepWrapper.id
+        let instance = this.config[stepId].xterm
+
+        if (!instance) {
+          instance = new Terminal()
+          instance.open(document.getElementById(stepId + '-console'))
+          instance.fit()
+
+          this.config[stepId].xterm = instance
+          console.log('cached:' + stepId)
+        }
       }
     }
   }

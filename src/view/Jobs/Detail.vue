@@ -28,7 +28,7 @@
           <job-info :wrapper="wrapper"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
-          <job-logs :steps="steps"></job-logs>
+          <job-logs :steps="steps" ref="jobLogs"></job-logs>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -60,6 +60,7 @@
     mounted () {
       this.flow = this.$route.params.id
       this.number = this.$route.params.num
+
       this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
       this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
     },
@@ -85,9 +86,7 @@
       },
 
       change (after, before) {
-        console.log(after)
-
-        // TODO: update logs icon status
+        this.$refs.jobLogs.updateStep(after)
       }
     }
   }

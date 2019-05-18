@@ -118,6 +118,17 @@
       onTermScroll (stepId, e) {
         console.log(e)
         console.log(stepId)
+      },
+
+      // invoked by parent component
+      updateStep (newStep) {
+        for (let i = 0; i < this.items.length; i++) {
+          const item = this.items[i]
+          if (item.id === newStep.id) {
+            this.items[i].rawStatus = newStep.status
+            return
+          }
+        }
       }
     }
   }

@@ -35,6 +35,10 @@ export class StepWrapper {
     let status = mapping[this.step.status]
     return !status ? mapping.default : status
   }
+
+  set rawStatus(newStatus) {
+    this.step.status = newStatus
+  }
 }
 
 export const mapping = {

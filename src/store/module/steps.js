@@ -6,7 +6,7 @@ const state = {
   flow: null,
   buildNumber: null,
   items: [],
-  change: {}, // status change object needs to watch
+  change: {}, // latest updated object needs to watch
 }
 
 const mutations = {

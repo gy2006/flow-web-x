@@ -28,7 +28,7 @@
           <job-info :wrapper="wrapper"></job-info>
         </v-tab-item>
         <v-tab-item value="logs">
-          <job-logs :steps="steps" ref="jobLogs"></job-logs>
+          <job-logs :steps="steps" ref="stepLogs"></job-logs>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -39,7 +39,7 @@
   import actions from '@/store/actions'
   import { subsribeTopic } from '@/store/subscribe'
 
-  import { JobWrapper } from '@/util/jobs'
+  import { JobWrapper, isJobFinished } from '@/util/jobs'
   import { mapState } from 'vuex'
 
   import JobInfo from '@/components/Jobs/Info'
@@ -68,7 +68,9 @@
       ...mapState({
         job: state => state.jobs.selected,
         steps: state => state.steps.items,
-        change: state => state.steps.change
+
+        jobChange: state => state.jobs.change,
+        stepChange: state => state.steps.change
       }),
       wrapper () {
         return new JobWrapper(this.job)
@@ -82,11 +84,15 @@
     watch: {
       // subscribe steps change when job been loaded
       job (newJob, oldJob) {
+        if (isJobFinished(newJob)) {
+          return
+        }
+
         subsribeTopic.steps(newJob.id, this.$store)
       },
 
-      change (after, before) {
-        this.$refs.jobLogs.updateStep(after)
+      stepChange (after, before) {
+        this.$refs.stepLogs.updateStep(after)
       }
     }
   }

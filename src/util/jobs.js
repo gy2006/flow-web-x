@@ -1,6 +1,23 @@
 import vars from '@/util/vars'
 import moment from 'moment'
 
+// status
+const STATUS_QUEUED = 'QUEUED'
+const STATUS_RUNNING = 'RUNNING'
+const STATUS_SUCCESS = 'SUCCESS'
+const STATUS_FAILURE = 'FAILURE'
+const STATUS_CANCELLED = 'CANCELLED'
+const STATUS_TIMEOUT = 'TIMEOUT'
+
+// triggers
+const TRIGGER_PUSH = 'PUSH'
+const TRIGGER_PR_OPEN = 'PR_OPEN'
+const TRIGGER_PR_CLOSE = 'PR_CLOSE'
+const TRIGGER_TAG = 'TAG'
+const TRIGGER_MANUAL = 'MANUAL'
+const TRIGGER_API = 'API'
+const TRIGGER_SCHEDULER = 'SCHEDULER'
+
 export class JobWrapper {
   constructor (job) {
     this.job = job
@@ -64,6 +81,10 @@ export class JobWrapper {
   }
 }
 
+export function isJobFinished (job) {
+  return job.status !== STATUS_QUEUED && job.status !== STATUS_RUNNING
+}
+
 export const mapping = {
 
   // job status mapping
@@ -73,32 +94,32 @@ export const mapping = {
       class: ['grey--text', 'rotate']
     },
 
-    QUEUED: {
+    [STATUS_QUEUED]: {
       icon: 'flow-icon-pending',
       class: 'green--text'
     },
 
-    RUNNING: {
+    [STATUS_RUNNING]: {
       icon: 'flow-icon-running',
       class: ['blue--text', 'rotate']
     },
 
-    SUCCESS: {
+    [STATUS_SUCCESS]: {
       icon: 'flow-icon-check',
       class: 'green--text'
     },
 
-    FAILURE: {
+    [STATUS_FAILURE]: {
       icon: 'flow-icon-failure',
       class: 'red--text'
     },
 
-    CANCELLED: {
+    [STATUS_CANCELLED]: {
       icon: 'flow-icon-stopped',
       class: 'grey--text'
     },
 
-    TIMEOUT: {
+    [STATUS_TIMEOUT]: {
       icon: 'flow-icon-timeout',
       class: 'orange--text'
     }
@@ -106,37 +127,37 @@ export const mapping = {
 
   // job trigger mapping
   trigger: {
-    'PUSH': {
+    [TRIGGER_PUSH]: {
       text: 'push',
       icon: 'flow-icon-repo-push'
     },
 
-    'PR_OPEN': {
+    [TRIGGER_PR_OPEN]: {
       text: 'pull request open',
       icon: 'flow-icon-git-merge'
     },
 
-    'PR_CLOSE': {
+    [TRIGGER_PR_CLOSE]: {
       text: 'pull request close',
       icon: 'flow-icon-git-merge'
     },
 
-    'TAG': {
+    [TRIGGER_TAG]: {
       text: 'tag',
       icon: 'flow-icon-tag'
     },
 
-    'MANUAL': {
+    [TRIGGER_MANUAL]: {
       text: 'manual',
       icon: 'flow-icon-drag'
     },
 
-    'API': {
+    [TRIGGER_API]: {
       text: 'api',
       icon: 'flow-icon-code'
     },
 
-    'SCHEDULER': {
+    [TRIGGER_SCHEDULER]: {
       text: 'scheduler',
       icon: 'flow-icon-stopwatch'
     }

@@ -36,18 +36,28 @@ const mutations = {
     }
   },
 
-  updateStatus (state, {id, status, context}) {
-    state.items.forEach((job) => {
-      if (job.id !== id) {
+  updateStatus (state, updatedJob) {
+    let itemIndex = 0
+
+    // update job in list
+    state.items.forEach((job, index) => {
+      if (job.id !== updatedJob.id) {
         return
       }
 
       // assign new status
-      job.status = status
+      job.status = updatedJob.status
 
       // merge context
-      Object.assign(job.context, context)
+      Object.assign(job.context, updatedJob.context)
+
+      itemIndex = index
     })
+
+    // update job selected
+    if (state.selected.id === updatedJob.id) {
+      state.selected = state.items[itemIndex]
+    }
   },
 
   selected (state, job) {

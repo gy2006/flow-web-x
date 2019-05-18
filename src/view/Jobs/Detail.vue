@@ -40,6 +40,7 @@
   import { subsribeTopic } from '@/store/subscribe'
 
   import { JobWrapper, isJobFinished } from '@/util/jobs'
+  import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
   import JobInfo from '@/components/Jobs/Info'
@@ -68,8 +69,6 @@
       ...mapState({
         job: state => state.jobs.selected,
         steps: state => state.steps.items,
-
-        jobChange: state => state.jobs.change,
         stepChange: state => state.steps.change
       }),
       wrapper () {
@@ -79,6 +78,8 @@
     methods: {
       onBackClick () {
         this.$router.push({path: `/flows/${this.flow}/jobs`})
+
+        //TODO: unsubscribe topic
       }
     },
     watch: {
@@ -89,6 +90,19 @@
         }
 
         subsribeTopic.steps(newJob.id, this.$store)
+      },
+
+      // subscribe logs when steps been loaded
+      steps (after, before) {
+        for (let i = 0; i < after.length; i++) {
+          const step = after[i]
+
+          if (isStepFinished(step)) {
+            return
+          }
+
+          subsribeTopic.logs(step.id, this.$store)
+        }
       },
 
       stepChange (after, before) {

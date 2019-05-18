@@ -1,3 +1,11 @@
+const STATUS_PENDING = 'PENDING'
+const STATUS_RUNNING = 'RUNNING'
+const STATUS_SUCCESS = 'SUCCESS'
+const STATUS_SKIPPED = 'SKIPPED'
+const STATUS_EXCEPTION = 'EXCEPTION'
+const STATUS_KILLED = 'KILLED'
+const STATUS_TIMEOUT = 'TIMEOUT'
+
 export class StepWrapper {
   constructor (step, index) {
     this.step = step
@@ -41,43 +49,47 @@ export class StepWrapper {
   }
 }
 
+export function isStepFinished (step) {
+  return step.status !== STATUS_PENDING && step.status !== STATUS_RUNNING
+}
+
 export const mapping = {
   default: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped'
   },
 
-  PENDING: {
+  [STATUS_PENDING]: {
     icon: 'flow-icon-pending grey--text',
     text: 'pending'
   },
 
-  RUNNING: {
+  [STATUS_RUNNING]: {
     icon: 'flow-icon-running rotate blue--text',
     text: 'running'
   },
 
-  SUCCESS: {
+  [STATUS_SUCCESS]: {
     icon: 'flow-icon-check green--text',
     text: 'success'
   },
 
-  SKIPPED: {
+  [STATUS_SKIPPED]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped'
   },
 
-  EXCEPTION: {
+  [STATUS_EXCEPTION]: {
     icon: 'flow-icon-failure red--text',
     text: 'failure'
   },
 
-  KILLED: {
+  [STATUS_KILLED]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'killed'
   },
 
-  TIMEOUT: {
+  [STATUS_TIMEOUT]: {
     icon: 'flow-icon-timeout orange--text',
     text: 'pending'
   }

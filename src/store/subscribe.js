@@ -79,5 +79,11 @@ export const subsribeTopic = {
       let executedCmd = message.body
       store.dispatch(actions.jobs.steps.update, executedCmd)
     })
+  },
+
+  logs (cmdId, store) {
+    subscribe('/topic/logs/' + cmdId, (data) => {
+      console.log(data.body)
+    })
   }
 }

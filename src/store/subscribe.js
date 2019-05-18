@@ -24,31 +24,40 @@ const subscribeBeforeConnected = []
 // to record subscribed topic
 const subscribed = {}
 
+// subscribe topic
 function subscribe (topic, callback) {
   if (subscribed[topic]) {
     return
   }
 
-  subscribed[topic] = true
-
   if (stompClient.connected) {
-    stompClient.subscribe(topic, callback)
+    subscribed[topic] = stompClient.subscribe(topic, callback)
     return
   }
 
   subscribeBeforeConnected.push({topic: topic, callback: callback})
 }
 
+// unsubscribe topic
+function unsubscribe (topic) {
+  const subscribedInfo = subscribed[topic]
+
+  if (subscribedInfo) {
+    subscribedInfo.unsubscribe()
+    delete subscribed[topic]
+  }
+}
+
 stompClient.connect({}, function () {
   console.log('connected')
 
   subscribeBeforeConnected.forEach((item) => {
-    stompClient.subscribe(item.topic, item.callback)
+    subscribed[item.topic] = stompClient.subscribe(item.topic, item.callback)
     console.log('subscribe: ' + item.topic)
   })
 })
 
-export const subsribeTopic = {
+export const subscribeTopic = {
   // subscribe job changes
   jobs (store) {
     subscribe('/topic/jobs', (data) => {
@@ -85,5 +94,15 @@ export const subsribeTopic = {
     subscribe('/topic/logs/' + cmdId, (data) => {
       console.log(data.body)
     })
+  }
+}
+
+export const unsubsribeTopic = {
+  steps (jobId) {
+    unsubscribe('/topic/steps/' + jobId)
+  },
+
+  logs (cmdId) {
+    unsubscribe('/topic/logs/' + cmdId)
   }
 }

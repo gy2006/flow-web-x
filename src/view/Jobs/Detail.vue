@@ -37,7 +37,7 @@
 
 <script>
   import actions from '@/store/actions'
-  import { subsribeTopic } from '@/store/subscribe'
+  import { subscribeTopic, unsubsribeTopic } from '@/store/subscribe'
 
   import { JobWrapper, isJobFinished } from '@/util/jobs'
   import { isStepFinished } from '@/util/steps'
@@ -79,7 +79,11 @@
       onBackClick () {
         this.$router.push({path: `/flows/${this.flow}/jobs`})
 
-        //TODO: unsubscribe topic
+        unsubsribeTopic.steps(this.job.id)
+
+        for (let i = 0; i < this.steps.length; i++) {
+          unsubsribeTopic.logs(this.steps[i].id)
+        }
       }
     },
     watch: {
@@ -89,7 +93,7 @@
           return
         }
 
-        subsribeTopic.steps(newJob.id, this.$store)
+        subscribeTopic.steps(newJob.id, this.$store)
       },
 
       // subscribe logs when steps been loaded
@@ -101,7 +105,7 @@
             return
           }
 
-          subsribeTopic.logs(step.id, this.$store)
+          subscribeTopic.logs(step.id, this.$store)
         }
       },
 

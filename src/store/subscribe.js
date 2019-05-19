@@ -1,6 +1,7 @@
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 import actions from './actions'
+import { LogWrapper } from '../util/logs'
 
 const url = process.env.VUE_APP_API_URL
 
@@ -92,7 +93,8 @@ export const subscribeTopic = {
 
   logs (cmdId, store) {
     subscribe('/topic/logs/' + cmdId, (data) => {
-      console.log(data.body)
+      const wrapper = new LogWrapper(cmdId, data.body)
+      store.dispatch(actions.jobs.steps.newLog, wrapper)
     })
   }
 }

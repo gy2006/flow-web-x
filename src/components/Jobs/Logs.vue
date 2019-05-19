@@ -129,6 +129,16 @@
             return
           }
         }
+      },
+
+      addLog (logWrapper) {
+        let config = this.config[logWrapper.id]
+
+        if (!config || !config.xterm) {
+          return
+        }
+
+        config.xterm.writeln(logWrapper.log)
       }
     }
   }

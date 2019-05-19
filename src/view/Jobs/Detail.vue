@@ -69,7 +69,8 @@
       ...mapState({
         job: state => state.jobs.selected,
         steps: state => state.steps.items,
-        stepChange: state => state.steps.change
+        stepChange: state => state.steps.change,
+        newLog: state => state.steps.newLog
       }),
       wrapper () {
         return new JobWrapper(this.job)
@@ -109,8 +110,14 @@
         }
       },
 
+      // update step when it has been changed
       stepChange (after, before) {
         this.$refs.stepLogs.updateStep(after)
+      },
+
+      // add new log when it has been pushed
+      newLog (after, before) {
+        this.$refs.stepLogs.addLog(after)
       }
     }
   }

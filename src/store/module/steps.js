@@ -7,7 +7,6 @@ const state = {
   buildNumber: null,
   items: [],
   change: {}, // latest updated object needs to watch
-  newLog: '' // the log received from server
 }
 
 const mutations = {
@@ -28,10 +27,6 @@ const mutations = {
         return
       }
     }
-  },
-
-  newLog (state, logWrapper) {
-    state.newLog = logWrapper
   }
 }
 
@@ -55,10 +50,6 @@ const actions = {
    */
   update ({commit}, executedCmd) {
     commit('updateStep', executedCmd)
-  },
-
-  newLog ({commit}, logWrapper) {
-    commit('newLog', logWrapper)
   }
 }
 

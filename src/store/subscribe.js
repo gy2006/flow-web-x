@@ -91,10 +91,11 @@ export const subscribeTopic = {
     })
   },
 
-  logs (cmdId, store) {
+  // subscribe realtime logging without vuex store since performance
+  logs (cmdId, callback) {
     subscribe('/topic/logs/' + cmdId, (data) => {
       const wrapper = new LogWrapper(cmdId, data.body)
-      store.dispatch(actions.jobs.steps.newLog, wrapper)
+      callback(wrapper)
     })
   }
 }

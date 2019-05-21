@@ -20,8 +20,7 @@ export default {
     select: 'jobs/select',
     steps: {
       get: 'steps/get',
-      update: 'steps/update',
-      newLog: 'steps/newLog'
+      update: 'steps/update'
     }
   },
 

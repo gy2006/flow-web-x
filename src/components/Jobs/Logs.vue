@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import { StepWrapper } from '@/util/steps'
+  import { StepWrapper, isStepFinished } from '@/util/steps'
   import { Terminal } from 'xterm'
 
   export default {
@@ -113,14 +113,19 @@
 
           this.config[stepId].xterm = instance
         }
+
+        // load logs from server
+        if (isStepFinished(stepWrapper.rawInstance)) {
+
+        }
       },
 
       onTermScroll (stepId, e) {
-        console.log(e)
-        console.log(stepId)
+        // console.log(e)
+        // console.log(stepId)
       },
 
-      // invoked by parent component
+      // external: invoked by parent component
       updateStep (newStep) {
         for (let i = 0; i < this.items.length; i++) {
           const item = this.items[i]
@@ -131,6 +136,7 @@
         }
       },
 
+      // external: invoked by parent component
       addLog (logWrapper) {
         let config = this.config[logWrapper.id]
 

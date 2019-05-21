@@ -22,13 +22,13 @@
     <v-timeline-item
         color=""
         small
-        v-for="n in items"
+        v-for="(n, i) in items"
         :key="n.id"
         :icon="n.status.icon"
     >
 
       <v-layout pt-1>
-        <v-flex xs10 @click="onExpand(n)">
+        <v-flex xs10 @click="onExpand(i)">
           <v-expansion-panel class="elevation-0" >
             <v-expansion-panel-content>
               <template v-slot:header>
@@ -59,7 +59,7 @@
     name: 'JobDetailLogs',
     data () {
       return {
-        // key=id, value={xterm: object, expended: false}
+        // key=id, value={xterm: object, expended: false, currentRow: 0}
         config: {}
       }
     },
@@ -81,18 +81,19 @@
         this.resetConfig(wrapperList)
 
         return wrapperList
-      }
+      },
     },
     methods: {
       resetConfig(wrapperList) {
         this.config = {}
 
         wrapperList.forEach((s) => {
-          this.config[s.id] = {xterm: null, expended: false}
+          this.config[s.id] = {xterm: null, expended: false, currentRow: 0}
         })
       },
 
-      onExpand (stepWrapper) {
+      onExpand (index) {
+        let stepWrapper = this.items[index]
         let stepId = stepWrapper.id
         let instance = this.config[stepId].xterm
         let expanded = this.config[stepId].expended
@@ -121,8 +122,7 @@
       },
 
       onTermScroll (stepId, e) {
-        // console.log(e)
-        // console.log(stepId)
+        this.config[stepId].currentRow = e
       },
 
       // external: invoked by parent component

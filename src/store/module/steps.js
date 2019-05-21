@@ -7,6 +7,7 @@ const state = {
   buildNumber: null,
   items: [],
   change: {}, // latest updated object needs to watch
+  logs: []
 }
 
 const mutations = {
@@ -27,6 +28,10 @@ const mutations = {
         return
       }
     }
+  },
+
+  updateLogs (state, logs) {
+    state.logs = logs
   }
 }
 
@@ -50,6 +55,14 @@ const actions = {
    */
   update ({commit}, executedCmd) {
     commit('updateStep', executedCmd)
+  },
+
+  loadLogs ({commit}, {stepId, row}) {
+    let url = 'jobs/logs/' + stepId
+
+    http.get(url, (logs) => {
+      commit('updateLogs', logs)
+    })
   }
 }
 

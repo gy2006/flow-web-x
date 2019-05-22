@@ -52,8 +52,10 @@
 </template>
 
 <script>
+  import actions from '@/store/actions'
   import { StepWrapper, isStepFinished } from '@/util/steps'
   import { Terminal } from 'xterm'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'JobDetailLogs',
@@ -70,6 +72,10 @@
       }
     },
     computed: {
+      ...mapState({
+        logs: state => state.steps.logs
+      }),
+
       items: function () {
         const wrapperList = []
 
@@ -82,6 +88,15 @@
 
         return wrapperList
       },
+    },
+    watch: {
+      logs (after, before) {
+        console.log(after)
+
+        after.forEach((logWrapper) => {
+          this.addLog(logWrapper)
+        })
+      }
     },
     methods: {
       resetConfig(wrapperList) {
@@ -117,7 +132,7 @@
 
         // load logs from server
         if (isStepFinished(stepWrapper.rawInstance)) {
-
+          this.$store.dispatch(actions.jobs.steps.logs, {cmdId: stepWrapper.id}).then()
         }
       },
 

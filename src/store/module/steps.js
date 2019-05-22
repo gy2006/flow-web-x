@@ -1,13 +1,16 @@
 // store for steps of selected job
 
 import http from '../http'
+import { LogWrapper } from '@/util/logs'
+
+const DefaultLogPageSize = 100
 
 const state = {
   flow: null,
   buildNumber: null,
   items: [],
   change: {}, // latest updated object needs to watch
-  logs: []
+  logs: [] // LogWrapper list been loaded
 }
 
 const mutations = {
@@ -57,10 +60,16 @@ const actions = {
     commit('updateStep', executedCmd)
   },
 
-  loadLogs ({commit}, {stepId, row}) {
-    let url = 'jobs/logs/' + stepId
+  loadLogs ({commit}, {cmdId, row}) {
+    let url = 'jobs/logs/' + cmdId
 
-    http.get(url, (logs) => {
+    http.get(url, (logPage) => {
+      let logs = []
+
+      logPage.content.forEach((data) => {
+        logs.push(new LogWrapper(cmdId, data))
+      })
+
       commit('updateLogs', logs)
     })
   }

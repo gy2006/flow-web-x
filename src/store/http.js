@@ -16,7 +16,7 @@ const code = {
 }
 
 const handleError = (error) => {
-  console.log(error)
+  console.log('[Error]: ' + error)
 }
 
 export default {

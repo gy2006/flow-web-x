@@ -3,7 +3,7 @@
 import http from '../http'
 import { LogWrapper } from '@/util/logs'
 
-const DefaultLogPageSize = 100
+const DefaultLogPageSize = 1000
 
 const state = {
   flow: null,
@@ -71,7 +71,7 @@ const actions = {
       })
 
       commit('updateLogs', logs)
-    })
+    }, {page: 0, size: DefaultLogPageSize})
   }
 }
 

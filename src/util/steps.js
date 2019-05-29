@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const STATUS_PENDING = 'PENDING'
 const STATUS_RUNNING = 'RUNNING'
 const STATUS_SUCCESS = 'SUCCESS'
@@ -40,11 +42,21 @@ export class StepWrapper {
   }
 
   get status () {
-    let status = mapping[this.step.status]
+    let status = mapping[ this.step.status ]
     return !status ? mapping.default : status
   }
 
-  set rawStatus(newStatus) {
+  get duration () {
+    const start = moment(this.step.startAt)
+    const end = moment(this.step.finishAt)
+    return end.diff(start, 'seconds')
+  }
+
+  get isFinished () {
+    return isStepFinished(this.step)
+  }
+
+  set rawStatus (newStatus) {
     this.step.status = newStatus
   }
 }
@@ -59,37 +71,37 @@ export const mapping = {
     text: 'skipped'
   },
 
-  [STATUS_PENDING]: {
+  [ STATUS_PENDING ]: {
     icon: 'flow-icon-pending grey--text',
     text: 'pending'
   },
 
-  [STATUS_RUNNING]: {
+  [ STATUS_RUNNING ]: {
     icon: 'flow-icon-running rotate blue--text',
     text: 'running'
   },
 
-  [STATUS_SUCCESS]: {
+  [ STATUS_SUCCESS ]: {
     icon: 'flow-icon-check green--text',
     text: 'success'
   },
 
-  [STATUS_SKIPPED]: {
+  [ STATUS_SKIPPED ]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped'
   },
 
-  [STATUS_EXCEPTION]: {
+  [ STATUS_EXCEPTION ]: {
     icon: 'flow-icon-failure red--text',
     text: 'failure'
   },
 
-  [STATUS_KILLED]: {
+  [ STATUS_KILLED ]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'killed'
   },
 
-  [STATUS_TIMEOUT]: {
+  [ STATUS_TIMEOUT ]: {
     icon: 'flow-icon-timeout orange--text',
     text: 'pending'
   }

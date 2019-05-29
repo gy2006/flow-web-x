@@ -29,10 +29,18 @@
 
       <v-layout pt-1>
         <v-flex xs10 @click="onExpand(i)">
-          <v-expansion-panel class="elevation-0" >
+          <v-expansion-panel class="elevation-0">
             <v-expansion-panel-content>
               <template v-slot:header>
-                <strong>{{ n.name }}</strong>
+                <v-layout>
+                  <v-flex xs2>
+                    <span class="subheading font-weight-bold">{{ n.name }}</span>
+                  </v-flex>
+                  <v-flex xs1 v-if="n.isFinished">
+                    <span class="caption">{{ n.duration }}</span>
+                    <span class="ml-1">s</span>
+                  </v-flex>
+                </v-layout>
               </template>
               <v-card>
                 <v-card-text>
@@ -53,7 +61,7 @@
 
 <script>
   import actions from '@/store/actions'
-  import { StepWrapper, isStepFinished } from '@/util/steps'
+  import { isStepFinished, StepWrapper } from '@/util/steps'
   import { Terminal } from 'xterm'
   import { mapState } from 'vuex'
 
@@ -87,7 +95,7 @@
         this.resetConfig(wrapperList)
 
         return wrapperList
-      },
+      }
     },
     watch: {
       logs (after, before) {
@@ -99,21 +107,21 @@
       }
     },
     methods: {
-      resetConfig(wrapperList) {
+      resetConfig (wrapperList) {
         this.config = {}
 
         wrapperList.forEach((s) => {
-          this.config[s.id] = {xterm: null, expended: false, currentRow: 0}
+          this.config[ s.id ] = {xterm: null, expended: false, currentRow: 0}
         })
       },
 
       onExpand (index) {
-        let stepWrapper = this.items[index]
+        let stepWrapper = this.items[ index ]
         let stepId = stepWrapper.id
-        let instance = this.config[stepId].xterm
-        let expanded = this.config[stepId].expended
+        let instance = this.config[ stepId ].xterm
+        let expanded = this.config[ stepId ].expended
 
-        this.config[stepId].expended = expanded = !expanded
+        this.config[ stepId ].expended = expanded = !expanded
 
         if (!expanded) {
           return
@@ -127,7 +135,7 @@
             this.onTermScroll(stepId, e)
           })
 
-          this.config[stepId].xterm = instance
+          this.config[ stepId ].xterm = instance
         }
 
         // load logs from server
@@ -137,15 +145,15 @@
       },
 
       onTermScroll (stepId, e) {
-        this.config[stepId].currentRow = e
+        this.config[ stepId ].currentRow = e
       },
 
       // external: invoked by parent component
       updateStep (newStep) {
         for (let i = 0; i < this.items.length; i++) {
-          const item = this.items[i]
+          const item = this.items[ i ]
           if (item.id === newStep.id) {
-            this.items[i].rawStatus = newStep.status
+            this.items[ i ].rawStatus = newStep.status
             return
           }
         }
@@ -153,7 +161,7 @@
 
       // external: invoked by parent component
       addLog (logWrapper) {
-        let config = this.config[logWrapper.id]
+        let config = this.config[ logWrapper.id ]
 
         if (!config || !config.xterm) {
           return

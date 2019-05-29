@@ -23,24 +23,24 @@ export class JobWrapper {
     this.job = job
   }
 
-  get rawInstance() {
+  get rawInstance () {
     return this.job
   }
 
-  get commitId() {
-    return this.job.context[vars.git.commit.id]
+  get commitId () {
+    return this.job.context[ vars.git.commit.id ]
   }
 
-  get commitMsg() {
-    return this.job.context[vars.git.commit.message]
+  get commitMsg () {
+    return this.job.context[ vars.git.commit.message ]
   }
 
-  get fromNow() {
+  get fromNow () {
     return moment(this.job.createdAt).fromNow()
   }
 
   get branch () {
-    return this.job.context[vars.git.branch]
+    return this.job.context[ vars.git.branch ]
   }
 
   get buildNumber () {
@@ -48,7 +48,7 @@ export class JobWrapper {
   }
 
   get trigger () {
-    return mapping.trigger[this.job.trigger]
+    return mapping.trigger[ this.job.trigger ]
   }
 
   get status () {
@@ -56,7 +56,7 @@ export class JobWrapper {
       return mapping.status.default
     }
 
-    let status = mapping.status[this.job.status]
+    let status = mapping.status[ this.job.status ]
 
     if (!status) {
       return mapping.status.default
@@ -65,7 +65,7 @@ export class JobWrapper {
     return status
   }
 
-  get contextAsList() {
+  get contextAsList () {
     const contextAsPairList = []
     const context = this.job.context
 
@@ -74,7 +74,7 @@ export class JobWrapper {
     }
 
     Object.keys(context).forEach(key => {
-      contextAsPairList.push({key: key, value: context[key]})
+      contextAsPairList.push({key: key, value: context[ key ]})
     })
 
     return contextAsPairList
@@ -91,35 +91,35 @@ export const mapping = {
   status: {
     default: {
       icon: 'flow-icon-loading1',
-      class: ['grey--text', 'rotate']
+      class: [ 'grey--text', 'rotate' ]
     },
 
-    [STATUS_QUEUED]: {
+    [ STATUS_QUEUED ]: {
       icon: 'flow-icon-pending',
       class: 'green--text'
     },
 
-    [STATUS_RUNNING]: {
+    [ STATUS_RUNNING ]: {
       icon: 'flow-icon-running',
-      class: ['blue--text', 'rotate']
+      class: [ 'blue--text', 'rotate' ]
     },
 
-    [STATUS_SUCCESS]: {
+    [ STATUS_SUCCESS ]: {
       icon: 'flow-icon-check',
       class: 'green--text'
     },
 
-    [STATUS_FAILURE]: {
+    [ STATUS_FAILURE ]: {
       icon: 'flow-icon-failure',
       class: 'red--text'
     },
 
-    [STATUS_CANCELLED]: {
+    [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
       class: 'grey--text'
     },
 
-    [STATUS_TIMEOUT]: {
+    [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
       class: 'orange--text'
     }
@@ -127,37 +127,37 @@ export const mapping = {
 
   // job trigger mapping
   trigger: {
-    [TRIGGER_PUSH]: {
+    [ TRIGGER_PUSH ]: {
       text: 'push',
       icon: 'flow-icon-repo-push'
     },
 
-    [TRIGGER_PR_OPEN]: {
+    [ TRIGGER_PR_OPEN ]: {
       text: 'pull request open',
       icon: 'flow-icon-git-merge'
     },
 
-    [TRIGGER_PR_CLOSE]: {
+    [ TRIGGER_PR_CLOSE ]: {
       text: 'pull request close',
       icon: 'flow-icon-git-merge'
     },
 
-    [TRIGGER_TAG]: {
+    [ TRIGGER_TAG ]: {
       text: 'tag',
       icon: 'flow-icon-tag'
     },
 
-    [TRIGGER_MANUAL]: {
+    [ TRIGGER_MANUAL ]: {
       text: 'manual',
       icon: 'flow-icon-drag'
     },
 
-    [TRIGGER_API]: {
+    [ TRIGGER_API ]: {
       text: 'api',
       icon: 'flow-icon-code'
     },
 
-    [TRIGGER_SCHEDULER]: {
+    [ TRIGGER_SCHEDULER ]: {
       text: 'scheduler',
       icon: 'flow-icon-stopwatch'
     }

@@ -47,7 +47,7 @@
 
           <template slot="no-data">
             <v-alert :value="true" color="error" icon="warning">
-             Start the first build :)
+              Start the first build :)
             </v-alert>
           </template>
         </v-data-table>
@@ -78,7 +78,7 @@
       return {
         name: '', // flow name
         loading: false,
-        alert: false,
+        alert: false
       }
     },
     components: {
@@ -95,14 +95,14 @@
         pagination: state => state.jobs.pagination,
         jobs: state => state.jobs.items,
         jobsStatus: state => state.jobs.JobsStatus
-      }),
+      })
     },
     methods: {
       onItemClick (job) {
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
       },
 
-      onRunClick() {
+      onRunClick () {
         this.$store.dispatch(actions.jobs.start).then()
       },
 

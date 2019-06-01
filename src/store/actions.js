@@ -13,6 +13,7 @@ export default {
   },
 
   jobs: {
+    get: 'jobs/get',
     start: 'jobs/start',
     create: 'jobs/create',
     list: 'jobs/list',

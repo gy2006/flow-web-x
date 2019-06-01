@@ -6,10 +6,11 @@ const state = {
   name: '', // flow name
   items: [],
   pagination: {
-    page: 1,
+    page: 1
   },
   JobsStatus: {},
-  selected: {}
+  selected: {},
+  updated: {}
 }
 
 const mutations = {
@@ -36,8 +37,13 @@ const mutations = {
     }
   },
 
+  update (state, updatedJob) {
+    state.updated = updatedJob
+  },
+
   updateStatus (state, updatedJob) {
     let itemIndex = 0
+    this.update(state, updatedJob)
 
     // update job in list
     state.items.forEach((job, index) => {
@@ -56,7 +62,7 @@ const mutations = {
 
     // update job selected
     if (state.selected.id === updatedJob.id) {
-      state.selected = state.items[itemIndex]
+      state.selected = state.items[ itemIndex ]
     }
   },
 
@@ -71,17 +77,24 @@ const mutations = {
 
 const actions = {
 
+  get ({commit}, {flow, buildNumberOrLatest}) {
+    const url = 'jobs/' + flow + '/' + buildNumberOrLatest
+    http.get(url, (job) => {
+      commit('update', job)
+    })
+  },
+
   /**
    * Start a new job
    */
   start ({commit, state}) {
     http.post('jobs/run',
-        (newJob) => {
-          // do nothing since new job will push via websocket
-        },
-        {
-          flow: state.name
-        },
+      (newJob) => {
+        // do nothing since new job will push via websocket
+      },
+      {
+        flow: state.name
+      }
     )
   },
 
@@ -103,13 +116,13 @@ const actions = {
     commit('setName', flow)
 
     http.get('jobs/' + flow,
-        (page) => {
-          commit('list', page)
-        },
-        {
-          page: page - 1,
-          size: numOfElements
-        }
+      (page) => {
+        commit('list', page)
+      },
+      {
+        page: page - 1,
+        size: numOfElements
+      }
     )
   },
 
@@ -125,9 +138,9 @@ const actions = {
    */
   select ({commit}, {flow, buildNumber}) {
     http.get('jobs/' + flow + '/' + buildNumber,
-        (job) => {
-          commit('selected', job)
-        }
+      (job) => {
+        commit('selected', job)
+      }
     )
   },
 

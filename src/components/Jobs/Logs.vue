@@ -50,6 +50,9 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-flex>
+        <v-flex xs1 v-if="n.isFinished">
+          <v-icon small class="mt-3" @click="onLogDownload(n.id)">flow-icon-download</v-icon>
+        </v-flex>
       </v-layout>
 
     </v-timeline-item>
@@ -99,8 +102,6 @@
     },
     watch: {
       logs (after, before) {
-        console.log(after)
-
         after.forEach((logWrapper) => {
           this.addLog(logWrapper)
         })
@@ -140,8 +141,12 @@
 
         // load logs from server
         if (isStepFinished(stepWrapper.rawInstance)) {
-          this.$store.dispatch(actions.jobs.steps.logs, {cmdId: stepWrapper.id}).then()
+          this.$store.dispatch(actions.jobs.logs.load, {cmdId: stepWrapper.id}).then()
         }
+      },
+
+      onLogDownload (stepId) {
+        this.$store.dispatch(actions.jobs.logs.download, stepId).then()
       },
 
       onTermScroll (stepId, e) {

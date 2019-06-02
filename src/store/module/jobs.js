@@ -43,7 +43,6 @@ const mutations = {
 
   updateStatus (state, updatedJob) {
     let itemIndex = 0
-    this.update(state, updatedJob)
 
     // update job in list
     state.items.forEach((job, index) => {
@@ -131,6 +130,7 @@ const actions = {
    */
   statusUpdate ({commit, state}, jobWithNewStatus) {
     commit('updateStatus', jobWithNewStatus)
+    commit('update', jobWithNewStatus)
   },
 
   /**

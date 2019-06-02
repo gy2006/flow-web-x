@@ -31,7 +31,15 @@ export class FlowWrapper {
   // latest job
   set job (latestJob) {
     this.latestJob = latestJob
-    this.statusIcon = mapping.status[latestJob.status].icon
-    this.statusClass = mapping.status[latestJob.status].class
+    this.icon = mapping.status[latestJob.status].icon
+    this.iconClass = mapping.status[latestJob.status].class
+  }
+
+  set icon (icon) {
+    this.statusIcon = icon
+  }
+
+  set iconClass (iconClass) {
+    this.statusClass = iconClass
   }
 }

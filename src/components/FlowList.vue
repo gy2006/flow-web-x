@@ -14,7 +14,7 @@
             color="purple"
         ></v-progress-circular>
       </div>
-      <template v-for="(item, _) in items">
+      <template v-for="item in items">
         <v-list-tile @click="onItemClick(item)"
                      :key="item.id"
                      :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']">
@@ -42,7 +42,8 @@
         drawer: false,
         searchVal: '',
         loading: false,
-        current: ''
+        current: '',
+        items: []
       }
     },
     mounted () {
@@ -56,12 +57,6 @@
         // to receive job updated event and show latest job status on flow list
         updatedJob: state => state.jobs.updated
       }),
-
-      items: function () {
-        let wrapperItems = this.toWrapperItems(this.flows)
-        this.fetchLatestStatus(wrapperItems)
-        return wrapperItems
-      }
     },
     methods: {
       click () {
@@ -93,6 +88,11 @@
       }
     },
     watch: {
+      flows (after) {
+        this.items = this.toWrapperItems(after)
+        this.fetchLatestStatus(this.items)
+      },
+
       searchVal (after) {
         this.querySelections(after)
       },

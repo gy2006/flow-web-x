@@ -2,7 +2,7 @@
   <v-app id="inspire">
 
     <!--flow list-->
-    <flow-list ref="flowList"/>
+    <flow-menu ref="flowList"/>
 
     <!--toolbar-->
     <v-toolbar color="grey lighten-4" app absolute clipped-left>
@@ -79,14 +79,14 @@
 </template>
 
 <script>
-  import FlowList from '@/components/FlowList'
+  import FlowMenu from '@/components/Flows/Menu'
   import CreateFlow from '@/components/CreateFlow/Index'
 
   export default {
     name: 'App',
     components: {
       CreateFlow,
-      FlowList
+      FlowMenu
     },
     data () {
       return {

@@ -36,7 +36,7 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'FlowList',
+    name: 'FlowMenu',
     data () {
       return {
         drawer: false,

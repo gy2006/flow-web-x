@@ -150,13 +150,6 @@ const actions = {
 }
 
 /**
- * Export action in text
- */
-export const Actions = {
-  'JobsStatus': 'jobs/JobsStatus'
-}
-
-/**
  * Export Vuex store object
  */
 export const Store = {

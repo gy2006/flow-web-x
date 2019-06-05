@@ -69,15 +69,6 @@ const actions = {
 }
 
 /**
- * Export action in text
- */
-export const Actions = {
-  'List': 'flows/list',
-  'Name': 'flows/name',
-  'Editor': 'flows/editor'
-}
-
-/**
  * Export Vuex store object
  */
 export const Store = {

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import FlowJobs from '@/view/Flow/Jobs'
 import FlowSettings from '@/view/Flow/Settings'
 import JobDetail from '@/view/Jobs/Detail'
@@ -13,11 +12,6 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
     {
       path: '/flows/:id/jobs',
       name: 'Jobs',

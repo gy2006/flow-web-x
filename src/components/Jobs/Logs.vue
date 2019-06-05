@@ -137,11 +137,11 @@
           })
 
           this.config[ stepId ].xterm = instance
-        }
 
-        // load logs from server
-        if (isStepFinished(stepWrapper.rawInstance)) {
-          this.$store.dispatch(actions.jobs.logs.load, stepId).then()
+          // load logs from server
+          if (isStepFinished(stepWrapper.rawInstance)) {
+            this.$store.dispatch(actions.jobs.logs.load, stepId).then()
+          }
         }
       },
 

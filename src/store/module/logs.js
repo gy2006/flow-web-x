@@ -11,6 +11,14 @@ const browserDownload = (url, file) => {
 
 }
 
+const commitLog = (commit, cmdId, blob) => {
+  const reader = new FileReader()
+  reader.onload = (event) => {
+    commit('update', [new LogWrapper(cmdId, event.target.result)])
+  }
+  reader.readAsText(blob)
+}
+
 const state = {
   items: [], // LogWrapper list been loaded
   cached: {} // {cmdId, blob}
@@ -30,17 +38,15 @@ const actions = {
   load ({commit, state}, cmdId) {
     const blob = state.cached[cmdId]
     if (blob) {
+      console.log('cached')
+      commitLog(commit, cmdId, blob)
       return
     }
 
     let url = 'jobs/logs/' + cmdId + '/download?raw=true'
     http.get(url, (response, _file) => {
       let blob = new Blob([response.data], {type: 'text/plain'})
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        commit('update', [new LogWrapper(cmdId, event.target.result)])
-      }
-      reader.readAsText(blob)
+      commitLog(commit, cmdId, blob)
       commit('addCache', {cmdId: cmdId, blob: blob})
     })
   },

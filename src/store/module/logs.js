@@ -1,0 +1,62 @@
+import http from '../http'
+import {LogWrapper} from '@/util/logs'
+
+const browserDownload = (url, file) => {
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', file)
+  document.body.appendChild(link)
+  link.click()
+  window.URL.revokeObjectURL(url)
+
+}
+
+const state = {
+  items: [], // LogWrapper list been loaded
+  cached: {} // {cmdId, blob}
+}
+
+const mutations = {
+  update (state, logs) {
+    state.items = logs
+  },
+
+  addCache (state, {cmdId, blob}) {
+    state.cached[cmdId] = blob
+  }
+}
+
+const actions = {
+  load ({commit, state}, cmdId) {
+    const blob = state.cached[cmdId]
+    if (blob) {
+      return
+    }
+
+    let url = 'jobs/logs/' + cmdId + '/download?raw=true'
+    http.get(url, (response, _file) => {
+      let blob = new Blob([response.data], {type: 'text/plain'})
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        commit('update', [new LogWrapper(cmdId, event.target.result)])
+      }
+      reader.readAsText(blob)
+      commit('addCache', {cmdId: cmdId, blob: blob})
+    })
+  },
+
+  download ({commit, state}, cmdId) {
+    let url = 'jobs/logs/' + cmdId + '/download'
+    http.get(url, (response, file) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      browserDownload(url, file)
+    })
+  }
+}
+
+export const Store = {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}

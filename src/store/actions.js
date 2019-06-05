@@ -24,8 +24,8 @@ export default {
       update: 'steps/update'
     },
     logs: {
-      load: 'steps/loadLogs',
-      download: 'steps/downloadLog'
+      load: 'logs/load',
+      download: 'logs/download'
     }
   },
 

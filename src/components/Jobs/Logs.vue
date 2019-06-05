@@ -84,7 +84,7 @@
     },
     computed: {
       ...mapState({
-        logs: state => state.steps.logs
+        logs: state => state.logs.items
       }),
 
       items: function () {
@@ -141,7 +141,7 @@
 
         // load logs from server
         if (isStepFinished(stepWrapper.rawInstance)) {
-          this.$store.dispatch(actions.jobs.logs.load, {cmdId: stepWrapper.id}).then()
+          this.$store.dispatch(actions.jobs.logs.load, stepId).then()
         }
       },
 

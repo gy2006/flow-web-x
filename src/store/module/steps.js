@@ -1,16 +1,12 @@
 // store for steps of selected job
 
 import http from '../http'
-import { LogWrapper } from '@/util/logs'
-
-const DefaultLogPageSize = 1000
 
 const state = {
   flow: null,
   buildNumber: null,
   items: [],
   change: {}, // latest updated object needs to watch
-  logs: [] // LogWrapper list been loaded
 }
 
 const mutations = {
@@ -31,10 +27,6 @@ const mutations = {
         return
       }
     }
-  },
-
-  updateLogs (state, logs) {
-    state.logs = logs
   }
 }
 
@@ -58,33 +50,6 @@ const actions = {
    */
   update ({commit}, executedCmd) {
     commit('updateStep', executedCmd)
-  },
-
-  loadLogs ({commit}, {cmdId, row}) {
-    let url = 'jobs/logs/' + cmdId
-
-    http.get(url, (logPage) => {
-      let logs = []
-
-      logPage.content.forEach((data) => {
-        logs.push(new LogWrapper(cmdId, data))
-      })
-
-      commit('updateLogs', logs)
-    }, {page: 0, size: DefaultLogPageSize})
-  },
-
-  downloadLog ({commit}, cmdId) {
-    let url = 'jobs/logs/' + cmdId + '/download'
-    http.get(url, (response, file) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', file);
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-    })
   }
 }
 

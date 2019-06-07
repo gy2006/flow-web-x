@@ -3,6 +3,9 @@ export default {
   save: '保存',
   reset: '重置',
 
+  menu_profile: '个人设置',
+  menu_system_admin: '系统管理',
+
   flow_search_text: '输入关键词搜索',
   flow_settings: '设置',
   flow_config_yml: '配置 YML 工作流',

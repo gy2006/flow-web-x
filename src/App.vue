@@ -11,26 +11,8 @@
         <v-icon class="black--text">flow-icon-logo</v-icon>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>dvr</v-icon>
-      </v-btn>
-      <v-menu offset-y>
-        <v-btn
-            slot="activator"
-            icon>
-          <v-icon>account_circle</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile
-              v-for="(item, index) in items"
-              :key="index"
-              @click="settings(item.title)"
-          >
-            <v-icon small class="mr-4">{{item.icon}}</v-icon>
-            <v-list-tile-title class="caption font-weight-regular">{{ item.title }}</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <agent-menu></agent-menu>
+      <admin-menu></admin-menu>
     </v-toolbar>
 
     <!--content-->
@@ -81,19 +63,20 @@
 <script>
   import FlowMenu from '@/components/Flows/Menu'
   import CreateFlow from '@/components/CreateFlow/Index'
+  import AgentMenu from '@/components/Common/AgentMenu'
+  import AdminMenu from '@/components/Common/AdminMenu'
 
   export default {
     name: 'App',
     components: {
       CreateFlow,
-      FlowMenu
+      FlowMenu,
+      AgentMenu,
+      AdminMenu
     },
     data () {
       return {
-        items: [
-          {title: '个人设置', icon: 'account_circle'},
-          {title: '系统管理', icon: 'settings'}
-        ]
+
       }
     },
     methods: {
@@ -102,13 +85,6 @@
       },
       refs (name) {
         return this.$refs[name]
-      },
-      settings (title) {
-        if (title === '个人设置') {
-          this.$router.push({path: '/admin/personalsetting'})
-        } else if (title === '系统管理') {
-          this.$router.push({path: '/admin/systemmanagement'})
-        }
       }
     }
   }

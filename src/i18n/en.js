@@ -3,6 +3,9 @@ export default {
   save: 'Save',
   reset: 'reset',
 
+  menu_profile: 'Profile',
+  menu_system_admin: 'Admin',
+
   flow_search_text: 'Search key words',
   flow_settings: 'Settings',
   flow_config_yml: 'YML Config',

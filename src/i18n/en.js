@@ -15,4 +15,8 @@ export default {
   job_detail_tab_info: 'Info',
   job_detail_tab_yml: 'Yml',
   job_detail_tab_logs: 'Logs',
+
+  agent_status_busy: 'busy',
+  agent_status_idle: 'idle',
+  agent_status_offline: 'offline'
 }

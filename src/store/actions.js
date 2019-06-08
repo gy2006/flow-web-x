@@ -23,5 +23,9 @@ export default {
       load: 'logs/load',
       download: 'logs/download'
     }
+  },
+
+  agents: {
+    list: 'agents/list'
   }
 }

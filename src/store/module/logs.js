@@ -1,5 +1,5 @@
 import http from '../http'
-import {LogWrapper} from '@/util/logs'
+import { LogWrapper } from '@/util/logs'
 
 const browserDownload = (url, file) => {
   const link = document.createElement('a')
@@ -14,7 +14,7 @@ const browserDownload = (url, file) => {
 const commitLog = (commit, cmdId, blob) => {
   const reader = new FileReader()
   reader.onload = (event) => {
-    commit('update', [new LogWrapper(cmdId, event.target.result)])
+    commit('update', [ new LogWrapper(cmdId, event.target.result) ])
   }
   reader.readAsText(blob)
 }
@@ -30,13 +30,13 @@ const mutations = {
   },
 
   addCache (state, {cmdId, blob}) {
-    state.cached[cmdId] = blob
+    state.cached[ cmdId ] = blob
   }
 }
 
 const actions = {
   load ({commit, state}, cmdId) {
-    const blob = state.cached[cmdId]
+    const blob = state.cached[ cmdId ]
     if (blob) {
       console.log('cached')
       commitLog(commit, cmdId, blob)
@@ -45,7 +45,7 @@ const actions = {
 
     let url = 'jobs/logs/' + cmdId + '/download?raw=true'
     http.get(url, (response, _file) => {
-      let blob = new Blob([response.data], {type: 'text/plain'})
+      let blob = new Blob([ response.data ], {type: 'text/plain'})
       commitLog(commit, cmdId, blob)
       commit('addCache', {cmdId: cmdId, blob: blob})
     })
@@ -54,7 +54,7 @@ const actions = {
   download ({commit, state}, cmdId) {
     let url = 'jobs/logs/' + cmdId + '/download'
     http.get(url, (response, file) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const url = window.URL.createObjectURL(new Blob([ response.data ]))
       browserDownload(url, file)
     })
   }

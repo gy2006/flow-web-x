@@ -93,8 +93,7 @@
     computed: {
       ...mapState({
         pagination: state => state.jobs.pagination,
-        jobs: state => state.jobs.items,
-        jobsStatus: state => state.jobs.JobsStatus
+        jobs: state => state.jobs.items
       })
     },
     methods: {

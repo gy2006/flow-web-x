@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-menu offset-y :nudge-width="100">
+  <v-menu offset-y>
     <template v-slot:activator="{ on }">
       <v-toolbar-title v-on="on">
         <v-icon>dvr</v-icon>

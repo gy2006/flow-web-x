@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flowci';
-  src:  url('fonts/flowci.eot?s9qlav');
-  src:  url('fonts/flowci.eot?s9qlav#iefix') format('embedded-opentype'),
-  url('fonts/flowci.ttf?s9qlav') format('truetype'),
-  url('fonts/flowci.woff?s9qlav') format('woff'),
-  url('fonts/flowci.svg?s9qlav#flowci') format('svg');
+  src:  url('fonts/flowci.eot?wpksi7');
+  src:  url('fonts/flowci.eot?wpksi7#iefix') format('embedded-opentype'),
+  url('fonts/flowci.ttf?wpksi7') format('truetype'),
+  url('fonts/flowci.woff?wpksi7') format('woff'),
+  url('fonts/flowci.svg?wpksi7#flowci') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,11 +24,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.flow-icon-download:before {
-  content: "\e920";
+.flow-icon-go:before {
+  content: "\e921";
+  color: #76e1fe;
 }
-.flow-icon-message:before {
-  content: "\e91f";
+.flow-icon-python:before {
+  content: "\e922";
+  color: #3776ab;
+}
+.flow-icon-java:before {
+  content: "\e923";
+  color: #007396;
 }
 .flow-icon-git-commit:before {
   content: "\e900";
@@ -168,6 +174,18 @@
 .flow-icon-cross:before {
   content: "\ea0f";
 }
+.flow-icon-github:before {
+  content: "\eab0";
+}
+.flow-icon-android:before {
+  content: "\eac0";
+}
+.flow-icon-appleinc:before {
+  content: "\eabe";
+}
+.flow-icon-windows8:before {
+  content: "\eac2";
+}
 .flow-icon-smile:before {
   content: "\e9e1";
 }
@@ -215,4 +233,13 @@
 }
 .flow-icon-crying:before {
   content: "\ea01";
+}
+.flow-icon-linux:before {
+  content: "\e924";
+}
+.flow-icon-download:before {
+  content: "\e920";
+}
+.flow-icon-message:before {
+  content: "\e91f";
 }

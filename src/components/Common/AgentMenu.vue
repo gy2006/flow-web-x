@@ -59,7 +59,12 @@
       },
 
       updated (after) {
-        console.log('event')
+        let wrapper = new AgentWrapper(after)
+        this.$notify({
+          group: 'appInfo',
+          text: `Agent '${wrapper.name}' ${this.$t(wrapper.text)}`,
+          duration: 5000
+        })
       }
     }
   }

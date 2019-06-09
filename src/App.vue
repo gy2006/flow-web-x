@@ -1,6 +1,12 @@
 <template>
   <v-app id="inspire">
 
+    <!--notification-->
+    <notifications group="appInfo"
+                   type="info"
+                   position="bottom right">
+    </notifications>
+
     <!--flow list-->
     <flow-menu ref="flowList"/>
 

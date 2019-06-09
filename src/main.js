@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import VueNotifications from 'vue-notification'
+
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import messages from './i18n/index'
 import moment from 'moment'
 import store from './store/index'
-
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -19,10 +20,10 @@ import * as fit from 'xterm/lib/addons/fit/fit';
 Terminal.applyAddon(fit);
 
 Vue.config.productionTip = false
-
 Vue.use(Vuetify)
-
 Vue.use(VueI18n)
+Vue.use(VueNotifications)
+
 
 Vue.filter('Status', function (status) {
   switch (status) {

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import FlowJobs from '@/view/Flow/Jobs'
 import FlowSettings from '@/view/Flow/Settings'
-import JobDetail from '@/view/Jobs/Detail'
+import JobDetail from '@/view/Job/Detail'
+import JobList from '@/view/Job/List'
 import PersonalSetting from '@/view/Admin/PersonalSetting/Index'
 import SystemManagement from '@/view/Admin/SystemManagement/Index'
 import Credentials from '@/view/Admin/SystemManagement/Credentials/Index'
@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/flows/:id/jobs',
       name: 'Jobs',
-      component: FlowJobs
+      component: JobList
     },
     {
       path: '/flows/:id/settings',

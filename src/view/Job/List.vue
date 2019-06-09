@@ -73,7 +73,7 @@
   import { subscribeTopic } from '@/store/subscribe'
 
   export default {
-    name: 'FlowJobs',
+    name: 'JobList',
     data () {
       return {
         name: '', // flow name

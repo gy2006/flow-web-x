@@ -28,6 +28,7 @@
 
 <script>
   import actions from '@/store/actions'
+  import { subscribeTopic } from '@/store/subscribe'
   import { AgentWrapper } from '@/util/agents'
   import { mapState } from 'vuex'
 
@@ -40,10 +41,12 @@
     },
     mounted () {
       this.$store.dispatch(actions.agents.list).then()
+      subscribeTopic.agents(this.$store)
     },
     computed: {
       ...mapState({
         agents: state => state.agents.items,
+        updated: state => state.agents.updated
       })
     },
     watch: {
@@ -53,6 +56,10 @@
           list.push(new AgentWrapper(agent))
         }
         this.items = list
+      },
+
+      updated (after) {
+        console.log('event')
       }
     }
   }

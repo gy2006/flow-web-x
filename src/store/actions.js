@@ -26,6 +26,7 @@ export default {
   },
 
   agents: {
-    list: 'agents/list'
+    list: 'agents/list',
+    update: 'agents/update'
   }
 }

@@ -97,6 +97,14 @@ export const subscribeTopic = {
       const wrapper = new LogWrapper(cmdId, data.body)
       callback(wrapper)
     })
+  },
+
+  agents (store) {
+    subscribe('/topic/agents', (data) => {
+      let message = JSON.parse(data.body)
+      let agent = message.body
+      store.dispatch(actions.agents.update, agent)
+    })
   }
 }
 

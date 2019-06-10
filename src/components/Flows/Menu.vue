@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-navigation-drawer v-model="drawer" fixed clipped app>
     <v-list dense>
       <v-list-tile class="mt-3">
@@ -26,17 +26,30 @@
           </v-list-tile-content>
         </v-list-tile>
       </template>
+
+      <!-- button to create-->
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title class="text-xs-center">
+            <flow-create-dialog></flow-create-dialog>
+          </v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
   import { FlowWrapper } from '@/util/flows'
-  import actions from '@/store/actions'
   import { mapState } from 'vuex'
+  import FlowCreateDialog from './CreateDialog'
+  import actions from '@/store/actions'
 
   export default {
     name: 'FlowMenu',
+    components: {
+      FlowCreateDialog
+    },
     data () {
       return {
         drawer: false,
@@ -56,11 +69,15 @@
 
         // to receive job updated event and show latest job status on flow list
         updatedJob: state => state.jobs.updated
-      }),
+      })
     },
     methods: {
       click () {
         this.drawer = !this.drawer
+      },
+
+      onCreateFlow () {
+        console.log('create')
       },
 
       onItemClick (flow) {

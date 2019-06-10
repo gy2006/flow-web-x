@@ -1,11 +1,14 @@
 export default {
   back: 'Back',
   save: 'Save',
-  reset: 'reset',
+  reset: 'Reset',
+  close: 'Close',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',
 
+
+  flow_create_text: 'Create Flow',
   flow_search_text: 'Search key words',
   flow_settings: 'Settings',
   flow_config_yml: 'YML Config',

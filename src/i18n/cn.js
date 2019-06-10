@@ -2,10 +2,12 @@ export default {
   back: '返回',
   save: '保存',
   reset: '重置',
+  close: '关闭',
 
   menu_profile: '个人设置',
   menu_system_admin: '系统管理',
 
+  flow_create_text: '创建工作流',
   flow_search_text: '输入关键词搜索',
   flow_settings: '设置',
   flow_config_yml: '配置 YML 工作流',

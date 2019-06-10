@@ -26,25 +26,6 @@
       <router-view/>
     </v-content>
 
-    <!--btn for add flow-->
-    <v-fab-transition>
-      <v-btn
-          fab
-          bottom
-          right
-          color="pink"
-          dark
-          fixed
-          @click.native="openCreateFlow"
-          class="mb-3">
-        <v-icon>add</v-icon>
-      </v-btn>
-    </v-fab-transition>
-
-    <v-layout row justify-center>
-      <create-flow ref="createFlow"></create-flow>
-    </v-layout>
-
     <!--footer-->
     <v-footer class="caption" app>
       <div class="ml-4">
@@ -68,14 +49,12 @@
 
 <script>
   import FlowMenu from '@/components/Flows/Menu'
-  import CreateFlow from '@/components/CreateFlow/Index'
   import AgentMenu from '@/components/Common/AgentMenu'
   import AdminMenu from '@/components/Common/AdminMenu'
 
   export default {
     name: 'App',
     components: {
-      CreateFlow,
       FlowMenu,
       AgentMenu,
       AdminMenu

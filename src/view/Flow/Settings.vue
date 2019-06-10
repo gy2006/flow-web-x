@@ -63,6 +63,7 @@
       this.name = this.$route.params.id
 
       this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
+        value: this.yml,
         language: 'yaml',
         lineNumbers: 'on',
         roundedSelection: false,
@@ -73,15 +74,17 @@
       })
 
       this.editor.onDidChangeModelContent(this.onCodeChange)
-
-      this.$store.dispatch(actions.flows.yml.load, this.name).then(() => {
-        this.editor.setValue(this.yml)
-      })
+      this.$store.dispatch(actions.flows.yml.load, this.name).then(() => {})
     },
     computed: {
       ...mapState({
         yml: state => state.flows.selected.yml
       })
+    },
+    watch: {
+      yml (after) {
+        this.editor.setValue(after)
+      }
     },
     methods: {
       onCodeChange (e) {

@@ -8,7 +8,8 @@
             lazy-validation
         >
           <v-text-field
-              solo
+              required
+              :counter="20"
               v-model="flow.name"
               :rules="nameRules"
           ></v-text-field>

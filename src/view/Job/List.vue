@@ -25,7 +25,7 @@
               :disabled="loading"
               color="success"
               @click.native="onRunClick">
-            {{ $t('job_run_manual') }}
+            {{ $t('job.run') }}
           </v-btn>
         </v-toolbar>
       </v-flex>

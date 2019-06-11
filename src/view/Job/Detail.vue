@@ -18,10 +18,10 @@
     <v-card-text>
       <v-tabs fixed-tabs>
         <v-tab href="#info" class="ml-0">
-          {{ $t('job_detail_tab_info') }}
+          {{ $t('job.tab.info') }}
         </v-tab>
         <v-tab href="#logs">
-          {{ $t('job_detail_tab_logs') }}
+          {{ $t('job.tab.logs') }}
         </v-tab>
 
         <v-tab-item value="info">

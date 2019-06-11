@@ -19,9 +19,9 @@ const colors = {
 }
 
 const text = {
-  [ STATUS_BUSY ]: 'agent_status_busy',
-  [ STATUS_IDLE ]: 'agent_status_idle',
-  [ STATUS_OFFLINE ]: 'agent_status_offline'
+  [ STATUS_BUSY ]: 'agent.status.busy',
+  [ STATUS_IDLE ]: 'agent.status.idle',
+  [ STATUS_OFFLINE ]: 'agent.status.offline'
 }
 
 export class AgentWrapper {

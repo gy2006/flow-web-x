@@ -23,13 +23,20 @@ export default {
     }
   },
 
-  job_run_manual: 'Run',
+  job: {
+    run: 'Run',
+    tab: {
+      info: 'Info',
+      yml: 'Yml',
+      logs: 'Logs'
+    }
+  },
 
-  job_detail_tab_info: 'Info',
-  job_detail_tab_yml: 'Yml',
-  job_detail_tab_logs: 'Logs',
-
-  agent_status_busy: 'busy',
-  agent_status_idle: 'idle',
-  agent_status_offline: 'offline'
+  agent: {
+    status: {
+      busy: 'busy',
+      idle: 'idle',
+      offline: 'offline'
+    }
+  }
 }

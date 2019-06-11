@@ -17,19 +17,26 @@ export default {
     config_yml: '配置 YML 工作流',
 
     hint: {
-      name_required: 'Name is required',
-      name_size: 'Name must be less than 20 character',
-      name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -'
+      name_required: '请输入工作流名称',
+      name_size: '工作流名称长度需要小于 20 个字符',
+      name_rule: '工作流名称仅可包含 a-z, A-Z, 0-9, _, -'
     }
   },
 
-  job_run_manual: 'Run',
+  job: {
+    run: '开始任务',
+    tab: {
+      info: 'Info',
+      yml: 'Yml',
+      logs: 'Logs'
+    }
+  },
 
-  job_detail_tab_info: 'Info',
-  job_detail_tab_yml: 'Yml',
-  job_detail_tab_logs: 'Logs',
-
-  agent_status_busy: '运行',
-  agent_status_idle: '空闲',
-  agent_status_offline: '离线'
+  agent: {
+    status: {
+      busy: '运行',
+      idle: '空闲',
+      offline: '离线'
+    }
+  }
 }

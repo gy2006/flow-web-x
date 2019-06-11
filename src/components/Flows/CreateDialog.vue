@@ -9,14 +9,11 @@
     <v-card>
       <!-- toolbar -->
       <v-toolbar dark color="primary">
-        <v-btn icon dark @click="dialog = false">
+        <v-btn icon dark @click="onCancelClick">
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t('flow.create') }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark flat @click="dialog = false">{{ $t('save') }}</v-btn>
-        </v-toolbar-items>
       </v-toolbar>
 
       <!-- content -->
@@ -93,6 +90,10 @@
       }
     },
     methods: {
+      onCancelClick () {
+        this.dialog = false
+      },
+
       onBackClick () {
         if (this.step > 0) {
           this.step--
@@ -102,6 +103,10 @@
       onNextClick () {
         this.beforeStepForward()
         this.step++
+      },
+
+      onSaveClick () {
+
       },
 
       beforeStepForward () {

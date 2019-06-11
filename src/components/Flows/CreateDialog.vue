@@ -7,6 +7,7 @@
     </template>
 
     <v-card>
+      <!-- toolbar -->
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="dialog = false">
           <v-icon>close</v-icon>
@@ -17,16 +18,59 @@
           <v-btn dark flat @click="dialog = false">{{ $t('save') }}</v-btn>
         </v-toolbar-items>
       </v-toolbar>
+
+      <!-- content -->
+      <v-stepper v-model="step" vertical>
+
+        <!-- step 1: to given a name -->
+        <v-stepper-step :complete="step > 1" step="1">
+          Enter flow name
+          <small>Summarize if needed</small>
+        </v-stepper-step>
+        <v-stepper-content step="1">
+          <create-flow-name></create-flow-name>
+        </v-stepper-content>
+
+        <!-- step 2: to config git access -->
+        <v-stepper-step :complete="step > 2" step="2">Configure git access</v-stepper-step>
+        <v-stepper-content step="2">
+          <create-config-git></create-config-git>
+        </v-stepper-content>
+
+        <!-- step 3: to test git access -->
+        <v-stepper-step :complete="step > 3" step="3">Test git access</v-stepper-step>
+        <v-stepper-content step="3">
+          <create-test-git></create-test-git>
+        </v-stepper-content>
+
+        <!-- step 4: to setup yml -->
+        <v-stepper-step step="4">Setup flow YML</v-stepper-step>
+        <v-stepper-content step="4">
+          <create-flow-yml></create-flow-yml>
+        </v-stepper-content>
+      </v-stepper>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+  import CreateFlowName from './CreateFlowName'
+  import CreateConfigGit from './CreateConfigGit'
+  import CreateTestGit from './CreateTestGit'
+  import CreateFlowYml from './CreateFlowYml'
+
   export default {
     name: 'FlowCreateDialog',
+    components: {
+      CreateFlowName,
+      CreateConfigGit,
+      CreateTestGit,
+      CreateFlowYml
+    },
     data () {
       return {
-        dialog: false
+        dialog: false,
+        step: 1
       }
     }
   }

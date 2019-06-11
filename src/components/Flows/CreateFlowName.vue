@@ -3,20 +3,19 @@
     <v-layout>
       <v-flex xs12 sm6>
         <v-form
+            ref="form"
             v-model="valid"
             lazy-validation
         >
           <v-text-field
               solo
-              clearable
-              v-model="name"
+              v-model="flow.name"
               :rules="nameRules"
           ></v-text-field>
         </v-form>
       </v-flex>
     </v-layout>
     <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn flat @click="onCancelClick">{{ $t('cancel') }}</v-btn>
   </div>
 </template>
 
@@ -24,11 +23,11 @@
   export default {
     name: 'CreateFlowName',
     props: {
-      onNextClick: {
+      flow: {
         required: true,
-        type: Function
+        type: Object
       },
-      onCancelClick: {
+      onNextClick: {
         required: true,
         type: Function
       }
@@ -36,7 +35,6 @@
     data () {
       return {
         valid: true,
-        name: '',
         nameRules: [
           v => !!v || this.$t('flow.hint.name_required'),
           v => (/^[A-Za-z0-9_-]+$/g.test(v)) || this.$t('flow.hint.name_rule'),
@@ -46,7 +44,7 @@
     },
     methods: {
       handleNextClick () {
-        if (this.valid) {
+        if (this.$refs.form.validate()) {
           this.onNextClick()
         }
       }

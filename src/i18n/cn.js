@@ -5,6 +5,7 @@ export default {
   close: '关闭',
   next: 'Next',
   cancel: 'Cancel',
+  skip: 'skip',
 
   menu_profile: '个人设置',
   menu_system_admin: '系统管理',

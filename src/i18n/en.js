@@ -5,6 +5,7 @@ export default {
   close: 'Close',
   next: 'Next',
   cancel: 'Cancel',
+  skip: 'skip',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',

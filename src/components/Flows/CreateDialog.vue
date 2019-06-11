@@ -29,15 +29,19 @@
         </v-stepper-step>
         <v-stepper-content step="1">
           <create-flow-name
-              :on-cancel-click="onCancelClick"
-              :on-next-click="onNextClick">
-          </create-flow-name>
+              :flow="flow"
+              :on-next-click="onNextClick"
+          ></create-flow-name>
         </v-stepper-content>
 
         <!-- step 2: to config git access -->
         <v-stepper-step :complete="step > 2" step="2">Configure git access</v-stepper-step>
         <v-stepper-content step="2">
-          <create-config-git></create-config-git>
+          <create-config-git
+              :flow="flow"
+              :on-next-click="onNextClick"
+              :on-back-click="onBackClick"
+          ></create-config-git>
         </v-stepper-content>
 
         <!-- step 3: to test git access -->
@@ -73,16 +77,46 @@
     data () {
       return {
         dialog: false,
-        step: 1
+        step: 1,
+        flow: {
+          name: '',
+          git: {
+            hook: 'http://flowci/flowname',
+            url: 'ssh://xxx',
+          },
+          ssh: {
+            public: '',
+            private: ''
+          },
+          verified: false
+        }
       }
     },
     methods: {
+      onBackClick () {
+        if (this.step > 0) {
+          this.step--
+        }
+      },
+
       onNextClick () {
+        this.beforeStepForward()
         this.step++
       },
 
-      onCancelClick () {
-        this.dialog = false
+      beforeStepForward () {
+        const handler = {
+          1: () => {
+            console.log(this.flow.name)
+          },
+          2: () => {
+            console.log(this.flow.git)
+          }
+        }
+
+        if (handler[this.step]) {
+          handler[this.step]()
+        }
       }
     }
   }

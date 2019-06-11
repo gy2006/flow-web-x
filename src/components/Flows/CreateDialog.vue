@@ -12,7 +12,7 @@
         <v-btn icon dark @click="dialog = false">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title>{{ $t('flow_create_text') }}</v-toolbar-title>
+        <v-toolbar-title>{{ $t('flow.create') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn dark flat @click="dialog = false">{{ $t('save') }}</v-btn>
@@ -28,7 +28,10 @@
           <small>Summarize if needed</small>
         </v-stepper-step>
         <v-stepper-content step="1">
-          <create-flow-name></create-flow-name>
+          <create-flow-name
+              :on-cancel-click="onCancelClick"
+              :on-next-click="onNextClick">
+          </create-flow-name>
         </v-stepper-content>
 
         <!-- step 2: to config git access -->
@@ -71,6 +74,15 @@
       return {
         dialog: false,
         step: 1
+      }
+    },
+    methods: {
+      onNextClick () {
+        this.step++
+      },
+
+      onCancelClick () {
+        this.dialog = false
       }
     }
   }

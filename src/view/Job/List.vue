@@ -10,7 +10,7 @@
 
         <v-chip label color="" outline text-color="black" @click="onSettingsClick">
           <v-icon left>settings</v-icon>
-          {{ $t('flow_settings') }}
+          {{ $t('flow.settings') }}
         </v-chip>
       </v-flex>
     </v-layout>

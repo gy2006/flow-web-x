@@ -1,9 +1,9 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <v-navigation-drawer v-model="drawer" fixed clipped app>
     <v-list dense>
       <v-list-tile class="mt-3">
         <v-text-field
-            :placeholder="$t('flow_search_text')"
+            :placeholder="$t('flow.search')"
             single-line
             append-icon="search"
             v-model="searchVal"/>

@@ -14,7 +14,7 @@
       <v-flex xs12>
         <v-card height="90%">
           <v-card-title class="pb-0">
-            <h4>{{ $t('flow_config_yml') }}</h4>
+            <h4>{{ $t('flow.config_yml') }}</h4>
             <v-spacer/>
             <v-btn small color="warning" @click="onBackClick">
               <v-icon small class="mr-1">arrow_back</v-icon>

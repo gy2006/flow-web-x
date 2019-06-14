@@ -20,6 +20,8 @@ export default {
       name_required: '请输入工作流名称',
       name_size: '工作流名称长度需要小于 20 个字符',
       name_rule: '工作流名称仅可包含 a-z, A-Z, 0-9, _, -',
+      name_duplicate: '工作流名称已使用',
+
       create_ssh: '点击创建新的 ssh key'
     }
   },

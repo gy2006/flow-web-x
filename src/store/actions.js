@@ -1,5 +1,6 @@
 export default {
   flows: {
+    exist: 'flows/exist',
     list: 'flows/list',
     select: 'flows/select',
     yml: {

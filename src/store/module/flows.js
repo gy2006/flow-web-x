@@ -6,10 +6,15 @@ const state = {
   selected: {
     name: undefined,
     yml: ''
-  }
+  },
+  isExist: false // result from action 'exist'
 }
 
 const mutations = {
+  updateExist(state, isExist) {
+    state.isExist = isExist
+  },
+
   select (state, name) {
     state.selected.name = name
   },
@@ -28,8 +33,14 @@ const mutations = {
 }
 
 const actions = {
-  select (context, flow) {
-    context.commit('select', flow.name)
+  exist ({commit}, name) {
+    http.get('flows/' + name + '/exist', (boolVal) => {
+      commit('updateExist', boolVal)
+    })
+  },
+
+  select ({commit}, flow) {
+    commit('select', flow.name)
   },
 
   list ({commit}) {

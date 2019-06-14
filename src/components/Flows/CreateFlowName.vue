@@ -12,6 +12,7 @@
               :counter="20"
               v-model="flow.name"
               :rules="nameRules"
+              :error-messages="errorMsg"
           ></v-text-field>
         </v-form>
       </v-flex>
@@ -21,6 +22,9 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  import actions from '@/store/actions'
+
   export default {
     name: 'CreateFlowName',
     props: {
@@ -36,6 +40,7 @@
     data () {
       return {
         valid: true,
+        errorMsg: [],
         nameRules: [
           v => !!v || this.$t('flow.hint.name_required'),
           v => (/^[A-Za-z0-9_-]+$/g.test(v)) || this.$t('flow.hint.name_rule'),
@@ -43,11 +48,31 @@
         ]
       }
     },
+    computed: {
+      ...mapState({
+        isExist: state => state.flows.isExist
+      })
+    },
     methods: {
       handleNextClick () {
-        if (this.$refs.form.validate()) {
-          this.onNextClick()
+        if (!this.$refs.form.validate()) {
+          return
         }
+
+        this.errorMsg.length = 0
+        this.$store.dispatch(actions.flows.exist, this.flow.name).then()
+      }
+    },
+
+    watch: {
+      isExist(after) {
+        if (after === false) {
+          this.errorMsg.length = 0
+          this.onNextClick()
+          return
+        }
+
+        this.errorMsg.push(this.$t('flow.hint.name_duplicate'))
       }
     }
   }

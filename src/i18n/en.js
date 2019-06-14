@@ -19,7 +19,8 @@ export default {
     hint: {
       name_required: 'Name is required',
       name_size: 'Name must be less than 20 character',
-      name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -'
+      name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -',
+      create_ssh: 'click to create new ssh key'
     }
   },
 

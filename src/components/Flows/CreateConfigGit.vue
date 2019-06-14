@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-layout>
       <v-flex xs12 sm6>
@@ -23,10 +23,22 @@
               @click:append="onHelpClick('url')"
           ></v-text-field>
 
+          <v-divider></v-divider>
+
+          <v-subheader>
+            <span>SSH Public Key</span>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ $t('flow.hint.create_ssh') }}</span>
+            </v-tooltip>
+          </v-subheader>
+
           <v-textarea
               box
-              label="SSH Public Key"
-              prepend-inner-icon="note_add"
               append-outer-icon="help"
               @click:prepend-inner="onAddSSHClick"
               @click:append-outer="onHelpClick('ssh')"

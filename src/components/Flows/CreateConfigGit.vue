@@ -7,7 +7,7 @@
             lazy-validation
         >
           <v-text-field
-              v-model="flow.git.hook"
+              v-model="flow.webhook"
               label="Webhook"
               readonly
               append-icon="help"
@@ -15,7 +15,7 @@
           ></v-text-field>
 
           <v-text-field
-              v-model="flow.git.url"
+              v-model="flow.gitUrl"
               label="Git URL"
               required
               append-icon="help"

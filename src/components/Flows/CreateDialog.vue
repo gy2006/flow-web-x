@@ -62,6 +62,7 @@
   import CreateConfigGit from './CreateConfigGit'
   import CreateTestGit from './CreateTestGit'
   import CreateFlowYml from './CreateFlowYml'
+  import { FlowWrapper } from '@/util/flows'
 
   export default {
     name: 'FlowCreateDialog',
@@ -75,18 +76,7 @@
       return {
         dialog: false,
         step: 1,
-        flow: {
-          name: '',
-          git: {
-            hook: 'http://flowci/flowname',
-            url: 'ssh://xxx',
-          },
-          ssh: {
-            public: '',
-            private: ''
-          },
-          verified: false
-        }
+        flow: new FlowWrapper({name: ''})
       }
     },
     methods: {
@@ -119,8 +109,8 @@
           }
         }
 
-        if (handler[this.step]) {
-          handler[this.step]()
+        if (handler[ this.step ]) {
+          handler[ this.step ]()
         }
       }
     }

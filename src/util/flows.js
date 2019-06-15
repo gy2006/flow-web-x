@@ -1,4 +1,5 @@
 import { mapping } from './jobs'
+import vars from './vars'
 
 export class FlowWrapper {
   constructor (flow) {
@@ -26,6 +27,22 @@ export class FlowWrapper {
 
   get iconClass () {
     return this.statusClass
+  }
+
+  get webhook () {
+    return this.flow[vars.flow.webhook]
+  }
+
+  get gitUrl () {
+    return this.flow[vars.flow.gitUrl]
+  }
+
+  set name (name) {
+    this.flow.name = name
+  }
+
+  set gitUrl (url) {
+    this.flow[vars.flow.gitUrl] = url
   }
 
   // latest job

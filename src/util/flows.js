@@ -30,11 +30,11 @@ export class FlowWrapper {
   }
 
   get webhook () {
-    return this.flow[vars.flow.webhook]
+    return this.flow.variables[vars.flow.webhook]
   }
 
   get gitUrl () {
-    return this.flow[vars.flow.gitUrl]
+    return this.flow.variables[vars.flow.gitUrl]
   }
 
   set name (name) {
@@ -42,7 +42,7 @@ export class FlowWrapper {
   }
 
   set gitUrl (url) {
-    this.flow[vars.flow.gitUrl] = url
+    this.flow.variables[vars.flow.gitUrl] = url
   }
 
   // latest job

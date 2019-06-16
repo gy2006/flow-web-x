@@ -7,12 +7,17 @@ const state = {
     name: undefined,
     yml: ''
   },
+  created: undefined,
   isExist: undefined // result from action 'exist'
 }
 
 const mutations = {
-  updateExist(state, isExist) {
+  updateExist (state, isExist) {
     state.isExist = isExist
+  },
+
+  setCreated (state, flow) {
+    state.created = flow
   },
 
   select (state, name) {
@@ -43,15 +48,20 @@ const actions = {
     commit('updateExist', undefined)
   },
 
+  async create ({commit}, name) {
+    await http.post('flows/' + name, (flow) => {
+      commit('setCreated', flow)
+    })
+  },
+
   select ({commit}, flow) {
     commit('select', flow.name)
   },
 
   list ({commit}) {
     http.get('flows', (list) => {
-        commit('list', list)
-      }
-    )
+      commit('list', list)
+    })
   },
 
   loadYml ({commit, state}, name) {

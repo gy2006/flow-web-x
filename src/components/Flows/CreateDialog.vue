@@ -63,6 +63,7 @@
   import CreateTestGit from './CreateTestGit'
   import CreateFlowYml from './CreateFlowYml'
   import { FlowWrapper } from '@/util/flows'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'FlowCreateDialog',
@@ -75,8 +76,19 @@
     data () {
       return {
         dialog: false,
-        step: 1,
-        flow: new FlowWrapper({name: ''})
+        step: 1
+      }
+    },
+    computed: {
+      ...mapState({
+        created: state => state.flows.created,
+      }),
+      flow: function () {
+        if (this.created === undefined) {
+          return new FlowWrapper({name: '', variables: {}})
+        }
+
+        return new FlowWrapper(this.created)
       }
     },
     methods: {

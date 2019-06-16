@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from './index'
 
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
@@ -6,7 +7,7 @@ const token = process.env.VUE_APP_TOKEN
 // config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
-  timeout: 1000,
+  timeout: 5000,
   headers: {'Token': token}
 })
 
@@ -16,26 +17,26 @@ const code = {
 }
 
 const handleError = (error) => {
-  console.log('[Error]: ' + error)
+  store.dispatch('populateErrors', error).then()
 }
 
 const getAttachment = (response) => {
-  const cd = response.headers['content-disposition']
+  const cd = response.headers[ 'content-disposition' ]
 
   if (cd === undefined) {
     return null
   }
 
   // attachment; filename="demo-#107-init.log"
-  let index = cd.indexOf("filename=")
+  let index = cd.indexOf('filename=')
 
   if (index === -1) {
     return null
   }
 
-  return cd.substring(index + "filename=".length)
-    .replace("\"", '')
-    .replace("\"", '')
+  return cd.substring(index + 'filename='.length)
+    .replace('"', '')
+    .replace('"', '')
 }
 
 export default {
@@ -65,23 +66,24 @@ export default {
         handleError(error)
       })
   },
+
+  // return promise
   post: (url, onSuccess, data) => {
-    instance.post(url, data, {
+    return instance.post(url, data, {
       headers: {
         'Content-Type': 'application/json'
       }
+    }).then((response) => {
+      const msg = response.data
+
+      if (msg.code === code.ok) {
+        onSuccess(msg.data)
+        return
+      }
+
+      handleError(msg.message)
+    }).catch((error) => {
+      handleError(error)
     })
-      .then((response) => {
-        const msg = response.data
-
-        if (msg.code === code.ok) {
-          onSuccess(msg.data)
-        }
-
-        handleError(msg.message)
-      })
-      .catch((error) => {
-        handleError(error)
-      })
   }
 }

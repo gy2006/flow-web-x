@@ -1,5 +1,6 @@
 export default {
   flows: {
+    reset: 'flows/reset',
     exist: 'flows/exist',
     list: 'flows/list',
     select: 'flows/select',

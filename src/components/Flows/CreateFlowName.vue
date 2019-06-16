@@ -66,9 +66,14 @@
 
     watch: {
       isExist(after) {
+        if (after === undefined) {
+          return
+        }
+
         if (after === false) {
           this.errorMsg.length = 0
           this.onNextClick()
+          this.$store.dispatch(actions.flows.reset).then()
           return
         }
 

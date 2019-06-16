@@ -7,7 +7,7 @@ const state = {
     name: undefined,
     yml: ''
   },
-  isExist: false // result from action 'exist'
+  isExist: undefined // result from action 'exist'
 }
 
 const mutations = {
@@ -37,6 +37,10 @@ const actions = {
     http.get('flows/' + name + '/exist', (boolVal) => {
       commit('updateExist', boolVal)
     })
+  },
+
+  reset ({commit}) {
+    commit('updateExist', undefined)
   },
 
   select ({commit}, flow) {

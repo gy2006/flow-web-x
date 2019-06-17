@@ -27,6 +27,7 @@ export default {
       git_url_format: 'Git URL 必须以 https 或 git@ 为开始',
 
       ssh_create: '点击创建新的 ssh key',
+      ssh_email_title: '请输入创建 ssh-rsa 的邮箱地址',
       ssh_email_required: 'Email 是创建 ssh-rsa 的必填项',
       ssh_key_required: '请输入 SSH key',
       ssh_public_format: 'Start with ssh-rsa',

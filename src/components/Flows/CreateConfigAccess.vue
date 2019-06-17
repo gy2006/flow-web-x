@@ -16,7 +16,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="subheading">Enter the email to create ssh-rsa</span>
+          <span class="subheading">{{ $t('flow.hint.ssh_email_title') }}</span>
         </v-card-title>
         <v-card-text>
           <v-form ref="emailForm" lazy-validation>

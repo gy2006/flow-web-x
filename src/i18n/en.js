@@ -5,7 +5,8 @@ export default {
   close: 'Close',
   next: 'Next',
   cancel: 'Cancel',
-  skip: 'skip',
+  skip: 'Skip',
+  create: 'Create',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',
@@ -26,7 +27,10 @@ export default {
       git_url_format: 'Git URL must be start with https or git@',
 
       ssh_create: 'click to create new ssh key',
-      ssh_key_required: 'SSH key is required'
+      ssh_email_required: 'Email is required for create ssh-rsa',
+      ssh_key_required: 'SSH key is required',
+      ssh_public_format: 'Start with ssh-rsa',
+      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----'
     }
   },
 

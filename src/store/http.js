@@ -17,6 +17,7 @@ const code = {
 }
 
 const handleError = (error) => {
+  console.log('[ERROR]: ' + error)
   store.dispatch('populateErrors', error).then()
 }
 
@@ -81,7 +82,7 @@ export default {
         return
       }
 
-      handleError(msg.message)
+      handleError(msg)
     }).catch((error) => {
       handleError(error)
     })

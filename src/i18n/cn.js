@@ -3,9 +3,10 @@ export default {
   save: '保存',
   reset: '重置',
   close: '关闭',
-  next: 'Next',
-  cancel: 'Cancel',
-  skip: 'skip',
+  next: '下一步',
+  cancel: '取消',
+  skip: '跳过',
+  create: '创建',
 
   menu_profile: '个人设置',
   menu_system_admin: '系统管理',
@@ -26,7 +27,10 @@ export default {
       git_url_format: 'Git URL 必须以 https 或 git@ 为开始',
 
       ssh_create: '点击创建新的 ssh key',
-      ssh_key_required: '请输入 SSH key'
+      ssh_email_required: 'Email 是创建 ssh-rsa 的必填项',
+      ssh_key_required: '请输入 SSH key',
+      ssh_public_format: 'Start with ssh-rsa',
+      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----'
     }
   },
 

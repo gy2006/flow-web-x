@@ -26,7 +26,6 @@
         </v-stepper-step>
         <v-stepper-content step="1">
           <create-flow-name
-              :flow="flow"
               :on-next-click="onNextClick"
           ></create-flow-name>
         </v-stepper-content>
@@ -35,7 +34,7 @@
         <v-stepper-step :complete="step > 2" step="2">Configure Git URL</v-stepper-step>
         <v-stepper-content step="2">
           <create-config-git
-              :flow="flow"
+              :webhook="flow.webhook"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
           ></create-config-git>
@@ -45,21 +44,20 @@
         <v-stepper-step :complete="step > 3" step="3">Configure Git Access</v-stepper-step>
         <v-stepper-content step="3">
           <create-config-access
-              :flow="flow"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
           ></create-config-access>
         </v-stepper-content>
 
-        <!-- step 3: to test git access -->
-        <v-stepper-step :complete="step > 3" step="3">Test git access</v-stepper-step>
-        <v-stepper-content step="3">
+        <!-- step 4: to test git access -->
+        <v-stepper-step :complete="step > 4" step="4">Test git access</v-stepper-step>
+        <v-stepper-content step="4">
           <create-test-git></create-test-git>
         </v-stepper-content>
 
-        <!-- step 4: to setup yml -->
-        <v-stepper-step step="4">Setup flow YML</v-stepper-step>
-        <v-stepper-content step="4">
+        <!-- step 5: to setup yml -->
+        <v-stepper-step step="5">Setup flow YML</v-stepper-step>
+        <v-stepper-content step="5">
           <create-flow-yml></create-flow-yml>
         </v-stepper-content>
       </v-stepper>
@@ -114,8 +112,8 @@
         }
       },
 
-      onNextClick () {
-        this.beforeStepForward()
+      onNextClick (data) {
+        this.beforeStepForward(data)
         this.step++
       },
 
@@ -123,18 +121,24 @@
 
       },
 
-      beforeStepForward () {
+      beforeStepForward (data) {
         const handler = {
-          1: () => {
-            console.log(this.flow.name)
+          1: (name) => {
+            this.flow.name = name
+            console.log('flow name: ' + name)
           },
-          2: () => {
-            console.log(this.flow.git)
+          2: (gitUrl) => {
+            this.flow.gitUrl = gitUrl
+            console.log('git url: ' + gitUrl)
+          },
+          3: (sshRsa) => {
+            this.flow.ssh = sshRsa
+            console.log('ssh-rsa: ' + sshRsa)
           }
         }
 
         if (handler[ this.step ]) {
-          handler[ this.step ]()
+          handler[ this.step ](data)
         }
       }
     }

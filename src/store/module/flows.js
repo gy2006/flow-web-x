@@ -7,7 +7,11 @@ const state = {
     name: undefined,
     yml: ''
   },
-  created: undefined,
+  created: undefined, // created flow object with pending status
+  sshRsa: {
+    publicKey: '',
+    privateKey:''
+  }, // created ssh-rsa
   isExist: undefined // result from action 'exist'
 }
 
@@ -16,8 +20,12 @@ const mutations = {
     state.isExist = isExist
   },
 
-  setCreated (state, flow) {
+  updateCreated (state, flow) {
     state.created = flow
+  },
+
+  updateSshRsa (state, rsaKeyPair) {
+    state.sshRsa = rsaKeyPair
   },
 
   select (state, name) {
@@ -50,8 +58,14 @@ const actions = {
 
   async create ({commit}, name) {
     await http.post('flows/' + name, (flow) => {
-      commit('setCreated', flow)
+      commit('updateCreated', flow)
     })
+  },
+
+  async createSshRsa({commit, state}, email) {
+    await http.post('credentials/rsa/only', (rsaKeyPair) => {
+      commit('updateSshRsa', rsaKeyPair)
+    }, {name: email})
   },
 
   select ({commit}, flow) {

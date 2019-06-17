@@ -7,7 +7,7 @@
             lazy-validation
         >
           <v-text-field
-              v-model="flow.webhook"
+              v-model="webhook"
               label="Webhook"
               readonly
               append-icon="help"
@@ -15,7 +15,7 @@
           ></v-text-field>
 
           <v-text-field
-              v-model="flow.gitUrl"
+              v-model="gitUrl"
               label="Git URL"
               required
               append-icon="help"
@@ -35,9 +35,9 @@
   export default {
     name: 'CreateConfigGit',
     props: {
-      flow: {
+      webhook: {
         required: true,
-        type: Object
+        type: String
       },
       onBackClick: {
         required: true,
@@ -50,6 +50,7 @@
     },
     data () {
       return {
+        gitUrl: '',
         gitUrlRules: [
           v => !!v || this.$t('flow.hint.git_url_required'),
           v => (/(^(http|https):\/\/)|(^git@)/g.test(v)) || this.$t('flow.hint.git_url_format')
@@ -59,7 +60,7 @@
     methods: {
       handleNextClick () {
         if (this.$refs.form.validate()) {
-          this.onNextClick()
+          this.onNextClick(this.gitUrl)
         }
       },
     }

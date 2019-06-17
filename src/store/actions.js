@@ -3,6 +3,7 @@ export default {
     reset: 'flows/reset',
     exist: 'flows/exist',
     create: 'flows/create',
+    createSshRsa: 'flows/createSshRsa',
     list: 'flows/list',
     select: 'flows/select',
     yml: {

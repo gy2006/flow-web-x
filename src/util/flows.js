@@ -7,6 +7,10 @@ export class FlowWrapper {
     this.statusIcon = 'home'
     this.statusClass = ''
     this.latestJob = undefined
+    this.sshObj = {
+      privateKey: '',
+      publicKey: ''
+    }
   }
 
   get rawInstance() {
@@ -30,11 +34,15 @@ export class FlowWrapper {
   }
 
   get webhook () {
-    return this.flow.variables[vars.flow.webhook]
+    return this.flow.variables[vars.flow.webhook] || ''
   }
 
   get gitUrl () {
-    return this.flow.variables[vars.flow.gitUrl]
+    return this.flow.variables[vars.flow.gitUrl] || ''
+  }
+
+  get ssh () {
+    return this.sshObj
   }
 
   set name (name) {
@@ -43,6 +51,10 @@ export class FlowWrapper {
 
   set gitUrl (url) {
     this.flow.variables[vars.flow.gitUrl] = url
+  }
+
+  set ssh (sshObj) {
+    this.sshObj = sshObj
   }
 
   // latest job

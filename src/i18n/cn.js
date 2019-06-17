@@ -22,7 +22,11 @@ export default {
       name_rule: '工作流名称仅可包含 a-z, A-Z, 0-9, _, -',
       name_duplicate: '工作流名称已使用',
 
-      create_ssh: '点击创建新的 ssh key'
+      git_url_required: '请输入 Git URL',
+      git_url_format: 'Git URL 必须以 https 或 git@ 为开始',
+
+      ssh_create: '点击创建新的 ssh key',
+      ssh_key_required: '请输入 SSH key'
     }
   },
 

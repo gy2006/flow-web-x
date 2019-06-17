@@ -22,7 +22,11 @@ export default {
       name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -',
       name_duplicate: 'Flow name already exists',
 
-      create_ssh: 'click to create new ssh key'
+      git_url_required: 'Git URL is required',
+      git_url_format: 'Git URL must be start with https or git@',
+
+      ssh_create: 'click to create new ssh key',
+      ssh_key_required: 'SSH key is required'
     }
   },
 

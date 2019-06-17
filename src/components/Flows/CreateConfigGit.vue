@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <div>
     <v-layout>
       <v-flex xs12 sm6>
@@ -22,27 +22,6 @@
               :rules="gitUrlRules"
               @click:append="onHelpClick('url')"
           ></v-text-field>
-
-          <v-divider></v-divider>
-
-          <v-subheader>
-            <span>SSH Public Key</span>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('flow.hint.create_ssh') }}</span>
-            </v-tooltip>
-          </v-subheader>
-
-          <v-textarea
-              box
-              append-outer-icon="help"
-              @click:prepend-inner="onAddSSHClick"
-              @click:append-outer="onHelpClick('ssh')"
-          ></v-textarea>
         </v-form>
       </v-flex>
     </v-layout>
@@ -72,8 +51,8 @@
     data () {
       return {
         gitUrlRules: [
-          v => !!v || 'Git URL is required',
-          v => (/(^(http|https):\/\/)|(^git@)/g.test(v)) || 'Git URL must https or ssh url'
+          v => !!v || this.$t('flow.hint.git_url_required'),
+          v => (/(^(http|https):\/\/)|(^git@)/g.test(v)) || this.$t('flow.hint.git_url_format')
         ]
       }
     },
@@ -83,14 +62,6 @@
           this.onNextClick()
         }
       },
-
-      onHelpClick (item) {
-        console.log(item)
-      },
-
-      onAddSSHClick () {
-        console.log('add ssh')
-      }
     }
   }
 </script>

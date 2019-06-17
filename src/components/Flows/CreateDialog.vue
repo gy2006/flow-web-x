@@ -31,14 +31,24 @@
           ></create-flow-name>
         </v-stepper-content>
 
-        <!-- step 2: to config git access -->
-        <v-stepper-step :complete="step > 2" step="2">Configure git access</v-stepper-step>
+        <!-- step 2: to config git url -->
+        <v-stepper-step :complete="step > 2" step="2">Configure Git URL</v-stepper-step>
         <v-stepper-content step="2">
           <create-config-git
               :flow="flow"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
           ></create-config-git>
+        </v-stepper-content>
+
+        <!-- step 3: to config git access -->
+        <v-stepper-step :complete="step > 3" step="3">Configure Git Access</v-stepper-step>
+        <v-stepper-content step="3">
+          <create-config-access
+              :flow="flow"
+              :on-next-click="onNextClick"
+              :on-back-click="onBackClick"
+          ></create-config-access>
         </v-stepper-content>
 
         <!-- step 3: to test git access -->
@@ -62,6 +72,7 @@
   import CreateConfigGit from './CreateConfigGit'
   import CreateTestGit from './CreateTestGit'
   import CreateFlowYml from './CreateFlowYml'
+  import CreateConfigAccess from './CreateConfigAccess'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
 
@@ -70,6 +81,7 @@
     components: {
       CreateFlowName,
       CreateConfigGit,
+      CreateConfigAccess,
       CreateTestGit,
       CreateFlowYml
     },

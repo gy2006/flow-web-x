@@ -21,8 +21,7 @@
 
         <!-- step 1: to given a name -->
         <v-stepper-step :complete="step > 1" step="1">
-          Enter flow name
-          <small>Summarize if needed</small>
+          {{ $t('flow.create_title_name') }}
         </v-stepper-step>
         <v-stepper-content step="1">
           <create-flow-name
@@ -31,7 +30,9 @@
         </v-stepper-content>
 
         <!-- step 2: to config git url -->
-        <v-stepper-step :complete="step > 2" step="2">Configure Git URL</v-stepper-step>
+        <v-stepper-step :complete="step > 2" step="2">
+          {{ $t('flow.create_title_git_url') }}
+        </v-stepper-step>
         <v-stepper-content step="2">
           <create-config-git
               :webhook="flow.webhook"
@@ -41,7 +42,9 @@
         </v-stepper-content>
 
         <!-- step 3: to config git access -->
-        <v-stepper-step :complete="step > 3" step="3">Configure Git Access</v-stepper-step>
+        <v-stepper-step :complete="step > 3" step="3">
+          {{ $t('flow.create_title_git_access') }}
+        </v-stepper-step>
         <v-stepper-content step="3">
           <create-config-access
               :on-next-click="onNextClick"
@@ -50,13 +53,17 @@
         </v-stepper-content>
 
         <!-- step 4: to test git access -->
-        <v-stepper-step :complete="step > 4" step="4">Test git access</v-stepper-step>
+        <v-stepper-step :complete="step > 4" step="4">
+          {{ $t('flow.create_title_git_test') }}
+        </v-stepper-step>
         <v-stepper-content step="4">
           <create-test-git></create-test-git>
         </v-stepper-content>
 
         <!-- step 5: to setup yml -->
-        <v-stepper-step step="5">Setup flow YML</v-stepper-step>
+        <v-stepper-step step="5">
+          {{ $t('flow.create_title_yml') }}
+        </v-stepper-step>
         <v-stepper-content step="5">
           <create-flow-yml></create-flow-yml>
         </v-stepper-content>

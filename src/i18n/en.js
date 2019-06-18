@@ -17,6 +17,12 @@ export default {
     settings: 'Settings',
     config_yml: 'YML Config',
 
+    create_title_name: 'Enter Flow Name',
+    create_title_git_url: 'Config Git URL',
+    create_title_git_access: 'Config Git Access',
+    create_title_git_test: 'Test Git Connection',
+    create_title_yml: 'Config YML',
+
     hint: {
       name_required: 'Name is required',
       name_size: 'Name must be less than 20 character',

@@ -12,16 +12,22 @@ export default {
   menu_system_admin: '系统管理',
 
   flow: {
-    create: '创建工作流',
+    create: '创建 Flow',
     search: '输入关键词搜索',
     settings: '设置',
-    config_yml: '配置 YML 工作流',
+    config_yml: '配置 YML',
+
+    create_title_name: '输入 Flow 名称',
+    create_title_git_url: '配置 Git URL',
+    create_title_git_access: '配置 Git 权限',
+    create_title_git_test: '测试 Git 链接',
+    create_title_yml: '配置 YML',
 
     hint: {
-      name_required: '请输入工作流名称',
-      name_size: '工作流名称长度需要小于 20 个字符',
-      name_rule: '工作流名称仅可包含 a-z, A-Z, 0-9, _, -',
-      name_duplicate: '工作流名称已使用',
+      name_required: '请输入 Flow 名称',
+      name_size: 'Flow 名称长度需要小于 20 个字符',
+      name_rule: 'Flow 名称仅可包含 a-z, A-Z, 0-9, _, -',
+      name_duplicate: 'Flow 名称已使用',
 
       git_url_required: '请输入 Git URL',
       git_url_format: 'Git URL 必须以 https 或 git@ 为开始',

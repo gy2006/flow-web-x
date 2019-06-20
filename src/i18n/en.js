@@ -29,6 +29,7 @@ export default {
       name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -',
       name_duplicate: 'Flow name already exists',
 
+      git_skip: 'Setup Git access later',
       git_url_required: 'Git URL is required',
       git_url_format: 'Git URL must be start with https or git@',
 

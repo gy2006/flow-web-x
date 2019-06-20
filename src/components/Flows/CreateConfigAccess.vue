@@ -68,7 +68,6 @@
     </v-form>
     <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
     <v-btn flat @click="onBackClick">{{ $t('back') }}</v-btn>
-    <v-btn flat @click="onNextClick">{{ $t('skip') }}</v-btn>
   </div>
 </template>
 

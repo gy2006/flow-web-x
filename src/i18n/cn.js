@@ -29,6 +29,7 @@ export default {
       name_rule: 'Flow 名称仅可包含 a-z, A-Z, 0-9, _, -',
       name_duplicate: 'Flow 名称已使用',
 
+      git_skip: '稍后配置 Git 仓库链接',
       git_url_required: '请输入 Git URL',
       git_url_format: 'Git URL 必须以 https 或 git@ 为开始',
 

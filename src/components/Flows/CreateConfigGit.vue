@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-layout>
       <v-flex xs12 sm6>
@@ -27,7 +27,12 @@
     </v-layout>
     <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
     <v-btn flat @click="onBackClick">{{ $t('back') }}</v-btn>
-    <v-btn flat @click="onNextClick">{{ $t('skip') }}</v-btn>
+    <v-tooltip right>
+      <template v-slot:activator="{ on }">
+        <v-btn flat @click="onSkipClick" v-on="on">{{ $t('skip') }}</v-btn>
+      </template>
+      <span>{{ $t('flow.hint.git_skip') }}</span>
+    </v-tooltip>
   </div>
 </template>
 
@@ -44,6 +49,10 @@
         type: Function
       },
       onNextClick: {
+        required: true,
+        type: Function
+      },
+      onSkipClick: {
         required: true,
         type: Function
       }

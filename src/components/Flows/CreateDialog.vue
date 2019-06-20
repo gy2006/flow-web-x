@@ -38,6 +38,7 @@
               :webhook="flow.webhook"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
+              :on-skip-click="onSkipClick"
           ></create-config-git>
         </v-stepper-content>
 
@@ -111,12 +112,18 @@
     methods: {
       onCancelClick () {
         this.dialog = false
+        this.step = 1
       },
 
       onBackClick () {
         if (this.step > 0) {
           this.step--
         }
+      },
+
+      onSkipClick () {
+        // skip git config and jump to yml config
+        this.step = 5
       },
 
       onNextClick (data) {

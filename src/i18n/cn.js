@@ -7,6 +7,7 @@ export default {
   cancel: '取消',
   skip: '跳过',
   create: '创建',
+  test: '测试',
 
   menu_profile: '个人设置',
   menu_system_admin: '系统管理',

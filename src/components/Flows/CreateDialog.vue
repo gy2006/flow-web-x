@@ -58,7 +58,12 @@
           {{ $t('flow.create_title_git_test') }}
         </v-stepper-step>
         <v-stepper-content step="4">
-          <create-test-git></create-test-git>
+          <create-test-git
+              :flow="flow"
+              :on-next-click="onNextClick"
+              :on-back-click="onBackClick"
+              :on-skip-click="onSkipClick">
+          </create-test-git>
         </v-stepper-content>
 
         <!-- step 5: to setup yml -->

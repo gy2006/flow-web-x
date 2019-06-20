@@ -7,6 +7,7 @@ export default {
   cancel: 'Cancel',
   skip: 'Skip',
   create: 'Create',
+  test: 'Test',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',

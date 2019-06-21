@@ -1,6 +1,36 @@
 import { mapping } from './jobs'
 import vars from './vars'
 
+export const GIT_TEST_FETCHING = 'FETCHING'
+export const GIT_TEST_DONE = 'DONE'
+export const GIT_TEST_ERROR = 'ERROR'
+
+export const gitTestStatus = {
+  default: {
+    class: [ 'amber--text' ],
+    icon: 'flow-icon-loading1',
+    message: 'Testing'
+  },
+
+  [ GIT_TEST_FETCHING ]: {
+    class: [ 'amber--text', 'rotate' ],
+    icon: 'flow-icon-loading1',
+    message: 'Testing'
+  },
+
+  [ GIT_TEST_DONE ]: {
+    icon: 'flow-icon-circle-check',
+    class: [ 'green--text' ],
+    message: 'Done'
+  },
+
+  [ GIT_TEST_ERROR ]: {
+    icon: 'flow-icon-cross',
+    class: [ 'red--text' ],
+    message: 'Error'
+  }
+}
+
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
@@ -13,7 +43,7 @@ export class FlowWrapper {
     }
   }
 
-  get rawInstance() {
+  get rawInstance () {
     return this.flow
   }
 
@@ -34,11 +64,11 @@ export class FlowWrapper {
   }
 
   get webhook () {
-    return this.flow.variables[vars.flow.webhook] || ''
+    return this.flow.variables[ vars.flow.webhook ] || ''
   }
 
   get gitUrl () {
-    return this.flow.variables[vars.flow.gitUrl] || ''
+    return this.flow.variables[ vars.flow.gitUrl ] || ''
   }
 
   get ssh () {
@@ -50,7 +80,7 @@ export class FlowWrapper {
   }
 
   set gitUrl (url) {
-    this.flow.variables[vars.flow.gitUrl] = url
+    this.flow.variables[ vars.flow.gitUrl ] = url
   }
 
   set ssh (sshObj) {
@@ -60,8 +90,8 @@ export class FlowWrapper {
   // latest job
   set job (latestJob) {
     this.latestJob = latestJob
-    this.icon = mapping.status[latestJob.status].icon
-    this.iconClass = mapping.status[latestJob.status].class
+    this.icon = mapping.status[ latestJob.status ].icon
+    this.iconClass = mapping.status[ latestJob.status ].class
   }
 
   set icon (icon) {

@@ -8,11 +8,9 @@ const state = {
     yml: ''
   },
   created: undefined, // created flow object with pending status
-  sshRsa: {
-    publicKey: '',
-    privateKey:''
-  }, // created ssh-rsa
-  isExist: undefined // result from action 'exist'
+  sshRsa: {publicKey: '', privateKey: ''}, // created ssh-rsa
+  isExist: undefined, // result from action 'exist'
+  gitTestMessage: undefined  // git test message update
 }
 
 const mutations = {
@@ -26,6 +24,10 @@ const mutations = {
 
   updateSshRsa (state, rsaKeyPair) {
     state.sshRsa = rsaKeyPair
+  },
+
+  updateGitTest (state, gitTestMessage) {
+    state.gitTestMessage = gitTestMessage
   },
 
   select (state, name) {
@@ -46,6 +48,18 @@ const mutations = {
 }
 
 const actions = {
+  async create ({commit}, name) {
+    await http.post('flows/' + name, (flow) => {
+      commit('updateCreated', flow)
+    })
+  },
+
+  async createSshRsa ({commit, state}, email) {
+    await http.post('credentials/rsa/only', (rsaKeyPair) => {
+      commit('updateSshRsa', rsaKeyPair)
+    }, {name: email})
+  },
+
   exist ({commit}, name) {
     http.get('flows/' + name + '/exist', (boolVal) => {
       commit('updateExist', boolVal)
@@ -56,18 +70,6 @@ const actions = {
     commit('updateExist', undefined)
   },
 
-  async create ({commit}, name) {
-    await http.post('flows/' + name, (flow) => {
-      commit('updateCreated', flow)
-    })
-  },
-
-  async createSshRsa({commit, state}, email) {
-    await http.post('credentials/rsa/only', (rsaKeyPair) => {
-      commit('updateSshRsa', rsaKeyPair)
-    }, {name: email})
-  },
-
   select ({commit}, flow) {
     commit('select', flow.name)
   },
@@ -76,6 +78,20 @@ const actions = {
     http.get('flows', (list) => {
       commit('list', list)
     })
+  },
+
+  async gitTestStart ({commit}, flow) {
+    await http.post('flows/' + flow.name + '/git/test',
+      () => {
+      },
+      {
+        gitUrl: flow.gitUrl,
+        privateKey: flow.ssh.privateKey
+      })
+  },
+
+  gitTestUpdate ({commit}, gitTestMessage) {
+    commit('updateGitTest', gitTestMessage)
   },
 
   loadYml ({commit, state}, name) {

@@ -33,6 +33,7 @@ function subscribe (topic, callback) {
 
   if (stompClient.connected) {
     subscribed[topic] = stompClient.subscribe(topic, callback)
+    console.log('subscribe: ' + topic)
     return
   }
 
@@ -59,6 +60,14 @@ stompClient.connect({}, function () {
 })
 
 export const subscribeTopic = {
+  // subscribe flow git test
+  gitTest (store, flowId) {
+    subscribe('/topic/flows/git/test/' + flowId, (data) => {
+      let message = JSON.parse(data.body)
+      store.dispatch(actions.flows.gitTestUpdate, message.body).then()
+    })
+  },
+
   // subscribe job changes
   jobs (store) {
     subscribe('/topic/jobs', (data) => {
@@ -99,6 +108,7 @@ export const subscribeTopic = {
     })
   },
 
+  // subscribe agent update
   agents (store) {
     subscribe('/topic/agents', (data) => {
       let message = JSON.parse(data.body)
@@ -109,6 +119,10 @@ export const subscribeTopic = {
 }
 
 export const unsubsribeTopic = {
+  gitTest (flowId) {
+    unsubscribe('/topic/flows/git/test/' + flowId)
+  },
+
   steps (jobId) {
     unsubscribe('/topic/steps/' + jobId)
   },

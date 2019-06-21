@@ -9,7 +9,9 @@ export default {
     yml: {
       load: 'flows/loadYml',
       save: 'flows/saveYml'
-    }
+    },
+    gitTestStart: 'flows/gitTestStart',
+    gitTestUpdate: 'flows/gitTestUpdate'
   },
 
   jobs: {

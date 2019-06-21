@@ -62,16 +62,7 @@
               :flow="flow"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
-              :on-skip-click="onSkipClick">
-          </create-test-git>
-        </v-stepper-content>
-
-        <!-- step 5: to setup yml -->
-        <v-stepper-step step="5">
-          {{ $t('flow.create_title_yml') }}
-        </v-stepper-step>
-        <v-stepper-content step="5">
-          <create-flow-yml></create-flow-yml>
+          ></create-test-git>
         </v-stepper-content>
       </v-stepper>
     </v-card>
@@ -82,7 +73,6 @@
   import CreateFlowName from './CreateFlowName'
   import CreateConfigGit from './CreateConfigGit'
   import CreateTestGit from './CreateTestGit'
-  import CreateFlowYml from './CreateFlowYml'
   import CreateConfigAccess from './CreateConfigAccess'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
@@ -93,8 +83,7 @@
       CreateFlowName,
       CreateConfigGit,
       CreateConfigAccess,
-      CreateTestGit,
-      CreateFlowYml
+      CreateTestGit
     },
     data () {
       return {
@@ -114,6 +103,19 @@
         return new FlowWrapper(this.created)
       }
     },
+    watch: {
+      step (after) {
+        if (after !== 4) {
+          return
+        }
+
+        console.log('should be finish')
+        // TODO: save git connection
+        // TODO: save ssh settings
+        // TODO: to confirm status
+        this.onCancelClick()
+      }
+    },
     methods: {
       onCancelClick () {
         this.dialog = false
@@ -127,17 +129,13 @@
       },
 
       onSkipClick () {
-        // skip git config and jump to yml config
-        this.step = 5
+        // skip git config
+        this.step = 4
       },
 
       onNextClick (data) {
         this.beforeStepForward(data)
         this.step++
-      },
-
-      onSaveClick () {
-
       },
 
       beforeStepForward (data) {

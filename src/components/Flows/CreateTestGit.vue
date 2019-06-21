@@ -18,15 +18,6 @@
       {{ $t('test') }}
     </v-btn>
 
-    <!-- save button -->
-    <v-btn
-        color="primary"
-        @click="handleSaveClick"
-        v-if="isShowSaveBtn"
-    >
-      {{ $t('save') }}
-    </v-btn>
-
     <!-- back button -->
     <v-btn
         color="primary"
@@ -35,7 +26,14 @@
     >
       {{ $t('back') }}
     </v-btn>
-    <v-btn flat @click="handleSkipClick">{{ $t('skip') }}</v-btn>
+
+    <!-- finish button -->
+    <v-btn
+        color="primary"
+        @click="handleFinishClick"
+    >
+      {{ $t('flow.create_btn_finish') }}
+    </v-btn>
   </div>
 </template>
 
@@ -43,7 +41,7 @@
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
   import { subscribeTopic, unsubsribeTopic } from '@/store/subscribe'
-  import { GIT_TEST_DONE, GIT_TEST_ERROR, GIT_TEST_FETCHING, gitTestStatus } from '@/util/flows'
+  import { GIT_TEST_ERROR, GIT_TEST_FETCHING, gitTestStatus } from '@/util/flows'
 
   export default {
     name: 'CreateTestGit',
@@ -57,10 +55,6 @@
         type: Function
       },
       onNextClick: {
-        required: true,
-        type: Function
-      },
-      onSkipClick: {
         required: true,
         type: Function
       }
@@ -92,14 +86,6 @@
         return this.gitTestMessage.status === GIT_TEST_FETCHING;
       },
 
-      isShowSaveBtn () {
-        if (this.gitTestMessage === undefined) {
-          return false
-        }
-
-        return this.gitTestMessage.status === GIT_TEST_DONE;
-      },
-
       isShowBackBtn () {
         if (this.gitTestMessage === undefined) {
           return false
@@ -119,13 +105,9 @@
         })
       },
 
-      handleSaveClick () {
-        this.onNextClick()
-      },
-
-      handleSkipClick () {
+      handleFinishClick () {
         unsubsribeTopic.gitTest(this.flow.id)
-        this.onSkipClick()
+        this.onNextClick()
       }
     }
   }

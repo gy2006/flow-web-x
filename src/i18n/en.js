@@ -24,6 +24,8 @@ export default {
     create_title_git_test: 'Test Git Connection',
     create_title_yml: 'Config YML',
 
+    create_btn_finish: 'Finish',
+
     hint: {
       name_required: 'Name is required',
       name_size: 'Name must be less than 20 character',

@@ -24,6 +24,8 @@ export default {
     create_title_git_test: '测试 Git 链接',
     create_title_yml: '配置 YML',
 
+    create_btn_finish: '完成创建',
+
     hint: {
       name_required: '请输入 Flow 名称',
       name_size: 'Flow 名称长度需要小于 20 个字符',

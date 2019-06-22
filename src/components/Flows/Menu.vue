@@ -76,10 +76,6 @@
         this.drawer = !this.drawer
       },
 
-      onCreateFlow () {
-        console.log('create')
-      },
-
       onItemClick (flow) {
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },

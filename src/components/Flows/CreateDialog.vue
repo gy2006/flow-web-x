@@ -74,6 +74,7 @@
   import CreateConfigGit from './CreateConfigGit'
   import CreateTestGit from './CreateTestGit'
   import CreateConfigAccess from './CreateConfigAccess'
+  import actions from '@/store/actions'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
 
@@ -105,15 +106,13 @@
     },
     watch: {
       step (after) {
-        if (after !== 4) {
+        if (after < 5) {
           return
         }
 
-        console.log('should be finish')
-        // TODO: save git connection
-        // TODO: save ssh settings
-        // TODO: to confirm status
-        this.onCancelClick()
+        this.$store.dispatch(actions.flows.confirm, this.flow).then(() => {
+          this.onCancelClick()
+        })
       }
     },
     methods: {

@@ -75,6 +75,18 @@ export class FlowWrapper {
     return this.sshObj
   }
 
+  get variables () {
+    return this.flow.variables
+  }
+
+  get hasGitUrl () {
+    return this.gitUrl !== ''
+  }
+
+  get hasSSH () {
+    return this.ssh.privateKey !== '' || this.ssh.publicKey !== ''
+  }
+
   set name (name) {
     this.flow.name = name
   }

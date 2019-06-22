@@ -4,6 +4,7 @@ export default {
     exist: 'flows/exist',
     create: 'flows/create',
     createSshRsa: 'flows/createSshRsa',
+    confirm: 'flows/confirm',
     list: 'flows/list',
     select: 'flows/select',
     yml: {

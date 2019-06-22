@@ -42,6 +42,10 @@ const mutations = {
     state.items = items
   },
 
+  add (state, newFlow) {
+    state.items.push(newFlow)
+  },
+
   editor (state, res) {
     state.editor = res
   }
@@ -49,7 +53,7 @@ const mutations = {
 
 const actions = {
   async create ({commit}, name) {
-    await http.post('flows/' + name, (flow) => {
+    await http.post(`flows/${name}`, (flow) => {
       commit('updateCreated', flow)
     })
   },
@@ -60,8 +64,56 @@ const actions = {
     }, {name: email})
   },
 
+  async gitTestStart ({commit}, flow) {
+    const url = `flows/${flow.name}/git/test`
+    await http.post(url,
+      () => {
+      },
+      {
+        gitUrl: flow.gitUrl,
+        privateKey: flow.ssh.privateKey
+      })
+  },
+
+  async confirm ({commit}, wrapper) {
+    const promiseArray = []
+
+    if (wrapper.hasGitUrl) {
+      promiseArray.push(http.post(
+        `flows/${wrapper.name}/variables`,
+        () => {
+          console.log('[DONE]: add variables')
+        },
+        wrapper.variables
+        )
+      )
+    }
+
+    if (wrapper.hasSSH) {
+      promiseArray.push(http.post(
+        `flows/${wrapper.name}/credential/rsa`,
+        () => {
+          console.log('[DONE]: setup credential')
+        },
+        wrapper.ssh
+        )
+      )
+    }
+
+    promiseArray.push(http.post(
+      `flows/${wrapper.name}/confirm`,
+      (flow) => {
+        console.log('[DONE]: confirmed')
+        commit('add', flow)
+      }
+      )
+    )
+
+    await Promise.all(promiseArray)
+  },
+
   exist ({commit}, name) {
-    http.get('flows/' + name + '/exist', (boolVal) => {
+    http.get(`flows/${name}/exist`, (boolVal) => {
       commit('updateExist', boolVal)
     })
   },
@@ -80,16 +132,6 @@ const actions = {
     })
   },
 
-  async gitTestStart ({commit}, flow) {
-    await http.post('flows/' + flow.name + '/git/test',
-      () => {
-      },
-      {
-        gitUrl: flow.gitUrl,
-        privateKey: flow.ssh.privateKey
-      })
-  },
-
   gitTestUpdate ({commit}, gitTestMessage) {
     commit('updateGitTest', gitTestMessage)
   },
@@ -99,7 +141,7 @@ const actions = {
       return
     }
 
-    http.get('flows/' + name + '/yml', (base64Yml) => {
+    http.get(`flows/${name}/yml`, (base64Yml) => {
       commit('setYml', atob(base64Yml))
     })
   },
@@ -109,7 +151,7 @@ const actions = {
       return
     }
 
-    http.post('flows/' + name + '/yml',
+    http.post(`flows/${name}/yml`,
       () => {
         commit('setYml', yml)
       },

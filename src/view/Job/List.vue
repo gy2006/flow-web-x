@@ -5,7 +5,7 @@
       <v-flex xs6 class="header">
         <h2 class="pr-4">
           <v-icon>layers</v-icon>
-          {{ this.name }}
+          {{ name }}
         </h2>
 
         <v-chip label color="" outline text-color="black" @click="onSettingsClick">
@@ -76,7 +76,6 @@
     name: 'JobList',
     data () {
       return {
-        name: '', // flow name
         loading: false,
         alert: false
       }
@@ -85,18 +84,30 @@
       JobListItem
     },
     mounted () {
-      this.name = this.$route.params.id
-      this.$store.dispatch(actions.flows.select, this.name).then()
-      this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
       subscribeTopic.jobs(this.$store)
+      this.reload()
     },
     computed: {
       ...mapState({
         pagination: state => state.jobs.pagination,
         jobs: state => state.jobs.items
-      })
+      }),
+
+      name () {
+        return this.$route.params.id
+      },
+    },
+    watch: {
+      name () {
+        this.reload()
+      }
     },
     methods: {
+      reload () {
+        this.$store.dispatch(actions.flows.select, this.name).then()
+        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
+      },
+
       onItemClick (job) {
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
       },

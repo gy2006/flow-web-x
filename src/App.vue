@@ -65,9 +65,6 @@
       }
     },
     methods: {
-      openCreateFlow () {
-        this.refs('createFlow').open()
-      },
       refs (name) {
         return this.$refs[name]
       }

@@ -12,8 +12,8 @@
           color="blue-grey"
           class="white--text"
           @click="onSettingsClick">
+        <v-icon small class="mr-1">settings</v-icon>
         {{ $t('flow.settings') }}
-        <v-icon small class="ml-1">settings</v-icon>
       </v-btn>
 
       <v-btn

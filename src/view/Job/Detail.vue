@@ -1,5 +1,5 @@
 <template>
-  <v-card height='100%' class="ma-2">
+  <v-card class="full-size">
     <v-card-title>
       <div>
         <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>

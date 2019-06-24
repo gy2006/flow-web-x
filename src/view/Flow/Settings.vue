@@ -5,7 +5,7 @@
       <v-flex xs6 class="header">
         <h2 class="pr-4">
           <v-icon>layers</v-icon>
-          {{ this.name }}
+          {{ name }}
         </h2>
       </v-flex>
     </v-layout>
@@ -54,14 +54,11 @@
     name: 'FlowSettings',
     data () {
       return {
-        name: '', // flow name
         editor: {},
         isCodeChange: false
       }
     },
     mounted () {
-      this.name = this.$route.params.id
-
       this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
         value: this.yml,
         language: 'yaml',
@@ -74,19 +71,38 @@
       })
 
       this.editor.onDidChangeModelContent(this.onCodeChange)
-      this.$store.dispatch(actions.flows.yml.load, this.name).then(() => {})
+
+      this.reload()
     },
     computed: {
       ...mapState({
-        yml: state => state.flows.selected.yml
-      })
+        yml: state => state.flows.selected.yml,
+        errors: state => state.errors.items
+      }),
+
+      name () {
+        return this.$route.params.id
+      }
     },
     watch: {
       yml (after) {
+        console.log('yml changed')
         this.editor.setValue(after)
+      },
+
+      name () {
+        this.reload()
+      },
+
+      errors (after) {
+        this.editor.setValue(`# ${after}`)
       }
     },
     methods: {
+      reload () {
+        this.$store.dispatch(actions.flows.yml.load, this.name).then()
+      },
+
       onCodeChange (e) {
         this.isCodeChange = true
       },

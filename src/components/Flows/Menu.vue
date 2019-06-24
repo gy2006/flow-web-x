@@ -29,10 +29,8 @@
 
       <!-- button to create-->
       <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title class="text-xs-center">
-            <flow-create-dialog></flow-create-dialog>
-          </v-list-tile-title>
+        <v-list-tile-content class="btn-create">
+          <flow-create-dialog></flow-create-dialog>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -127,5 +125,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .btn-create {
+    align-items: center;
+  }
 </style>

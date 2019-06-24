@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%" height="100%">
+  <v-card class="full-size">
     <v-card-title>
       <span class="pr-2 font-weight-bold headline">
         <v-icon>layers</v-icon>
@@ -13,7 +13,7 @@
           class="white--text"
           @click="onSettingsClick">
         {{ $t('flow.settings') }}
-        <v-icon small>settings</v-icon>
+        <v-icon small class="ml-1">settings</v-icon>
       </v-btn>
 
       <v-btn

@@ -55,21 +55,23 @@
         drawer: true,
         searchVal: '',
         loading: false,
-        current: '',
         items: []
       }
     },
     mounted () {
-      this.current = this.$route.params.id
       this.$store.dispatch(actions.flows.list).then()
     },
     computed: {
       ...mapState({
         flows: state => state.flows.items,
-
         // to receive job updated event and show latest job status on flow list
         updatedJob: state => state.jobs.updated
-      })
+      }),
+
+      // current flow name
+      current () {
+        return this.$route.params.id
+      }
     },
     methods: {
       click () {

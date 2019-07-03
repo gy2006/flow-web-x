@@ -21,6 +21,7 @@
           :disabled="loading"
           color="success"
           @click.native="onRunClick">
+        <v-icon class="mr-1">play_arrow</v-icon>
         {{ $t('job.run') }}
       </v-btn>
     </v-card-title>

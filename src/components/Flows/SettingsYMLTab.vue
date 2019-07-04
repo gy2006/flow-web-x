@@ -27,6 +27,12 @@
 
   export default {
     name: 'SettingsYMLTab',
+    props: {
+      name: {
+        required: true,
+        type: String
+      }
+    },
     data () {
       return {
         editor: {},
@@ -53,11 +59,7 @@
       ...mapState({
         yml: state => state.flows.selected.yml,
         errors: state => state.errors.items
-      }),
-
-      name () {
-        return this.$route.params.id
-      }
+      })
     },
     watch: {
       yml (after) {
@@ -80,10 +82,6 @@
 
       onCodeChange (e) {
         this.isCodeChange = true
-      },
-
-      onBackClick () {
-        this.$router.push({path: `/flows/${this.name}/jobs`})
       },
 
       onResetClick () {

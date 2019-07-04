@@ -24,10 +24,10 @@
         </v-tab>
 
         <v-tab-item value="tab-yml">
-          <settings-yml-tab></settings-yml-tab>
+          <settings-yml-tab :name="name"></settings-yml-tab>
         </v-tab-item>
         <v-tab-item value="tab-options">
-          options
+          <settings-option-tab :name="name"></settings-option-tab>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -36,11 +36,13 @@
 
 <script>
   import SettingsYmlTab from '@/components/Flows/SettingsYMLTab'
+  import SettingsOptionTab from '@/components/Flows/SettingsOptionTab'
 
   export default {
     name: 'FlowSettings',
     components: {
-      SettingsYmlTab
+      SettingsYmlTab,
+      SettingsOptionTab
     },
     computed: {
       name () {

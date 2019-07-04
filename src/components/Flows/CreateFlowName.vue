@@ -23,6 +23,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import { flowNameRules } from '@/util/rules'
   import actions from '@/store/actions'
 
   export default {
@@ -38,11 +39,7 @@
         valid: true,
         errorMsg: [],
         name: '',
-        nameRules: [
-          v => !!v || this.$t('flow.hint.name_required'),
-          v => (/^[A-Za-z0-9_-]+$/g.test(v)) || this.$t('flow.hint.name_rule'),
-          v => (v.length >= 1 && v.length <= 20) || this.$t('flow.hint.name_size'),
-        ]
+        nameRules: flowNameRules(this)
       }
     },
     computed: {

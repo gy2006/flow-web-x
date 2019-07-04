@@ -72,8 +72,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import actions from '@/store/actions'
+  import { mapState } from 'vuex'
+  import { sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
 
   export default {
     name: 'CreateConfigAccess',
@@ -92,17 +93,9 @@
         email: '',
         isCreated: false,
         dialog: false,
-        sshEmailRules: [
-          v => !!v || this.$t('flow.hint.ssh_email_required')
-        ],
-        sshPublicKeyRules: [
-          v => !!v || this.$t('flow.hint.ssh_key_required'),
-          v => (/(^ssh-rsa)/g.test(v)) || this.$t('flow.hint.ssh_public_format')
-        ],
-        sshPrivateKeyRules: [
-          v => !!v || this.$t('flow.hint.ssh_key_required'),
-          v => (/(^-----BEGIN RSA PRIVATE KEY-----)/g.test(v)) || this.$t('flow.hint.ssh_private_format')
-        ]
+        sshEmailRules: sshEmailRules(this),
+        sshPublicKeyRules: sshPublicKeyRules(this),
+        sshPrivateKeyRules: sshPrivateKeyRules(this)
       }
     },
     computed: {

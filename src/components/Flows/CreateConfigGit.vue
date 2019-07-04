@@ -37,6 +37,8 @@
 </template>
 
 <script>
+  import { gitUrlRules } from '@/util/rules'
+
   export default {
     name: 'CreateConfigGit',
     props: {
@@ -60,10 +62,7 @@
     data () {
       return {
         gitUrl: '',
-        gitUrlRules: [
-          v => !!v || this.$t('flow.hint.git_url_required'),
-          v => (/(^(http|https):\/\/)|(^git@)/g.test(v)) || this.$t('flow.hint.git_url_format')
-        ]
+        gitUrlRules: gitUrlRules(this)
       }
     },
     methods: {

@@ -17,7 +17,7 @@ export default {
   },
 
   credential: {
-    ssh: 'FLOWCI_CREDENTIAL_SSH'
+    ssh: 'FLOWCI_CREDENTIAL_SSH_RSA'
   },
 
   git: {

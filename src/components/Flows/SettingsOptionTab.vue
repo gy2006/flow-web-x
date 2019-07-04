@@ -8,10 +8,13 @@
       </v-flex>
 
       <v-flex xs5>
-        <span class="font-weight-bold body-1">Flow Name</span>
         <div class="d-flex mt-2 flow-name">
-          <v-text-field solo v-model="name"></v-text-field>
-          <v-btn outline color="indigo mt-0">Rename</v-btn>
+          <v-text-field
+              :label="`Flow Name (${vars.flow.name})`"
+              :rule="flowNameRules"
+              v-model="name"
+          ></v-text-field>
+          <v-btn outline color="indigo">Rename</v-btn>
         </div>
       </v-flex>
     </v-layout>
@@ -24,7 +27,7 @@
 
     <v-flex xs5>
       <v-text-field
-          label="Webhook"
+          :label="`Webhook (${vars.flow.webhook})`"
           v-model="name"
           append-icon="help"
           @click:append="onHelpClick('hook')"
@@ -33,19 +36,49 @@
 
       <v-text-field
           v-model="name"
-          label="Git URL"
           required
           append-icon="help"
+          :label="`Git URL (${vars.flow.gitUrl})`"
           :rules="gitUrlRules"
           @click:append="onHelpClick('url')"
       ></v-text-field>
     </v-flex>
 
+    <v-flex xs10 class="mt-2">
+      <span class="caption grey--text text--darken-1">SSH keys ({{ vars.credential.ssh }} = xxx)</span>
+
+      <v-textarea
+          box
+          label="Public Key"
+          rows="4"
+          class="font-weight-medium caption"
+          append-outer-icon="help"
+          :rules="sshPublicKeyRules"
+          @click:append-outer="onHelpClick('ssh_public')"
+      ></v-textarea>
+
+      <v-textarea
+          box
+          class="font-weight-medium caption"
+          label="Private Key"
+          rows="8"
+          append-outer-icon="help"
+          :rules="sshPrivateKeyRules"
+          @click:append-outer="onHelpClick('ssh_private')"
+      ></v-textarea>
+    </v-flex>
+
+    <v-flex xs5>
+      <v-btn color="primary">
+        {{ $t('test') }}
+      </v-btn>
+    </v-flex>
+
+    <!-- Danger Zone -->
     <v-flex xs11 class="mt-4 mb-1">
       <span class="font-weight-black title">Danger Zone</span>
     </v-flex>
 
-    <!-- Danger Zone -->
     <v-flex xs11 class="d-flex danger-zone pa-3">
       <v-flex>
         <div class="font-weight-bold body-1">Delete Flow</div>
@@ -61,7 +94,8 @@
 </template>
 
 <script>
-  import { gitUrlRules } from '@/util/rules'
+  import vars from '@/util/vars'
+  import { flowNameRules, gitUrlRules, sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
 
   export default {
     name: 'SettingsOptionTab',
@@ -73,7 +107,12 @@
     },
     data () {
       return {
-        gitUrlRules: gitUrlRules(this)
+        vars: vars,
+        flowNameRules: flowNameRules(this),
+        gitUrlRules: gitUrlRules(this),
+        sshEmailRules: sshEmailRules(this),
+        sshPublicKeyRules: sshPublicKeyRules(this),
+        sshPrivateKeyRules: sshPrivateKeyRules(this)
       }
     },
     methods: {
@@ -90,7 +129,7 @@
   }
 
   .flow-settings-option .flow-name .v-btn {
-    margin-top: 0 !important;
+    margin-top: 3% !important;
     max-width: 20%;
   }
 

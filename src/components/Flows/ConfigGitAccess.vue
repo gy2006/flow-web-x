@@ -22,7 +22,7 @@
       <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
       <v-text-field
           class="pt-0"
-          v-model="wrapper.gitUrl"
+          v-model="wrapper.credential"
           append-icon="help"
           @click:append="onHelpClick('url')"
           readonly

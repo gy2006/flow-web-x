@@ -4,7 +4,7 @@ const state = {
   items: [],
   editor: '',
   selected: {
-    name: undefined,
+    obj: {},
     yml: ''
   },
   created: undefined, // created flow object with pending status
@@ -30,8 +30,8 @@ const mutations = {
     state.gitTestMessage = gitTestMessage
   },
 
-  select (state, name) {
-    state.selected.name = name
+  select (state, flow) {
+    state.selected.obj = flow
   },
 
   setYml (state, yml) {
@@ -122,8 +122,17 @@ const actions = {
     commit('updateExist', undefined)
   },
 
-  select ({commit}, flow) {
-    commit('select', flow.name)
+  select ({commit, state}, name) {
+    for (let flow of state.items) {
+      if (name === flow.name) {
+        commit('select', flow)
+        return
+      }
+    }
+
+    http.get(`flows/${name}`, (flow) => {
+      commit('select', flow)
+    })
   },
 
   list ({commit}) {

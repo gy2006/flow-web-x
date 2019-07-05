@@ -24,10 +24,10 @@
         </v-tab>
 
         <v-tab-item value="tab-yml">
-          <settings-yml-tab :name="name"></settings-yml-tab>
+          <settings-yml-tab :flow="flow"></settings-yml-tab>
         </v-tab-item>
         <v-tab-item value="tab-options">
-          <settings-option-tab :name="name"></settings-option-tab>
+          <settings-option-tab :flow="flow"></settings-option-tab>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  import actions from '@/store/actions'
   import SettingsYmlTab from '@/components/Flows/SettingsYMLTab'
   import SettingsOptionTab from '@/components/Flows/SettingsOptionTab'
 
@@ -44,9 +46,20 @@
       SettingsYmlTab,
       SettingsOptionTab
     },
+    mounted () {
+      this.$store.dispatch(actions.flows.select, this.name).then()
+    },
     computed: {
+      ...mapState({
+        flow: state => state.flows.selected.obj,
+      }),
       name () {
         return this.$route.params.id
+      }
+    },
+    watch: {
+      name (after) {
+        this.$store.dispatch(actions.flows.select, after).then()
       }
     },
     methods: {

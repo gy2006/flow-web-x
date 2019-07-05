@@ -12,7 +12,7 @@
           <v-text-field
               :label="`Flow Name (${vars.flow.name})`"
               :rule="flowNameRules"
-              v-model="name"
+              v-model="flow.name"
           ></v-text-field>
           <v-btn outline color="indigo">Rename</v-btn>
         </div>
@@ -25,53 +25,8 @@
       <v-divider></v-divider>
     </v-flex>
 
-    <v-flex xs5>
-      <v-text-field
-          :label="`Webhook (${vars.flow.webhook})`"
-          v-model="name"
-          append-icon="help"
-          @click:append="onHelpClick('hook')"
-          readonly
-      ></v-text-field>
-
-      <v-text-field
-          v-model="name"
-          required
-          append-icon="help"
-          :label="`Git URL (${vars.flow.gitUrl})`"
-          :rules="gitUrlRules"
-          @click:append="onHelpClick('url')"
-      ></v-text-field>
-    </v-flex>
-
-    <v-flex xs10 class="mt-2">
-      <span class="caption grey--text text--darken-1">SSH keys ({{ vars.credential.ssh }} = xxx)</span>
-
-      <v-textarea
-          box
-          label="Public Key"
-          rows="4"
-          class="font-weight-medium caption"
-          append-outer-icon="help"
-          :rules="sshPublicKeyRules"
-          @click:append-outer="onHelpClick('ssh_public')"
-      ></v-textarea>
-
-      <v-textarea
-          box
-          class="font-weight-medium caption"
-          label="Private Key"
-          rows="8"
-          append-outer-icon="help"
-          :rules="sshPrivateKeyRules"
-          @click:append-outer="onHelpClick('ssh_private')"
-      ></v-textarea>
-    </v-flex>
-
-    <v-flex xs5>
-      <v-btn color="primary">
-        {{ $t('test') }}
-      </v-btn>
+    <v-flex xs12>
+      <config-git-access :flow="flow"></config-git-access>
     </v-flex>
 
     <!-- Danger Zone -->
@@ -95,24 +50,24 @@
 
 <script>
   import vars from '@/util/vars'
-  import { flowNameRules, gitUrlRules, sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
+  import ConfigGitAccess from '@/components/Flows/ConfigGitAccess'
+  import { flowNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsOptionTab',
     props: {
-      name: {
+      flow: {
         required: true,
-        type: String
+        type: Object
       }
+    },
+    components: {
+      ConfigGitAccess
     },
     data () {
       return {
         vars: vars,
-        flowNameRules: flowNameRules(this),
-        gitUrlRules: gitUrlRules(this),
-        sshEmailRules: sshEmailRules(this),
-        sshPublicKeyRules: sshPublicKeyRules(this),
-        sshPrivateKeyRules: sshPrivateKeyRules(this)
+        flowNameRules: flowNameRules(this)
       }
     },
     methods: {

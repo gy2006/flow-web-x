@@ -28,9 +28,9 @@
   export default {
     name: 'SettingsYMLTab',
     props: {
-      name: {
+      flow: {
         required: true,
-        type: String
+        type: Object
       }
     },
     data () {
@@ -59,25 +59,24 @@
       ...mapState({
         yml: state => state.flows.selected.yml,
         errors: state => state.errors.items
-      })
+      }),
+
+      name () {
+        return this.flow.name
+      }
     },
     watch: {
       yml (after) {
-        console.log('yml changed')
         this.editor.setValue(after)
       },
 
-      name () {
+      flow () {
         this.reload()
-      },
-
-      errors (after) {
-        this.editor.setValue(`# ${after}`)
       }
     },
     methods: {
       reload () {
-        this.$store.dispatch(actions.flows.yml.load, this.name).then()
+        this.$store.dispatch(actions.flows.yml.load, this.flow.name).then()
       },
 
       onCodeChange (e) {

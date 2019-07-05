@@ -64,11 +64,25 @@ export class FlowWrapper {
   }
 
   get webhook () {
+    if (!this.flow.variables) {
+      return ''
+    }
     return this.flow.variables[ vars.flow.webhook ] || ''
   }
 
   get gitUrl () {
+    if (!this.flow.variables) {
+      return ''
+    }
     return this.flow.variables[ vars.flow.gitUrl ] || ''
+  }
+
+  get credential () {
+    if (!this.flow.variables) {
+      return ''
+    }
+
+    return this.flow.variables[ vars.credential.ssh ] || ''
   }
 
   get ssh () {
@@ -92,11 +106,23 @@ export class FlowWrapper {
   }
 
   set gitUrl (url) {
+    if (!this.flow.variables) {
+      this.flow.variables = {}
+    }
+
     this.flow.variables[ vars.flow.gitUrl ] = url
   }
 
   set ssh (sshObj) {
     this.sshObj = sshObj
+  }
+
+  set credential (credentialName) {
+    if (!this.flow.variables) {
+      this.flow.variables = {}
+    }
+
+    return this.flow.variables[ vars.credential.ssh ] = credentialName
   }
 
   // latest job

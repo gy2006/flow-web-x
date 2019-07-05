@@ -8,13 +8,14 @@
       </v-flex>
 
       <v-flex xs5>
-        <div class="d-flex mt-2 flow-name">
+        <span class="caption grey--text text--darken-1">{{ `Flow Name (${vars.flow.name})` }}</span>
+        <div class="d-flex flow-name">
           <v-text-field
-              :label="`Flow Name (${vars.flow.name})`"
+              class="pt-1"
               :rule="flowNameRules"
               v-model="flow.name"
           ></v-text-field>
-          <v-btn outline color="indigo">Rename</v-btn>
+          <v-btn small outline color="indigo">Rename</v-btn>
         </div>
       </v-flex>
     </v-layout>

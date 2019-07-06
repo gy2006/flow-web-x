@@ -35,11 +35,9 @@
 </template>
 
 <script>
-  import vars from '@/util/vars'
   import OptionFlowName from '@/components/Flow/OptionFlowName'
   import OptionGitAccess from '@/components/Flow/OptionGitAccess'
   import OptionDeleteFlow from '@/components/Flow/OptionDeleteFlow'
-  import { flowNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsOptionTab',
@@ -56,8 +54,6 @@
     },
     data () {
       return {
-        vars: vars,
-        flowNameRules: flowNameRules(this)
       }
     },
     methods: {
@@ -69,15 +65,6 @@
 </script>
 
 <style>
-  .flow-settings-option .flow-name .v-text-field.v-text-field--solo .v-input__control {
-    min-height: 36px !important;
-  }
-
-  .flow-settings-option .flow-name .v-btn {
-    margin-top: 3% !important;
-    max-width: 20%;
-  }
-
   .flow-settings-option .danger-zone {
     border-style: solid;
     border-width: 1px;

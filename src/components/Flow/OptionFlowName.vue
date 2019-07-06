@@ -1,13 +1,23 @@
 <template>
   <div>
     <span class="caption grey--text text--darken-1">{{ `Flow Name (${vars.flow.name})` }}</span>
-    <div class="d-flex flow-name">
+
+    <div class="d-flex">
       <v-text-field
           class="pt-1"
           :rule="flowNameRules"
           v-model="flow.name"
+          readonly
       ></v-text-field>
-      <v-btn small outline color="indigo" disabled>Rename</v-btn>
+
+      <v-btn
+          small
+          outline
+          class="mt-3"
+          color="indigo"
+          disabled
+      >Rename
+      </v-btn>
     </div>
   </div>
 </template>

@@ -54,7 +54,7 @@
   import { subscribeTopic } from '@/store/subscribe'
 
   export default {
-    name: 'ConfigGitAccess',
+    name: 'OptionGitAccess',
     props: {
       flow: {
         required: true,

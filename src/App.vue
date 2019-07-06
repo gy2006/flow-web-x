@@ -53,7 +53,7 @@
 </template>
 
 <script>
-  import FlowMenu from '@/components/Flows/Menu'
+  import FlowMenu from '@/view/Flow/Menu'
   import AgentMenu from '@/components/Common/AgentMenu'
   import AdminMenu from '@/components/Common/AdminMenu'
 

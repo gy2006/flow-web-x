@@ -27,7 +27,7 @@
     </v-flex>
 
     <v-flex xs12>
-      <config-git-access :flow="flow"></config-git-access>
+      <option-git-access :flow="flow"></option-git-access>
     </v-flex>
 
     <!-- Danger Zone -->
@@ -51,7 +51,7 @@
 
 <script>
   import vars from '@/util/vars'
-  import ConfigGitAccess from '@/components/Flows/ConfigGitAccess'
+  import OptionGitAccess from '@/components/Flow/OptionGitAccess'
   import { flowNameRules } from '@/util/rules'
 
   export default {
@@ -63,7 +63,7 @@
       }
     },
     components: {
-      ConfigGitAccess
+      OptionGitAccess
     },
     data () {
       return {

@@ -71,10 +71,10 @@
 </template>
 
 <script>
-  import CreateFlowName from './CreateFlowName'
-  import CreateConfigGit from './CreateConfigGit'
-  import CreateTestGit from './CreateTestGit'
-  import CreateConfigAccess from './CreateConfigAccess'
+  import CreateFlowName from '@/components/Flow/CreateFlowName'
+  import CreateConfigGit from '@/components/Flow/CreateConfigGit'
+  import CreateTestGit from '@/components/Flow/CreateTestGit'
+  import CreateConfigAccess from '@/components/Flow/CreateConfigAccess'
   import actions from '@/store/actions'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'

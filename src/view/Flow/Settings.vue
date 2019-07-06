@@ -37,8 +37,8 @@
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import SettingsYmlTab from '@/components/Flows/SettingsYMLTab'
-  import SettingsOptionTab from '@/components/Flows/SettingsOptionTab'
+  import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
+  import SettingsOptionTab from '@/view/Flow/SettingsOptionTab'
 
   export default {
     name: 'FlowSettings',

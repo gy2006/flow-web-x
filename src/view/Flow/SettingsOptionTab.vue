@@ -8,15 +8,7 @@
       </v-flex>
 
       <v-flex xs5>
-        <span class="caption grey--text text--darken-1">{{ `Flow Name (${vars.flow.name})` }}</span>
-        <div class="d-flex flow-name">
-          <v-text-field
-              class="pt-1"
-              :rule="flowNameRules"
-              v-model="flow.name"
-          ></v-text-field>
-          <v-btn small outline color="indigo">Rename</v-btn>
-        </div>
+        <option-flow-name :flow="flow"></option-flow-name>
       </v-flex>
     </v-layout>
 
@@ -35,15 +27,8 @@
       <span class="font-weight-black title">Danger Zone</span>
     </v-flex>
 
-    <v-flex xs11 class="d-flex danger-zone pa-3">
-      <v-flex>
-        <div class="font-weight-bold body-1">Delete Flow</div>
-        <div>Once you delete a repository, there is no going back. Please be certain.</div>
-      </v-flex>
-
-      <v-flex xs3>
-        <v-btn color="error">Delete This Flow</v-btn>
-      </v-flex>
+    <v-flex xs11 class="danger-zone pa-3">
+      <option-delete-flow></option-delete-flow>
     </v-flex>
 
   </v-container>
@@ -51,7 +36,9 @@
 
 <script>
   import vars from '@/util/vars'
+  import OptionFlowName from '@/components/Flow/OptionFlowName'
   import OptionGitAccess from '@/components/Flow/OptionGitAccess'
+  import OptionDeleteFlow from '@/components/Flow/OptionDeleteFlow'
   import { flowNameRules } from '@/util/rules'
 
   export default {
@@ -63,7 +50,9 @@
       }
     },
     components: {
-      OptionGitAccess
+      OptionFlowName,
+      OptionGitAccess,
+      OptionDeleteFlow
     },
     data () {
       return {

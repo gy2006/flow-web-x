@@ -29,18 +29,29 @@
       ></v-text-field>
     </v-flex>
 
-    <v-flex xs5>
-      <v-btn small color="primary" @click="onTestClick">
-        {{ $t('test') }}
-      </v-btn>
+    <v-flex xs12 class="d-flex">
+      <v-flex xs2>
+        <v-btn small color="primary" @click="onTestClick">
+          {{ $t('test') }}
+        </v-btn>
+      </v-flex>
+
+      <v-flex xs8 v-show="isShownGitTest">
+        <v-icon :class="[currentGitTest.class]">{{ currentGitTest.icon }}</v-icon>
+        <span class="ml-2">{{ currentGitTest.message }}</span>
+      </v-flex>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
   import vars from '@/util/vars'
-  import { FlowWrapper } from '@/util/flows'
+  import actions from '@/store/actions'
+
+  import { mapState } from 'vuex'
+  import { FlowWrapper, GIT_TEST_ERROR, gitTestStatus } from '@/util/flows'
   import { flowNameRules } from '@/util/rules'
+  import { subscribeTopic } from '@/store/subscribe'
 
   export default {
     name: 'ConfigGitAccess',
@@ -53,17 +64,47 @@
     data () {
       return {
         vars: vars,
+        isShownGitTest: false,
         flowNameRules: flowNameRules(this)
       }
     },
     computed: {
+      ...mapState({
+        errors: state => state.errors.items,
+        gitTestMessage: state => state.flows.gitTestMessage
+      }),
+
       wrapper () {
         return new FlowWrapper(this.flow)
+      },
+
+      currentGitTest () {
+        if (this.gitTestMessage === undefined) {
+          return gitTestStatus.default
+        }
+
+        const gitTest = gitTestStatus[ this.gitTestMessage.status ] || gitTestStatus.default
+        let message = gitTest.message
+
+        if (this.gitTestMessage.status === GIT_TEST_ERROR) {
+          message += ' : ' + this.gitTestMessage.error
+        }
+
+        return {
+          icon: gitTest.icon,
+          class: gitTest.class,
+          message: message
+        }
       }
     },
     methods: {
       onTestClick () {
+        subscribeTopic.gitTest(this.$store, this.wrapper.id)
+        this.isShownGitTest = true
 
+        this.$store.dispatch(actions.flows.gitTestStart, this.wrapper).then(() => {
+          this.start = true
+        })
       }
     }
   }

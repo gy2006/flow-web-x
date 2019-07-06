@@ -64,14 +64,15 @@ const actions = {
     }, {name: email})
   },
 
-  async gitTestStart ({commit}, flow) {
-    const url = `flows/${flow.name}/git/test`
+  async gitTestStart ({commit}, wrapper) {
+    const url = `flows/${wrapper.name}/git/test`
     await http.post(url,
       () => {
       },
       {
-        gitUrl: flow.gitUrl,
-        privateKey: flow.ssh.privateKey
+        gitUrl: wrapper.gitUrl,
+        privateKey: wrapper.ssh ? wrapper.ssh.privateKey : '',
+        credential: wrapper.credential
       })
   },
 

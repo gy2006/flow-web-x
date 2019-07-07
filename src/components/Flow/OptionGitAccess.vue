@@ -10,23 +10,27 @@
           readonly
       ></v-text-field>
 
-      <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.flow.gitUrl})` }}</span>
-      <v-text-field
-          class="pt-0"
-          v-model="wrapper.gitUrl"
-          append-icon="help"
-          @click:append="onHelpClick('url')"
-          readonly
-      ></v-text-field>
+      <v-form ref="gitAccessForm" lazy-validation>
+        <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.flow.gitUrl})` }}</span>
+        <v-text-field
+            class="pt-0"
+            v-model="wrapper.gitUrl"
+            append-icon="help"
+            :rules="gitUrlRules"
+            @click:append="onHelpClick('url')"
+            readonly
+        ></v-text-field>
 
-      <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
-      <v-text-field
-          class="pt-0"
-          v-model="wrapper.credential"
-          append-icon="help"
-          @click:append="onHelpClick('url')"
-          readonly
-      ></v-text-field>
+        <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
+        <v-text-field
+            class="pt-0"
+            v-model="wrapper.credential"
+            append-icon="help"
+            :rules="credentialNameRules"
+            @click:append="onHelpClick('url')"
+            readonly
+        ></v-text-field>
+      </v-form>
     </v-flex>
 
     <v-flex xs12 class="d-flex">
@@ -50,7 +54,7 @@
 
   import { mapState } from 'vuex'
   import { FlowWrapper, GIT_TEST_ERROR, gitTestStatus } from '@/util/flows'
-  import { flowNameRules } from '@/util/rules'
+  import { flowNameRules, gitUrlRules } from '@/util/rules'
   import { subscribeTopic } from '@/store/subscribe'
 
   export default {
@@ -65,7 +69,11 @@
       return {
         vars: vars,
         isShownGitTest: false,
-        flowNameRules: flowNameRules(this)
+        flowNameRules: flowNameRules(this),
+        gitUrlRules: gitUrlRules(this),
+        credentialNameRules: [
+          v => !!v || this.$t('flow.hint.credential_name_required'),
+        ]
       }
     },
     computed: {
@@ -99,6 +107,10 @@
     },
     methods: {
       onTestClick () {
+        if (!this.$refs.gitAccessForm.validate()) {
+          return
+        }
+
         subscribeTopic.gitTest(this.$store, this.wrapper.id)
         this.isShownGitTest = true
 

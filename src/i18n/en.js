@@ -40,6 +40,8 @@ export default {
       git_url_required: 'Git URL is required',
       git_url_format: 'Git URL must be start with https or git@',
 
+      credential_name_required: 'SSH key name is required',
+
       ssh_create: 'click to create new ssh key',
       ssh_email_title: 'Enter the email to create ssh-rsa',
       ssh_email_required: 'Email is required for create ssh-rsa',

@@ -37,17 +37,13 @@
           </v-list-tile-sub-title>
         </v-flex>
 
-        <v-flex xs2></v-flex>
+        <v-flex xs3></v-flex>
 
         <v-flex xs2>
           <v-list-tile-sub-title class="text-xs-left">
             <v-icon small class="mr-1">flow-icon-calendar</v-icon>
             <time>{{ wrapper.fromNow }}</time>
           </v-list-tile-sub-title>
-        </v-flex>
-
-        <v-flex xs1>
-          <v-icon small>replay</v-icon>
         </v-flex>
       </v-layout>
     </v-list-tile>

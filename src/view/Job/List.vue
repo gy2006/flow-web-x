@@ -1,31 +1,37 @@
 <template>
   <v-card class="full-size">
     <v-card-title>
-      <span class="pr-2 font-weight-bold headline">
+      <v-flex xs2>
+        <span class="pr-2 font-weight-bold headline">
         <v-icon>layers</v-icon>
         {{ name }}
       </span>
+      </v-flex>
 
-      <v-spacer></v-spacer>
+      <v-flex xs7></v-flex>
 
-      <v-btn
-          flat
-          color="blue-grey"
-          class="white--text"
-          @click="onSettingsClick">
-        <v-icon small class="mr-1">settings</v-icon>
-        {{ $t('flow.settings') }}
-      </v-btn>
+      <v-flex xs1>
+        <v-btn
+            flat
+            color="blue-grey"
+            class="white--text"
+            @click="onSettingsClick">
+          <v-icon small class="mr-1">settings</v-icon>
+          {{ $t('flow.settings') }}
+        </v-btn>
+      </v-flex>
 
-      <v-btn
-          flat
-          :loading="loading"
-          :disabled="loading"
-          color="success"
-          @click.native="onRunClick">
-        <v-icon class="mr-1">play_arrow</v-icon>
-        {{ $t('job.run') }}
-      </v-btn>
+      <v-flex xs1 class="ml-4">
+        <v-btn
+            flat
+            :loading="loading"
+            :disabled="loading"
+            color="success"
+            @click.native="onRunClick">
+          <v-icon class="mr-1">play_arrow</v-icon>
+          {{ $t('job.run') }}
+        </v-btn>
+      </v-flex>
     </v-card-title>
 
     <v-card-text>

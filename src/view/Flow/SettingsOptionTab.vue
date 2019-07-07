@@ -28,9 +28,8 @@
     </v-flex>
 
     <v-flex xs11 class="danger-zone pa-3">
-      <option-delete-flow></option-delete-flow>
+      <option-delete-flow :flow="flow"></option-delete-flow>
     </v-flex>
-
   </v-container>
 </template>
 

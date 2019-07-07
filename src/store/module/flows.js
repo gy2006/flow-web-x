@@ -3,10 +3,7 @@ import http from '../http'
 const state = {
   items: [],
   editor: '',
-  selected: {
-    obj: {},
-    yml: ''
-  },
+  selected: {obj: {}, yml: ''},
   created: undefined, // created flow object with pending status
   sshRsa: {publicKey: '', privateKey: ''}, // created ssh-rsa
   isExist: undefined, // result from action 'exist'
@@ -44,6 +41,12 @@ const mutations = {
 
   add (state, newFlow) {
     state.items.push(newFlow)
+  },
+
+  delete (state, name) {
+    state.items = state.items.filter((val, _index, _array) => {
+      return val.name !== name
+    })
   },
 
   editor (state, res) {
@@ -111,6 +114,13 @@ const actions = {
     )
 
     await Promise.all(promiseArray)
+  },
+
+  async delete ({commit, state}, name) {
+    await http.delete(`flows/${name}`, () => {
+      commit('delete', name)
+      commit('select', {obj: {}, yml: ''})
+    })
   },
 
   exist ({commit}, name) {

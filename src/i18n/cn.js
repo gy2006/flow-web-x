@@ -8,6 +8,7 @@ export default {
   skip: '跳过',
   create: '创建',
   test: '测试',
+  delete: '删除',
 
   menu_profile: '个人设置',
   menu_system_admin: '系统管理',
@@ -26,6 +27,9 @@ export default {
 
     create_btn_finish: '完成创建',
 
+    delete_btn: '删除当前 Flow',
+    delete_desc: '删除当前 Flow 后无法恢复，请谨慎操作',
+
     hint: {
       name_required: '请输入 Flow 名称',
       name_size: 'Flow 名称长度需要小于 20 个字符',
@@ -41,7 +45,10 @@ export default {
       ssh_email_required: 'Email 是创建 ssh-rsa 的必填项',
       ssh_key_required: '请输入 SSH key',
       ssh_public_format: 'Start with ssh-rsa',
-      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----'
+      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
+
+      delete_title: '请输入要删除的 Flow 名称',
+      delete_confirm_name_not_same: '输入的名称错误'
     }
   },
 

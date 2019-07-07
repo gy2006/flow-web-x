@@ -86,5 +86,20 @@ export default {
     }).catch((error) => {
       handleError(error)
     })
+  },
+
+  delete: (url, onSuccess) => {
+    return instance.delete(url).then((response) => {
+      const msg = response.data
+
+      if (msg.code === code.ok) {
+        onSuccess(msg.data)
+        return
+      }
+
+      handleError(msg)
+    }).catch((error) => {
+      handleError(error)
+    })
   }
 }

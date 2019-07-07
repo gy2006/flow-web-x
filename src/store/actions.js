@@ -7,6 +7,7 @@ export default {
     confirm: 'flows/confirm',
     list: 'flows/list',
     select: 'flows/select',
+    delete: 'flows/delete',
     yml: {
       load: 'flows/loadYml',
       save: 'flows/saveYml'

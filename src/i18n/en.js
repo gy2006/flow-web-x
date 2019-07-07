@@ -8,6 +8,7 @@ export default {
   skip: 'Skip',
   create: 'Create',
   test: 'Test',
+  delete: 'Delete',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',
@@ -26,6 +27,9 @@ export default {
 
     create_btn_finish: 'Finish',
 
+    delete_btn: 'Delete This Flow',
+    delete_desc: 'Once you delete a repository, there is no going back. Please be certain.',
+
     hint: {
       name_required: 'Name is required',
       name_size: 'Name must be less than 20 character',
@@ -41,7 +45,10 @@ export default {
       ssh_email_required: 'Email is required for create ssh-rsa',
       ssh_key_required: 'SSH key is required',
       ssh_public_format: 'Start with ssh-rsa',
-      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----'
+      ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
+
+      delete_title: 'Please type in the name of the flow to confirm',
+      delete_confirm_name_not_same: 'The typed in name not the same of the flow'
     }
   },
 

@@ -9,6 +9,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
+          flat
           color="blue-grey"
           class="white--text"
           @click="onSettingsClick">
@@ -17,6 +18,7 @@
       </v-btn>
 
       <v-btn
+          flat
           :loading="loading"
           :disabled="loading"
           color="success"

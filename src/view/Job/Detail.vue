@@ -88,6 +88,16 @@
       }
     },
     watch: {
+      flow () {
+        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
+        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+      },
+
+      number () {
+        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
+        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+      },
+
       // subscribe steps change when job been loaded
       job (newJob, oldJob) {
         if (isJobFinished(newJob)) {

@@ -1,18 +1,10 @@
 <template>
   <v-card class="full-size">
     <v-card-title>
-      <div>
-        <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
-      </div>
-      <div class="font-weight-black title ml-3">
-        <span>{{ this.flow }}</span>
-        <span class="ml-1">#{{ this.number }}</span>
-      </div>
-      <v-spacer/>
-      <v-btn color="orange darken-2" dark @click="onBackClick">
-        <v-icon dark left>arrow_back</v-icon>
-        {{ $t('back') }}
-      </v-btn>
+      <Nav
+          :items="[flow, buildNumberText]"
+          :links="['jobs', 'jobs/' + number]"
+      ></Nav>
     </v-card-title>
 
     <v-card-text>
@@ -39,29 +31,25 @@
   import actions from '@/store/actions'
   import { subscribeTopic, unsubsribeTopic } from '@/store/subscribe'
 
-  import { JobWrapper, isJobFinished } from '@/util/jobs'
+  import { isJobFinished, JobWrapper } from '@/util/jobs'
   import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
+  import Nav from '@/components/Common/Nav'
   import JobInfo from '@/components/Jobs/Info'
   import JobLogs from '@/components/Jobs/Logs'
 
   export default {
     name: 'JobDetail',
     data () {
-      return {
-        flow: null, // flow name
-        number: null // job build number
-      }
+      return {}
     },
     components: {
+      Nav,
       JobInfo,
       JobLogs
     },
     mounted () {
-      this.flow = this.$route.params.id
-      this.number = this.$route.params.num
-
       this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
       this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
     },
@@ -71,6 +59,19 @@
         steps: state => state.steps.items,
         stepChange: state => state.steps.change
       }),
+
+      flow () {
+        return this.$route.params.id
+      },
+
+      number () {
+        return this.$route.params.num
+      },
+
+      buildNumberText () {
+        return 'build #' + this.$route.params.num
+      },
+
       wrapper () {
         return new JobWrapper(this.job)
       }
@@ -82,7 +83,7 @@
         unsubsribeTopic.steps(this.job.id)
 
         for (let i = 0; i < this.steps.length; i++) {
-          unsubsribeTopic.logs(this.steps[i].id)
+          unsubsribeTopic.logs(this.steps[ i ].id)
         }
       }
     },
@@ -99,7 +100,7 @@
       // subscribe logs when steps been loaded
       steps (after, before) {
         for (let i = 0; i < after.length; i++) {
-          const step = after[i]
+          const step = after[ i ]
 
           if (isStepFinished(step)) {
             return

@@ -1,17 +1,10 @@
 <template>
   <v-card class="full-size">
     <v-card-title>
-      <span class="pr-2 font-weight-bold headline">
-        <v-icon>layers</v-icon>
-        {{ name }}
-      </span>
-
-      <v-spacer></v-spacer>
-
-      <v-btn color="warning" @click="onBackClick">
-        <v-icon small class="mr-1">arrow_back</v-icon>
-        <span>{{ $t('back') }}</span>
-      </v-btn>
+      <Nav
+          :items="[name, 'settings']"
+          :links="['jobs', 'settings']"
+      ></Nav>
     </v-card-title>
 
     <v-card-text class="pt-0 tab-wrapper">
@@ -37,12 +30,14 @@
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
+  import Nav from '@/components/Common/Nav'
   import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
   import SettingsOptionTab from '@/view/Flow/SettingsOptionTab'
 
   export default {
     name: 'FlowSettings',
     components: {
+      Nav,
       SettingsYmlTab,
       SettingsOptionTab
     },

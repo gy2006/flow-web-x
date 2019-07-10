@@ -2,10 +2,10 @@
   <v-card class="full-size">
     <v-card-title>
       <v-flex xs2>
-        <span class="pr-2 font-weight-bold headline">
-        <v-icon>layers</v-icon>
-        {{ name }}
-      </span>
+        <Nav
+            :items="[name]"
+            :links="['jobs']"
+        ></Nav>
       </v-flex>
 
       <v-flex xs7></v-flex>
@@ -65,6 +65,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import Nav from '@/components/Common/Nav'
   import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
   import { subscribeTopic } from '@/store/subscribe'
@@ -78,6 +79,7 @@
       }
     },
     components: {
+      Nav,
       JobListItem
     },
     mounted () {
@@ -92,6 +94,15 @@
 
       name () {
         return this.$route.params.id
+      },
+
+      path () {
+        return [
+          {
+            text: this.name,
+            disabled: false
+          }
+        ]
       }
     },
     watch: {

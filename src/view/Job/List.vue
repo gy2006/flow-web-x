@@ -34,7 +34,7 @@
       </v-flex>
     </v-card-title>
 
-    <v-card-text>
+    <v-card-text class="pt-0">
       <v-data-table
           :items="jobs"
           hide-actions

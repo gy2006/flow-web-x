@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-card class="full-size">
+  <v-card class="full-size job-list">
     <v-card-title>
       <v-flex xs2>
         <Nav
@@ -157,14 +157,14 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .alert {
-    position: absolute;
-    width: 100%;
-    z-index: 1000;
-  }
+<style lang="scss">
+  .job-list {
+    .fix-height {
+      max-height: 32px;
+    }
 
-  .fix-height {
-    max-height: 48px;
+    .v-text-field.v-text-field--solo .v-input__control {
+      min-height: 32px;
+    }
   }
 </style>

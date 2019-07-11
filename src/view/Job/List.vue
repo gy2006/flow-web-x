@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-card class="full-size">
     <v-card-title>
       <v-flex xs2>
@@ -8,7 +8,7 @@
         ></Nav>
       </v-flex>
 
-      <v-flex xs7></v-flex>
+      <v-flex xs5></v-flex>
 
       <v-flex xs1>
         <v-btn
@@ -29,8 +29,18 @@
             color="success"
             @click.native="onRunClick">
           <v-icon class="mr-1">play_arrow</v-icon>
-          {{ $t('job.run') }}
+          {{ $t('job.run') }}:
         </v-btn>
+      </v-flex>
+
+      <v-flex xs2 class="ml-4">
+        <v-select
+            solo
+            small-chips
+            class="fix-height"
+            :items="displayBranches"
+            label="branch: none"
+        ></v-select>
       </v-flex>
     </v-card-title>
 
@@ -88,9 +98,20 @@
     },
     computed: {
       ...mapState({
+        gitBranches: state => state.flows.gitBranches,
         pagination: state => state.jobs.pagination,
         jobs: state => state.jobs.items
       }),
+
+      displayBranches () {
+        let data = []
+
+        for (let branch of this.gitBranches) {
+          data.push('branch: ' + branch)
+        }
+
+        return data
+      },
 
       name () {
         return this.$route.params.id
@@ -114,6 +135,7 @@
       reload () {
         this.$store.dispatch(actions.flows.select, this.name).then()
         this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
+        this.$store.dispatch(actions.flows.gitBranches, this.name).then()
       },
 
       onItemClick (job) {
@@ -140,5 +162,9 @@
     position: absolute;
     width: 100%;
     z-index: 1000;
+  }
+
+  .fix-height {
+    max-height: 48px;
   }
 </style>

@@ -7,7 +7,8 @@ const state = {
   created: undefined, // created flow object with pending status
   sshRsa: {publicKey: '', privateKey: ''}, // created ssh-rsa
   isExist: undefined, // result from action 'exist'
-  gitTestMessage: undefined  // git test message update
+  gitTestMessage: undefined,  // git test message update
+  gitBranches: [],
 }
 
 const mutations = {
@@ -25,6 +26,10 @@ const mutations = {
 
   updateGitTest (state, gitTestMessage) {
     state.gitTestMessage = gitTestMessage
+  },
+
+  updateGitBranches (state, branchList) {
+    state.gitBranches = branchList
   },
 
   select (state, flow) {
@@ -77,6 +82,13 @@ const actions = {
         privateKey: wrapper.ssh ? wrapper.ssh.privateKey : '',
         credential: wrapper.credential
       })
+  },
+
+  async gitBranches ({commit}, name) {
+    const url = `flows/${name}/git/branches`
+    await http.get(url, (branches) => {
+      commit('updateGitBranches', branches)
+    });
   },
 
   async confirm ({commit}, wrapper) {

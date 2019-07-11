@@ -13,7 +13,8 @@ export default {
       save: 'flows/saveYml'
     },
     gitTestStart: 'flows/gitTestStart',
-    gitTestUpdate: 'flows/gitTestUpdate'
+    gitTestUpdate: 'flows/gitTestUpdate',
+    gitBranches: 'flows/gitBranches'
   },
 
   jobs: {

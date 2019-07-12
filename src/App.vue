@@ -21,7 +21,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <agent-menu></agent-menu>
-        <admin-menu></admin-menu>
+        <profile-menu></profile-menu>
       </v-toolbar>
 
       <v-content>
@@ -54,24 +54,22 @@
 
 <script>
   import FlowMenu from '@/view/Flow/Menu'
-  import AgentMenu from '@/components/Common/AgentMenu'
-  import AdminMenu from '@/components/Common/AdminMenu'
+  import AgentMenu from '@/view/Common/AgentMenu'
+  import ProfileMenu from '@/view/Common/ProfileMenu'
 
   export default {
     name: 'App',
     components: {
       FlowMenu,
       AgentMenu,
-      AdminMenu
+      ProfileMenu
     },
     data () {
-      return {
-
-      }
+      return {}
     },
     methods: {
       refs (name) {
-        return this.$refs[name]
+        return this.$refs[ name ]
       }
     }
   }

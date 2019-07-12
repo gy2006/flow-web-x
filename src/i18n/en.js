@@ -9,6 +9,9 @@ export default {
   create: 'Create',
   test: 'Test',
   delete: 'Delete',
+  settings: 'Settings',
+  logout: 'Logout',
+  signedInAs: 'Signed in as ',
 
   menu_profile: 'Profile',
   menu_system_admin: 'Admin',

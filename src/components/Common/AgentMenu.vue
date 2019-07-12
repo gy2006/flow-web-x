@@ -1,14 +1,15 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
-      <v-toolbar-title v-on="on">
+      <v-btn flat v-on="on" small class="mx-0 px-0">
         <v-icon>dvr</v-icon>
-      </v-toolbar-title>
+      </v-btn>
     </template>
     <v-list>
       <v-list-tile avatar
                    v-for="agent in items"
                    :key="agent.id"
+                   @click=""
       >
         <v-list-tile-avatar>
           <v-icon small>{{ agent.icon }}</v-icon>

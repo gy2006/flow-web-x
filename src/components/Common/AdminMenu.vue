@@ -1,26 +1,34 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
-      <v-toolbar-title v-on="on">
-        <v-icon>account_circle</v-icon>
-      </v-toolbar-title>
+        <v-btn flat v-on="on" small class="mx-0 px-0">
+          <v-icon>account_circle</v-icon>
+        </v-btn>
     </template>
 
     <v-list>
-      <v-list-tile
-          v-for="item in items"
-          :key="item.title"
-          avatar
-      >
-        <v-list-tile-avatar>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-avatar>
+      <v-list-tile>
         <v-list-tile-content>
-          <v-list-tile-title class="mr-3">
-            {{ $t(item.title) }}
-          </v-list-tile-title>
+          <v-list-tile-sub-title>{{ $t('signedInAs') }} xxx</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
+
+      <v-divider></v-divider>
+
+      <v-list-tile @click="onSettingsClick">
+        <v-list-tile-content>
+          <v-list-tile-sub-title>{{ $t('settings') }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+        <v-list-tile-action>
+        </v-list-tile-action>
+      </v-list-tile>
+
+      <v-list-tile @click="onLogoutClick">
+        <v-list-tile-content>
+          <v-list-tile-sub-title>{{ $t('logout') }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
     </v-list>
   </v-menu>
 </template>
@@ -30,10 +38,17 @@
     name: 'AdminMenu',
     data () {
       return {
-        items: [
-          {title: 'menu_profile', icon: 'account_circle'},
-          {title: 'menu_system_admin', icon: 'settings'}
-        ]
+
+      }
+    },
+
+    methods: {
+      onSettingsClick () {
+
+      },
+
+      onLogoutClick () {
+
       }
     }
   }

@@ -1,4 +1,5 @@
 import http from '../http'
+import vars from '../../util/vars'
 
 const numOfElements = 10
 
@@ -86,13 +87,20 @@ const actions = {
   /**
    * Start a new job
    */
-  start ({commit, state}) {
+  start ({commit, state}, {flow, branch}) {
+    let inputs = {}
+
+    if (branch) {
+      inputs[ vars.flow.gitBranch ] = branch
+    }
+
     http.post('jobs/run',
       (newJob) => {
         // do nothing since new job will push via websocket
       },
       {
-        flow: state.name
+        flow,
+        inputs
       }
     )
   },

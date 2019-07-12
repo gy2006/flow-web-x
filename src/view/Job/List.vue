@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <v-card class="full-size job-list">
     <v-card-title>
       <v-flex xs2>
@@ -37,8 +37,10 @@
         <v-select
             solo
             small-chips
+            deletable-chips
             class="fix-height"
-            :items="displayBranches"
+            v-model="selectedBranch"
+            :items="gitBranches"
             label="branch: none"
         ></v-select>
       </v-flex>
@@ -85,7 +87,8 @@
     data () {
       return {
         loading: false,
-        alert: false
+        alert: false,
+        selectedBranch: null
       }
     },
     components: {
@@ -102,16 +105,6 @@
         pagination: state => state.jobs.pagination,
         jobs: state => state.jobs.items
       }),
-
-      displayBranches () {
-        let data = []
-
-        for (let branch of this.gitBranches) {
-          data.push('branch: ' + branch)
-        }
-
-        return data
-      },
 
       name () {
         return this.$route.params.id
@@ -143,7 +136,10 @@
       },
 
       onRunClick () {
-        this.$store.dispatch(actions.jobs.start).then()
+        this.$store.dispatch(actions.jobs.start, {
+          flow: this.name,
+          branch: this.selectedBranch
+        }).then()
       },
 
       onSettingsClick () {

@@ -84,13 +84,6 @@ const actions = {
       })
   },
 
-  async gitBranches ({commit}, name) {
-    const url = `flows/${name}/git/branches`
-    await http.get(url, (branches) => {
-      commit('updateGitBranches', branches)
-    });
-  },
-
   async confirm ({commit}, wrapper) {
     const promiseArray = []
 
@@ -133,6 +126,13 @@ const actions = {
       commit('delete', name)
       commit('select', {obj: {}, yml: ''})
     })
+  },
+
+  gitBranches ({commit}, name) {
+    const url = `flows/${name}/git/branches`
+    http.get(url, (branches) => {
+      commit('updateGitBranches', branches)
+    });
   },
 
   exist ({commit}, name) {

@@ -7,7 +7,8 @@ export default {
   flow: {
     name: 'FLOWCI_FLOW_NAME',
     webhook: 'FLOWCI_FLOW_WEBHOOK',
-    gitUrl: 'FLOWCI_GIT_URL'
+    gitUrl: 'FLOWCI_GIT_URL',
+    gitBranch: 'FLOWCI_GIT_BRANCH'
   },
 
   job: {

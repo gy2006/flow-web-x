@@ -7,7 +7,7 @@ const token = process.env.VUE_APP_TOKEN
 // config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
-  timeout: 5000,
+  timeout: 10000,
   headers: {'Token': token}
 })
 

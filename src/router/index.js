@@ -6,6 +6,7 @@ import JobList from '@/view/Job/List'
 
 import SettingsHome from '@/view/Settings/Home'
 import SettingsProfile from '@/view/Settings/Profile'
+import SettingsSecurity from '@/view/Settings/Security'
 import SettingsAgent from '@/view/Settings/Agent'
 import SettingsCredential from '@/view/Settings/Credential'
 
@@ -36,6 +37,10 @@ export default new Router({
         {
           path: 'profile',
           component: SettingsProfile
+        },
+        {
+          path: 'security',
+          component: SettingsSecurity
         },
         {
           path: 'agent',

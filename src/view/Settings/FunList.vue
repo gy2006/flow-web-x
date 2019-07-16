@@ -30,6 +30,10 @@
             path: 'profile'
           },
           {
+            i18n: 'settings.li.security',
+            path: 'security'
+          },
+          {
             i18n: 'settings.li.agent',
             path: 'agent'
           },

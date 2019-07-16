@@ -77,6 +77,7 @@ export default {
   settings: {
     li: {
       profile: 'Profile',
+      security: 'Security',
       agent: 'Agent',
       credential: 'Credential'
     }

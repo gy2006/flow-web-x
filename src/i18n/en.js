@@ -9,12 +9,12 @@ export default {
   create: 'Create',
   test: 'Test',
   delete: 'Delete',
-  settings: 'Settings',
-  logout: 'Logout',
-  signedInAs: 'Signed in as ',
 
-  menu_profile: 'Profile',
-  menu_system_admin: 'Admin',
+  menu: {
+    signedInAs: 'Signed in as ',
+    settings: 'Settings',
+    logout: 'Logout'
+  },
 
   flow: {
     create: 'Create Flow',
@@ -71,6 +71,14 @@ export default {
       busy: 'busy',
       idle: 'idle',
       offline: 'offline'
+    }
+  },
+
+  settings: {
+    li: {
+      profile: 'Profile',
+      agent: 'Agent',
+      credential: 'Credential'
     }
   }
 }

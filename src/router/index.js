@@ -3,10 +3,9 @@ import Router from 'vue-router'
 import FlowSettings from '@/view/Flow/Settings'
 import JobDetail from '@/view/Job/Detail'
 import JobList from '@/view/Job/List'
-import PersonalSetting from '@/view/Admin/PersonalSetting/Index'
-import SystemManagement from '@/view/Admin/SystemManagement/Index'
-import Credentials from '@/view/Admin/SystemManagement/Credentials/Index'
-import Flow from '@/view/Admin/SystemManagement/Flow/Index'
+
+import SettingsHome from '@/view/Settings/Home'
+import SettingsProfile from '@/view/Settings/Profile'
 
 Vue.use(Router)
 
@@ -28,22 +27,13 @@ export default new Router({
       component: JobDetail
     },
     {
-      path: '/admin/personalsetting',
-      name: 'PersonalSetting',
-      component: PersonalSetting
-    },
-    {
-      path: '/admin/systemmanagement',
-      name: 'SystemManagement',
-      component: SystemManagement,
+      path: '/settings',
+      name: 'Settings',
+      component: SettingsHome,
       children: [
         {
-          path: 'credentials',
-          component: Credentials
-        },
-        {
-          path: 'flow',
-          component: Flow
+          path: 'profile',
+          component: SettingsProfile
         }
       ]
     }

@@ -9,12 +9,12 @@ export default {
   create: '创建',
   test: '测试',
   delete: '删除',
-  settings: '设置',
-  logout: '退出',
-  signedInAs: '当前用户 ',
 
-  menu_profile: '个人设置',
-  menu_system_admin: '系统管理',
+  menu: {
+    signedInAs: '当前用户 ',
+    settings: '设置',
+    logout: '退出'
+  },
 
   flow: {
     create: '创建 Flow',
@@ -71,6 +71,14 @@ export default {
       busy: '运行',
       idle: '空闲',
       offline: '离线'
+    }
+  },
+
+  settings: {
+    li: {
+      profile: 'Profile',
+      agent: 'Agent',
+      credential: 'Credential'
     }
   }
 }

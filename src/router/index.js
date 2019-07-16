@@ -43,7 +43,7 @@ export default new Router({
           component: SettingsSecurity
         },
         {
-          path: 'agent',
+          path: 'agents',
           component: SettingsAgent
         },
         {

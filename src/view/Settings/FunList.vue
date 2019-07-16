@@ -35,7 +35,7 @@
           },
           {
             i18n: 'settings.li.agent',
-            path: 'agent'
+            path: 'agents'
           },
           {
             i18n: 'settings.li.credential',

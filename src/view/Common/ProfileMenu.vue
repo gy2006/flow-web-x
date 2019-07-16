@@ -44,7 +44,7 @@
 
     methods: {
       onSettingsClick () {
-
+        this.$router.push('/settings/profile')
       },
 
       onLogoutClick () {

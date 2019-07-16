@@ -78,7 +78,7 @@ export default {
     li: {
       profile: 'Profile',
       security: 'Security',
-      agent: 'Agent',
+      agent: 'Agents',
       credential: 'Credential'
     }
   }

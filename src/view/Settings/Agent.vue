@@ -1,12 +1,12 @@
 <template>
   <v-card>
-    <v-card-text>Profile</v-card-text>
+    <v-card-text>Agent</v-card-text>
   </v-card>
 </template>
 
 <script>
   export default {
-    name: 'SettingsProfile'
+    name: 'SettingsAgent'
   }
 </script>
 

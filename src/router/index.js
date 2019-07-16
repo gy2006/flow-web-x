@@ -6,6 +6,8 @@ import JobList from '@/view/Job/List'
 
 import SettingsHome from '@/view/Settings/Home'
 import SettingsProfile from '@/view/Settings/Profile'
+import SettingsAgent from '@/view/Settings/Agent'
+import SettingsCredential from '@/view/Settings/Credential'
 
 Vue.use(Router)
 
@@ -34,6 +36,14 @@ export default new Router({
         {
           path: 'profile',
           component: SettingsProfile
+        },
+        {
+          path: 'agent',
+          component: SettingsAgent
+        },
+        {
+          path: 'credential',
+          component: SettingsCredential
         }
       ]
     }

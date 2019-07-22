@@ -4,7 +4,9 @@
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
       <v-btn flat
              color="blue-grey"
-             class="white--text">
+             class="white--text"
+             @click="onNewAgentClick"
+      >
         <v-icon>add_box</v-icon>
       </v-btn>
     </v-card-title>
@@ -85,6 +87,10 @@
       },
     },
     methods: {
+      onNewAgentClick() {
+
+      },
+
       onDownloadClick(wrapper) {
 
       },

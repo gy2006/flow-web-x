@@ -8,6 +8,7 @@ import SettingsHome from '@/view/Settings/Home'
 import SettingsProfile from '@/view/Settings/Profile'
 import SettingsSecurity from '@/view/Settings/Security'
 import SettingsAgent from '@/view/Settings/Agent'
+import SettingsAgentEdit from '@/view/Settings/AgentEdit'
 import SettingsCredential from '@/view/Settings/Credential'
 
 Vue.use(Router)
@@ -45,6 +46,10 @@ export default new Router({
         {
           path: 'agents',
           component: SettingsAgent
+        },
+        {
+          path: 'agents/:category',
+          component: SettingsAgentEdit
         },
         {
           path: 'credential',

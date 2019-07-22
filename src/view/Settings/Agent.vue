@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="pb-0">
-      <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+      <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
     </v-card-title>
     <v-card-text class="pt-0">
       <v-data-table
@@ -11,23 +11,29 @@
 
         <template slot="items" slot-scope="props">
           <td>
-            <v-layout row>
+            <v-layout row align-center>
               <v-flex xs2>
                 {{ props.item.name }}
               </v-flex>
               <v-flex xs2>
-                <v-icon small>flow-icon-linux</v-icon>
+                <v-icon small>{{ props.item.icon }}</v-icon>
               </v-flex>
-              <v-flex xs2>
-                tags..
+              <v-flex xs6>
+                <v-chip v-for="tag in props.item.tags"
+                        :key="tag"
+                        class="my-0"
+                        outline
+                        small
+                        label
+                >{{ tag }}</v-chip>
               </v-flex>
-              <v-flex xs2>
-                Tokens: xxx
+              <v-flex xs1>
+                <v-btn flat icon class="ma-0" @click="onDownloadClick(props.item)">
+                  <v-icon small>vertical_align_bottom</v-icon>
+                </v-btn>
               </v-flex>
-              <v-flex xs2>
-              </v-flex>
-              <v-flex xs2>
-                <a>Edit</a>
+              <v-flex xs1>
+                <a @click="onEditClick(props.item)">Edit</a>
               </v-flex>
             </v-layout>
           </td>
@@ -44,26 +50,43 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import actions from '@/store/actions'
+  import {util} from '@/util/agents'
+
   export default {
     name: 'SettingsAgent',
     data () {
       return {
-        items: [
+        items: [],
+        navs: [
           {
             text: 'Agents'
           }
         ],
-        agents: [
-          {
-            name: 'Agent-01'
-          },
-          {
-            name: 'Agent-02'
-          }
-        ]
       }
     },
+    mounted () {
+      this.$store.dispatch(actions.agents.list).then()
+    },
+    computed: {
+      ...mapState({
+        agents: state => state.agents.items
+      }),
+    },
+    watch: {
+      agents (after) {
+        this.items = util.convert(after)
+      },
+    },
     methods: {
+      onDownloadClick(wrapper) {
+
+      },
+
+      onEditClick(wrapper) {
+
+      }
     }
   }
 </script>

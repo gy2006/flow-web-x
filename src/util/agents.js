@@ -24,6 +24,19 @@ const text = {
   [ STATUS_OFFLINE ]: 'agent.status.offline'
 }
 
+export const util = {
+  /**
+   * Convert agent list to agent wrapper list
+   */
+  convert(agents) {
+    let list = []
+    for (let agent of agents) {
+      list.push(new AgentWrapper(agent))
+    }
+    return list
+  }
+}
+
 export class AgentWrapper {
   constructor (agent) {
     this.agent = agent

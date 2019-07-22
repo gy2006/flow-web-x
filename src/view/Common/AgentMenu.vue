@@ -30,7 +30,7 @@
 <script>
   import actions from '@/store/actions'
   import { subscribeTopic } from '@/store/subscribe'
-  import { AgentWrapper } from '@/util/agents'
+  import { util, AgentWrapper } from '@/util/agents'
   import { mapState } from 'vuex'
 
   export default {
@@ -52,11 +52,7 @@
     },
     watch: {
       agents (after) {
-        let list = []
-        for (let agent of after) {
-          list.push(new AgentWrapper(agent))
-        }
-        this.items = list
+        this.items = util.convert(after)
       },
 
       updated (after) {

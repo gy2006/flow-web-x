@@ -2,6 +2,11 @@
   <v-card>
     <v-card-title class="pb-0">
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
+      <v-btn flat
+             color="blue-grey"
+             class="white--text">
+        <v-icon>add_box</v-icon>
+      </v-btn>
     </v-card-title>
     <v-card-text class="pt-0">
       <v-data-table

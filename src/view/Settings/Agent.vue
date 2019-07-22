@@ -32,7 +32,8 @@
                         outline
                         small
                         label
-                >{{ tag }}</v-chip>
+                >{{ tag }}
+                </v-chip>
               </v-flex>
               <v-flex xs1>
                 <v-btn flat icon class="ma-0" @click="onDownloadClick(props.item)">
@@ -57,9 +58,9 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import {util} from '@/util/agents'
+  import { util } from '@/util/agents'
 
   export default {
     name: 'SettingsAgent',
@@ -70,7 +71,7 @@
           {
             text: 'Agents'
           }
-        ],
+        ]
       }
     },
     mounted () {
@@ -79,24 +80,25 @@
     computed: {
       ...mapState({
         agents: state => state.agents.items
-      }),
+      })
     },
     watch: {
       agents (after) {
         this.items = util.convert(after)
-      },
+      }
     },
     methods: {
-      onNewAgentClick() {
+      onNewAgentClick () {
+        this.$router.push('/settings/agents/new')
+      },
+
+      onDownloadClick (wrapper) {
 
       },
 
-      onDownloadClick(wrapper) {
-
-      },
-
-      onEditClick(wrapper) {
-
+      onEditClick (wrapper) {
+        this.$store.dispatch(actions.agents.select, wrapper.instance)
+        this.$router.push('/settings/agents/edit')
       }
     }
   }

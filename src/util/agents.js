@@ -42,6 +42,10 @@ export class AgentWrapper {
     this.agent = agent
   }
 
+  get instance () {
+    return this.agent
+  }
+
   get icon () {
     return icons[ this.agent.os ]
   }
@@ -50,11 +54,23 @@ export class AgentWrapper {
     return this.agent.name
   }
 
+  get tags () {
+    return this.agent.tags
+  }
+
   get color () {
     return colors[this.agent.status]
   }
 
   get text () {
     return text[this.agent.status]
+  }
+
+  set name (name) {
+    this.agent.name = name
+  }
+
+  set tags (tags) {
+    this.agent.tags = tags
   }
 }

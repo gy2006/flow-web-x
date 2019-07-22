@@ -2,7 +2,8 @@ import http from '../http'
 
 const state = {
   items: [],
-  updated: {} // updated agent received
+  updated: {}, // updated agent received
+  selected: {}
 }
 
 const mutations = {
@@ -21,6 +22,10 @@ const mutations = {
       Object.assign(agent, updatedAgent)
       break
     }
+  },
+
+  select (state, agent) {
+    state.selected = agent
   }
 }
 
@@ -33,6 +38,10 @@ const actions = {
 
   update ({commit}, agent) {
     commit('update', agent)
+  },
+
+  select ({commit}, agent) {
+    commit('select', agent)
   }
 }
 

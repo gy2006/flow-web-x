@@ -36,6 +36,7 @@ export default {
 
   agents: {
     list: 'agents/list',
-    update: 'agents/update'
+    update: 'agents/update',
+    select: 'agents/select'
   }
 }

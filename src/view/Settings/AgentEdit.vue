@@ -46,11 +46,11 @@
         <v-flex xs8 v-if="isEditMode">
           <v-text-field label="Token"
                         readonly
-                        value="xxx-xx-xxx-xxx"
+                        v-model="wrapper.token"
           ></v-text-field>
           <v-text-field label="Host"
                         readonly
-                        value="172.16.3.1"
+                        v-model="wrapper.host"
           ></v-text-field>
         </v-flex>
 
@@ -73,10 +73,7 @@
     name: 'SettingsAgentEdit',
     data () {
       return {
-        nameInput: '',
         nameRules: agentNameRules(this),
-
-        tagRaw: [], // {text: xxx, enabled: true}
         tagInput: '',
         tagRules: agentTagRules(this),
       }
@@ -98,6 +95,27 @@
         ]
       },
 
+      wrapper () {
+        return new AgentWrapper(this.selected)
+      },
+
+      nameInput () {
+        return this.isNewMode ? '' : this.wrapper.name
+      },
+
+      tagRaw () {
+        if (this.isNewMode) {
+          return []
+        }
+
+        const raw = []
+        for (let tag of this.wrapper.tags) {
+          raw.push({text: tag, enabled: true})
+        }
+
+        return raw
+      },
+
       /**
        * new | edit
        */
@@ -111,12 +129,6 @@
 
       isEditMode () {
         return this.category === 'edit'
-      }
-    },
-
-    watch: {
-      selected (after) {
-        this.wrapper = new AgentWrapper(after)
       }
     },
 

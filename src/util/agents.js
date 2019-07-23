@@ -42,7 +42,7 @@ export class AgentWrapper {
     this.agent = agent
   }
 
-  get instance () {
+  get rawInstance () {
     return this.agent
   }
 
@@ -64,6 +64,14 @@ export class AgentWrapper {
 
   get text () {
     return text[this.agent.status]
+  }
+
+  get token () {
+    return this.agent.token
+  }
+
+  get host () {
+    return this.agent.host ? this.agent.host : 'unknown'
   }
 
   set name (name) {

@@ -12,7 +12,7 @@
     </v-card-title>
     <v-card-text class="pt-0">
       <v-data-table
-          :items="agents"
+          :items="items"
           hide-actions
           hide-headers>
 
@@ -46,7 +46,7 @@
                 </v-btn>
               </v-flex>
               <v-flex xs1>
-                <v-btn flat icon class="ma-0 red--text" @click="onDownloadClick(props.item)">
+                <v-btn flat icon class="ma-0 red--text" @click="onDeleteClick(props.item)">
                   <v-icon small>delete_forever</v-icon>
                 </v-btn>
               </v-flex>
@@ -73,7 +73,6 @@
     name: 'SettingsAgent',
     data () {
       return {
-        items: [],
         navs: [
           {
             text: 'Agents'
@@ -87,11 +86,10 @@
     computed: {
       ...mapState({
         agents: state => state.agents.items
-      })
-    },
-    watch: {
-      agents (after) {
-        this.items = util.convert(after)
+      }),
+
+      items () {
+        return util.convert(this.agents)
       }
     },
     methods: {
@@ -104,8 +102,12 @@
       },
 
       onEditClick (wrapper) {
-        this.$store.dispatch(actions.agents.select, wrapper.instance)
+        this.$store.dispatch(actions.agents.select, wrapper.rawInstance)
         this.$router.push('/settings/agents/edit')
+      },
+
+      onDeleteClick(wrapper) {
+
       }
     }
   }

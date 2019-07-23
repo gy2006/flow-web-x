@@ -25,7 +25,7 @@
               <v-flex xs2>
                 <v-icon small>{{ props.item.icon }}</v-icon>
               </v-flex>
-              <v-flex xs6>
+              <v-flex xs5>
                 <v-chip v-for="tag in props.item.tags"
                         :key="tag"
                         class="my-0"
@@ -41,7 +41,14 @@
                 </v-btn>
               </v-flex>
               <v-flex xs1>
-                <a @click="onEditClick(props.item)">Edit</a>
+                <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
+                  <v-icon small>edit</v-icon>
+                </v-btn>
+              </v-flex>
+              <v-flex xs1>
+                <v-btn flat icon class="ma-0 red--text" @click="onDownloadClick(props.item)">
+                  <v-icon small>delete_forever</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
           </td>

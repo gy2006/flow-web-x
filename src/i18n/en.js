@@ -34,9 +34,9 @@ export default {
     delete_desc: 'Once you delete a repository, there is no going back. Please be certain.',
 
     hint: {
-      name_required: 'Name is required',
-      name_size: 'Name must be less than 20 character',
-      name_rule: 'Name only accept character of a-z, A-Z, 0-9, _, -',
+      name_required: 'Flow name is required',
+      name_size: 'Flow name must be less than 20 character',
+      name_rule: 'Flow name only accept characters of a-z, A-Z, 0-9, _, -',
       name_duplicate: 'Flow name already exists',
 
       git_skip: 'Setup Git access later',
@@ -71,6 +71,15 @@ export default {
       busy: 'busy',
       idle: 'idle',
       offline: 'offline'
+    },
+
+    hint: {
+      name_required: 'Agent name is required',
+      name_size: 'Agent name length should be 2 - 10 characters',
+      name_rule: 'Agent name only accept characters of a-z, A-Z, 0-9, _, -',
+      tag_required: 'Agent tag is required',
+      tag_size: 'Agent tag length between 2 - 5 characters',
+      tag_rule: 'Agent tag name only accept characters of a-z, A-Z, 0-9',
     }
   },
 

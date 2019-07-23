@@ -6,17 +6,37 @@
     <v-card-text class="pt-0">
       <v-layout row wrap>
         <v-flex xs8>
-          <v-text-field
-              label="Name"
-              v-model="wrapper.name"
-          ></v-text-field>
-          <v-combobox multiple
-                      label="Tags"
-                      hide-selected
-                      small-chips
-                      persistent-hint
-                      v-model="wrapper.tags"
-          ></v-combobox>
+          <v-form ref="agentNameForm"
+                  lazy-validation>
+            <v-text-field
+                label="Name"
+                :rules="nameRules"
+                v-model="nameInput"
+            ></v-text-field>
+          </v-form>
+
+          <v-form ref="agentTagForm"
+                  lazy-validation>
+            <v-text-field
+                label="Tags"
+                :rules="tagRules"
+                v-model="tagInput"
+                append-icon="add_box"
+                @click:append="onTagAddClick"
+            ></v-text-field>
+          </v-form>
+        </v-flex>
+
+        <v-flex xs8>
+          <v-chip
+              close
+              label
+              v-for="(tag, index) in tagRaw"
+              v-model="tag.enabled"
+              :key="tag.text"
+              @input="onTagRemoveClick(index)"
+          >{{ tag.text }}
+          </v-chip>
         </v-flex>
 
         <v-flex xs8 class="my-3" v-if="isEditMode">
@@ -31,32 +51,34 @@
           <v-text-field label="Host"
                         readonly
                         value="172.16.3.1"
-                        append-icon="flow-icon-appleinc"
           ></v-text-field>
         </v-flex>
 
         <v-flex xs2 offset-xs5 d-flex>
-          <v-btn color="warning" @click="onBackClick">Back</v-btn>
-          <v-btn color="primary" @click="onSaveClick">Save</v-btn>
+          <v-btn color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
+          <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
         </v-flex>
       </v-layout>
-
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { AgentWrapper } from '@/util/agents'
+  import {mapState} from 'vuex'
+  import actions from '@/store/actions'
+  import {AgentWrapper} from '@/util/agents'
+  import {agentNameRules, agentTagRules} from '@/util/rules'
 
   export default {
     name: 'SettingsAgentEdit',
     data () {
       return {
-        wrapper: new AgentWrapper( {
-          name: '',
-          tags: []
-        })
+        nameInput: '',
+        nameRules: agentNameRules(this),
+
+        tagRaw: [], // {text: xxx, enabled: true}
+        tagInput: '',
+        tagRules: agentTagRules(this),
       }
     },
     computed: {
@@ -99,12 +121,47 @@
     },
 
     methods: {
+      onTagAddClick () {
+        if (!this.$refs.agentTagForm.validate()) {
+          return
+        }
+
+        for (let tag of this.tagRaw) {
+          if (tag.text === this.tagInput) {
+            this.$refs.agentTagForm.reset()
+            this.tagInput = ''
+            return
+          }
+        }
+
+        this.tagRaw.push({text: this.tagInput, enabled: true})
+        this.$refs.agentTagForm.reset()
+        this.tagInput = ''
+      },
+
+      onTagRemoveClick (tagIndex) {
+        this.tagRaw.splice(tagIndex, 1)
+      },
+
       onBackClick () {
         this.$router.push('/settings/agents')
       },
 
       onSaveClick () {
+        if (!this.$refs.agentNameForm.validate()) {
+          return
+        }
 
+        const tags = []
+        for (let tag of this.tagRaw) {
+          tags.push(tag.text)
+        }
+
+        if (this.isNewMode) {
+          this.$store.dispatch(actions.agents.create, {name: this.nameInput, tags: tags}).then(() => {
+            this.$router.push('/settings/agents')
+          })
+        }
       }
     }
   }

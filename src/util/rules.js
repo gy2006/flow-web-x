@@ -34,3 +34,19 @@ export function sshPrivateKeyRules (vue) {
       || vue.$t('flow.hint.ssh_private_format')
   ]
 }
+
+export function agentNameRules (vue) {
+  return [
+    v => !!v || vue.$t('agent.hint.name_required'),
+    v => (/^[A-Za-z0-9_-]+$/g.test(v)) || vue.$t('agent.hint.name_rule'),
+    v => (v.length >= 2 && v.length <= 10) || vue.$t('agent.hint.name_size'),
+  ]
+}
+
+export function agentTagRules (vue) {
+  return [
+    v => !!v || vue.$t('agent.hint.tag_required'),
+    v => (/^[A-Za-z0-9]+$/g.test(v)) || vue.$t('agent.hint.tag_rule'),
+    v => (v.length >= 2 && v.length <= 5) || vue.$t('agent.hint.tag_size'),
+  ]
+}

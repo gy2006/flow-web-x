@@ -11,6 +11,10 @@ const mutations = {
     state.items = agents
   },
 
+  add (state, agent) {
+    state.items.push(agent)
+  },
+
   update (state, updatedAgent) {
     state.updated = updatedAgent
 
@@ -30,6 +34,12 @@ const mutations = {
 }
 
 const actions = {
+  async create({commit}, {name, tags}) {
+    await http.post('agents', (agent) => {
+      commit('add', agent)
+    }, {name: name, tags: tags})
+  },
+
   list ({commit}) {
     http.get('agents', (agents) => {
       commit('reload', agents)

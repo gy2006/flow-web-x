@@ -186,7 +186,11 @@
       },
 
       onDeleteClick () {
-
+        this.$store.dispatch(actions.agents.delete, this.wrapper.rawInstance).then(() => {
+          this.$store.dispatch(actions.agents.select, {})
+          this.dialog = false
+          this.onBackClick()
+        })
       },
 
       onBackClick () {

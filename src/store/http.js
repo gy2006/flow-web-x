@@ -16,6 +16,12 @@ const code = {
   fatal: 500
 }
 
+const requestConfig = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
 const handleError = (error) => {
   console.log('[ERROR]: ' + error)
   store.dispatch('populateErrors', error).then()
@@ -70,11 +76,7 @@ export default {
 
   // return promise
   post: (url, onSuccess, data) => {
-    return instance.post(url, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
+    return instance.post(url, data, requestConfig).then((response) => {
       const msg = response.data
 
       if (msg.code === code.ok) {
@@ -88,8 +90,14 @@ export default {
     })
   },
 
-  delete: (url, onSuccess) => {
-    return instance.delete(url).then((response) => {
+  delete: (url, onSuccess, data) => {
+    const config = Object.assign({}, requestConfig)
+
+    if (data) {
+      config.data = data
+    }
+
+    return instance.delete(url, config).then((response) => {
       const msg = response.data
 
       if (msg.code === code.ok) {

@@ -15,6 +15,15 @@ const mutations = {
     state.items.push(agent)
   },
 
+  remove (state, deletedAgent) {
+    for (let i = 0; i < state.items.length; i++) {
+      if (state.items[i].id === deletedAgent.id) {
+        state.items.splice(i, 1)
+        return;
+      }
+    }
+  },
+
   update (state, updatedAgent) {
     state.updated = updatedAgent
 
@@ -38,6 +47,12 @@ const actions = {
     await http.post('agents', (agent) => {
       commit('add', agent)
     }, {name: name, tags: tags})
+  },
+
+  async delete({commit}, agent) {
+    await http.delete('agents', (agent) => {
+     commit('remove', agent)
+    }, {token: agent.token})
   },
 
   list ({commit}) {

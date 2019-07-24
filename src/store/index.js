@@ -7,6 +7,7 @@ import { Store as JobStore } from './module/jobs'
 import { Store as StepStore } from './module/steps'
 import { Store as LogStore } from './module/logs'
 import { Store as AgentStore } from './module/agents'
+import { Store as CredentialStore } from './module/credentials'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     'jobs': JobStore,
     'steps': StepStore,
     'logs': LogStore,
-    'agents': AgentStore
+    'agents': AgentStore,
+    'credentials': CredentialStore
   }
 })
 

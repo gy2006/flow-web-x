@@ -40,5 +40,9 @@ export default {
     list: 'agents/list',
     update: 'agents/update',
     select: 'agents/select'
+  },
+
+  credentials: {
+    list: 'credentials/list'
   }
 }

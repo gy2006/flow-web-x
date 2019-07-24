@@ -11,8 +11,15 @@ const mutations = {
     state.items = agents
   },
 
-  add (state, agent) {
-    state.items.push(agent)
+  add (state, newOrUpdated) {
+    for (let agent of state.items) {
+      if (agent.id === newOrUpdated.id) {
+        Object.assign(agent, newOrUpdated)
+        return
+      }
+    }
+
+    state.items.push(newOrUpdated)
   },
 
   remove (state, deletedAgent) {
@@ -43,10 +50,10 @@ const mutations = {
 }
 
 const actions = {
-  async create({commit}, {name, tags}) {
+  async createOrUpdate({commit}, {name, tags, token}) {
     await http.post('agents', (agent) => {
       commit('add', agent)
-    }, {name: name, tags: tags})
+    }, {name: name, tags: tags, token: token})
   },
 
   async delete({commit}, agent) {

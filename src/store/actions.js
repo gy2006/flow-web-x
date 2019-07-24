@@ -35,7 +35,7 @@ export default {
   },
 
   agents: {
-    create: 'agents/create',
+    createOrUpdate: 'agents/createOrUpdate',
     delete: 'agents/delete',
     list: 'agents/list',
     update: 'agents/update',

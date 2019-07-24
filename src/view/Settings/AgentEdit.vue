@@ -129,21 +129,29 @@
         return new AgentWrapper(this.selected)
       },
 
-      nameInput () {
-        return this.isNewMode ? '' : this.wrapper.name
+      nameInput: {
+        get () {
+          return this.isNewMode ? '' : this.wrapper.name
+        },
+
+        set (newValue) {
+          this.wrapper.name = newValue
+        }
       },
 
-      tagRaw () {
-        if (this.isNewMode || !this.wrapper.tags) {
-          return []
-        }
+      tagRaw: {
+        get () {
+          if (this.isNewMode || !this.wrapper.tags) {
+            return []
+          }
 
-        const raw = []
-        for (let tag of this.wrapper.tags) {
-          raw.push({text: tag, enabled: true})
-        }
+          const raw = []
+          for (let tag of this.wrapper.tags) {
+            raw.push({text: tag, enabled: true})
+          }
 
-        return raw
+          return raw
+        }
       },
 
       /**
@@ -207,11 +215,11 @@
           tags.push(tag.text)
         }
 
-        if (this.isNewMode) {
-          this.$store.dispatch(actions.agents.create, {name: this.nameInput, tags: tags}).then(() => {
-            this.$router.push('/settings/agents')
-          })
-        }
+        this.wrapper.tags = tags
+
+        this.$store.dispatch(actions.agents.createOrUpdate, this.wrapper.rawInstance).then(() => {
+          this.$router.push('/settings/agents')
+        })
       }
     }
   }

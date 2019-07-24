@@ -20,7 +20,7 @@
             href: '#/settings/credentials'
           },
           {
-            text: 'New'
+            text: 'New - ' + this.category
           }
         ]
       },

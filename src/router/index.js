@@ -7,9 +7,12 @@ import JobList from '@/view/Job/List'
 import SettingsHome from '@/view/Settings/Home'
 import SettingsProfile from '@/view/Settings/Profile'
 import SettingsSecurity from '@/view/Settings/Security'
+
 import SettingsAgent from '@/view/Settings/Agent'
 import SettingsAgentEdit from '@/view/Settings/AgentEdit'
+
 import SettingsCredential from '@/view/Settings/Credential'
+import SettingsCredentialNew from '@/view/Settings/CredentialNew'
 import SettingsCredentialEdit from '@/view/Settings/CredentialEdit'
 
 Vue.use(Router)
@@ -63,11 +66,11 @@ export default new Router({
           component: SettingsCredential
         },
         {
-          path: 'credentials/:category',
-          component: SettingsCredentialEdit
+          path: 'credentials/new/:category',
+          component: SettingsCredentialNew
         },
         {
-          path: 'credentials/:category/:name',
+          path: 'credentials/edit/:name',
           component: SettingsCredentialEdit
         }
       ]

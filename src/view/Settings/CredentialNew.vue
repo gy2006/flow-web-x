@@ -4,21 +4,15 @@
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
     </v-card-title>
     <v-card-text>
-      {{ name }}
+      {{ category }}
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-
   export default {
-    name: 'SettingsCredentialEdit',
+    name: 'SettingsCredentialNew',
     computed: {
-      ...mapState({
-        loaded: state => state.credentials.loaded
-      }),
-
       navs () {
         return [
           {
@@ -26,13 +20,13 @@
             href: '#/settings/credentials'
           },
           {
-            text: this.name
+            text: 'New'
           }
         ]
       },
 
-      name () {
-        return this.$route.params.name
+      category () {
+        return this.$route.params.category
       }
     }
   }

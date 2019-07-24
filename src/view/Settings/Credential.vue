@@ -2,13 +2,23 @@
   <v-card>
     <v-card-title class="pb-0">
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
-      <v-btn flat
-             color="blue-grey"
-             class="white--text"
-             @click="onNewClick"
-      >
-        <v-icon>add_box</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn flat
+                 color="blue-grey"
+                 class="white--text"
+                 v-on="on"
+          >
+            <v-icon>add_box</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-tile @click="onNewClick('ssh-rsa')">
+            ssh-rsa
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
     </v-card-title>
     <v-card-text class="pt-0">
       <v-data-table
@@ -69,8 +79,8 @@
       }),
     },
     methods: {
-      onNewClick () {
-        this.$router.push('/settings/credentials/new')
+      onNewClick (category) {
+        this.$router.push('/settings/credentials/new/' + category)
       },
 
       onEditClick (credential) {

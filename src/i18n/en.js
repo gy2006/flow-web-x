@@ -75,7 +75,7 @@ export default {
 
     hint: {
       name_required: 'Agent name is required',
-      name_size: 'Agent name length should be 2 - 10 characters',
+      name_size: 'Agent name length should be 2 - 20 characters',
       name_rule: 'Agent name only accept characters of a-z, A-Z, 0-9, _, -',
       tag_required: 'Agent tag is required',
       tag_size: 'Agent tag length between 2 - 5 characters',

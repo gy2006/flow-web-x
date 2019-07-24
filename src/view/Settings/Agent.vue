@@ -25,7 +25,7 @@
               <v-flex xs2>
                 <v-icon small>{{ props.item.icon }}</v-icon>
               </v-flex>
-              <v-flex xs5>
+              <v-flex xs6>
                 <v-chip v-for="tag in props.item.tags"
                         :key="tag"
                         class="my-0"
@@ -43,11 +43,6 @@
               <v-flex xs1>
                 <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
                   <v-icon small>edit</v-icon>
-                </v-btn>
-              </v-flex>
-              <v-flex xs1>
-                <v-btn flat icon class="ma-0 red--text" @click="onDeleteClick(props.item)">
-                  <v-icon small>delete_forever</v-icon>
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -104,10 +99,6 @@
       onEditClick (wrapper) {
         this.$store.dispatch(actions.agents.select, wrapper.rawInstance)
         this.$router.push('/settings/agents/edit')
-      },
-
-      onDeleteClick(wrapper) {
-
       }
     }
   }

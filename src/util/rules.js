@@ -39,7 +39,7 @@ export function agentNameRules (vue) {
   return [
     v => !!v || vue.$t('agent.hint.name_required'),
     v => (/^[A-Za-z0-9_-]+$/g.test(v)) || vue.$t('agent.hint.name_rule'),
-    v => (v.length >= 2 && v.length <= 10) || vue.$t('agent.hint.name_size'),
+    v => (v.length >= 2 && v.length <= 20) || vue.$t('agent.hint.name_size'),
   ]
 }
 

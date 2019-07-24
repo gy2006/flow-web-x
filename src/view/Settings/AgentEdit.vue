@@ -114,15 +114,22 @@
       }),
 
       navs () {
-        return [
+        let items = [
           {
             text: 'Agents',
             href: '#/settings/agents'
-          },
-          {
-            text: this.category.charAt(0).toUpperCase() + this.category.slice(1)
           }
         ]
+
+        if (this.isEditMode) {
+          items.push({text: this.wrapper.name, href: ''})
+        }
+
+        else if (this.isNewMode) {
+          items.push({text: 'New', href: ''})
+        }
+
+        return items
       },
 
       wrapper () {

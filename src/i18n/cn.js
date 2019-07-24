@@ -87,7 +87,7 @@ export default {
       profile: 'Profile',
       security: 'Security',
       agent: 'Agents',
-      credential: 'Credential'
+      credential: 'Credentials'
     }
   }
 }

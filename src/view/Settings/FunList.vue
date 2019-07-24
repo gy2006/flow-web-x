@@ -39,7 +39,7 @@
           },
           {
             i18n: 'settings.li.credential',
-            path: 'credential'
+            path: 'credentials'
           }
         ]
       }

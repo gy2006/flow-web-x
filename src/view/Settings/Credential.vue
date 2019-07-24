@@ -5,7 +5,7 @@
       <v-btn flat
              color="blue-grey"
              class="white--text"
-             @click="onNewCredentialClick"
+             @click="onNewClick"
       >
         <v-icon>add_box</v-icon>
       </v-btn>
@@ -21,7 +21,10 @@
               <v-flex xs2>
                 {{ props.item.name }}
               </v-flex>
-              <v-flex xs9>
+              <v-flex xs1>
+                {{ props.item.category }}
+              </v-flex>
+              <v-flex xs8>
               </v-flex>
               <v-flex xs1>
                 <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
@@ -66,12 +69,12 @@
       }),
     },
     methods: {
-      onNewCredentialClick () {
-
+      onNewClick () {
+        this.$router.push('/settings/credentials/new')
       },
 
-      onEditClick () {
-
+      onEditClick (credential) {
+        this.$router.push('/settings/credentials/edit/' + credential.name)
       }
     }
   }

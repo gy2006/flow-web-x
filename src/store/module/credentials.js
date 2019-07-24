@@ -2,7 +2,7 @@ import http from '../http'
 
 const state = {
   items: [],
-  selected: {}
+  loaded: {}
 }
 
 const mutations = {

@@ -44,6 +44,7 @@ export default new Router({
           path: 'security',
           component: SettingsSecurity
         },
+        
         {
           path: 'agents',
           component: SettingsAgent
@@ -52,6 +53,11 @@ export default new Router({
           path: 'agents/:category',
           component: SettingsAgentEdit
         },
+        {
+          path: 'agents/:category/:name',
+          component: SettingsAgentEdit
+        },
+
         {
           path: 'credentials',
           component: SettingsCredential

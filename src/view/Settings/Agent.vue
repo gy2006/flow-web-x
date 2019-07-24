@@ -97,8 +97,7 @@
       },
 
       onEditClick (wrapper) {
-        this.$store.dispatch(actions.agents.select, wrapper.rawInstance)
-        this.$router.push('/settings/agents/edit')
+        this.$router.push('/settings/agents/edit/' + wrapper.name)
       }
     }
   }

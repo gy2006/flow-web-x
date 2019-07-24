@@ -1,9 +1,10 @@
 import http from '../http'
+import { emptyObject } from '@/util/agents'
 
 const state = {
   items: [],
   updated: {}, // updated agent received
-  selected: {}
+  loaded: Object.assign({}, emptyObject)
 }
 
 const mutations = {
@@ -44,8 +45,8 @@ const mutations = {
     }
   },
 
-  select (state, agent) {
-    state.selected = agent
+  loaded (state, agent) {
+    state.loaded = agent
   }
 }
 
@@ -60,6 +61,12 @@ const actions = {
     await http.delete('agents', (agent) => {
      commit('remove', agent)
     }, {token: agent.token})
+  },
+
+  get ({commit}, name) {
+    http.get(`agents/${name}`, (agent) => {
+      commit('loaded', agent)
+    })
   },
 
   list ({commit}) {

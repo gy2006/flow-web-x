@@ -11,7 +11,7 @@
             <v-text-field
                 label="Name"
                 :rules="nameRules"
-                v-model="nameInput"
+                v-model="this.wrapper.name"
             ></v-text-field>
           </v-form>
 
@@ -110,7 +110,7 @@
     },
     computed: {
       ...mapState({
-        selected: state => state.agents.selected
+        loaded: state => state.agents.loaded
       }),
 
       navs () {
@@ -123,9 +123,7 @@
 
         if (this.isEditMode) {
           items.push({text: this.wrapper.name, href: ''})
-        }
-
-        else if (this.isNewMode) {
+        } else if (this.isNewMode) {
           items.push({text: 'New', href: ''})
         }
 
@@ -133,25 +131,15 @@
       },
 
       wrapper () {
-        return new AgentWrapper(this.selected)
-      },
-
-      nameInput: {
-        get () {
-          return this.isNewMode ? '' : this.wrapper.name
-        },
-
-        set (newValue) {
-          this.wrapper.name = newValue
+        if (this.isNewMode) {
+          return new AgentWrapper()
         }
+
+        return new AgentWrapper(this.loaded)
       },
 
       tagRaw: {
         get () {
-          if (this.isNewMode || !this.wrapper.tags) {
-            return []
-          }
-
           const raw = []
           for (let tag of this.wrapper.tags) {
             raw.push({text: tag, enabled: true})
@@ -168,6 +156,10 @@
         return this.$route.params.category
       },
 
+      name () {
+        return this.$route.params.name
+      },
+
       isNewMode () {
         return this.category === 'new'
       },
@@ -176,7 +168,18 @@
         return this.category === 'edit'
       }
     },
-
+    mounted () {
+      if (this.isEditMode) {
+        this.$store.dispatch(actions.agents.get, this.name)
+      }
+    },
+    watch: {
+      name (newValue) {
+        if (this.isEditMode) {
+          this.$store.dispatch(actions.agents.get, newValue)
+        }
+      }
+    },
     methods: {
       onTagAddClick () {
         if (!this.$refs.agentTagForm.validate()) {

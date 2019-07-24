@@ -7,28 +7,34 @@ const STATUS_IDLE = 'IDLE'
 const STATUS_BUSY = 'BUSY'
 
 const icons = {
-  [ OS_MAC ]: 'flow-icon-appleinc',
-  [ OS_LINUX ]: 'flow-icon-linux',
-  [ OS_WIN ]: 'flow-icon-windows8'
+  [OS_MAC]: 'flow-icon-appleinc',
+  [OS_LINUX]: 'flow-icon-linux',
+  [OS_WIN]: 'flow-icon-windows8'
 }
 
 const colors = {
-  [ STATUS_BUSY ]: 'blue',
-  [ STATUS_IDLE ]: 'green',
-  [ STATUS_OFFLINE ]: 'yellow'
+  [STATUS_BUSY]: 'blue',
+  [STATUS_IDLE]: 'green',
+  [STATUS_OFFLINE]: 'yellow'
 }
 
 const text = {
-  [ STATUS_BUSY ]: 'agent.status.busy',
-  [ STATUS_IDLE ]: 'agent.status.idle',
-  [ STATUS_OFFLINE ]: 'agent.status.offline'
+  [STATUS_BUSY]: 'agent.status.busy',
+  [STATUS_IDLE]: 'agent.status.idle',
+  [STATUS_OFFLINE]: 'agent.status.offline'
+}
+
+export const emptyObject = {
+  name: '',
+  tags: [],
+  status: STATUS_OFFLINE
 }
 
 export const util = {
   /**
    * Convert agent list to agent wrapper list
    */
-  convert(agents) {
+  convert (agents) {
     let list = []
     for (let agent of agents) {
       list.push(new AgentWrapper(agent))
@@ -38,8 +44,9 @@ export const util = {
 }
 
 export class AgentWrapper {
+
   constructor (agent) {
-    this.agent = agent
+    this.agent = agent ? agent : emptyObject
   }
 
   get rawInstance () {
@@ -47,7 +54,7 @@ export class AgentWrapper {
   }
 
   get icon () {
-    return icons[ this.agent.os ]
+    return icons[this.agent.os]
   }
 
   get name () {

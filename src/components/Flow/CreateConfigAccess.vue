@@ -7,8 +7,8 @@
         </v-flex>
       </v-layout>
     </v-form>
-    <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn flat @click="onBackClick">{{ $t('back') }}</v-btn>
+    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
+    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
   </div>
 </template>
 

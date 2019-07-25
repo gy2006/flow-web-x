@@ -25,11 +25,11 @@
         </v-form>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn flat @click="onBackClick">{{ $t('back') }}</v-btn>
+    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
+    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn flat @click="onSkipClick" v-on="on">{{ $t('skip') }}</v-btn>
+        <v-btn small flat @click="onSkipClick" v-on="on">{{ $t('skip') }}</v-btn>
       </template>
       <span>{{ $t('flow.hint.git_skip') }}</span>
     </v-tooltip>

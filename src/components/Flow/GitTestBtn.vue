@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <v-btn color="info"
            outline
            small
@@ -19,7 +19,7 @@
     </v-btn>
 
     <span class="ml-2 error--text">{{ currentGitTest.message }}</span>
-  </div>
+  </span>
 </template>
 
 <script>

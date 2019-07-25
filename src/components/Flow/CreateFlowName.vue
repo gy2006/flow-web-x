@@ -17,7 +17,7 @@
         </v-form>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
+    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
   </div>
 </template>
 

@@ -2,7 +2,11 @@ import http from '../http'
 
 const state = {
   items: [],
-  loaded: {}
+  loaded: {
+    name: '',
+    privateKey: '',
+    publicKey: ''
+  }
 }
 
 const mutations = {
@@ -12,6 +16,10 @@ const mutations = {
 
   list (state, credentials) {
     state.items = credentials
+  },
+
+  loaded (state, credential) {
+    state.loaded = credential
   }
 }
 
@@ -26,6 +34,12 @@ const actions = {
     await http.post('credentials/rsa', (c) => {
       commit('add', c)
     }, credential)
+  },
+
+  get ({commit}, name) {
+    http.get(`credentials/${name}`, (c) => {
+      commit('loaded', c)
+    })
   }
 }
 

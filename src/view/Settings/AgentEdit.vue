@@ -72,7 +72,7 @@
               <v-card-title
                   class="error--text"
                   primary-title
-              >Delete Agent ?
+              >Delete Agent {{ name }}?
               </v-card-title>
 
               <v-divider></v-divider>

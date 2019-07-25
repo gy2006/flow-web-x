@@ -14,7 +14,7 @@
           </v-form>
         </v-flex>
 
-        <v-flex xs8 v-if="category === ssh_rsa">
+        <v-flex xs8 v-if="isSshRsa">
           <v-form ref="sshForm" lazy-validation>
             <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :keyPair="instance"></ssh-rsa-editor>
           </v-form>
@@ -42,7 +42,6 @@
     },
     data () {
       return {
-        ssh_rsa: CATEGORY_SSH_RSA,
         nameRules: credentialNameRules(this),
         credential: {
           [CATEGORY_SSH_RSA]: {
@@ -73,6 +72,10 @@
 
       category () {
         return this.$route.params.category.toUpperCase()
+      },
+
+      isSshRsa () {
+        return this.category === CATEGORY_SSH_RSA
       }
     },
     methods: {

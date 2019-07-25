@@ -6,6 +6,10 @@ const state = {
 }
 
 const mutations = {
+  add (state, credential) {
+    state.items.push(credential)
+  },
+
   list (state, credentials) {
     state.items = credentials
   }
@@ -13,9 +17,15 @@ const mutations = {
 
 const actions = {
   list ({commit}) {
-    http.get('credentials', (credentials) => {
-      commit('list', credentials)
+    http.get('credentials', (c) => {
+      commit('list', c)
     })
+  },
+
+  async create ({commit}, credential) {
+    await http.post('credentials/rsa', (c) => {
+      commit('add', c)
+    }, credential)
   }
 }
 

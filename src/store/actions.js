@@ -44,6 +44,7 @@ export default {
   },
 
   credentials: {
+    create: 'credentials/create',
     list: 'credentials/list'
   }
 }

@@ -67,9 +67,9 @@ const actions = {
   },
 
   async createSshRsa ({commit, state}, email) {
-    await http.post('credentials/rsa/only', (rsaKeyPair) => {
+    await http.post('credentials/rsa/gen', (rsaKeyPair) => {
       commit('updateSshRsa', rsaKeyPair)
-    }, {name: email})
+    }, {email: email})
   },
 
   async gitTestStart ({commit}, wrapper) {

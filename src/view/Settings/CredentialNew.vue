@@ -31,6 +31,7 @@
 
 <script>
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
+  import actions from '@/store/actions'
   import { CATEGORY_SSH_RSA } from '@/util/credentials'
   import { credentialNameRules } from '@/util/rules'
 
@@ -81,8 +82,9 @@
 
       onSaveClick () {
         if (this.$refs.nameForm.validate() && this.$refs.sshForm.validate()) {
-          console.log(this.instance)
-          this.onBackClick()
+          this.$store.dispatch(actions.credentials.create, this.instance).then(() => {
+            this.onBackClick()
+          })
         }
       }
     }

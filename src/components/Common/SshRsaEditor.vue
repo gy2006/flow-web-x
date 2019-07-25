@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-flex align-center>
-      <span class="sub-content">SSH-RSA Key Pair</span>
+      <span class="body-2 grey--text">SSH-RSA Key Pair</span>
       <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew">
         <template v-slot:activator="{ on }">
           <v-btn small

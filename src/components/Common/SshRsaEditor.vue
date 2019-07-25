@@ -2,7 +2,7 @@
   <div>
     <v-flex align-center>
       <span class="body-2 grey--text">SSH-RSA Key Pair</span>
-      <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew">
+      <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew && !isReadOnly">
         <template v-slot:activator="{ on }">
           <v-btn small
                  outline
@@ -50,6 +50,7 @@
           :rules="sshPublicKeyRules"
           :append-outer-icon="showHelp ? 'help' : ''"
           v-model="keyPair.publicKey"
+          :readonly="isReadOnly"
           @click:append-outer="onHelpClick('ssh_public')"
       ></v-textarea>
     </v-flex>
@@ -63,6 +64,7 @@
           :rules="sshPrivateKeyRules"
           :append-outer-icon="showHelp ? 'help' : ''"
           v-model="keyPair.privateKey"
+          :readonly="isReadOnly"
           @click:append-outer="onHelpClick('ssh_private')"
       ></v-textarea>
     </v-flex>
@@ -88,6 +90,12 @@
       showCreateNew: {
         type: Boolean,
         required: true
+      },
+      isReadOnly: {
+        type: Boolean,
+        default () {
+          return false
+        }
       }
     },
     data () {

@@ -100,7 +100,7 @@ const actions = {
 
     if (wrapper.hasSSH) {
       promiseArray.push(http.post(
-        `flows/${wrapper.name}/credential/rsa`,
+        `flows/${wrapper.name}/credentials/rsa`,
         () => {
           console.log('[DONE]: setup credential')
         },

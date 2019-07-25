@@ -9,6 +9,7 @@
           <v-flex xs8>
             <v-form ref="nameForm" lazy-validation>
               <v-text-field label="Name"
+                            readonly
                             :rules="nameRules"
                             v-model="loaded.name"
               ></v-text-field>
@@ -17,7 +18,10 @@
 
           <v-flex xs8 v-if="isSshRsa">
             <v-form ref="sshForm" lazy-validation>
-              <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :keyPair="loaded"></ssh-rsa-editor>
+              <ssh-rsa-editor :showHelp="false"
+                              :showCreateNew="false"
+                              :isReadOnly="true"
+                              :keyPair="loaded"></ssh-rsa-editor>
             </v-form>
           </v-flex>
 
@@ -52,7 +56,6 @@
             </v-dialog>
 
             <v-btn outline color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
-            <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -117,10 +120,6 @@
       },
 
       onDeleteClick () {
-
-      },
-
-      onSaveClick () {
 
       }
     }

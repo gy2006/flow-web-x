@@ -1,12 +1,13 @@
 <template>
   <div>
-    <v-flex d-flex align-center>
+    <v-flex align-center>
       <span class="sub-content">SSH-RSA Key Pair</span>
       <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew">
         <template v-slot:activator="{ on }">
           <v-btn small
                  outline
                  v-on="on"
+                 class="ml-4"
                  color="indigo"
                  open-delay="2000"
                  @click="dialog = true">

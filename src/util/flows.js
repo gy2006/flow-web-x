@@ -7,21 +7,22 @@ export const GIT_TEST_ERROR = 'ERROR'
 
 export const gitTestStatus = {
   default: {
-    class: [ 'amber--text' ],
-    icon: 'flow-icon-loading1',
-    message: 'Testing'
+    class: [],
+    icon: 'help',
+    message: ''
   },
 
+  // fetching status data was defined in the GitTestBtn component
   [ GIT_TEST_FETCHING ]: {
-    class: [ 'amber--text', 'rotate' ],
-    icon: 'flow-icon-loading1',
-    message: 'Testing'
+    class: [],
+    icon: '',
+    message: ''
   },
 
   [ GIT_TEST_DONE ]: {
     icon: 'flow-icon-circle-check',
     class: [ 'green--text' ],
-    message: 'Done'
+    message: ''
   },
 
   [ GIT_TEST_ERROR ]: {

@@ -118,7 +118,7 @@ export const subscribeTopic = {
   }
 }
 
-export const unsubsribeTopic = {
+export const unsubscribeTopic = {
   gitTest (flowId) {
     unsubscribe('/topic/flows/git/test/' + flowId)
   },

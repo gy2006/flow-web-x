@@ -14,6 +14,14 @@ export function gitUrlRules (vue) {
   ]
 }
 
+export function credentialNameRules (vue) {
+  return [
+    v => !!v || vue.$t('credential.hint.name_required'),
+    v => (/^[A-Za-z0-9_-]+$/g.test(v)) || vue.$t('credential.hint.name_rule'),
+    v => (v.length >= 2 && v.length <= 20) || vue.$t('credential.hint.name_size'),
+  ]
+}
+
 export function sshEmailRules (vue) {
   return [
     v => !!v || vue.$t('flow.hint.ssh_email_required')

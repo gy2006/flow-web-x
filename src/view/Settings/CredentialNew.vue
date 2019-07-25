@@ -6,9 +6,12 @@
     <v-card-text class="pt-0">
       <v-layout row wrap>
         <v-flex xs8>
-          <v-text-field label="Name"
-                        v-model="instance.name"
-          ></v-text-field>
+          <v-form ref="nameForm" lazy-validation>
+            <v-text-field label="Name"
+                          :rules="nameRules"
+                          v-model="instance.name"
+            ></v-text-field>
+          </v-form>
         </v-flex>
 
         <v-flex xs8 v-if="category === ssh_rsa">
@@ -29,6 +32,7 @@
 <script>
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
   import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { credentialNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsCredentialNew',
@@ -38,6 +42,7 @@
     data () {
       return {
         ssh_rsa: CATEGORY_SSH_RSA,
+        nameRules: credentialNameRules(this),
         credential: {
           [CATEGORY_SSH_RSA]: {
             name: '',
@@ -71,12 +76,13 @@
     },
     methods: {
       onBackClick () {
-
+        this.$router.push('/settings/credentials')
       },
 
       onSaveClick () {
-        if (this.$refs.sshForm.validate()) {
+        if (this.$refs.nameForm.validate() && this.$refs.sshForm.validate()) {
           console.log(this.instance)
+          this.onBackClick()
         }
       }
     }

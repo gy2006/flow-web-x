@@ -89,5 +89,13 @@ export default {
       agent: 'Agents',
       credential: 'Credentials'
     }
+  },
+
+  credential: {
+    hint: {
+      name_required: 'Credential name is required',
+      name_size: 'Credential name length should be 2 - 20 characters',
+      name_rule: 'Credential name only accept characters of a-z, A-Z, 0-9, _, -',
+    }
   }
 }

@@ -13,7 +13,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-tile @click="onNewClick('ssh-rsa')">
+          <v-list-tile @click="onNewClick(category.sshrsa)">
             ssh-rsa
           </v-list-tile>
         </v-list>
@@ -58,11 +58,15 @@
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
+  import { CATEGORY_SSH_RSA_PATH }  from '@/util/credentials'
 
   export default {
     name: 'SettingsCredential',
     data () {
       return {
+        category: {
+          sshrsa: CATEGORY_SSH_RSA_PATH
+        },
         navs: [
           {
             text: 'Credentials'

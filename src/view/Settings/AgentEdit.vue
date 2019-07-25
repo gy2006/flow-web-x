@@ -58,6 +58,7 @@
           <v-dialog
               v-model="dialog"
               width="500"
+              v-if="isEditMode"
           >
             <template v-slot:activator="{ on }">
               <v-btn

@@ -34,7 +34,7 @@
     </v-flex>
 
     <v-flex xs12 class="d-flex">
-      <git-test-btn :wrapper="wrapper"></git-test-btn>
+      <git-test-btn :wrapper="wrapper" :onBeforeTest="onTestClick"></git-test-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -61,7 +61,6 @@
     data () {
       return {
         vars: vars,
-        isShownGitTest: false,
         flowNameRules: flowNameRules(this),
         gitUrlRules: gitUrlRules(this),
         credentialNameRules: [
@@ -80,9 +79,7 @@
     },
     methods: {
       onTestClick () {
-        if (!this.$refs.gitAccessForm.validate()) {
-          return
-        }
+        return this.$refs.gitAccessForm.validate()
       }
     }
   }

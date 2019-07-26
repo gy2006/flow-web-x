@@ -47,6 +47,7 @@ export default {
   credentials: {
     create: 'credentials/create',
     list: 'credentials/list',
-    get: 'credentials/get'
+    get: 'credentials/get',
+    delete: 'credentials/delete'
   }
 }

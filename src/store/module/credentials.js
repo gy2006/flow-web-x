@@ -14,6 +14,15 @@ const mutations = {
     state.items.push(credential)
   },
 
+  remove (state, credential) {
+    for (let i = 0; i < state.items.length; i++) {
+      if (state.items[i].id === credential.id) {
+        state.items.splice(i, 1)
+        return
+      }
+    }
+  },
+
   list (state, credentials) {
     state.items = credentials
   },
@@ -34,6 +43,12 @@ const actions = {
     await http.post('credentials/rsa', (c) => {
       commit('add', c)
     }, credential)
+  },
+
+  async delete ({commit}, credential) {
+    await http.delete(`credentials/${credential.name}`, (c) => {
+      commit('remove', c)
+    })
   },
 
   get ({commit}, name) {

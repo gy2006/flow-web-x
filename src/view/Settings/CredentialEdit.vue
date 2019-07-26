@@ -141,7 +141,9 @@
       },
 
       onDeleteClick () {
-
+        this.$store.dispatch(actions.credentials.delete, this.loaded).then(() => {
+          this.onBackClick()
+        })
       }
     }
   }

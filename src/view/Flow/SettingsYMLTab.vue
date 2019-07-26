@@ -91,6 +91,9 @@
         const payload = {name: this.name, yml: this.editor.getValue()}
         this.$store.dispatch(actions.flows.yml.save, payload).then(() => {
           this.isCodeChange = false
+
+          // reload current flow since vars may changed
+          this.$store.dispatch(actions.flows.select, this.name).then()
         })
       }
     }

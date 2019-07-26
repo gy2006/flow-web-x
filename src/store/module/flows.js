@@ -151,13 +151,6 @@ const actions = {
   },
 
   select ({commit, state}, name) {
-    for (let flow of state.items) {
-      if (name === flow.name) {
-        commit('select', flow)
-        return
-      }
-    }
-
     http.get(`flows/${name}`, (flow) => {
       commit('select', flow)
     })
@@ -189,12 +182,12 @@ const actions = {
     })
   },
 
-  saveYml ({commit, state}, {name, yml}) {
+  async saveYml ({commit, state}, {name, yml}) {
     if (!name || !yml) {
       return
     }
 
-    http.post(`flows/${name}/yml`,
+    await http.post(`flows/${name}/yml`,
       () => {
         commit('setYml', yml)
       },

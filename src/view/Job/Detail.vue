@@ -29,7 +29,7 @@
 
 <script>
   import actions from '@/store/actions'
-  import { subscribeTopic, unsubsribeTopic } from '@/store/subscribe'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
   import { isJobFinished, JobWrapper } from '@/util/jobs'
   import { isStepFinished } from '@/util/steps'
@@ -80,10 +80,10 @@
       onBackClick () {
         this.$router.push({path: `/flows/${this.flow}/jobs`})
 
-        unsubsribeTopic.steps(this.job.id)
+        unsubscribeTopic.steps(this.job.id)
 
         for (let i = 0; i < this.steps.length; i++) {
-          unsubsribeTopic.logs(this.steps[ i ].id)
+          unsubscribeTopic.logs(this.steps[ i ].id)
         }
       }
     },

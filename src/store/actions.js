@@ -6,6 +6,7 @@ export default {
     createSshRsa: 'flows/createSshRsa',
     confirm: 'flows/confirm',
     list: 'flows/list',
+    listByCredential: 'flows/listByCredential',
     select: 'flows/select',
     delete: 'flows/delete',
     yml: {

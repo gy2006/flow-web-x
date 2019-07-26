@@ -40,10 +40,28 @@
               </template>
               <v-card>
                 <v-card-title
-                    class="error--text"
+                    class="red--text subheading"
                     primary-title
                 >Delete credential {{ name }}?
                 </v-card-title>
+
+                <!-- list the flows which are connected with credential -->
+                <v-card-text>
+                  <v-flex>
+                    You are going to credential {{ name }}.
+                    Removed credential CANNOT be restored!
+                  </v-flex>
+
+                  <v-flex class="mt-3 red--text" v-if="connectedFlows.length > 0">
+                    <span>The following flow will be affected!</span>
+
+                    <ul>
+                      <li v-for="flow in connectedFlows"
+                          :key="flow.id"
+                      >{{ flow.name }}</li>
+                    </ul>
+                  </v-flex>
+                </v-card-text>
 
                 <v-divider></v-divider>
 
@@ -66,9 +84,9 @@
 <script>
   import actions from '@/store/actions'
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
-  import { mapState } from 'vuex'
-  import { credentialNameRules } from '@/util/rules'
+  import {CATEGORY_SSH_RSA} from '@/util/credentials'
+  import {mapState} from 'vuex'
+  import {credentialNameRules} from '@/util/rules'
 
   export default {
     name: 'SettingsCredentialEdit',
@@ -83,10 +101,12 @@
     },
     mounted () {
       this.$store.dispatch(actions.credentials.get, this.name).then()
+      this.$store.dispatch(actions.flows.listByCredential, this.name).then()
     },
     computed: {
       ...mapState({
-        loaded: state => state.credentials.loaded
+        loaded: state => state.credentials.loaded,
+        connectedFlows: state => state.flows.itemsByCredential
       }),
 
       navs () {
@@ -112,6 +132,7 @@
     watch: {
       name (newValue) {
         this.$store.dispatch(actions.credentials.get, newValue).then()
+        this.$store.dispatch(actions.flows.listByCredential, newValue).then()
       }
     },
     methods: {

@@ -9,6 +9,7 @@ const state = {
   isExist: undefined, // result from action 'exist'
   gitTestMessage: undefined,  // git test message update
   gitBranches: [],
+  itemsByCredential: []
 }
 
 const mutations = {
@@ -42,6 +43,10 @@ const mutations = {
 
   list (state, items) {
     state.items = items
+  },
+
+  listByCredential (state, items) {
+    state.itemsByCredential = items
   },
 
   add (state, newFlow) {
@@ -161,6 +166,12 @@ const actions = {
   list ({commit}) {
     http.get('flows', (list) => {
       commit('list', list)
+    })
+  },
+
+  listByCredential ({commit}, credentialName) {
+    http.get(`flows/credentials/${credentialName}`, (list) => {
+      commit('listByCredential', list)
     })
   },
 

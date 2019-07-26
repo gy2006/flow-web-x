@@ -85,6 +85,7 @@
 
       onResetClick () {
         this.editor.setValue(this.yml)
+        this.isCodeChange = false
       },
 
       onSaveClick () {

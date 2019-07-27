@@ -76,15 +76,13 @@
         return new JobWrapper(this.job)
       }
     },
-    methods: {
-      onBackClick () {
-        this.$router.push({path: `/flows/${this.flow}/jobs`})
+    destroyed () {
+      this.$router.push({path: `/flows/${this.flow}/jobs`})
 
-        unsubscribeTopic.steps(this.job.id)
+      unsubscribeTopic.steps(this.job.id)
 
-        for (let i = 0; i < this.steps.length; i++) {
-          unsubscribeTopic.logs(this.steps[ i ].id)
-        }
+      for (let i = 0; i < this.steps.length; i++) {
+        unsubscribeTopic.logs(this.steps[ i ].id)
       }
     },
     watch: {

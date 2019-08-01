@@ -11,7 +11,7 @@
             <v-text-field
                 label="Name"
                 :rules="nameRules"
-                v-model="this.wrapper.name"
+                v-model="wrapper.name"
             ></v-text-field>
           </v-form>
 

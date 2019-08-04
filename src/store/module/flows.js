@@ -90,40 +90,37 @@ const actions = {
   },
 
   async confirm ({commit}, wrapper) {
-    const promiseArray = []
+    let gitSettings = {
+      gitUrl: wrapper.gitUrl
+    }
 
-    if (wrapper.hasGitUrl) {
-      promiseArray.push(http.post(
-        `flows/${wrapper.name}/variables`,
-        () => {
-          console.log('[DONE]: add variables')
+    const confirmFunc = () => {
+      http.post(
+        `flows/${wrapper.name}/confirm`,
+        (flow) => {
+          console.log('[DONE]: confirmed')
+          commit('add', flow)
         },
-        wrapper.variables
-        )
+        gitSettings
       )
     }
 
     if (wrapper.hasSSH) {
-      promiseArray.push(http.post(
+      await http.post(
         `flows/${wrapper.name}/credentials/rsa`,
-        () => {
-          console.log('[DONE]: setup credential')
+        (credential) => {
+          console.log('[DONE]: setup credential: ' + credential)
+          gitSettings.credential = credential
         },
         wrapper.ssh
-        )
-      )
+      ).then(() => {
+        console.log(gitSettings)
+        confirmFunc()
+      })
+      return
     }
 
-    promiseArray.push(http.post(
-      `flows/${wrapper.name}/confirm`,
-      (flow) => {
-        console.log('[DONE]: confirmed')
-        commit('add', flow)
-      }
-      )
-    )
-
-    await Promise.all(promiseArray)
+    await confirmFunc()
   },
 
   async delete ({commit, state}, name) {
@@ -137,7 +134,7 @@ const actions = {
     const url = `flows/${name}/git/branches`
     http.get(url, (branches) => {
       commit('updateGitBranches', branches)
-    });
+    })
   },
 
   exist ({commit}, name) {

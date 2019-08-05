@@ -18,10 +18,11 @@
 
           <v-flex xs8 v-if="isSshRsa">
             <v-form ref="sshForm" lazy-validation>
-              <ssh-rsa-editor :showHelp="false"
-                              :showCreateNew="false"
-                              :isReadOnly="true"
-                              :keyPair="loaded"></ssh-rsa-editor>
+              <ssh-rsa-editor :show-help="false"
+                              :show-create-new="false"
+                              :is-read-only="true"
+                              :module="credential"
+              ></ssh-rsa-editor>
             </v-form>
           </v-flex>
 
@@ -96,6 +97,13 @@
     data () {
       return {
         dialog: false,
+        credential: {
+          selected: '',
+          pair: {
+            privateKey: '',
+            publicKey: ''
+          }
+        },
         nameRules: credentialNameRules(this)
       }
     },
@@ -133,6 +141,11 @@
       name (newValue) {
         this.$store.dispatch(actions.credentials.get, newValue).then()
         this.$store.dispatch(actions.flows.listByCredential, newValue).then()
+      },
+
+      loaded (newValue) {
+        this.credential.pair.publicKey = newValue.publicKey;
+        this.credential.pair.privateKey = newValue.privateKey;
       }
     },
     methods: {

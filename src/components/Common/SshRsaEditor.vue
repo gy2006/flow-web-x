@@ -2,7 +2,7 @@
   <div>
     <v-flex align-center>
       <span class="body-2 grey--text">SSH-RSA Key Pair</span>
-      <div>
+      <div v-if="showSelection">
         <v-radio-group v-model="option" row>
           <v-radio label="Select" value="select"></v-radio>
           <v-radio label="Edit or Create" value="edit"></v-radio>
@@ -10,9 +10,9 @@
       </div>
     </v-flex>
 
-    <div v-if="isSelectOption">
+    <div v-if="showSelection & isSelectOption">
       <v-select
-          v-model="credential.selected"
+          v-model="module.selected"
           :items="names"
           label="Select Credential"
       ></v-select>
@@ -64,7 +64,7 @@
             class="font-weight-medium caption"
             :rules="sshPublicKeyRules"
             :append-outer-icon="showHelp ? 'help' : ''"
-            v-model="credential.pair.publicKey"
+            v-model="module.pair.publicKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_public')"
         ></v-textarea>
@@ -78,7 +78,7 @@
             rows="8"
             :rules="sshPrivateKeyRules"
             :append-outer-icon="showHelp ? 'help' : ''"
-            v-model="credential.pair.privateKey"
+            v-model="module.pair.privateKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_private')"
         ></v-textarea>
@@ -105,9 +105,15 @@
        *   }
        * }
        */
-      credential: {
+      module: {
         type: Object,
         required: true
+      },
+      showSelection: {
+        type: Boolean,
+        default () {
+          return false
+        }
       },
       showHelp: {
         type: Boolean,
@@ -127,7 +133,7 @@
     data () {
       return {
         email: '',
-        option: 'select',
+        option: 'edit',
         dialog: false,
         items: [],
         sshEmailRules: sshEmailRules(this),
@@ -136,7 +142,9 @@
       }
     },
     mounted() {
-      this.$store.dispatch(actions.credentials.listNameOnly).then()
+      if (this.showSelection) {
+        this.$store.dispatch(actions.credentials.listNameOnly).then()
+      }
     },
     computed: {
       ...mapState({
@@ -163,7 +171,7 @@
     },
     watch: {
       sshRsa (newValue) {
-        Object.assign(this.keyPair, newValue)
+        Object.assign(this.module.pair, newValue)
       }
     },
     methods: {

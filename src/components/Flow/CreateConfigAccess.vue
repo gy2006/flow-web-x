@@ -5,7 +5,8 @@
         <v-flex xs6>
           <ssh-rsa-editor :show-help="true"
                           :show-create-new="true"
-                          :credential="credential"
+                          :show-selection="true"
+                          :module="credential"
           ></ssh-rsa-editor>
         </v-flex>
       </v-layout>

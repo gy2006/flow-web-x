@@ -39,6 +39,12 @@ const actions = {
     })
   },
 
+  listNameOnly ({commit}) {
+    http.get('credentials/list/name', (c) => {
+      commit('list', c)
+    })
+  },
+
   async create ({commit}, credential) {
     await http.post('credentials/rsa', (c) => {
       commit('add', c)

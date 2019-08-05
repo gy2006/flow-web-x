@@ -148,9 +148,12 @@
             this.flow.gitUrl = gitUrl
             console.log('git url: ' + gitUrl)
           },
-          3: (sshRsa) => {
-            this.flow.ssh = sshRsa
-            console.log('ssh-rsa: ' + sshRsa)
+          3: (credential) => {
+            this.flow.ssh = credential.pair
+            this.flow.credential = credential.selected
+
+            console.log('ssh-rsa: ' + credential.pair)
+            console.log('selected: ' + credential.selected)
           }
         }
 

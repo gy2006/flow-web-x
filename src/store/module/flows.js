@@ -91,7 +91,8 @@ const actions = {
 
   async confirm ({commit}, wrapper) {
     let gitSettings = {
-      gitUrl: wrapper.gitUrl
+      gitUrl: wrapper.gitUrl,
+      credential: wrapper.credential
     }
 
     const confirmFunc = () => {

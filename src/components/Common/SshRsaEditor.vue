@@ -2,12 +2,28 @@
   <div>
     <v-flex align-center>
       <span class="body-2 grey--text">SSH-RSA Key Pair</span>
+      <div>
+        <v-radio-group v-model="option" row>
+          <v-radio label="Select" value="select"></v-radio>
+          <v-radio label="Edit or Create" value="edit"></v-radio>
+        </v-radio-group>
+      </div>
+    </v-flex>
+
+    <div v-if="isSelectOption">
+      <v-select
+          v-model="credential.selected"
+          :items="names"
+          label="Select Credential"
+      ></v-select>
+    </div>
+
+    <div v-if="isEditOption">
       <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew && !isReadOnly">
         <template v-slot:activator="{ on }">
           <v-btn small
                  outline
                  v-on="on"
-                 class="ml-4"
                  color="indigo"
                  open-delay="2000"
                  @click="dialog = true">
@@ -39,35 +55,35 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-flex>
 
-    <v-flex class="mt-1">
-      <v-textarea
-          box
-          label="Public Key"
-          rows="4"
-          class="font-weight-medium caption"
-          :rules="sshPublicKeyRules"
-          :append-outer-icon="showHelp ? 'help' : ''"
-          v-model="keyPair.publicKey"
-          :readonly="isReadOnly"
-          @click:append-outer="onHelpClick('ssh_public')"
-      ></v-textarea>
-    </v-flex>
+      <v-flex class="mt-1">
+        <v-textarea
+            box
+            label="Public Key"
+            rows="4"
+            class="font-weight-medium caption"
+            :rules="sshPublicKeyRules"
+            :append-outer-icon="showHelp ? 'help' : ''"
+            v-model="credential.pair.publicKey"
+            :readonly="isReadOnly"
+            @click:append-outer="onHelpClick('ssh_public')"
+        ></v-textarea>
+      </v-flex>
 
-    <v-flex>
-      <v-textarea
-          box
-          class="font-weight-medium caption"
-          label="Private Key"
-          rows="8"
-          :rules="sshPrivateKeyRules"
-          :append-outer-icon="showHelp ? 'help' : ''"
-          v-model="keyPair.privateKey"
-          :readonly="isReadOnly"
-          @click:append-outer="onHelpClick('ssh_private')"
-      ></v-textarea>
-    </v-flex>
+      <v-flex>
+        <v-textarea
+            box
+            class="font-weight-medium caption"
+            label="Private Key"
+            rows="8"
+            :rules="sshPrivateKeyRules"
+            :append-outer-icon="showHelp ? 'help' : ''"
+            v-model="credential.pair.privateKey"
+            :readonly="isReadOnly"
+            @click:append-outer="onHelpClick('ssh_private')"
+        ></v-textarea>
+      </v-flex>
+    </div>
   </div>
 </template>
 
@@ -79,7 +95,17 @@
   export default {
     name: 'SshRsaEditor',
     props: {
-      keyPair: {
+      /**
+       * Ex:
+       * {
+       *   selected: ''
+       *   pair: {
+       *     privateKey: '',
+       *     publicKey: ''
+       *   }
+       * }
+       */
+      credential: {
         type: Object,
         required: true
       },
@@ -101,17 +127,39 @@
     data () {
       return {
         email: '',
+        option: 'select',
         dialog: false,
+        items: [],
         sshEmailRules: sshEmailRules(this),
         sshPublicKeyRules: sshPublicKeyRules(this),
         sshPrivateKeyRules: sshPrivateKeyRules(this)
       }
     },
+    mounted() {
+      this.$store.dispatch(actions.credentials.listNameOnly).then()
+    },
     computed: {
       ...mapState({
+        credentials: state => state.credentials.items,
         sshRsa: state => state.flows.sshRsa,
         errors: state => state.errors.items
-      })
+      }),
+
+      names () {
+        const nameList = []
+        for (let c of this.credentials) {
+          nameList.push(c.name)
+        }
+        return nameList
+      },
+
+      isSelectOption () {
+        return this.option === 'select'
+      },
+
+      isEditOption () {
+        return this.option === 'edit'
+      }
     },
     watch: {
       sshRsa (newValue) {

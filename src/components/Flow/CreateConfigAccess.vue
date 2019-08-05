@@ -3,7 +3,10 @@
     <v-form ref="sshForm" lazy-validation>
       <v-layout>
         <v-flex xs6>
-          <ssh-rsa-editor :show-help="true" :show-create-new="true" :key-pair="keyPair"></ssh-rsa-editor>
+          <ssh-rsa-editor :show-help="true"
+                          :show-create-new="true"
+                          :credential="credential"
+          ></ssh-rsa-editor>
         </v-flex>
       </v-layout>
     </v-form>
@@ -29,9 +32,12 @@
     },
     data () {
       return {
-        keyPair: {
-          publicKey: '',
-          privateKey: ''
+        credential: {
+          pair: {
+            publicKey: '',
+            privateKey: ''
+          },
+          selected: ''
         }
       }
     },
@@ -41,7 +47,7 @@
     methods: {
       handleNextClick () {
         if (this.$refs.sshForm.validate()) {
-          this.onNextClick(this.keyPair)
+          this.onNextClick(this.credential)
         }
       }
     }

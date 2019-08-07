@@ -51,6 +51,11 @@ export default {
   token: token,
   call: instance,
   code: code,
+
+  setToken: (token) => {
+    instance.headers.Token = token
+  },
+
   get: (url, onSuccess, params) => {
     instance.get(url, {params: params})
       .then((response) => {
@@ -75,8 +80,12 @@ export default {
   },
 
   // return promise
-  post: (url, onSuccess, data) => {
-    return instance.post(url, data, requestConfig).then((response) => {
+  post: (url, onSuccess, data, config) => {
+    if (!config) {
+      config = requestConfig
+    }
+
+    return instance.post(url, data, config).then((response) => {
       const msg = response.data
 
       if (msg.code === code.ok) {

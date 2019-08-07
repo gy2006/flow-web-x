@@ -1,4 +1,10 @@
 export default {
+  auth: {
+    login: 'auth/login',
+    refresh: 'auth/refresh',
+    logout: 'auth/logout'
+  },
+
   flows: {
     reset: 'flows/reset',
     exist: 'flows/exist',

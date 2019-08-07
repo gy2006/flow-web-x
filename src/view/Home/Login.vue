@@ -28,6 +28,8 @@
 </template>
 
 <script>
+  import actions from '@/store/actions'
+
   export default {
     name: 'Login',
     data () {
@@ -39,7 +41,10 @@
     },
     methods: {
       onLoginClick () {
+        this.$store.dispatch(actions.auth.login,
+          {username: this.email, password: this.password}).then(() => {
 
+        })
       }
     }
   }

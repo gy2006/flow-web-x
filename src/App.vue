@@ -9,22 +9,20 @@
       </notifications>
 
       <!--flow list-->
-      <flow-menu
-          ref="flowList">
-      </flow-menu>
+      <flow-menu ref="flowList" v-if="!isLogin"></flow-menu>
 
       <!--toolbar-->
       <v-toolbar color="grey lighten-4" dense app fixed clipped-left>
-        <v-toolbar-side-icon @click.native="refs('flowList').click()"></v-toolbar-side-icon>
+        <v-toolbar-side-icon @click.native="onFlowMenuClick"></v-toolbar-side-icon>
         <v-toolbar-title>
           <v-icon class="black--text">flow-icon-logo</v-icon>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <agent-menu></agent-menu>
-        <profile-menu></profile-menu>
+        <agent-menu v-if="!isLogin"></agent-menu>
+        <profile-menu v-if="!isLogin"></profile-menu>
       </v-toolbar>
 
-      <v-content>
+      <v-content fluid>
         <v-container fill-height class="pa-2">
           <router-view></router-view>
         </v-container>
@@ -67,9 +65,20 @@
     data () {
       return {}
     },
+    computed: {
+      isLogin () {
+        return this.$route.name === 'Login'
+      }
+    },
     methods: {
       refs (name) {
         return this.$refs[ name ]
+      },
+
+      onFlowMenuClick () {
+        if (!this.isLogin) {
+          this.refs('flowList').click()
+        }
       }
     }
   }

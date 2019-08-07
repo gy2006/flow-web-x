@@ -9,6 +9,8 @@ export default {
   create: 'Create',
   test: 'Test',
   delete: 'Delete',
+  login: 'Login',
+  password: 'Password',
 
   menu: {
     signedInAs: 'Signed in as ',

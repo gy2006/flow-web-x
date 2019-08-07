@@ -9,6 +9,8 @@ export default {
   create: '创建',
   test: '测试',
   delete: '删除',
+  login: '登录',
+  password: '密码',
 
   menu: {
     signedInAs: '当前用户 ',
@@ -84,10 +86,10 @@ export default {
 
   settings: {
     li: {
-      profile: 'Profile',
-      security: 'Security',
+      profile: '个人信息',
+      security: '安全',
       agent: 'Agents',
-      credential: 'Credentials'
+      credential: '证书'
     }
   },
 

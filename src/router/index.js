@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from '@/view/Home/Login'
+import Home from '@/view/Home/Index'
+
 import FlowSettings from '@/view/Flow/Settings'
 
 import JobDetail from '@/view/Job/Detail'
@@ -26,6 +28,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
     },
     {
       path: '/flows/:id/jobs',

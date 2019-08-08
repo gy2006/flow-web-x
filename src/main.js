@@ -47,10 +47,8 @@ Vue.mixin({
       token: state => state.auth.token,
       user: state => state.auth.user,
       hasLogin: state => state.auth.hasLogin
-    })
-  },
+    }),
 
-  methods: {
     isLoginPage () {
       return this.$route.name === 'Login'
     }
@@ -66,11 +64,13 @@ const app = new Vue({
   router,
   store,
   render: h => h(App),
-  mounted () {
+  beforeCreate () {
     this.$store.dispatch(actions.auth.load).then(() => {
       if (!this.hasLogin) {
         this.$router.replace('/login')
+        return
       }
+      console.log('token has been loaded...')
     })
   }
 }).$mount('#app')

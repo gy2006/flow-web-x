@@ -27,6 +27,7 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
+          <span class="error--text caption">{{ error }}</span>
           <v-spacer></v-spacer>
           <v-btn color="primary" @click="onLoginClick">{{ $t('login') }}</v-btn>
         </v-card-actions>
@@ -44,16 +45,17 @@
       return {
         email: '',
         password: '',
-        showPassword: false
+        showPassword: false,
+        error: ''
       }
     },
     methods: {
       onLoginClick () {
         let data = {username: this.email, password: this.password}
         this.$store.dispatch(actions.auth.login, data).then(() => {
-
+          this.$router.replace('/')
         }).catch((error) => {
-          console.log(error)
+          this.error = error.message
         })
       }
     }

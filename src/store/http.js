@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from './index'
 
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
@@ -31,11 +30,6 @@ const requestConfig = {
     'Token': token,
     'Content-Type': 'application/json'
   }
-}
-
-const handleError = (error) => {
-  console.log('[ERROR]: ' + error)
-  store.dispatch('populateErrors', error).then()
 }
 
 const getAttachment = (response) => {

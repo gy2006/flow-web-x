@@ -98,7 +98,7 @@ export default {
 
   get: (url, onSuccess, params) => {
     const config = Object.assign({params: params}, requestConfig)
-    return instance.get(url, config).then((data, file) => {
+    return instance.get(url, config).then(({data, file}) => {
       if (file) {
         onSuccess(data, file)
         return

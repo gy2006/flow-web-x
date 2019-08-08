@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { Store as AuthStore } from './module/auth'
+import { Store as ErrorStore } from './module/error'
 import { Store as FlowStore } from './module/flows'
 import { Store as JobStore } from './module/jobs'
 import { Store as StepStore } from './module/steps'
@@ -14,6 +15,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
     'auth': AuthStore,
+    'err': ErrorStore,
     'flows': FlowStore,
     'jobs': JobStore,
     'steps': StepStore,

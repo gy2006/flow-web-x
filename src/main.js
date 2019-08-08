@@ -20,24 +20,23 @@ import 'xterm/dist/xterm.css'
 import { Terminal } from 'xterm'
 import * as fit from 'xterm/lib/addons/fit/fit'
 
-Terminal.applyAddon(fit);
+Terminal.applyAddon(fit)
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueI18n)
 Vue.use(VueNotifications)
 
-
 Vue.filter('Status', function (status) {
   switch (status) {
-  case 'TIMEOUT':
-    return 'blue-grey'
-  case 'RUNNING':
-    return 'info'
-  case 'SUCCESS':
-    return 'success'
-  case 'ENQUEUE':
-    return 'info'
+    case 'TIMEOUT':
+      return 'blue-grey'
+    case 'RUNNING':
+      return 'info'
+    case 'SUCCESS':
+      return 'success'
+    case 'ENQUEUE':
+      return 'info'
   }
 })
 
@@ -46,11 +45,16 @@ Vue.mixin({
     ...mapState({
       token: state => state.auth.token,
       user: state => state.auth.user,
-      hasLogin: state => state.auth.hasLogin
+      hasLogin: state => state.auth.hasLogin,
     }),
 
     isLoginPage () {
       return this.$route.name === 'Login'
+    }
+  },
+  methods: {
+    redirectToLogin () {
+      this.$router.replace('/login')
     }
   }
 })
@@ -67,10 +71,22 @@ const app = new Vue({
   beforeCreate () {
     this.$store.dispatch(actions.auth.load).then(() => {
       if (!this.hasLogin) {
-        this.$router.replace('/login')
+        this.redirectToLogin()
         return
       }
       console.log('token has been loaded...')
     })
-  }
+  },
+  computed: {
+    ...mapState({
+      error: state => state.err.error
+    })
+  },
+  watch: {
+    error (value) {
+      if (value.code === 401) {
+        this.redirectToLogin()
+      }
+    }
+  },
 }).$mount('#app')

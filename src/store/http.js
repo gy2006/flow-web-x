@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from './index'
 
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
@@ -6,7 +7,7 @@ const token = process.env.VUE_APP_TOKEN
 // config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
-  timeout: 10000,
+  timeout: 10000
 })
 
 const code = {
@@ -33,7 +34,7 @@ const requestConfig = {
 }
 
 const getAttachment = (response) => {
-  const cd = response.headers['content-disposition']
+  const cd = response.headers[ 'content-disposition' ]
 
   if (cd === undefined) {
     return null
@@ -47,43 +48,49 @@ const getAttachment = (response) => {
   }
 
   return cd.substring(index + 'filename='.length)
-      .replace('"', '')
-      .replace('"', '')
+    .replace('"', '')
+    .replace('"', '')
 }
 
 instance.interceptors.response.use(
-    // on response
-    (response) => {
-      let fileName = getAttachment(response)
+  // on response
+  (response) => {
+    let fileName = getAttachment(response)
 
-      if (fileName) {
-        return {
-          data: response.data,
-          file: fileName
-        }
-      }
-
-      const apiMsg = response.data
-
-      if (apiMsg.code !== code.ok) {
-        return Promise.reject({
-          code: apiMsg.code,
-          message: apiMsg.message
-        })
-      }
-
+    if (fileName) {
       return {
-        data: apiMsg.data
+        data: response.data,
+        file: fileName
       }
-    },
-
-    // on error which not with 200
-    (error) => {
-      return Promise.reject({
-        code: code.fatal,
-        message: error.message
-      })
     }
+
+    const apiMsg = response.data
+
+    if (apiMsg.code !== code.ok) {
+      const err = {
+        code: apiMsg.code,
+        message: apiMsg.message
+      }
+
+      // commit to error store for global error handling
+      if (apiMsg.code === code.error.auth) {
+        store.commit('err/set', Object.assign({}, err))
+        return {data: {}}
+      }
+
+      return Promise.reject(err)
+    }
+
+    return {data: apiMsg.data}
+  },
+
+  // on error which not with 200
+  (error) => {
+    store.commit('err/set', {
+      code: code.fatal,
+      message: error.message
+    })
+  }
 )
 
 export default {

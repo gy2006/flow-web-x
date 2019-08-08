@@ -53,8 +53,8 @@ const actions = {
 
   download ({commit, state}, cmdId) {
     let url = 'jobs/logs/' + cmdId + '/download'
-    http.get(url, (response, file) => {
-      const url = window.URL.createObjectURL(new Blob([ response.data ]))
+    http.get(url, (data, file) => {
+      const url = window.URL.createObjectURL(new Blob([ data ]))
       browserDownload(url, file)
     })
   }

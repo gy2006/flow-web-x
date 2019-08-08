@@ -62,8 +62,9 @@
           text: `Agent '${wrapper.name}' ${this.$t(wrapper.text)}`,
           duration: 5000
         })
-      },
-
+      }
+    },
+    methods: {
       onAgentItemClick () {
         // do nothing
       }

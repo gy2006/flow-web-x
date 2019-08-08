@@ -54,15 +54,6 @@ const getAttachment = (response) => {
 instance.interceptors.response.use(
     // on response
     (response) => {
-      const apiMsg = response.data
-
-      if (apiMsg.code !== code.ok) {
-        return Promise.reject({
-          code: apiMsg.code,
-          message: apiMsg.message
-        })
-      }
-
       let fileName = getAttachment(response)
 
       if (fileName) {
@@ -70,6 +61,15 @@ instance.interceptors.response.use(
           data: response.data,
           file: fileName
         }
+      }
+
+      const apiMsg = response.data
+
+      if (apiMsg.code !== code.ok) {
+        return Promise.reject({
+          code: apiMsg.code,
+          message: apiMsg.message
+        })
       }
 
       return {

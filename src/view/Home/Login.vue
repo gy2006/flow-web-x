@@ -52,11 +52,13 @@
     methods: {
       onLoginClick () {
         let data = {username: this.email, password: this.password}
-        this.$store.dispatch(actions.auth.login, data).then(() => {
-          this.$router.replace('/')
-        }).catch((error) => {
-          this.error = error.message
-        })
+        this.$store.dispatch(actions.auth.login, data)
+          .then(() => {
+            this.$router.replace('/')
+          })
+          .catch((error) => {
+            this.error = error.message
+          })
       }
     }
   }

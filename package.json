@@ -16,6 +16,7 @@
     "blueimp-md5": "^2.11.0",
     "core-js": "^2.6.5",
     "js-base64": "^2.4.9",
+    "jwt-decode": "^2.2.0",
     "material-design-icons-iconfont": "^3.0.3",
     "moment": "^2.22.2",
     "monaco-editor": "^0.17.0",

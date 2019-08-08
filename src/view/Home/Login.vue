@@ -1,28 +1,36 @@
 <template>
   <v-layout class="align-center justify-center fill-height row">
     <v-flex xs12 sm6>
-      <v-flex>
-        <v-text-field
-            v-model="email"
-            label="E-mail"
-            required
-        ></v-text-field>
-      </v-flex>
+      <v-card>
+        <v-card-title class="pb-0">
+          <span class="title font-weight-bold">{{ $t('login') }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-flex>
+            <v-text-field
+                v-model="email"
+                label="E-mail"
+                required
+            ></v-text-field>
+          </v-flex>
 
-      <v-flex>
-        <v-text-field
-            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-            :type="showPassword ? 'text' : 'password'"
-            :label="$t('password')"
-            v-model="password"
-            class="input-group--focused"
-            @click:append="showPassword = !showPassword"
-        ></v-text-field>
-      </v-flex>
-
-      <v-flex>
-        <v-btn color="primary" class="float-right" @click="onLoginClick">{{ $t('login') }}</v-btn>
-      </v-flex>
+          <v-flex>
+            <v-text-field
+                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                :type="showPassword ? 'text' : 'password'"
+                :label="$t('password')"
+                v-model="password"
+                class="input-group--focused"
+                @click:append="showPassword = !showPassword"
+            ></v-text-field>
+          </v-flex>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="onLoginClick">{{ $t('login') }}</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -51,7 +59,5 @@
 </script>
 
 <style scoped>
-  .float-right {
-    float: right;
-  }
+
 </style>

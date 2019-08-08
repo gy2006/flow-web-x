@@ -9,7 +9,7 @@
       <v-list-tile avatar
                    v-for="agent in items"
                    :key="agent.id"
-                   @click=""
+                   @click="onAgentItemClick"
       >
         <v-list-tile-avatar>
           <v-icon small>{{ agent.icon }}</v-icon>
@@ -62,6 +62,10 @@
           text: `Agent '${wrapper.name}' ${this.$t(wrapper.text)}`,
           duration: 5000
         })
+      },
+
+      onAgentItemClick () {
+        // do nothing
       }
     }
   }

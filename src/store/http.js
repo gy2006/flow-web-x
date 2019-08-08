@@ -8,7 +8,6 @@ const token = process.env.VUE_APP_TOKEN
 const instance = axios.create({
   baseURL: `${url}`,
   timeout: 10000,
-  headers: {'Token': token}
 })
 
 const code = {
@@ -18,6 +17,7 @@ const code = {
 
 const requestConfig = {
   headers: {
+    'Token': token,
     'Content-Type': 'application/json'
   }
 }
@@ -53,11 +53,13 @@ export default {
   code: code,
 
   setToken: (token) => {
-    instance.headers.Token = token
+    requestConfig.headers.Token = token
   },
 
   get: (url, onSuccess, params) => {
-    instance.get(url, {params: params})
+    const config = Object.assign({params: params}, requestConfig)
+
+    instance.get(url, config)
       .then((response) => {
         let file = getAttachment(response)
         if (file !== null) {

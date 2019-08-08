@@ -9,7 +9,7 @@
       </notifications>
 
       <!--flow list-->
-      <flow-menu ref="flowList" v-if="!isLogin"></flow-menu>
+      <flow-menu ref="flowList" v-if="!isLoginPage"></flow-menu>
 
       <!--toolbar-->
       <v-toolbar color="grey lighten-4" dense app fixed clipped-left>
@@ -18,8 +18,8 @@
           <v-icon class="black--text">flow-icon-logo</v-icon>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <agent-menu v-if="!isLogin"></agent-menu>
-        <profile-menu v-if="!isLogin"></profile-menu>
+        <agent-menu v-if="!isLoginPage"></agent-menu>
+        <profile-menu v-if="!isLoginPage"></profile-menu>
       </v-toolbar>
 
       <v-content fluid>
@@ -62,21 +62,12 @@
       AgentMenu,
       ProfileMenu
     },
-    data () {
-      return {}
-    },
-    computed: {
-      isLogin () {
-        return this.$route.name === 'Login'
-      }
-    },
     methods: {
       refs (name) {
         return this.$refs[ name ]
       },
-
       onFlowMenuClick () {
-        if (!this.isLogin) {
+        if (!this.isLoginPage) {
           this.refs('flowList').click()
         }
       }

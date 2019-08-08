@@ -1,12 +1,13 @@
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import VueI18n from 'vue-i18n'
 import VueNotifications from 'vue-notification'
 
 import App from './App'
+
 import router from './router'
 import Vuetify from 'vuetify'
 import messages from './i18n/index'
-import moment from 'moment'
 import store from './store/index'
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
@@ -15,7 +16,7 @@ import './assets/styles/style.scss'
 
 import 'xterm/dist/xterm.css'
 import { Terminal } from 'xterm'
-import * as fit from 'xterm/lib/addons/fit/fit';
+import * as fit from 'xterm/lib/addons/fit/fit'
 
 Terminal.applyAddon(fit);
 
@@ -38,11 +39,23 @@ Vue.filter('Status', function (status) {
   }
 })
 
-Vue.filter('datefmt', function (val, fmtstring) {
-  return moment(val).format(fmtstring)
+Vue.mixin({
+  computed: {
+    ...mapState({
+      token: state => state.auth.token,
+      user: state => state.auth.user,
+      hasLogin: state => state.auth.hasLogin
+    })
+  },
+
+  methods: {
+    isLoginPage () {
+      return this.$route.name === 'Login'
+    }
+  }
 })
 
-new Vue({
+const app = new Vue({
   i18n: new VueI18n({
     locale: 'en',
     fallbackLocale: 'en',

@@ -49,7 +49,6 @@
     },
     computed: {
       ...mapState({
-        errors: state => state.errors.items,
         gitTestMessage: state => state.flows.gitTestMessage
       }),
 

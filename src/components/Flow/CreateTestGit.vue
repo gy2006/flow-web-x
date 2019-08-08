@@ -12,7 +12,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import GitTestBtn from '@/components/Flow/GitTestBtn'
 
   export default {
@@ -38,11 +37,6 @@
       return {
         start: false
       }
-    },
-    computed: {
-      ...mapState({
-        errors: state => state.errors.items,
-      })
     },
     methods: {
       handleFinishClick () {

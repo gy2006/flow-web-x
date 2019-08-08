@@ -43,7 +43,6 @@
   import vars from '@/util/vars'
   import GitTestBtn from '@/components/Flow/GitTestBtn'
 
-  import { mapState } from 'vuex'
   import { FlowWrapper } from '@/util/flows'
   import { flowNameRules, gitUrlRules } from '@/util/rules'
 
@@ -69,10 +68,6 @@
       }
     },
     computed: {
-      ...mapState({
-        errors: state => state.errors.items,
-      }),
-
       wrapper () {
         return new FlowWrapper(this.flow)
       }

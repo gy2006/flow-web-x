@@ -149,8 +149,7 @@
     computed: {
       ...mapState({
         credentials: state => state.credentials.items,
-        sshRsa: state => state.flows.sshRsa,
-        errors: state => state.errors.items
+        sshRsa: state => state.flows.sshRsa
       }),
 
       names () {

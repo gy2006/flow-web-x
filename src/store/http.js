@@ -12,7 +12,18 @@ const instance = axios.create({
 
 const code = {
   ok: 200,
-  fatal: 500
+  fatal: 500,
+  error: {
+    default: 400,
+    auth: 401,
+    args: 402,
+    permission: 403,
+    not_found: 404,
+    not_available: 405,
+    duplicate: 406,
+    illegal_status: 421,
+    json_or_yml: 430
+  }
 }
 
 const requestConfig = {
@@ -28,7 +39,7 @@ const handleError = (error) => {
 }
 
 const getAttachment = (response) => {
-  const cd = response.headers[ 'content-disposition' ]
+  const cd = response.headers['content-disposition']
 
   if (cd === undefined) {
     return null
@@ -42,9 +53,44 @@ const getAttachment = (response) => {
   }
 
   return cd.substring(index + 'filename='.length)
-    .replace('"', '')
-    .replace('"', '')
+      .replace('"', '')
+      .replace('"', '')
 }
+
+instance.interceptors.response.use(
+    // on response
+    (response) => {
+      const apiMsg = response.data
+
+      if (apiMsg.code !== code.ok) {
+        return Promise.reject({
+          code: apiMsg.code,
+          message: apiMsg.message
+        })
+      }
+
+      let fileName = getAttachment(response)
+
+      if (fileName) {
+        return {
+          data: response.data,
+          file: fileName
+        }
+      }
+
+      return {
+        data: apiMsg.data
+      }
+    },
+
+    // on error which not with 200
+    (error) => {
+      return Promise.reject({
+        code: code.fatal,
+        message: error.message
+      })
+    }
+)
 
 export default {
   host: url,
@@ -58,67 +104,27 @@ export default {
 
   get: (url, onSuccess, params) => {
     const config = Object.assign({params: params}, requestConfig)
-
-    instance.get(url, config)
-      .then((response) => {
-        let file = getAttachment(response)
-        if (file !== null) {
-          onSuccess(response, file)
-          return
-        }
-
-        const msg = response.data
-
-        if (msg.code === code.ok) {
-          onSuccess(msg.data)
-          return
-        }
-
-        handleError(msg.message)
-      })
-      .catch((error) => {
-        handleError(error)
-      })
+    return instance.get(url, config).then((data, file) => {
+      if (file) {
+        onSuccess(data, file)
+        return
+      }
+      onSuccess(data)
+    })
   },
 
-  // return promise
-  post: (url, onSuccess, data, config) => {
+  post: (url, onSuccess, body, config) => {
     if (!config) {
       config = requestConfig
     }
-
-    return instance.post(url, data, config).then((response) => {
-      const msg = response.data
-
-      if (msg.code === code.ok) {
-        onSuccess(msg.data)
-        return
-      }
-
-      handleError(msg)
-    }).catch((error) => {
-      handleError(error)
-    })
+    return instance.post(url, body, config).then(({data}) => onSuccess(data))
   },
 
-  delete: (url, onSuccess, data) => {
+  delete: (url, onSuccess, body) => {
     const config = Object.assign({}, requestConfig)
-
-    if (data) {
-      config.data = data
+    if (body) {
+      config.data = body
     }
-
-    return instance.delete(url, config).then((response) => {
-      const msg = response.data
-
-      if (msg.code === code.ok) {
-        onSuccess(msg.data)
-        return
-      }
-
-      handleError(msg)
-    }).catch((error) => {
-      handleError(error)
-    })
+    return instance.delete(url, config).then(({data}) => onSuccess(data))
   }
 }

@@ -49,9 +49,11 @@
     },
     methods: {
       onLoginClick () {
-        this.$store.dispatch(actions.auth.login,
-          {username: this.email, password: this.password}).then(() => {
+        let data = {username: this.email, password: this.password}
+        this.$store.dispatch(actions.auth.login, data).then(() => {
 
+        }).catch((error) => {
+          console.log(error)
         })
       }
     }

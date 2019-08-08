@@ -57,8 +57,7 @@
     },
     computed: {
       ...mapState({
-        yml: state => state.flows.selected.yml,
-        errors: state => state.errors.items
+        yml: state => state.flows.selected.yml
       }),
 
       name () {

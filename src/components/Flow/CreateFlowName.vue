@@ -44,8 +44,7 @@
     },
     computed: {
       ...mapState({
-        isExist: state => state.flows.isExist,
-        errors: state => state.errors.items
+        isExist: state => state.flows.isExist
       })
     },
     methods: {
@@ -67,13 +66,9 @@
 
         if (after === false) {
           this.$store.dispatch(actions.flows.create, this.name).then(() => {
-            if (this.errors.length > 0) {
-              this.errorMsg.push(this.errors[0])
-              return
-            }
-
-            this.errorMsg.length = 0
             this.onNextClick(this.name)
+          }).catch((error) => {
+            this.errorMsg.push(error.message)
           })
 
           this.$store.dispatch(actions.flows.reset).then()

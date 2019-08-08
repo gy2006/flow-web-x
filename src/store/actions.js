@@ -1,5 +1,6 @@
 export default {
   auth: {
+    load: 'auth/load',
     login: 'auth/login',
     refresh: 'auth/refresh',
     logout: 'auth/logout'

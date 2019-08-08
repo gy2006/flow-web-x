@@ -9,6 +9,8 @@ import router from './router'
 import Vuetify from 'vuetify'
 import messages from './i18n/index'
 import store from './store/index'
+import actions from './store/actions'
+
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -63,5 +65,12 @@ const app = new Vue({
   }),
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  mounted () {
+    this.$store.dispatch(actions.auth.load).then(() => {
+      if (!this.hasLogin) {
+        this.$router.replace('/login')
+      }
+    })
+  }
 }).$mount('#app')

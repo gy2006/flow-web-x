@@ -13,21 +13,34 @@ const state = {
   hasLogin: false
 }
 
+const reset = (state) => {
+  state.user = {}
+  state.token = null
+  state.hasLogin = false
+
+  http.setToken('')
+  localStorage.removeItem('token')
+}
+
 const mutations = {
   save (state, token) {
-    let decoded = jwtDecode(token)
+    try {
+      var decoded = jwtDecode(token)
+    } catch (error) {
+      return
+    }
 
     let user = {
       email: decoded.jti,
       role: decoded.role,
       issueAt: moment.unix(decoded.iat),
-      expiredAt: moment.unix(decoded.exp)
+      expireAt: moment.unix(decoded.exp)
     }
 
     // error:
     if (user.expireAt.isBefore(moment())) {
       console.log('Token has expired')
-      this.reset(state)
+      reset(state)
       return
     }
 
@@ -36,16 +49,11 @@ const mutations = {
     state.hasLogin = true
 
     http.setToken(token)
-    localStorage.saveItem('token', token)
+    localStorage.setItem('token', token)
   },
 
-  reset (state) {
-    state.token = null
-    state.user = {}
-    state.hasLogin = false
-
-    http.setToken('')
-    localStorage.removeItem('token')
+  clean (state) {
+    reset(state)
   }
 }
 
@@ -77,9 +85,17 @@ const actions = {
 
   async logout ({commit}) {
     const onSuccess = () => {
-      commit('reset')
+      commit('clean')
     }
     await http.post('auth/logout', onSuccess())
+  },
+
+  load({commit}) {
+    let token = localStorage.getItem('token')
+    if (!token) {
+      return
+    }
+    commit('save', token)
   }
 }
 

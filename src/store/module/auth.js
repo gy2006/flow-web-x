@@ -2,10 +2,13 @@ import http from '../http'
 import md5 from 'blueimp-md5'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
+import code from '@/util/code'
 
 const state = {
   // raw token
   token: null,
+
+  refreshToken: null,
 
   // decoded from token
   user: {},
@@ -23,33 +26,26 @@ const reset = (state) => {
 }
 
 const mutations = {
-  save (state, token) {
+  save (state, {token, refreshToken}) {
     try {
       var decoded = jwtDecode(token)
     } catch (error) {
       return
     }
 
-    let user = {
+    state.user = {
       email: decoded.jti,
       role: decoded.role,
       issueAt: moment.unix(decoded.iat),
       expireAt: moment.unix(decoded.exp)
     }
-
-    // error:
-    if (user.expireAt.isBefore(moment())) {
-      console.log('Token has expired')
-      reset(state)
-      return
-    }
-
-    state.user = user
     state.token = token
+    state.refreshToken = refreshToken
     state.hasLogin = true
 
     http.setToken(token)
     localStorage.setItem('token', token)
+    localStorage.setItem('refreshToken', refreshToken)
   },
 
   clean (state) {
@@ -60,27 +56,20 @@ const mutations = {
 const actions = {
   async login ({commit}, {username, password}) {
     let passwordOnMd5 = md5(password, null, false)
-    let content = btoa(username + ":" + passwordOnMd5)
+    let content = btoa(username + ':' + passwordOnMd5)
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        "Authorization": "Basic " + content
+        'Authorization': 'Basic ' + content
       }
     }
 
-    const onSuccess = (token) => {
-      commit('save', token)
+    const onSuccess = (tokens) => {
+      commit('save', tokens)
     }
 
     await http.post('auth/login', onSuccess, null, config)
-  },
-
-  async refresh ({commit}) {
-    const onSuccess = (token) => {
-      commit('save', token)
-    }
-    await http.post('auth/refresh', onSuccess())
   },
 
   async logout ({commit}) {
@@ -90,12 +79,27 @@ const actions = {
     await http.post('auth/logout', onSuccess())
   },
 
-  load({commit}) {
+  // load from storage
+  async load ({commit}) {
     let token = localStorage.getItem('token')
-    if (!token) {
-      return
+    let refreshToken = localStorage.getItem('refreshToken')
+
+    if (!token || !refreshToken) {
+      throw {
+        code: code.error.auth,
+        message: 'tokens are not available'
+      }
     }
-    commit('save', token)
+
+    try {
+      jwtDecode(token)
+      commit('save', {token, refreshToken})
+    } catch (e) {
+      throw {
+        code: code.error.auth,
+        message: 'Invalid token'
+      }
+    }
   }
 }
 

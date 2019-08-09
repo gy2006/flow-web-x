@@ -45,7 +45,7 @@ Vue.mixin({
     ...mapState({
       token: state => state.auth.token,
       user: state => state.auth.user,
-      hasLogin: state => state.auth.hasLogin,
+      hasLogin: state => state.auth.hasLogin
     }),
 
     isLoginPage () {
@@ -54,7 +54,9 @@ Vue.mixin({
   },
   methods: {
     redirectToLogin () {
-      this.$router.replace('/login')
+      if (!this.isLoginPage) {
+        this.$router.replace('/login')
+      }
     }
   }
 })
@@ -69,13 +71,17 @@ const app = new Vue({
   store,
   render: h => h(App),
   beforeCreate () {
-    this.$store.dispatch(actions.auth.load).then(() => {
-      if (!this.hasLogin) {
+    this.$store.dispatch(actions.auth.load)
+      .then(() => {
+        if (!this.hasLogin) {
+          this.redirectToLogin()
+          return
+        }
+        console.log('token has been loaded...')
+      })
+      .catch((err) => {
         this.redirectToLogin()
-        return
-      }
-      console.log('token has been loaded...')
-    })
+      })
   },
   computed: {
     ...mapState({
@@ -88,5 +94,5 @@ const app = new Vue({
         this.redirectToLogin()
       }
     }
-  },
+  }
 }).$mount('#app')

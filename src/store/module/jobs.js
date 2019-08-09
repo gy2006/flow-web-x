@@ -3,6 +3,8 @@ import vars from '../../util/vars'
 
 const numOfElements = 10
 
+const emptyFunc = () => {}
+
 const state = {
   name: '', // flow name
   items: [],
@@ -79,7 +81,7 @@ const actions = {
 
   get ({commit}, {flow, buildNumberOrLatest}) {
     const url = 'jobs/' + flow + '/' + buildNumberOrLatest
-    http.get(url, (job) => {
+    return http.get(url, (job) => {
       commit('update', job)
     })
   },
@@ -94,15 +96,7 @@ const actions = {
       inputs[ vars.flow.gitBranch ] = branch
     }
 
-    http.post('jobs/run',
-      (newJob) => {
-        // do nothing since new job will push via websocket
-      },
-      {
-        flow,
-        inputs
-      }
-    )
+    return http.post('jobs/run', emptyFunc, {flow, inputs})
   },
 
   /**
@@ -122,7 +116,7 @@ const actions = {
   list ({commit, state}, {flow, page}) {
     commit('setName', flow)
 
-    http.get('jobs/' + flow,
+    return http.get('jobs/' + flow,
       (page) => {
         commit('list', page)
       },
@@ -145,7 +139,7 @@ const actions = {
    * Select job by flow name and build number
    */
   select ({commit}, {flow, buildNumber}) {
-    http.get('jobs/' + flow + '/' + buildNumber,
+    return http.get('jobs/' + flow + '/' + buildNumber,
       (job) => {
         commit('selected', job)
       }

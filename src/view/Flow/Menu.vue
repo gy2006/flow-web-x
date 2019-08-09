@@ -88,7 +88,8 @@
 
       fetchLatestStatus (items) {
         items.forEach((wrapper) => {
-          this.$store.dispatch(actions.jobs.get, {flow: wrapper.name, buildNumberOrLatest: 'latest'}).then()
+          let body = {flow: wrapper.name, buildNumberOrLatest: 'latest'}
+          this.$store.dispatch(actions.jobs.get, body).then().catch(() => {})
         })
       },
 

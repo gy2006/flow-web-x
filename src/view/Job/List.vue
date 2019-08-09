@@ -127,8 +127,8 @@
     methods: {
       reload () {
         this.$store.dispatch(actions.flows.select, this.name).then()
-        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).then()
-        this.$store.dispatch(actions.flows.gitBranches, this.name).then()
+        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).catch(() => {})
+        this.$store.dispatch(actions.flows.gitBranches, this.name).catch(() => {})
       },
 
       onItemClick (job) {
@@ -147,7 +147,7 @@
       },
 
       onPageChange (page) {
-        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: page}).then()
+        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: page}).catch(() => {})
       }
     }
   }

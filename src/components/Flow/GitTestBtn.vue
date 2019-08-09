@@ -19,6 +19,7 @@
     </v-btn>
 
     <span class="ml-2 error--text">{{ currentGitTest.message }}</span>
+    <span class="ml-2 error--text">{{ error }}</span>
   </span>
 </template>
 
@@ -44,7 +45,8 @@
     },
     data () {
       return {
-        loading: false
+        loading: false,
+        error: ''
       }
     },
     computed: {
@@ -89,12 +91,18 @@
       },
 
       onTestClick () {
+        this.error = ''
+
         if (this.onBeforeTest()) {
           subscribeTopic.gitTest(this.$store, this.wrapper.id)
 
-          this.$store.dispatch(actions.flows.gitTestStart, this.wrapper).then(() => {
-            this.loading = true
-          })
+          this.$store.dispatch(actions.flows.gitTestStart, this.wrapper)
+              .then(() => {
+                this.loading = true
+              })
+              .catch((err) => {
+                this.error = err.message
+              })
         }
       }
     }

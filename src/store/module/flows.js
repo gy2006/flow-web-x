@@ -133,13 +133,13 @@ const actions = {
 
   gitBranches ({commit}, name) {
     const url = `flows/${name}/git/branches`
-    http.get(url, (branches) => {
+    return http.get(url, (branches) => {
       commit('updateGitBranches', branches)
     })
   },
 
   exist ({commit}, name) {
-    http.get(`flows/${name}/exist`, (boolVal) => {
+    return http.get(`flows/${name}/exist`, (boolVal) => {
       commit('updateExist', boolVal)
     })
   },
@@ -149,19 +149,19 @@ const actions = {
   },
 
   select ({commit, state}, name) {
-    http.get(`flows/${name}`, (flow) => {
+    return http.get(`flows/${name}`, (flow) => {
       commit('select', flow)
     })
   },
 
   list ({commit}) {
-    http.get('flows', (list) => {
+    return http.get('flows', (list) => {
       commit('list', list)
     })
   },
 
   listByCredential ({commit}, credentialName) {
-    http.get(`flows/credentials/${credentialName}`, (list) => {
+    return http.get(`flows/credentials/${credentialName}`, (list) => {
       commit('listByCredential', list)
     })
   },
@@ -175,7 +175,7 @@ const actions = {
       return
     }
 
-    http.get(`flows/${name}/yml`, (base64Yml) => {
+    return http.get(`flows/${name}/yml`, (base64Yml) => {
       commit('setYml', atob(base64Yml))
     })
   },

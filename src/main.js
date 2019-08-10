@@ -10,6 +10,7 @@ import Vuetify from 'vuetify'
 import messages from './i18n/index'
 import store from './store/index'
 import actions from './store/actions'
+import code from './util/code'
 
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
@@ -76,7 +77,7 @@ const app = new Vue({
         console.log('token has been loaded...')
       })
       .catch((err) => {
-        this.redirectToLogin()
+        // error handling on load will be on the global
       })
   },
   computed: {
@@ -85,10 +86,25 @@ const app = new Vue({
     })
   },
   watch: {
-    error (value) {
-      if (value.code === 401) {
-        this.redirectToLogin()
+    error: {
+      immediate: true,
+      handler: function (value) {
+        if (value.code === code.error.auth) {
+          this.redirectToLogin()
+          return
+        }
+
+        if (value.code === code.error.expired) {
+          this.refreshToken(value.data)
+        }
       }
+    }
+  },
+  methods: {
+    refreshToken (tokens) {
+      this.$store.dispatch(actions.auth.refresh, tokens).then(() => {
+        console.log('refreshed')
+      })
     }
   }
 }).$mount('#app')

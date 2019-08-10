@@ -26,3 +26,11 @@ const store = new Vuex.Store({
 })
 
 export default store
+
+export function errorCommit (code, message, data) {
+  store.commit('err/set', {
+    code,
+    message,
+    data
+  })
+}

@@ -4,6 +4,7 @@ export default {
   error: {
     default: 400,
     auth: 401,
+    expired: 4011, // client err code for token expired
     args: 402,
     permission: 403,
     not_found: 404,

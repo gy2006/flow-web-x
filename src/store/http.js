@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from './index'
+import { errorCommit } from './index'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 import code from '../util/code'
@@ -78,20 +78,12 @@ instance.interceptors.request.use(
 
     // cancel and rise 401 error if request needs a token but not provided
     if (!helper.hasToken(config)) {
-      const error = {
-        code: code.error.auth,
-        message: '[http] token is missing on request'
-      }
-      store.commit('err/set', error)
+      // errorCommit(code.error.auth, '[http] token is missing on request')
       return false
     }
 
     if (helper.tokenHasExpired(config)) {
-      const error = {
-        code: code.error.auth,
-        message: '[http] token is expired'
-      }
-      store.commit('err/set', error)
+      // errorCommit(code.error.expired, '[http] token is expired')
       return false
     }
 
@@ -126,12 +118,8 @@ instance.interceptors.response.use(
     return {data: apiMsg.data}
   },
 
-  // on error which not with 200
   (error) => {
-    store.commit('err/set', {
-      code: code.fatal,
-      message: error.message
-    })
+    errorCommit(code.fatal, '[http:response] ' + error.message)
   }
 )
 

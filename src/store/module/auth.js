@@ -3,6 +3,7 @@ import md5 from 'blueimp-md5'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 import code from '@/util/code'
+import { errorCommit } from '../index'
 
 const state = {
   // raw token
@@ -72,8 +73,8 @@ const actions = {
     await http.post('auth/login', onSuccess, null, config)
   },
 
-  async refresh ({commit, state}) {
-    const body = {
+  async refresh ({commit, state}, tokens) {
+    const body = tokens ? tokens : {
       token: state.token,
       refreshToken: state.refreshToken
     }
@@ -99,10 +100,8 @@ const actions = {
 
     // throw error if token not exist
     if (!token || !refreshToken) {
-      throw {
-        code: code.error.auth,
-        message: 'tokens are not available'
-      }
+      errorCommit(code.error.auth, 'token not found')
+      throw {}
     }
 
     // throw error if token invalid
@@ -110,20 +109,15 @@ const actions = {
     try {
       decoded = jwtDecode(token)
     } catch (e) {
-      throw {
-        code: code.error.auth,
-        message: 'Invalid token'
-      }
+      errorCommit(code.error.auth, 'Invalid token')
+      throw {}
     }
 
     // try refresh by refresh token
     let expAt = moment.unix(decoded.exp)
     if (expAt.isBefore(moment())) {
-      const onSuccess = (tokens) => {
-        commit('save', tokens)
-      }
-      await http.post('auth/refresh', onSuccess, {token, refreshToken})
-      return
+      errorCommit(code.error.expired, 'token expired on loaded', {token, refreshToken})
+      throw {}
     }
 
     commit('save', {token, refreshToken})

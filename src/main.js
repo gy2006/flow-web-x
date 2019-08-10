@@ -73,10 +73,6 @@ const app = new Vue({
   beforeCreate () {
     this.$store.dispatch(actions.auth.load)
       .then(() => {
-        if (!this.hasLogin) {
-          this.redirectToLogin()
-          return
-        }
         console.log('token has been loaded...')
       })
       .catch((err) => {

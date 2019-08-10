@@ -72,6 +72,19 @@ const actions = {
     await http.post('auth/login', onSuccess, null, config)
   },
 
+  async refresh ({commit, state}) {
+    const body = {
+      token: state.token,
+      refreshToken: state.refreshToken
+    }
+
+    const onSuccess = (tokens) => {
+      commit('save', tokens)
+    }
+
+    await http.post('auth/refresh', onSuccess, body)
+  },
+
   async logout ({commit}) {
     const onSuccess = () => {
       commit('clean')
@@ -84,6 +97,7 @@ const actions = {
     let token = localStorage.getItem('token')
     let refreshToken = localStorage.getItem('refreshToken')
 
+    // throw error if token not exist
     if (!token || !refreshToken) {
       throw {
         code: code.error.auth,
@@ -91,15 +105,28 @@ const actions = {
       }
     }
 
+    // throw error if token invalid
+    let decoded
     try {
-      jwtDecode(token)
-      commit('save', {token, refreshToken})
+      decoded = jwtDecode(token)
     } catch (e) {
       throw {
         code: code.error.auth,
         message: 'Invalid token'
       }
     }
+
+    // try refresh by refresh token
+    let expAt = moment.unix(decoded.exp)
+    if (expAt.isBefore(moment())) {
+      const onSuccess = (tokens) => {
+        commit('save', tokens)
+      }
+      await http.post('auth/refresh', onSuccess, {token, refreshToken})
+      return
+    }
+
+    commit('save', {token, refreshToken})
   }
 }
 

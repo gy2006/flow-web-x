@@ -66,6 +66,8 @@ const helper = {
  */
 instance.interceptors.request.use(
   (config) => {
+    console.log('[http] request to : ' + config.url)
+
     if (helper.isTokenRefreshRequest(config)) {
       return config
     }
@@ -78,7 +80,7 @@ instance.interceptors.request.use(
     if (!helper.hasToken(config)) {
       const error = {
         code: code.error.auth,
-        message: 'token is missing on request'
+        message: '[http] token is missing on request'
       }
       store.commit('err/set', error)
       return false
@@ -87,18 +89,13 @@ instance.interceptors.request.use(
     if (helper.tokenHasExpired(config)) {
       const error = {
         code: code.error.auth,
-        message: 'token is expired'
+        message: '[http] token is expired'
       }
       store.commit('err/set', error)
-      console.log(error.message)
       return false
     }
 
     return config
-  },
-
-  (error) => {
-    console.log(axios.isCancel(error))
   }
 )
 

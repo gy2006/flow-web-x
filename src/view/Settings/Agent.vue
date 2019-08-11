@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="pb-0">
+    <v-card-title class="pb-0 bottom-border">
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
       <v-btn flat
              color="blue-grey"

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="pb-0">
+    <v-card-title class="pb-0 bottom-border">
       <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -58,7 +58,7 @@
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import { CATEGORY_SSH_RSA_PATH }  from '@/util/credentials'
+  import { CATEGORY_SSH_RSA_PATH } from '@/util/credentials'
 
   export default {
     name: 'SettingsCredential',
@@ -80,7 +80,7 @@
     computed: {
       ...mapState({
         credentials: state => state.credentials.items
-      }),
+      })
     },
     methods: {
       onNewClick (category) {

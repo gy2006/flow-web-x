@@ -44,7 +44,6 @@ Vue.filter('Status', function (status) {
 Vue.mixin({
   computed: {
     ...mapState({
-      token: state => state.auth.token,
       user: state => state.auth.user,
       hasLogin: state => state.auth.hasLogin
     }),

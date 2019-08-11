@@ -9,7 +9,7 @@
     <v-list>
       <v-list-tile>
         <v-list-tile-content>
-          <v-list-tile-sub-title>{{ $t('menu.signedInAs') }} xxx</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{ user.email }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
 

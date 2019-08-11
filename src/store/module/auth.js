@@ -84,19 +84,6 @@ const actions = {
     await http.post('auth/login', onSuccess, null, config)
   },
 
-  async refresh ({commit, state}, tokens) {
-    const body = tokens ? tokens : {
-      token: state.token,
-      refreshToken: state.refreshToken
-    }
-
-    const onSuccess = (tokens) => {
-      commit('save', tokens)
-    }
-
-    await http.post('auth/refresh', onSuccess, body)
-  },
-
   async logout ({commit}) {
     const onSuccess = () => {
       commit('clean')

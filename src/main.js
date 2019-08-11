@@ -62,7 +62,7 @@ Vue.mixin({
   }
 })
 
-const app = new Vue({
+new Vue({
   i18n: new VueI18n({
     locale: 'en',
     fallbackLocale: 'en',
@@ -91,20 +91,8 @@ const app = new Vue({
       handler: function (value) {
         if (value.code === code.error.auth) {
           this.redirectToLogin()
-          return
-        }
-
-        if (value.code === code.error.expired) {
-          this.refreshToken(value.data)
         }
       }
-    }
-  },
-  methods: {
-    refreshToken (tokens) {
-      this.$store.dispatch(actions.auth.refresh, tokens).then(() => {
-        console.log('refreshed')
-      })
     }
   }
 }).$mount('#app')

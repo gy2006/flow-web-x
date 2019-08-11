@@ -7,20 +7,31 @@ import code from '../util/code'
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
 
+window.isRefreshing = false
+
 // config axios default instance
 const instance = axios.create({
   baseURL: `${url}`,
   timeout: 10000
 })
 
-const requestConfig = {
-  headers: {
-    'Token': token,
-    'Content-Type': 'application/json'
-  }
+const tokens = {
+  token: token,
+  refreshToken: ''
 }
 
+let waitingForToken = []
+
 const helper = {
+
+  // default request config
+  config: {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  },
+
+  // get attachment file name
   getAttachment: (response) => {
     const cd = response.headers[ 'content-disposition' ]
 
@@ -48,13 +59,7 @@ const helper = {
     return config.url === 'auth/login'
   },
 
-  hasToken: (config) => {
-    let token = config.headers.Token
-    return !!(token && token.length > 0)
-  },
-
-  tokenHasExpired: (config) => {
-    let token = config.headers.Token
+  tokenHasExpired: (token) => {
     let decoded = jwtDecode(token)
     let expAt = moment.unix(decoded.exp)
     return expAt.isBefore(moment())
@@ -65,9 +70,7 @@ const helper = {
  * Interceptor to handle token expired or missing
  */
 instance.interceptors.request.use(
-  (config) => {
-    console.log('[http] request to : ' + config.url)
-
+  async (config) => {
     if (helper.isTokenRefreshRequest(config)) {
       return config
     }
@@ -76,17 +79,43 @@ instance.interceptors.request.use(
       return config
     }
 
-    // cancel and rise 401 error if request needs a token but not provided
-    if (!helper.hasToken(config)) {
-      // errorCommit(code.error.auth, '[http] token is missing on request')
-      return false
+    if (helper.tokenHasExpired(tokens.token)) {
+
+      // the current request should go into waiting list
+      if (window.isRefreshing) {
+        return await new Promise((resolve, reject) => {
+          // console.log(`URL : ${config.url} waiting`)
+          waitingForToken.push((newToken) => {
+            config.headers.Token = newToken
+            resolve(config)
+          })
+        })
+      }
+
+      // request new token by refresh token
+      else {
+        window.isRefreshing = true
+        let response = await axios.post(`${url}/auth/refresh`, tokens)
+
+        if (response.data.code === code.ok) {
+          const newToken = response.data.data.token
+          tokens.token = newToken
+
+          waitingForToken.map(sb => sb(newToken))
+          waitingForToken = []
+          window.isRefreshing = false
+
+          config.headers.Token = newToken
+          return config
+        } else {
+          errorCommit(code.error.auth, 'Invalid refresh token, should login again')
+          window.isRefreshing = false
+          return false
+        }
+      }
     }
 
-    if (helper.tokenHasExpired(config)) {
-      // errorCommit(code.error.expired, '[http] token is expired')
-      return false
-    }
-
+    config.headers.Token = tokens.token
     return config
   }
 )
@@ -138,12 +167,13 @@ const http = {
   call: instance,
   code: code,
 
-  setToken: (token) => {
-    requestConfig.headers.Token = token
+  setTokens: (token, refreshToken) => {
+    tokens.token = token
+    tokens.refreshToken = refreshToken
   },
 
   get: (url, onSuccess, params) => {
-    const config = Object.assign({params: params}, requestConfig)
+    const config = Object.assign({params: params}, helper.config)
     return instance.get(url, config).then((r) => {
       handleResponse(r, onSuccess)
     })
@@ -151,7 +181,7 @@ const http = {
 
   post: (url, onSuccess, body, config) => {
     if (!config) {
-      config = requestConfig
+      config = helper.config
     }
     return instance.post(url, body, config).then((r) => {
       handleResponse(r, onSuccess)
@@ -159,7 +189,7 @@ const http = {
   },
 
   delete: (url, onSuccess, body) => {
-    const config = Object.assign({}, requestConfig)
+    const config = Object.assign({}, helper.config)
     if (body) {
       config.data = body
     }

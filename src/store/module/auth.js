@@ -20,13 +20,23 @@ const state = {
 const reset = (state) => {
   state.user = {}
   state.token = null
+  state.refreshToken = null
   state.hasLogin = false
 
-  http.setToken('')
+  http.setTokens('', '')
+
   localStorage.removeItem('token')
+  localStorage.removeItem('refreshToken')
 }
 
 const mutations = {
+  set (state, {token, refreshToken}) {
+    state.token = token
+    state.refreshToken = refreshToken
+
+    http.setTokens(token, refreshToken)
+  },
+
   save (state, {token, refreshToken}) {
     try {
       var decoded = jwtDecode(token)
@@ -44,7 +54,8 @@ const mutations = {
     state.refreshToken = refreshToken
     state.hasLogin = true
 
-    http.setToken(token)
+    http.setTokens(token, refreshToken)
+
     localStorage.setItem('token', token)
     localStorage.setItem('refreshToken', refreshToken)
   },
@@ -113,14 +124,7 @@ const actions = {
       throw {}
     }
 
-    // try refresh by refresh token
-    let expAt = moment.unix(decoded.exp)
-    if (expAt.isBefore(moment())) {
-      errorCommit(code.error.expired, 'token expired on loaded', {token, refreshToken})
-      throw {}
-    }
-
-    commit('save', {token, refreshToken})
+    commit('set', {token, refreshToken})
   }
 }
 

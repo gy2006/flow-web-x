@@ -34,3 +34,7 @@ export function errorCommit (code, message, data) {
     data
   })
 }
+
+export function newTokenCommit (newToken, refreshToken) {
+  store.commit('auth/save', {token: newToken, refreshToken: refreshToken})
+}

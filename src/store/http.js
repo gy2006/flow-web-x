@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { errorCommit } from './index'
+import { errorCommit, newTokenCommit } from './index'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 import code from '../util/code'
@@ -99,7 +99,7 @@ instance.interceptors.request.use(
 
         if (response.data.code === code.ok) {
           const newToken = response.data.data.token
-          tokens.token = newToken
+          newTokenCommit(newToken, tokens.refreshToken)
 
           waitingForToken.map(sb => sb(newToken))
           waitingForToken = []

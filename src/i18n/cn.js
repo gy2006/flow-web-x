@@ -90,6 +90,11 @@ export default {
       security: '安全',
       agent: 'Agents',
       credential: '证书'
+    },
+
+    profile: {
+      password_not_empty: '请输入密码',
+      password_not_same: '密码不配备'
     }
   },
 

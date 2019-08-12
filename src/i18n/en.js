@@ -91,6 +91,11 @@ export default {
       security: 'Security',
       agent: 'Agents',
       credential: 'Credentials'
+    },
+
+    profile: {
+      password_not_empty: 'Password is required',
+      password_not_same: 'Incorrect confirm password'
     }
   },
 

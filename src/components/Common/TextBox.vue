@@ -4,8 +4,9 @@
     <v-text-field
         solo
         :readonly="readonly"
-        v-model="data"
+        v-model="model.data"
         :rules="rules"
+        :type="password ? 'password' : 'text'"
         class="text-box"
     ></v-text-field>
   </div>
@@ -19,9 +20,13 @@
         type: String,
         required: true
       },
-      data: {
-        type: String,
-        default: ''
+      model: {
+        type: Object,
+        default () {
+          return {
+            data: ''
+          }
+        }
       },
       readonly: {
         type: Boolean,
@@ -33,6 +38,10 @@
         default () {
           return []
         }
+      },
+      password: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -41,7 +50,7 @@
 <style lang="scss">
   .text-box {
     .v-input__control {
-      min-height: 42px !important;
+      min-height: 34px !important;
     }
     .v-input__slot {
       background: #fafbfc !important;

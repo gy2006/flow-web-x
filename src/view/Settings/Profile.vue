@@ -25,7 +25,8 @@
           <div>Change Password</div>
           <v-divider class="my-2"></v-divider>
 
-          <form>
+          <v-form ref="passwordForm"
+                  lazy-validation>
             <text-box title="Old password"
                       password
                       :model="passwords.old"
@@ -38,21 +39,38 @@
             ></text-box>
             <text-box title="Confirm New password"
                       password
-                      :model="passwords.confirmed"
+                      :model="passwords.confirm"
                       :rules="confirmedRules"
             ></text-box>
-          </form>
+          </v-form>
 
           <v-btn color="primary" @click="onUpdatePasswordClick">Update password</v-btn>
           <v-btn color="info" outline @click="onForgotPasswordClick">I forgot my password</v-btn>
         </v-flex>
       </v-layout>
+
+      <!-- password change confirmed dialog -->
+      <v-dialog
+          v-model="dialog"
+          width="500"
+      >
+        <v-card>
+          <v-card-title class="headline error--text" primary-title>
+            Password been changed, please re-login
+          </v-card-title>
+          <v-card-actions>
+            <v-btn block color="primary" dark @click="onReLoginClick">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-card-text>
   </v-card>
 </template>
 
 <script>
   import TextBox from '@/components/Common/TextBox'
+  import actions from '@/store/actions'
 
   export default {
     name: 'SettingsProfile',
@@ -64,11 +82,13 @@
         navs: [
           {
             text: 'Profile'
-          } ],
+          }
+        ],
+        dialog: false,
         passwords: {
           old: {data: ''},
           newOne: {data: ''},
-          confirmed: {data: ''}
+          confirm: {data: ''}
         },
         notEmptyRules: [
           v => !!v || this.$t('settings.profile.password_not_empty')
@@ -81,11 +101,28 @@
     },
     methods: {
       onUpdatePasswordClick () {
-        console.log(this.passwords)
+        if (!this.$refs.passwordForm.validate()) {
+          return
+        }
+
+        this.$store.dispatch(actions.users.changePassword, {
+          old: this.passwords.old.data,
+          newOne: this.passwords.newOne.data,
+          confirm: this.passwords.confirm.data
+        }).then(() => {
+          this.dialog = true
+        }).catch((err) => {
+          console.log(err)
+        })
       },
 
       onForgotPasswordClick () {
 
+      },
+
+      onReLoginClick () {
+        this.dialog = false
+        this.$router.replace('/login')
       }
     }
   }

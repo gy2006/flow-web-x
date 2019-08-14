@@ -56,5 +56,9 @@ export default {
     listNameOnly: 'credentials/listNameOnly',
     get: 'credentials/get',
     delete: 'credentials/delete'
+  },
+
+  users: {
+    changePassword: 'users/changePassword'
   }
 }

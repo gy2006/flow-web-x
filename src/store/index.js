@@ -9,6 +9,7 @@ import { Store as StepStore } from './module/steps'
 import { Store as LogStore } from './module/logs'
 import { Store as AgentStore } from './module/agents'
 import { Store as CredentialStore } from './module/credentials'
+import { Store as UserStore } from './module/users'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
     'steps': StepStore,
     'logs': LogStore,
     'agents': AgentStore,
-    'credentials': CredentialStore
+    'credentials': CredentialStore,
+    'users': UserStore
   }
 })
 

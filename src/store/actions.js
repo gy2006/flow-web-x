@@ -59,6 +59,7 @@ export default {
   },
 
   users: {
+    listAll: 'users/listAll',
     changePassword: 'users/changePassword'
   }
 }

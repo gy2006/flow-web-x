@@ -5,7 +5,7 @@
       <v-btn flat
              color="blue-grey"
              class="white--text"
-             @click="onNewAgentClick"
+             @click="onNewUserClick"
       >
         <v-icon>add_box</v-icon>
       </v-btn>
@@ -17,7 +17,7 @@
 
 <script>
   export default {
-    name: 'SettingsUsers',
+    name: 'SettingsUsersHome',
     data () {
       return {
         navs: [
@@ -27,6 +27,11 @@
         ]
       }
     },
+    methods: {
+      onNewUserClick () {
+
+      }
+    }
   }
 </script>
 

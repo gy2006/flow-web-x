@@ -73,7 +73,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsProfile',
+    name: 'SettingsProfileHome',
     components: {
       TextBox
     },

@@ -65,7 +65,7 @@
   import { util } from '@/util/agents'
 
   export default {
-    name: 'SettingsAgent',
+    name: 'SettingsAgentHome',
     data () {
       return {
         navs: [

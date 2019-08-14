@@ -61,7 +61,7 @@
   import { CATEGORY_SSH_RSA_PATH } from '@/util/credentials'
 
   export default {
-    name: 'SettingsCredential',
+    name: 'SettingsCredentialHome',
     data () {
       return {
         category: {

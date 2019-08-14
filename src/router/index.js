@@ -11,6 +11,7 @@ import JobList from '@/view/Job/List'
 
 import SettingsHome from '@/view/Settings/Home'
 import SettingsProfile from '@/view/Settings/Profile'
+import SettingsUsers from '@/view/Settings/Users'
 import SettingsSecurity from '@/view/Settings/Security'
 
 import SettingsAgent from '@/view/Settings/Agent'
@@ -59,10 +60,13 @@ export default new Router({
           component: SettingsProfile
         },
         {
+          path: 'users',
+          component: SettingsUsers
+        },
+        {
           path: 'security',
           component: SettingsSecurity
         },
-
         {
           path: 'agents',
           component: SettingsAgent

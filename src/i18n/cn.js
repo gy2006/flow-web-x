@@ -87,6 +87,7 @@ export default {
   settings: {
     li: {
       profile: '个人信息',
+      users: 'Users',
       security: '安全',
       agent: 'Agents',
       credential: '证书'

@@ -30,6 +30,10 @@
             path: 'profile'
           },
           {
+            i18n: 'settings.li.users',
+            path: 'users'
+          },
+          {
             i18n: 'settings.li.agent',
             path: 'agents'
           },

@@ -17,18 +17,6 @@ const state = {
   hasLogin: false
 }
 
-const reset = (state) => {
-  state.user = {}
-  state.token = null
-  state.refreshToken = null
-  state.hasLogin = false
-
-  http.setTokens('', '')
-
-  localStorage.removeItem('token')
-  localStorage.removeItem('refreshToken')
-}
-
 const mutations = {
   set (state, {token, refreshToken}) {
     state.token = token
@@ -61,7 +49,15 @@ const mutations = {
   },
 
   clean (state) {
-    reset(state)
+    state.user = {}
+    state.token = null
+    state.refreshToken = null
+    state.hasLogin = false
+
+    http.setTokens('', '')
+
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
   }
 }
 

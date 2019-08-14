@@ -34,6 +34,8 @@
 </template>
 
 <script>
+  import actions from '@/store/actions'
+
   export default {
     name: 'AdminMenu',
     data () {
@@ -48,7 +50,9 @@
       },
 
       onLogoutClick () {
-
+        this.$store.dispatch(actions.auth.logout).then(() => {
+          this.$router.replace('/login')
+        })
       }
     }
   }

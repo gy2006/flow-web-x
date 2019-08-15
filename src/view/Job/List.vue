@@ -48,9 +48,11 @@
 
     <v-card-text class="pt-0">
       <v-data-table
+          hide-headers
           :items="jobs"
-          hide-actions
-          hide-headers>
+          :pagination.sync="pagination"
+          :total-items="total"
+          :rows-per-page-items="[10, 25, 50]">
 
         <template slot="items" slot-scope="props">
           <td @click="onItemClick(props.item)">
@@ -65,13 +67,6 @@
         </template>
       </v-data-table>
     </v-card-text>
-
-    <v-card-actions class="justify-center">
-      <v-pagination
-          v-model="pagination.page"
-          @input="onPageChange"
-          :length="pagination.totalPages"/>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -88,7 +83,12 @@
       return {
         loading: false,
         alert: false,
-        selectedBranch: null
+        selectedBranch: null,
+        pagination: {
+          page: 1,
+          rowsPerPage: 10,
+          totalItems: 0
+        }
       }
     },
     components: {
@@ -102,8 +102,8 @@
     computed: {
       ...mapState({
         gitBranches: state => state.flows.gitBranches,
-        pagination: state => state.jobs.pagination,
-        jobs: state => state.jobs.items
+        jobs: state => state.jobs.items,
+        total: state => state.jobs.pagination.total
       }),
 
       name () {
@@ -122,13 +122,17 @@
     watch: {
       name () {
         this.reload()
+      },
+
+      pagination () {
+        this.loadJobList()
       }
     },
     methods: {
       reload () {
         this.$store.dispatch(actions.flows.select, this.name).then()
-        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: this.pagination.page}).catch(() => {})
         this.$store.dispatch(actions.flows.gitBranches, this.name).catch(() => {})
+        this.loadJobList()
       },
 
       onItemClick (job) {
@@ -146,8 +150,9 @@
         this.$router.push({path: `/flows/${this.name}/settings`})
       },
 
-      onPageChange (page) {
-        this.$store.dispatch(actions.jobs.list, {flow: this.name, page: page}).catch(() => {})
+      loadJobList () {
+        const { page, rowsPerPage } = this.pagination
+        this.$store.dispatch(actions.jobs.list, {flow: this.name, page, size: rowsPerPage}).catch(() => {})
       }
     }
   }

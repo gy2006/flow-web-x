@@ -1,15 +1,15 @@
 import http from '../http'
 import vars from '../../util/vars'
 
-const numOfElements = 10
-
 const emptyFunc = () => {}
 
 const state = {
   name: '', // flow name
   items: [],
   pagination: {
-    page: 1
+    page: 0,
+    size: 10,
+    total: 0
   },
   JobsStatus: {},
   selected: {},
@@ -18,7 +18,7 @@ const state = {
 
 const mutations = {
   add (state, job) {
-    if (state.items.length >= numOfElements) {
+    if (state.items.length >= state.pagination.size) {
       state.items.pop()
     }
 
@@ -32,12 +32,9 @@ const mutations = {
   list (state, page) {
     state.items = page.content
 
-    state.pagination = {
-      page: page.number + 1,
-      numberOfElements: numOfElements,
-      totalElements: page.totalElements,
-      totalPages: page.totalPages
-    }
+    state.pagination.page = page.number
+    state.pagination.size = page.size
+    state.pagination.total = page.totalElements
   },
 
   update (state, updatedJob) {
@@ -113,7 +110,7 @@ const actions = {
   /**
    * Load job list by flow name
    */
-  list ({commit, state}, {flow, page}) {
+  list ({commit, state}, {flow, page, size}) {
     commit('setName', flow)
 
     return http.get('jobs/' + flow,
@@ -122,7 +119,7 @@ const actions = {
       },
       {
         page: page - 1,
-        size: numOfElements
+        size
       }
     )
   },

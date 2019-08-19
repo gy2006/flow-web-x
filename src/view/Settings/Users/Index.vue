@@ -1,36 +1,22 @@
 <template>
-  <v-card>
-    <v-card-title class="pb-0 bottom-border">
-      <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
-      <v-btn flat
-             color="blue-grey"
-             class="white--text"
-             @click="onNewUserClick"
-      >
-        <v-icon>add_box</v-icon>
-      </v-btn>
-    </v-card-title>
-    <v-card-text class="pt-0">
-      <v-data-table
-          :headers="headers"
-          :items="users"
-          :pagination.sync="pagination"
-          :total-items="total"
-          :search="searchText"
-      >
-        <template v-slot:items="props">
-          <td>{{ props.item.email }}</td>
-          <td>{{ props.item.role }}</td>
-          <td>{{ props.item.createdAt }}</td>
-        </template>
-        <template v-slot:no-results>
-          <v-alert :value="true" color="error" icon="warning">
-            Your search for "{{ searchText }}" found no results.
-          </v-alert>
-        </template>
-      </v-data-table>
-    </v-card-text>
-  </v-card>
+  <v-data-table
+      :headers="headers"
+      :items="users"
+      :pagination.sync="pagination"
+      :total-items="total"
+      :search="searchText"
+  >
+    <template v-slot:items="props">
+      <td>{{ props.item.email }}</td>
+      <td>{{ props.item.role }}</td>
+      <td>{{ props.item.createdAt }}</td>
+    </template>
+    <template v-slot:no-results>
+      <v-alert :value="true" color="error" icon="warning">
+        Your search for "{{ searchText }}" found no results.
+      </v-alert>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -41,11 +27,6 @@
     name: 'SettingsUsersHome',
     data () {
       return {
-        navs: [
-          {
-            text: 'Users'
-          }
-        ],
         searchText: '',
         pagination: {
           page: 1,
@@ -64,6 +45,14 @@
       }
     },
     mounted () {
+      this.$emit('onConfigNav', {
+        navs: [
+          {
+            text: 'Users'
+          }
+        ],
+        showAddBtn: true
+      })
       this.load()
     },
     computed: {
@@ -84,8 +73,8 @@
         this.$store.dispatch(actions.users.listAll, {page: page, size: rowsPerPage}).catch((err) => {})
       },
 
-      onNewUserClick () {
-
+      onAddBtnClick () {
+        console.log('click......')
       }
     }
   }

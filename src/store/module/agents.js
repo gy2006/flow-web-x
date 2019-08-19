@@ -63,8 +63,8 @@ const actions = {
     }, {token: agent.token})
   },
 
-  get ({commit}, name) {
-    http.get(`agents/${name}`, (agent) => {
+  async get ({commit}, name) {
+    await http.get(`agents/${name}`, (agent) => {
       commit('loaded', agent)
     })
   },

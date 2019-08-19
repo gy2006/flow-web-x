@@ -87,10 +87,10 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import {AgentWrapper} from '@/util/agents'
-  import {agentNameRules, agentTagRules} from '@/util/rules'
+  import { AgentWrapper } from '@/util/agents'
+  import { agentNameRules, agentTagRules } from '@/util/rules'
 
   export default {
     name: 'SettingsAgentEdit',
@@ -163,14 +163,20 @@
       }
     },
     mounted () {
+      if (this.isEditMode) {
+        this.$store.dispatch(actions.agents.get, this.name).then(() => {
+          this.$emit('onConfigNav', {
+            navs: this.navs,
+            showAddBtn: false
+          })
+        })
+        return
+      }
+
       this.$emit('onConfigNav', {
         navs: this.navs,
         showAddBtn: false
       })
-
-      if (this.isEditMode) {
-        this.$store.dispatch(actions.agents.get, this.name)
-      }
     },
     watch: {
       name (newValue) {

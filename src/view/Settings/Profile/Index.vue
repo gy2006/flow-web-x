@@ -1,71 +1,62 @@
 <template>
-  <v-card>
-    <v-card-title class="pb-0 bottom-border">
-      <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
-    </v-card-title>
+  <v-layout row wrap>
+    <v-flex xs6>
+      <text-box title="E-Mail"
+                :model="{data: user.email}"
+                readonly
+      ></text-box>
+      <text-box title="Role"
+                :model="{data: user.role}"
+                readonly
+      ></text-box>
+    </v-flex>
 
-    <v-card-text class="pt-0">
-      <v-layout row wrap>
-        <v-flex xs6>
-          <text-box title="E-Mail"
-                    :model="{data: user.email}"
-                    readonly
-          ></text-box>
-          <text-box title="Role"
-                    :model="{data: user.role}"
-                    readonly
-          ></text-box>
-        </v-flex>
+    <v-flex xs5 class="mt-2 ml-4">
+      <div class="subheading font-weight-medium">Profile picture here</div>
+    </v-flex>
 
-        <v-flex xs5 class="mt-2 ml-4">
-          <div class="subheading font-weight-medium">Profile picture here</div>
-        </v-flex>
+    <v-flex xs6>
+      <div>Change Password</div>
+      <v-divider class="my-2"></v-divider>
 
-        <v-flex xs6>
-          <div>Change Password</div>
-          <v-divider class="my-2"></v-divider>
+      <v-form ref="passwordForm"
+              lazy-validation>
+        <text-box title="Old password"
+                  password
+                  :model="passwords.old"
+                  :rules="notEmptyRules"
+        ></text-box>
+        <text-box title="New password"
+                  password
+                  :model="passwords.newOne"
+                  :rules="notEmptyRules"
+        ></text-box>
+        <text-box title="Confirm New password"
+                  password
+                  :model="passwords.confirm"
+                  :rules="confirmedRules"
+        ></text-box>
+      </v-form>
 
-          <v-form ref="passwordForm"
-                  lazy-validation>
-            <text-box title="Old password"
-                      password
-                      :model="passwords.old"
-                      :rules="notEmptyRules"
-            ></text-box>
-            <text-box title="New password"
-                      password
-                      :model="passwords.newOne"
-                      :rules="notEmptyRules"
-            ></text-box>
-            <text-box title="Confirm New password"
-                      password
-                      :model="passwords.confirm"
-                      :rules="confirmedRules"
-            ></text-box>
-          </v-form>
+      <v-btn color="primary" @click="onUpdatePasswordClick">Update password</v-btn>
+      <v-btn color="info" outline @click="onForgotPasswordClick">I forgot my password</v-btn>
+    </v-flex>
 
-          <v-btn color="primary" @click="onUpdatePasswordClick">Update password</v-btn>
-          <v-btn color="info" outline @click="onForgotPasswordClick">I forgot my password</v-btn>
-        </v-flex>
-      </v-layout>
-
-      <!-- password change confirmed dialog -->
-      <v-dialog
-          v-model="dialog"
-          width="500"
-      >
-        <v-card>
-          <v-card-title class="headline error--text" primary-title>
-            Password been changed, please re-login
-          </v-card-title>
-          <v-card-actions>
-            <v-btn block color="primary" dark @click="onReLoginClick">OK</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-    </v-card-text>
-  </v-card>
+    <!-- password change confirmed dialog -->
+    <v-dialog
+        v-model="dialog"
+        width="500"
+    >
+      <v-card>
+        <v-card-title class="headline error--text" primary-title>
+          Password been changed, please re-login
+        </v-card-title>
+        <v-card-actions>
+          <v-btn block color="primary" dark @click="onReLoginClick">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-layout>
 </template>
 
 <script>
@@ -79,11 +70,6 @@
     },
     data () {
       return {
-        navs: [
-          {
-            text: 'Profile'
-          }
-        ],
         dialog: false,
         passwords: {
           old: {data: ''},
@@ -98,6 +84,16 @@
           v => v === this.passwords.newOne.data || this.$t('settings.profile.password_not_same')
         ]
       }
+    },
+    mounted () {
+      this.$emit('onConfigNav', {
+        navs: [
+          {
+            text: 'Profile'
+          }
+        ],
+        showAddBtn: false
+      })
     },
     methods: {
       onUpdatePasswordClick () {

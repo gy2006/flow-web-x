@@ -1,32 +1,25 @@
 <template>
-  <v-card>
-    <v-card-title class="pb-0 bottom-border">
-      <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
-    </v-card-title>
-    <v-card-text class="pt-0">
-      <v-layout row wrap>
-        <v-flex xs8>
-          <v-form ref="nameForm" lazy-validation>
-            <v-text-field label="Name"
-                          :rules="nameRules"
-                          v-model="instance.name"
-            ></v-text-field>
-          </v-form>
-        </v-flex>
+  <v-layout row wrap>
+    <v-flex xs8>
+      <v-form ref="nameForm" lazy-validation>
+        <v-text-field label="Name"
+                      :rules="nameRules"
+                      v-model="instance.name"
+        ></v-text-field>
+      </v-form>
+    </v-flex>
 
-        <v-flex xs8 v-if="isSshRsa">
-          <v-form ref="sshForm" lazy-validation>
-            <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :keyPair="instance"></ssh-rsa-editor>
-          </v-form>
-        </v-flex>
+    <v-flex xs8 v-if="isSshRsa">
+      <v-form ref="sshForm" lazy-validation>
+        <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :keyPair="instance"></ssh-rsa-editor>
+      </v-form>
+    </v-flex>
 
-        <v-flex xs8 d-flex>
-          <v-btn outline color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
-          <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-card-text>
-  </v-card>
+    <v-flex xs8 d-flex>
+      <v-btn outline color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
+      <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -44,7 +37,7 @@
       return {
         nameRules: credentialNameRules(this),
         credential: {
-          [CATEGORY_SSH_RSA]: {
+          [ CATEGORY_SSH_RSA ]: {
             name: '',
             category: CATEGORY_SSH_RSA,
             publicKey: '',
@@ -52,6 +45,12 @@
           }
         }
       }
+    },
+    mounted() {
+      this.$emit('onConfigNav', {
+        navs: this.navs,
+        showAddBtn: false
+      })
     },
     computed: {
       navs () {
@@ -67,7 +66,7 @@
       },
 
       instance () {
-        return this.credential[this.category]
+        return this.credential[ this.category ]
       },
 
       category () {

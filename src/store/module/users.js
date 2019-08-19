@@ -10,6 +10,11 @@ const mutations = {
   list (state, page) {
     state.items = page.content
     state.total = page.totalElements
+  },
+
+  add (state, user) {
+    state.items.push(user)
+    state.total += 1
   }
 }
 
@@ -27,6 +32,17 @@ const actions = {
       old: md5(old, null, false),
       newOne: md5(newOne, null, false),
       confirm: md5(confirm, null, false)
+    })
+  },
+
+  async create({commit}, {email, password, role}) {
+    const onSuccess = (user) => {
+      commit('add', user)
+    }
+    await http.post('users', onSuccess, {
+      email,
+      password: md5(password, null, false),
+      role
     })
   }
 }

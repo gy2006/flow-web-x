@@ -74,7 +74,7 @@
       },
 
       onAddBtnClick () {
-        console.log('click......')
+        this.$router.push('/settings/users/new')
       }
     }
   }

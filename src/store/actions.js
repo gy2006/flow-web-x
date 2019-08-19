@@ -60,6 +60,7 @@ export default {
 
   users: {
     listAll: 'users/listAll',
-    changePassword: 'users/changePassword'
+    changePassword: 'users/changePassword',
+    create: 'users/create'
   }
 }

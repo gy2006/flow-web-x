@@ -13,6 +13,7 @@ import SettingsHome from '@/view/Settings/Home'
 import SettingsProfileHome from '@/view/Settings/Profile/Index'
 
 import SettingsUsersHome from '@/view/Settings/Users/Index'
+import SettingsUsersNew from '@/view/Settings/Users/New'
 
 import SettingsAgentHome from '@/view/Settings/Agent/Index'
 import SettingsAgentEdit from '@/view/Settings/Agent/Edit'
@@ -62,6 +63,10 @@ export default new Router({
         {
           path: 'users',
           component: SettingsUsersHome
+        },
+        {
+          path: 'users/new',
+          component: SettingsUsersNew
         },
         {
           path: 'agents',

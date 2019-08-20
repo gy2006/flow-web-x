@@ -14,6 +14,7 @@ import SettingsProfileHome from '@/view/Settings/Profile/Index'
 
 import SettingsUsersHome from '@/view/Settings/Users/Index'
 import SettingsUsersNew from '@/view/Settings/Users/New'
+import SettingsUsersEdit from '@/view/Settings/Users/Edit'
 
 import SettingsAgentHome from '@/view/Settings/Agent/Index'
 import SettingsAgentEdit from '@/view/Settings/Agent/Edit'
@@ -58,39 +59,54 @@ export default new Router({
       children: [
         {
           path: 'profile',
+          name: 'SettingsProfileHome',
           component: SettingsProfileHome
         },
         {
           path: 'users',
+          name: 'SettingsUsersHome',
           component: SettingsUsersHome
         },
         {
           path: 'users/new',
+          name: 'SettingsUsersNew',
           component: SettingsUsersNew
         },
         {
+          path: 'users/edit',
+          name: 'SettingsUsersEdit',
+          component: SettingsUsersEdit,
+          props: true
+        },
+        {
           path: 'agents',
+          name: 'SettingsAgentHome',
           component: SettingsAgentHome
         },
         {
           path: 'agents/:category',
+          name: 'SettingsAgentEdit',
           component: SettingsAgentEdit
         },
         {
           path: 'agents/:category/:name',
+          name: 'SettingsAgentEdit',
           component: SettingsAgentEdit
         },
 
         {
           path: 'credentials',
+          name: 'SettingsCredentialHome',
           component: SettingsCredentialHome
         },
         {
           path: 'credentials/new/:category',
+          name: 'SettingsCredentialNew',
           component: SettingsCredentialNew
         },
         {
           path: 'credentials/edit/:name',
+          name: 'SettingsCredentialEdit',
           component: SettingsCredentialEdit
         }
       ]

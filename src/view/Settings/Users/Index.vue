@@ -10,6 +10,11 @@
       <td>{{ props.item.email }}</td>
       <td>{{ props.item.role }}</td>
       <td>{{ props.item.createdAt }}</td>
+      <td>
+        <v-btn flat icon class="ma-0" @click="onEditBtnClick(props.item)">
+          <v-icon small>edit</v-icon>
+        </v-btn>
+      </td>
     </template>
     <template v-slot:no-results>
       <v-alert :value="true" color="error" icon="warning">
@@ -40,7 +45,8 @@
             value: 'email'
           },
           {text: 'Role', value: 'role'},
-          {text: 'Created At', value: 'createdAt'}
+          {text: 'Created At', value: 'createdAt'},
+          {text: '', value: ''}
         ]
       }
     },
@@ -75,6 +81,15 @@
 
       onAddBtnClick () {
         this.$router.push('/settings/users/new')
+      },
+
+      onEditBtnClick (user) {
+        this.$router.push({
+          name: 'SettingsUsersEdit',
+          params: {
+            userObj: user
+          }
+        })
       }
     }
   }

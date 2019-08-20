@@ -63,7 +63,12 @@
     },
     methods: {
       onAddBtnClick () {
-        this.$router.push('/settings/credentials/new/' + this.category.sshrsa)
+        this.$router.push({
+          name: 'SettingsCredentialNew',
+          params: {
+            category: this.category.sshrsa.toUpperCase()
+          }
+        })
       },
 
       onEditClick (credential) {

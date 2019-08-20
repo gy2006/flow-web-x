@@ -45,10 +45,14 @@ const actions = {
     })
   },
 
-  async create ({commit}, credential) {
+  async create ({commit}, {name, pair}) {
     await http.post('credentials/rsa', (c) => {
       commit('add', c)
-    }, credential)
+    }, {
+      name,
+      publicKey: pair.publicKey,
+      privateKey: pair.privateKey
+    })
   },
 
   async delete ({commit}, credential) {

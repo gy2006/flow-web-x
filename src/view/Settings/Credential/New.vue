@@ -11,7 +11,7 @@
 
     <v-flex xs8 v-if="isSshRsa">
       <v-form ref="sshForm" lazy-validation>
-        <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :keyPair="instance"></ssh-rsa-editor>
+        <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :module="instance"></ssh-rsa-editor>
       </v-form>
     </v-flex>
 
@@ -30,6 +30,15 @@
 
   export default {
     name: 'SettingsCredentialNew',
+    props: {
+      category: {
+        type: String,
+        required: false,
+        default () {
+          return CATEGORY_SSH_RSA
+        }
+      }
+    },
     components: {
       SshRsaEditor
     },
@@ -40,13 +49,16 @@
           [ CATEGORY_SSH_RSA ]: {
             name: '',
             category: CATEGORY_SSH_RSA,
-            publicKey: '',
-            privateKey: ''
+            selected: '',
+            pair: {
+              publicKey: '',
+              privateKey: ''
+            }
           }
         }
       }
     },
-    mounted() {
+    mounted () {
       this.$emit('onConfigNav', {
         navs: this.navs,
         showAddBtn: false
@@ -60,17 +72,16 @@
             href: '#/settings/credentials'
           },
           {
-            text: 'New - ' + this.category
+            text: 'New'
+          },
+          {
+            text: this.category
           }
         ]
       },
 
       instance () {
         return this.credential[ this.category ]
-      },
-
-      category () {
-        return this.$route.params.category.toUpperCase()
       },
 
       isSshRsa () {

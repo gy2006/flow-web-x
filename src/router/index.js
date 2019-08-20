@@ -100,14 +100,16 @@ export default new Router({
           component: SettingsCredentialHome
         },
         {
-          path: 'credentials/new/:category',
+          path: 'credentials/new',
           name: 'SettingsCredentialNew',
-          component: SettingsCredentialNew
+          component: SettingsCredentialNew,
+          props: true
         },
         {
           path: 'credentials/edit/:name',
           name: 'SettingsCredentialEdit',
-          component: SettingsCredentialEdit
+          component: SettingsCredentialEdit,
+          props: true
         }
       ]
     }

@@ -72,7 +72,12 @@
       },
 
       onEditClick (credential) {
-        this.$router.push('/settings/credentials/edit/' + credential.name)
+        this.$router.push({
+          name: 'SettingsCredentialEdit',
+          params: {
+            credentialObj: credential
+          }
+        })
       }
     }
   }

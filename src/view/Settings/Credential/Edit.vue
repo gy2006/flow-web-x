@@ -2,23 +2,18 @@
   <v-card-text class="pt-0">
     <v-layout row wrap>
       <v-flex xs8>
-        <v-form ref="nameForm" lazy-validation>
-          <v-text-field label="Name"
-                        readonly
-                        :rules="nameRules"
-                        v-model="loaded.name"
-          ></v-text-field>
-        </v-form>
+        <v-text-field label="Name"
+                      readonly
+                      v-model="name"
+        ></v-text-field>
       </v-flex>
 
       <v-flex xs8 v-if="isSshRsa">
-        <v-form ref="sshForm" lazy-validation>
-          <ssh-rsa-editor :show-help="false"
-                          :show-create-new="false"
-                          :is-read-only="true"
-                          :module="credential"
-          ></ssh-rsa-editor>
-        </v-form>
+        <ssh-rsa-editor :show-help="false"
+                        :show-create-new="false"
+                        :is-read-only="true"
+                        :module="credentialModule"
+        ></ssh-rsa-editor>
       </v-flex>
 
       <v-flex xs8 d-flex>
@@ -81,24 +76,35 @@
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
   import { CATEGORY_SSH_RSA } from '@/util/credentials'
   import { mapState } from 'vuex'
-  import { credentialNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsCredentialEdit',
     components: {
       SshRsaEditor
     },
-    data () {
-      return {
-        dialog: false,
-        credential: {
-          selected: '',
-          pair: {
+    props: {
+      credentialObj: {
+        type: Object,
+        required: false,
+        default () {
+          return {
+            name: '',
             privateKey: '',
             publicKey: ''
           }
-        },
-        nameRules: credentialNameRules(this)
+        }
+      }
+    },
+    data () {
+      return {
+        dialog: false,
+        credentialModule: {
+          selected: '',
+          pair: {
+            privateKey: this.credentialObj.privateKey,
+            publicKey: this.credentialObj.publicKey
+          }
+        }
       }
     },
     mounted () {
@@ -106,12 +112,10 @@
         navs: this.navs,
         showAddBtn: false
       })
-      this.$store.dispatch(actions.credentials.get, this.name).then()
       this.$store.dispatch(actions.flows.listByCredential, this.name).then()
     },
     computed: {
       ...mapState({
-        loaded: state => state.credentials.loaded,
         connectedFlows: state => state.flows.itemsByCredential
       }),
 
@@ -122,28 +126,20 @@
             href: '#/settings/credentials'
           },
           {
+            text: 'Edit'
+          },
+          {
             text: this.name
           }
         ]
       },
 
       name () {
-        return this.$route.params.name
+        return this.credentialObj.name
       },
 
       isSshRsa () {
-        return this.loaded.category === CATEGORY_SSH_RSA
-      }
-    },
-    watch: {
-      name (newValue) {
-        this.$store.dispatch(actions.credentials.get, newValue).then()
-        this.$store.dispatch(actions.flows.listByCredential, newValue).then()
-      },
-
-      loaded (newValue) {
-        this.credential.pair.publicKey = newValue.publicKey
-        this.credential.pair.privateKey = newValue.privateKey
+        return this.credentialObj.category === CATEGORY_SSH_RSA
       }
     },
     methods: {
@@ -152,7 +148,7 @@
       },
 
       onDeleteClick () {
-        this.$store.dispatch(actions.credentials.delete, this.loaded).then(() => {
+        this.$store.dispatch(actions.credentials.delete, this.credentialObj).then(() => {
           this.onBackClick()
         })
       }

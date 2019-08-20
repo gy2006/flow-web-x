@@ -106,7 +106,7 @@ export default new Router({
           props: true
         },
         {
-          path: 'credentials/edit/:name',
+          path: 'credentials/edit',
           name: 'SettingsCredentialEdit',
           component: SettingsCredentialEdit,
           props: true

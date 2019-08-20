@@ -15,6 +15,15 @@ const mutations = {
   add (state, user) {
     state.items.push(user)
     state.total += 1
+  },
+
+  updateRole (state, {email, role}) {
+    for (let item of state.items) {
+      if (item.email === email) {
+        item.role = role
+        return
+      }
+    }
   }
 }
 
@@ -27,7 +36,8 @@ const actions = {
   },
 
   async changePassword ({commit}, {old, newOne, confirm}) {
-    const onSuccess = () => {}
+    const onSuccess = () => {
+    }
     await http.post('users/change/password', onSuccess, {
       old: md5(old, null, false),
       newOne: md5(newOne, null, false),
@@ -35,7 +45,14 @@ const actions = {
     })
   },
 
-  async create({commit}, {email, password, role}) {
+  async changeRole ({commit}, {email, role}) {
+    const onSuccess = () => {
+      commit('updateRole', {email, role})
+    }
+    await http.post('users/change/role', onSuccess, {email, role})
+  },
+
+  async create ({commit}, {email, password, role}) {
     const onSuccess = (user) => {
       commit('add', user)
     }

@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import actions from '@/store/actions'
+
   export default {
     name: 'Edit',
     props: {
@@ -65,7 +67,12 @@
       },
 
       onSaveClick () {
-
+        this.$store.dispatch(actions.users.changeRole, this.userObj)
+          .then(() => {
+            this.onBackClick()
+          }).catch((err) => {
+          console.log(err)
+        })
       }
     }
   }

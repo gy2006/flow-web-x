@@ -15,12 +15,18 @@
         <v-tab href="#tab-options">
           Options
         </v-tab>
+        <v-tab href="#tab-users">
+          Members
+        </v-tab>
 
         <v-tab-item value="tab-yml">
           <settings-yml-tab :flow="flow"></settings-yml-tab>
         </v-tab-item>
         <v-tab-item value="tab-options">
           <settings-option-tab :flow="flow"></settings-option-tab>
+        </v-tab-item>
+        <v-tab-item value="tab-users">
+          <settings-member-tab :flow="flow"></settings-member-tab>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -33,13 +39,15 @@
   import Nav from '@/components/Common/Nav'
   import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
   import SettingsOptionTab from '@/view/Flow/SettingsOptionTab'
+  import SettingsMemberTab from '@/view/Flow/SettingsMemberTab'
 
   export default {
     name: 'FlowSettings',
     components: {
       Nav,
       SettingsYmlTab,
-      SettingsOptionTab
+      SettingsOptionTab,
+      SettingsMemberTab
     },
     mounted () {
       this.$store.dispatch(actions.flows.select, this.name).then()

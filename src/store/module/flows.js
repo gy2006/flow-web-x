@@ -9,7 +9,8 @@ const state = {
   isExist: undefined, // result from action 'exist'
   gitTestMessage: undefined,  // git test message update
   gitBranches: [],
-  itemsByCredential: []
+  itemsByCredential: [],
+  users: [] // flow users
 }
 
 const mutations = {
@@ -61,6 +62,14 @@ const mutations = {
 
   editor (state, res) {
     state.editor = res
+  },
+
+  listUsers (state, users) {
+    state.users = users
+  },
+
+  addUsers (state, users) {
+    state.users.push(users)
   }
 }
 
@@ -196,6 +205,24 @@ const actions = {
 
   editor ({commit}, args) {
     commit('editor', args)
+  },
+
+  listUsers ({commit}, name) {
+    const onSuccess = (list) => {
+      commit('listUsers', list)
+    }
+    return http.get(`flows/${name}/users`, onSuccess)
+  },
+
+  addUser ({commit}, userId) {
+    const onSuccess = (list) => {
+      commit('addUsers', list)
+    }
+    http.post(`flows/${name}/users`, onSuccess, [userId])
+  },
+
+  removeUser ({commit}, userId) {
+
   }
 }
 

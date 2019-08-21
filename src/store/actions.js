@@ -15,6 +15,11 @@ export default {
     listByCredential: 'flows/listByCredential',
     select: 'flows/select',
     delete: 'flows/delete',
+    users: {
+      list: 'flows/listUsers',
+      add: 'flows/addUser',
+      remove: 'flows/removeUser'
+    },
     yml: {
       load: 'flows/loadYml',
       save: 'flows/saveYml'

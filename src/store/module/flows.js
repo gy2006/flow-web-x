@@ -69,7 +69,9 @@ const mutations = {
   },
 
   addUsers (state, users) {
-    state.users.push(users)
+    for (let user of users) {
+      state.users.push(user)
+    }
   },
 
   removeUsers (state, users) {

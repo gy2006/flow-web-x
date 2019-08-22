@@ -70,6 +70,10 @@ const mutations = {
 
   addUsers (state, users) {
     state.users.push(users)
+  },
+
+  removeUsers (state, users) {
+    state.users = state.users.filter((x) => users.some((y) => x.id === y.id))
   }
 }
 
@@ -214,15 +218,18 @@ const actions = {
     return http.get(`flows/${name}/users`, onSuccess)
   },
 
-  addUser ({commit}, userId) {
+  async addUser ({commit}, {name, userId}) {
     const onSuccess = (list) => {
       commit('addUsers', list)
     }
-    http.post(`flows/${name}/users`, onSuccess, [userId])
+    await http.post(`flows/${name}/users`, onSuccess, [userId])
   },
 
-  removeUser ({commit}, userId) {
-
+  async removeUser ({commit}, {name, userId}) {
+    const onSuccess = (list) => {
+      commit('removeUsers', list)
+    }
+    await http.delete(`flows/${name}/users`, onSuccess, [userId])
   }
 }
 

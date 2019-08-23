@@ -100,10 +100,7 @@
         dialog: false,
         credentialModule: {
           selected: '',
-          pair: {
-            privateKey: this.credentialObj.privateKey,
-            publicKey: this.credentialObj.publicKey
-          }
+          pair: this.credentialObj.pair
         }
       }
     },

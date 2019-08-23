@@ -13,29 +13,49 @@
             <span class="font-weight-bold"># {{ wrapper.buildNumber }}</span>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon small class="ml-3" v-on="on">{{ wrapper.trigger.icon }}</v-icon>
+                <v-icon small class="ml-3" v-on="on">{{ wrapper.triggerIcon }}</v-icon>
               </template>
-              <span>{{ wrapper.trigger.text }}</span>
+              <span>{{ wrapper.triggerText }}</span>
             </v-tooltip>
           </v-list-tile-title>
         </v-flex>
 
-        <v-flex xs2>
-          <v-list-tile-sub-title>
-            <i>{{ wrapper.branch }}</i>
-          </v-list-tile-sub-title>
-        </v-flex>
+        <v-flex xs9>
+          <!-- for push and tag -->
+          <v-layout align-center v-if="wrapper.trigger === TRIGGER_PUSH || wrapper.trigger === TRIGGER_TAG">
+            <v-flex xs4>
+              <v-list-tile-sub-title>
+                <i>{{ wrapper.branch }}</i>
+              </v-list-tile-sub-title>
+            </v-flex>
 
-        <v-flex xs3>
-          <v-list-tile-sub-title>
-            <a>{{ wrapper.commitId }}</a>
-          </v-list-tile-sub-title>
-          <v-list-tile-sub-title>
-            {{ wrapper.commitMsg }}
-          </v-list-tile-sub-title>
-        </v-flex>
+            <v-flex xs6>
+              <v-list-tile-sub-title>
+                <a :href="wrapper.commitUrl" target="_blank">{{ wrapper.commitId }}</a>
+                <div> {{ wrapper.commitMsg }}</div>
+              </v-list-tile-sub-title>
+            </v-flex>
+          </v-layout>
 
-        <v-flex xs3></v-flex>
+          <!-- for pr -->
+          <v-layout align-center v-if="wrapper.trigger === TRIGGER_PR_OPEN || wrapper.trigger === TRIGGER_PR_CLOSE">
+            <v-flex xs4>
+              <v-list-tile-sub-title>
+                <div v-if="wrapper.prBaseRepo !== wrapper.prHeadRepo">
+                  {{ wrapper.prBaseRepo }} < {{ wrapper.prHeadRepo}}
+                </div>
+                <div>{{ wrapper.prBaseBranch }} < {{ wrapper.prHeadBranch}}</div>
+              </v-list-tile-sub-title>
+            </v-flex>
+
+            <v-flex xs6>
+              <v-list-tile-sub-title>
+                <a :href="wrapper.prUrl" target="_blank">#{{ wrapper.prNumber }}</a>
+                <span class="ml-1">{{ wrapper.prTitle }}</span>
+              </v-list-tile-sub-title>
+            </v-flex>
+          </v-layout>
+        </v-flex>
 
         <v-flex xs2>
           <v-list-tile-sub-title class="text-xs-left">
@@ -49,11 +69,15 @@
 </template>
 
 <script>
-  import { JobWrapper } from '@/util/jobs'
+  import { JobWrapper, TRIGGER_PR_CLOSE, TRIGGER_PR_OPEN, TRIGGER_PUSH, TRIGGER_TAG } from '@/util/jobs'
 
   export default {
     data () {
       return {
+        TRIGGER_PUSH,
+        TRIGGER_TAG,
+        TRIGGER_PR_OPEN,
+        TRIGGER_PR_CLOSE,
         wrapper: new JobWrapper(this.job)
       }
     },

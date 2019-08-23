@@ -33,5 +33,19 @@ export default {
       time: 'FLOWCI_GIT_COMMIT_TIME',
       url: 'FLOWCI_GIT_COMMIT_URL'
     },
+
+    pr: {
+      title: 'FLOWCI_GIT_PR_TITLE',
+      message: 'FLOWCI_GIT_PR_MESSAGE',
+      url: 'FLOWCI_GIT_PR_URL',
+      time: 'FLOWCI_GIT_PR_TIME',
+      number: 'FLOWCI_GIT_PR_NUMBER',
+      head_repo: 'FLOWCI_GIT_PR_HEAD_REPO_NAME',
+      head_branch: 'FLOWCI_GIT_PR_HEAD_REPO_BRANCH',
+      head_commit: 'FLOWCI_GIT_PR_HEAD_REPO_COMMIT',
+      base_repo: 'FLOWCI_GIT_PR_BASE_REPO_NAME',
+      base_branch: 'FLOWCI_GIT_PR_BASE_REPO_BRANCH',
+      base_commit: 'FLOWCI_GIT_PR_BASE_REPO_COMMIT'
+    }
   }
 }

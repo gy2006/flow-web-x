@@ -10,13 +10,13 @@ const STATUS_CANCELLED = 'CANCELLED'
 const STATUS_TIMEOUT = 'TIMEOUT'
 
 // triggers
-const TRIGGER_PUSH = 'PUSH'
-const TRIGGER_PR_OPEN = 'PR_OPEN'
-const TRIGGER_PR_CLOSE = 'PR_CLOSE'
-const TRIGGER_TAG = 'TAG'
-const TRIGGER_MANUAL = 'MANUAL'
-const TRIGGER_API = 'API'
-const TRIGGER_SCHEDULER = 'SCHEDULER'
+export const TRIGGER_PUSH = 'PUSH'
+export const TRIGGER_PR_OPEN = 'PR_OPEN'
+export const TRIGGER_PR_CLOSE = 'PR_CLOSE'
+export const TRIGGER_TAG = 'TAG'
+export const TRIGGER_MANUAL = 'MANUAL'
+export const TRIGGER_API = 'API'
+export const TRIGGER_SCHEDULER = 'SCHEDULER'
 
 export class JobWrapper {
   constructor (job) {
@@ -35,6 +35,10 @@ export class JobWrapper {
     return this.job.context[ vars.git.commit.message ]
   }
 
+  get commitUrl () {
+    return this.job.context[ vars.git.commit.url ]
+  }
+
   get fromNow () {
     return moment(this.job.createdAt).fromNow()
   }
@@ -48,7 +52,15 @@ export class JobWrapper {
   }
 
   get trigger () {
-    return mapping.trigger[ this.job.trigger ]
+    return this.job.trigger
+  }
+
+  get triggerText () {
+    return mapping.trigger[ this.job.trigger ].text
+  }
+
+  get triggerIcon () {
+    return mapping.trigger[ this.job.trigger ].icon
   }
 
   get status () {
@@ -78,6 +90,38 @@ export class JobWrapper {
     })
 
     return contextAsPairList
+  }
+
+  get prTitle () {
+    return this.job.context[ vars.git.pr.title ]
+  }
+
+  get prMessage () {
+    return this.job.context[ vars.git.pr.message ]
+  }
+
+  get prUrl () {
+    return this.job.context[ vars.git.pr.url ]
+  }
+
+  get prNumber () {
+    return this.job.context[ vars.git.pr.number ]
+  }
+
+  get prHeadRepo () {
+    return this.job.context[ vars.git.pr.head_repo ]
+  }
+
+  get prHeadBranch () {
+    return this.job.context[ vars.git.pr.head_branch ]
+  }
+
+  get prBaseRepo () {
+    return this.job.context[ vars.git.pr.base_repo ]
+  }
+
+  get prBaseBranch () {
+    return this.job.context[ vars.git.pr.base_branch ]
   }
 }
 

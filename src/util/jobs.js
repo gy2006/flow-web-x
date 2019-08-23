@@ -129,12 +129,12 @@ export const mapping = {
   trigger: {
     [ TRIGGER_PUSH ]: {
       text: 'push',
-      icon: 'flow-icon-repo-push'
+      icon: 'flow-icon-git-commit'
     },
 
     [ TRIGGER_PR_OPEN ]: {
       text: 'pull request open',
-      icon: 'flow-icon-git-merge'
+      icon: 'flow-icon-git-pull-request'
     },
 
     [ TRIGGER_PR_CLOSE ]: {

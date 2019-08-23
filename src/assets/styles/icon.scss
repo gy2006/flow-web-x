@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flowci';
-  src:  url('fonts/flowci.eot?wpksi7');
-  src:  url('fonts/flowci.eot?wpksi7#iefix') format('embedded-opentype'),
-  url('fonts/flowci.ttf?wpksi7') format('truetype'),
-  url('fonts/flowci.woff?wpksi7') format('woff'),
-  url('fonts/flowci.svg?wpksi7#flowci') format('svg');
+  src:  url('fonts/flowci.eot?lfxsfj');
+  src:  url('fonts/flowci.eot?lfxsfj#iefix') format('embedded-opentype'),
+  url('fonts/flowci.ttf?lfxsfj') format('truetype'),
+  url('fonts/flowci.woff?lfxsfj') format('woff'),
+  url('fonts/flowci.svg?lfxsfj#flowci') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.flow-icon-git-merge:before {
+  content: "\e900";
+}
+.flow-icon-git-pull-request:before {
+  content: "\e926";
+}
+.flow-icon-linux:before {
+  content: "\e924";
+}
 .flow-icon-go:before {
   content: "\e921";
   color: #76e1fe;
@@ -37,7 +46,7 @@
   color: #007396;
 }
 .flow-icon-git-commit:before {
-  content: "\e900";
+  content: "\e901";
 }
 .flow-icon-add_circle:before {
   content: "\e147";
@@ -70,94 +79,94 @@
   content: "\e838";
 }
 .flow-icon-key:before {
-  content: "\e901";
-}
-.flow-icon-user:before {
   content: "\e902";
 }
-.flow-icon-agents:before {
+.flow-icon-user:before {
   content: "\e903";
 }
-.flow-icon-branches:before {
+.flow-icon-agents:before {
   content: "\e904";
 }
-.flow-icon-check:before {
+.flow-icon-branches:before {
   content: "\e905";
 }
-.flow-icon-drag:before {
+.flow-icon-check:before {
   content: "\e906";
 }
-.flow-icon-pencil:before {
+.flow-icon-drag:before {
   content: "\e907";
 }
-.flow-icon-logo:before {
+.flow-icon-pencil:before {
   content: "\e908";
 }
-.flow-icon-checkbox-indeterminate:before {
+.flow-icon-logo:before {
   content: "\e909";
 }
-.flow-icon-settings:before {
+.flow-icon-checkbox-indeterminate:before {
   content: "\e90a";
 }
-.flow-icon-logout:before {
+.flow-icon-settings:before {
   content: "\e90b";
 }
-.flow-icon-search:before {
+.flow-icon-logout:before {
   content: "\e90c";
 }
-.flow-icon-equalizer:before {
+.flow-icon-search:before {
   content: "\e90d";
 }
-.flow-icon-git-branch:before {
+.flow-icon-equalizer:before {
   content: "\e90e";
 }
-.flow-icon-layergroup:before {
+.flow-icon-git-branch:before {
   content: "\e90f";
 }
-.flow-icon-off:before {
+.flow-icon-layergroup:before {
   content: "\e910";
 }
-.flow-icon-search2:before {
+.flow-icon-off:before {
   content: "\e911";
 }
-.flow-icon-code:before {
+.flow-icon-search2:before {
   content: "\e912";
 }
-.flow-icon-plus-sm:before {
+.flow-icon-code:before {
   content: "\e913";
 }
-.flow-icon-question-thin:before {
+.flow-icon-plus-sm:before {
   content: "\e914";
 }
-.flow-icon-warning:before {
+.flow-icon-question-thin:before {
   content: "\e915";
 }
-.flow-icon-bookmark:before {
+.flow-icon-warning:before {
   content: "\e916";
 }
-.flow-icon-jigsaw:before {
+.flow-icon-bookmark:before {
   content: "\e917";
 }
-.flow-icon-notification:before {
+.flow-icon-jigsaw:before {
   content: "\e918";
 }
-.flow-icon-users:before {
+.flow-icon-notification:before {
   content: "\e919";
 }
-.flow-icon-timeout:before {
+.flow-icon-users:before {
   content: "\e91a";
 }
-.flow-icon-social-github:before {
+.flow-icon-timeout:before {
   content: "\e91b";
 }
-.flow-icon-trash:before {
+.flow-icon-social-github:before {
   content: "\e91c";
 }
-.flow-icon-question:before {
+.flow-icon-trash:before {
   content: "\e91d";
 }
-.flow-icon-pending:before {
+.flow-icon-question:before {
   content: "\e91e";
+}
+.flow-icon-pending:before {
+  content: "\e925";
 }
 .flow-icon-circle-check:before {
   content: "\e934";
@@ -233,9 +242,6 @@
 }
 .flow-icon-crying:before {
   content: "\ea01";
-}
-.flow-icon-linux:before {
-  content: "\e924";
 }
 .flow-icon-download:before {
   content: "\e920";

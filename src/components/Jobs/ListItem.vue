@@ -13,7 +13,7 @@
             <span class="font-weight-bold"># {{ wrapper.buildNumber }}</span>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon small class="ml-1" v-on="on">{{ wrapper.trigger.icon }}</v-icon>
+                <v-icon small class="ml-3" v-on="on">{{ wrapper.trigger.icon }}</v-icon>
               </template>
               <span>{{ wrapper.trigger.text }}</span>
             </v-tooltip>
@@ -22,14 +22,12 @@
 
         <v-flex xs2>
           <v-list-tile-sub-title>
-            <v-icon small class="mr-1">flow-icon-git-branch</v-icon>
             <i>{{ wrapper.branch }}</i>
           </v-list-tile-sub-title>
         </v-flex>
 
         <v-flex xs3>
           <v-list-tile-sub-title>
-            <v-icon small class="mr-1">flow-icon-git-commit</v-icon>
             <a>{{ wrapper.commitId }}</a>
           </v-list-tile-sub-title>
           <v-list-tile-sub-title>

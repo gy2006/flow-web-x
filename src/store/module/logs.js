@@ -44,8 +44,8 @@ const actions = {
     }
 
     let url = 'jobs/logs/' + cmdId + '/download?raw=true'
-    http.get(url, (response, _file) => {
-      let blob = new Blob([ response.data ], {type: 'text/plain'})
+    http.get(url, (data, _file) => {
+      let blob = new Blob([ data ], {type: 'text/plain'})
       commitLog(commit, cmdId, blob)
       commit('addCache', {cmdId: cmdId, blob: blob})
     })

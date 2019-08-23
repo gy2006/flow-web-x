@@ -17,10 +17,10 @@
         </v-tab>
 
         <v-tab-item value="info">
-          <job-info :wrapper="wrapper"></job-info>
+          <detail-tab-info :wrapper="wrapper"></detail-tab-info>
         </v-tab-item>
         <v-tab-item value="logs">
-          <job-logs :steps="steps" ref="stepLogs"></job-logs>
+          <detail-tab-logs :steps="steps" ref="stepLogs"></detail-tab-logs>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -36,8 +36,8 @@
   import { mapState } from 'vuex'
 
   import Nav from '@/components/Common/Nav'
-  import JobInfo from '@/components/Jobs/Info'
-  import JobLogs from '@/components/Jobs/Logs'
+  import DetailTabInfo from '@/view/Job/DetailTabInfo'
+  import DetailTabLogs from '@/view/Job/DetailTabLogs'
 
   export default {
     name: 'JobDetail',
@@ -46,12 +46,11 @@
     },
     components: {
       Nav,
-      JobInfo,
-      JobLogs
+      DetailTabInfo,
+      DetailTabLogs
     },
     mounted () {
-      this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
-      this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+      this.load()
     },
     computed: {
       ...mapState({
@@ -87,13 +86,11 @@
     },
     watch: {
       flow () {
-        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
-        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+        this.load()
       },
 
       number () {
-        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
-        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+        this.load()
       },
 
       // subscribe steps change when job been loaded
@@ -123,6 +120,12 @@
       // update step when it has been changed
       stepChange (after, before) {
         this.$refs.stepLogs.updateStep(after)
+      }
+    },
+    methods: {
+      load () {
+        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
+        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
       }
     }
   }

@@ -70,12 +70,15 @@ const mutations = {
 
   addUsers (state, users) {
     for (let user of users) {
-      state.users.push(user)
+      let exist = state.users.find((x) => x.id === user.id)
+      if (!exist) {
+        state.users.push(user)
+      }
     }
   },
 
   removeUsers (state, users) {
-    state.users = state.users.filter((x) => users.some((y) => x.id === y.id))
+    state.users = state.users.filter((x) => !users.some((y) => x.id === y.id))
   }
 }
 

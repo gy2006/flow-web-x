@@ -71,6 +71,21 @@ export class FlowWrapper {
     return this.flow.variables[ vars.flow.webhook ] || ''
   }
 
+  get webhookStatus () {
+    const webhookStatus = this.flow.webhookStatus
+    if (webhookStatus) {
+      return Object.assign(webhookStatus, {
+        icon: 'flow-icon-circle-check',
+        color: 'green--text'
+      })
+    }
+
+    return {
+      icon: 'flow-icon-warning',
+      color: 'yellow--text'
+    }
+  }
+
   get gitUrl () {
     if (!this.flow.variables) {
       return ''

@@ -1,26 +1,38 @@
 <template>
-  <v-layout class="d-inline-block full-size">
-    <v-flex xs5>
-      <span class="caption grey--text text--darken-1">{{ `Webhook (${vars.flow.webhook})` }}</span>
-      <v-text-field
-          class="pt-0"
-          v-model="wrapper.webhook"
-          append-icon="help"
-          @click:append="onHelpClick('hook')"
-          readonly
-      ></v-text-field>
+  <v-layout d-block class="full-size" wrap>
+    <v-form ref="gitAccessForm" lazy-validation>
+      <v-flex xs8>
+        <v-layout row wrap align-center>
+          <v-flex xs9>
+            <span class="caption grey--text text--darken-1">{{ `Webhook (${vars.flow.webhook})` }}</span>
+            <v-text-field
+                class="pt-0"
+                v-model="wrapper.webhook"
+                append-icon="help"
+                @click:append="onHelpClick('hook')"
+                readonly
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs1>
+            <v-icon :class="['ml-4', 'mt-2', wrapper.webhookStatus.color]">{{ wrapper.webhookStatus.icon }}</v-icon>
+          </v-flex>
+        </v-layout>
+      </v-flex>
 
-      <v-form ref="gitAccessForm" lazy-validation>
+      <v-flex xs6>
         <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.flow.gitUrl})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.gitUrl"
             append-icon="help"
+            append-outer-icon=""
             :rules="gitUrlRules"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
+      </v-flex>
 
+      <v-flex xs6>
         <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
         <v-text-field
             class="pt-0"
@@ -30,8 +42,8 @@
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
-      </v-form>
-    </v-flex>
+      </v-flex>
+    </v-form>
 
     <v-flex xs12 class="d-flex">
       <git-test-btn :wrapper="wrapper" :onBeforeTest="onTestClick"></git-test-btn>
@@ -63,7 +75,7 @@
         flowNameRules: flowNameRules(this),
         gitUrlRules: gitUrlRules(this),
         credentialNameRules: [
-          v => !!v || this.$t('flow.hint.credential_name_required'),
+          v => !!v || this.$t('flow.hint.credential_name_required')
         ]
       }
     },
@@ -75,6 +87,10 @@
     methods: {
       onTestClick () {
         return this.$refs.gitAccessForm.validate()
+      },
+
+      onHelpClick (type) {
+
       }
     }
   }

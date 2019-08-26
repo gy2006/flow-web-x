@@ -71,6 +71,7 @@
 </template>
 
 <script>
+  import equal from 'fast-deep-equal'
   import { mapState } from 'vuex'
   import Nav from '@/components/Common/Nav'
   import JobListItem from '@/components/Jobs/ListItem'
@@ -85,8 +86,10 @@
         alert: false,
         selectedBranch: null,
         pagination: {
+          descending: false,
           page: 1,
           rowsPerPage: 10,
+          sortBy: null,
           totalItems: 0
         }
       }
@@ -124,8 +127,10 @@
         this.reload()
       },
 
-      pagination () {
-        this.loadJobList()
+      pagination (newVal, oldVal) {
+        if (!equal(newVal, oldVal)) {
+          this.loadJobList()
+        }
       }
     },
     methods: {

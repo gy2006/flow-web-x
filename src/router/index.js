@@ -1,32 +1,51 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Jobs from '@/view/Jobs/Index'
-import Yml from '@/view/Yml/Index'
-import JobDetail from '@/view/JobDetail/Index'
-import PersonalSetting from '@/view/Admin/PersonalSetting/Index'
-import SystemManagement from '@/view/Admin/SystemManagement/Index'
-import Credentials from '@/view/Admin/SystemManagement/Credentials/Index'
-import Flow from '@/view/Admin/SystemManagement/Flow/Index'
+
+import Login from '@/view/Home/Login'
+import Home from '@/view/Home/Index'
+
+import FlowSettings from '@/view/Flow/Settings'
+
+import JobDetail from '@/view/Job/Detail'
+import JobList from '@/view/Job/List'
+
+import SettingsHome from '@/view/Settings/Home'
+import SettingsProfileHome from '@/view/Settings/Profile/Index'
+
+import SettingsUsersHome from '@/view/Settings/Users/Index'
+import SettingsUsersNew from '@/view/Settings/Users/New'
+import SettingsUsersEdit from '@/view/Settings/Users/Edit'
+
+import SettingsAgentHome from '@/view/Settings/Agent/Index'
+import SettingsAgentEdit from '@/view/Settings/Agent/Edit'
+
+import SettingsCredentialHome from '@/view/Settings/Credential/Index'
+import SettingsCredentialNew from '@/view/Settings/Credential/New'
+import SettingsCredentialEdit from '@/view/Settings/Credential/Edit'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Home',
+      component: Home
     },
     {
       path: '/flows/:id/jobs',
       name: 'Jobs',
-      component: Jobs
+      component: JobList
     },
     {
-      path: '/flows/:id/yml',
-      name: 'Yml',
-      component: Yml
+      path: '/flows/:id/settings',
+      name: 'FlowSettings',
+      component: FlowSettings
     },
     {
       path: '/flows/:id/jobs/:num',
@@ -34,22 +53,63 @@ export default new Router({
       component: JobDetail
     },
     {
-      path: '/admin/personalsetting',
-      name: 'PersonalSetting',
-      component: PersonalSetting
-    },
-    {
-      path: '/admin/systemmanagement',
-      name: 'SystemManagement',
-      component: SystemManagement,
+      path: '/settings',
+      name: 'Settings',
+      component: SettingsHome,
       children: [
         {
-          path: 'credentials',
-          component: Credentials
+          path: 'profile',
+          name: 'SettingsProfileHome',
+          component: SettingsProfileHome
         },
         {
-          path: 'flow',
-          component: Flow
+          path: 'users',
+          name: 'SettingsUsersHome',
+          component: SettingsUsersHome
+        },
+        {
+          path: 'users/new',
+          name: 'SettingsUsersNew',
+          component: SettingsUsersNew
+        },
+        {
+          path: 'users/edit',
+          name: 'SettingsUsersEdit',
+          component: SettingsUsersEdit,
+          props: true
+        },
+        {
+          path: 'agents',
+          name: 'SettingsAgentHome',
+          component: SettingsAgentHome
+        },
+        {
+          path: 'agents/:category',
+          name: 'SettingsAgentEdit',
+          component: SettingsAgentEdit
+        },
+        {
+          path: 'agents/:category/:name',
+          name: 'SettingsAgentEdit',
+          component: SettingsAgentEdit
+        },
+
+        {
+          path: 'credentials',
+          name: 'SettingsCredentialHome',
+          component: SettingsCredentialHome
+        },
+        {
+          path: 'credentials/new',
+          name: 'SettingsCredentialNew',
+          component: SettingsCredentialNew,
+          props: true
+        },
+        {
+          path: 'credentials/edit',
+          name: 'SettingsCredentialEdit',
+          component: SettingsCredentialEdit,
+          props: true
         }
       ]
     }

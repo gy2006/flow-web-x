@@ -1,0 +1,195 @@
+<template>
+  <div>
+    <v-flex align-center>
+      <span class="body-2 grey--text">SSH-RSA Key Pair</span>
+      <div v-if="showSelection">
+        <v-radio-group v-model="option" row>
+          <v-radio label="Select" value="select"></v-radio>
+          <v-radio label="Edit or Create" value="edit"></v-radio>
+        </v-radio-group>
+      </div>
+    </v-flex>
+
+    <div v-if="showSelection & isSelectOption">
+      <v-select
+          v-model="module.selected"
+          :items="names"
+          label="Select Credential"
+      ></v-select>
+    </div>
+
+    <div v-if="isEditOption">
+      <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew && !isReadOnly">
+        <template v-slot:activator="{ on }">
+          <v-btn small
+                 outline
+                 v-on="on"
+                 color="indigo"
+                 open-delay="2000"
+                 @click="dialog = true">
+            Create new SSH key
+            <v-icon right small>add</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="subheading">{{ $t('flow.hint.ssh_email_title') }}</span>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="emailForm" lazy-validation>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                      label="Email"
+                      :rules="sshEmailRules"
+                      v-model="email">
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="dialog = false">{{ $t('close') }}</v-btn>
+            <v-btn color="blue darken-1" flat @click="onCreateSSHClick">{{ $t('create') }}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-flex class="mt-1">
+        <v-textarea
+            box
+            label="Public Key"
+            rows="4"
+            class="font-weight-medium caption"
+            :rules="sshPublicKeyRules"
+            :append-outer-icon="showHelp ? 'help' : ''"
+            v-model="module.pair.publicKey"
+            :readonly="isReadOnly"
+            @click:append-outer="onHelpClick('ssh_public')"
+        ></v-textarea>
+      </v-flex>
+
+      <v-flex>
+        <v-textarea
+            box
+            class="font-weight-medium caption"
+            label="Private Key"
+            rows="8"
+            :rules="sshPrivateKeyRules"
+            :append-outer-icon="showHelp ? 'help' : ''"
+            v-model="module.pair.privateKey"
+            :readonly="isReadOnly"
+            @click:append-outer="onHelpClick('ssh_private')"
+        ></v-textarea>
+      </v-flex>
+    </div>
+  </div>
+</template>
+
+<script>
+  import actions from '@/store/actions'
+  import { mapState } from 'vuex'
+  import { sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
+
+  export default {
+    name: 'SshRsaEditor',
+    props: {
+      /**
+       * Ex:
+       * {
+       *   selected: ''
+       *   pair: {
+       *     privateKey: '',
+       *     publicKey: ''
+       *   }
+       * }
+       */
+      module: {
+        type: Object,
+        required: true
+      },
+      showSelection: {
+        type: Boolean,
+        default () {
+          return false
+        }
+      },
+      showHelp: {
+        type: Boolean,
+        required: true
+      },
+      showCreateNew: {
+        type: Boolean,
+        required: true
+      },
+      isReadOnly: {
+        type: Boolean,
+        default () {
+          return false
+        }
+      }
+    },
+    data () {
+      return {
+        email: '',
+        option: 'edit',
+        dialog: false,
+        items: [],
+        sshEmailRules: sshEmailRules(this),
+        sshPublicKeyRules: sshPublicKeyRules(this),
+        sshPrivateKeyRules: sshPrivateKeyRules(this)
+      }
+    },
+    mounted() {
+      if (this.showSelection) {
+        this.$store.dispatch(actions.credentials.listNameOnly).then()
+      }
+    },
+    computed: {
+      ...mapState({
+        credentials: state => state.credentials.items,
+        sshRsa: state => state.flows.sshRsa
+      }),
+
+      names () {
+        const nameList = []
+        for (let c of this.credentials) {
+          nameList.push(c.name)
+        }
+        return nameList
+      },
+
+      isSelectOption () {
+        return this.option === 'select'
+      },
+
+      isEditOption () {
+        return this.option === 'edit'
+      }
+    },
+    watch: {
+      sshRsa (newValue) {
+        Object.assign(this.module.pair, newValue)
+      }
+    },
+    methods: {
+      onCreateSSHClick () {
+        if (!this.$refs.emailForm.validate()) {
+          return
+        }
+
+        this.dialog = false
+        this.$store.dispatch(actions.flows.createSshRsa, this.email).then()
+      },
+
+      onHelpClick () {
+
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

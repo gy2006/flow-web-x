@@ -1,10 +1,12 @@
-From flowci/web-base:latest
+FROM abiosoft/caddy:1.0.3
 
-ENV TARGET_DIR=/usr/share/nginx/html
+ENV TARGET_DIR=/srv
 
 WORKDIR $TARGET_DIR
+
+ENV FLOWCI_API_URL="127.0.0.1"
 
 COPY dist $SOURCE_DIR
 COPY replace.sh $SOURCE_DIR
 
-CMD ./replace.sh && nginx -g 'daemon off;'
+CMD ./replace.sh && caddy -conf /etc/Caddyfile

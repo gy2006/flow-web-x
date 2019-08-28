@@ -5,10 +5,11 @@ ENV SOURCE_DIR=/www/flow-web-x
 ENV FLOWCI_API_URL=http://127.0.0.1:8080
 
 RUN mkdir -p $SOURCE_DIR
+RUN echo "root /srv" >> /etc/Caddyfile
 
 COPY dist $SOURCE_DIR
-COPY replace.sh $SOURCE_DIR
+COPY start_caddy.sh $SOURCE_DIR
 
 WORKDIR $SOURCE_DIR
 
-CMD ./replace.sh && caddy -conf /etc/Caddyfile
+ENTRYPOINT ./start_caddy.sh

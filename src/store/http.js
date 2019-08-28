@@ -7,6 +7,8 @@ import code from '../util/code'
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
 
+console.log("flow.ci url:" + url)
+
 window.isRefreshing = false
 
 // config axios default instance

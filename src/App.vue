@@ -43,7 +43,7 @@
         </div>
         <v-spacer/>
         <div class="mr-4">
-          Version 1.0 beta
+          v{{ appVersion }}
         </div>
       </v-footer>
     </v-app>

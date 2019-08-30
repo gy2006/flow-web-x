@@ -4,7 +4,7 @@
 # change server url
 for entry in ${SOURCE_DIR}/js/*.js
 do
-  sed -e "s#\"http://replace:me\"#\"${FLOWCI_API_URL}\"#g" "${entry}" > "${entry}".replaced
+  sed -e "s#\"http://replace:me\"#\"${FLOWCI_SERVER_URL}\"#g" "${entry}" > "${entry}".replaced
 done
 
 # copy to caddy work folder

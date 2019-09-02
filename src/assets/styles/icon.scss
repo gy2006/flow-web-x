@@ -1,370 +1,251 @@
-@import 'media';
-
-$font-size-root: 20px !default; // use for rem, chrome default mini size is 10px
-
-$icomoon-font-path: "fonts" !default;
-$icon-drag: "\e905";
-$icon-circle-check: "\e934";
-$icon-social-github: "\e91b";
-$icon-check: "\e904";
-$icon-running: "\e949";
-$icon-failure: "\e947";
-$icon-timeout: "\e91a";
-$icon-stopped: "\e93a";
-$icon-trash: "\e91c";
-$icon-pending: "\e91e";
-$icon-cross: "\ea0f";
-$icon-logo: "\e908";
-$icon-bookmark: "\e916";
-$icon-jigsaw: "\e917";
-$icon-notification: "\e918";
-$icon-equalizer: "\e90d";
-$icon-git-branch: "\e90e";
-$icon-branches: "\e903";
-$icon-layergroup: "\e90f";
-$icon-off: "\e910";
-$icon-code: "\e912";
-$icon-search2: "\e911";
-$icon-search: "\e90c";
-$icon-arrow-left: "\e314";
-$icon-key: "\e900";
-$icon-user: "\e901";
-$icon-users: "\e919";
-$icon-plus-sm: "\e913";
-$icon-add_circle: "\e147";
-$icon-control_point: "\e3ba";
-$icon-agents: "\e902";
-$icon-logout: "\e90b";
-$icon-question-thin: "\e914";
-$icon-warning: "\e915";
-$icon-question: "\e91d";
-$icon-loading: "\e64d";
-$icon-loading1: "\e6ae";
-$icon-radio-checked: "\e838";
-$icon-radio-unchecked: "\e837";
-$icon-checkbox-checked: "\e834";
-$icon-checkbox-unchecked: "\e835";
-$icon-checkbox-indeterminate: "\e909";
-$icon-caretdown: "\e606";
-$icon-pencil: "\e907";
-$icon-settings: "\e90a";
-
 @font-face {
   font-family: 'flowci';
-  src: url('fonts/flowci.ttf') format('truetype'),
-  url('fonts/flowci.woff') format('woff'),
-  url('fonts/flowci.svg#flowci') format('svg');
+  src:  url('fonts/flowci.eot?lfxsfj');
+  src:  url('fonts/flowci.eot?lfxsfj#iefix') format('embedded-opentype'),
+  url('fonts/flowci.ttf?lfxsfj') format('truetype'),
+  url('fonts/flowci.woff?lfxsfj') format('woff'),
+  url('fonts/flowci.svg?lfxsfj#flowci') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.flow-icon {
+[class^="flow-icon-"], [class*=" flow-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'flowci' !important;
   speak: none;
-  font-size: $font-size-root;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  display: inline-block;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  text-rendering: optimizeLegibility;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
+
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.flow-icon-drag {
-  &:before {
-    content: $icon-drag;
-  }
+.flow-icon-git-merge:before {
+  content: "\e900";
 }
-
-.flow-icon-circle-check {
-  &:before {
-    content: $icon-circle-check;
-  }
+.flow-icon-git-pull-request:before {
+  content: "\e926";
 }
-
-.flow-icon-social-github {
-  &:before {
-    content: $icon-social-github;
-  }
+.flow-icon-linux:before {
+  content: "\e924";
 }
-
-.flow-icon-check {
-  &:before {
-    content: $icon-check;
-  }
+.flow-icon-go:before {
+  content: "\e921";
+  color: #76e1fe;
 }
-
-.flow-icon-running {
-  &:before {
-    content: $icon-running;
-  }
+.flow-icon-python:before {
+  content: "\e922";
+  color: #3776ab;
 }
-
-.flow-icon-failure {
-  &:before {
-    content: $icon-failure;
-  }
+.flow-icon-java:before {
+  content: "\e923";
+  color: #007396;
 }
-
-.flow-icon-timeout {
-  &:before {
-    content: $icon-timeout;
-  }
+.flow-icon-git-commit:before {
+  content: "\e901";
 }
-
-.flow-icon-stopped {
-  &:before {
-    content: $icon-stopped;
-  }
+.flow-icon-add_circle:before {
+  content: "\e147";
 }
-
-.flow-icon-trash {
-  &:before {
-    content: $icon-trash;
-  }
+.flow-icon-arrow-left:before {
+  content: "\e314";
 }
-
-.flow-icon-pending {
-  &:before {
-    content: $icon-pending;
-  }
+.flow-icon-control_point:before {
+  content: "\e3ba";
 }
-
-.flow-icon-cross {
-  &:before {
-    content: $icon-cross;
-  }
+.flow-icon-caretdown:before {
+  content: "\e606";
 }
-
-.flow-icon-logo {
-  &:before {
-    content: $icon-logo;
-  }
+.flow-icon-loading:before {
+  content: "\e64d";
 }
-
-.flow-icon-bookmark {
-  &:before {
-    content: $icon-bookmark;
-  }
+.flow-icon-loading1:before {
+  content: "\e6ae";
 }
-
-.flow-icon-jigsaw {
-  &:before {
-    content: $icon-jigsaw;
-  }
+.flow-icon-checkbox-checked:before {
+  content: "\e834";
 }
-
-.flow-icon-notification {
-  &:before {
-    content: $icon-notification;
-  }
+.flow-icon-checkbox-unchecked:before {
+  content: "\e835";
 }
-
-.flow-icon-equalizer {
-  &:before {
-    content: $icon-equalizer;
-  }
+.flow-icon-radio-unchecked:before {
+  content: "\e837";
 }
-
-.flow-icon-git-branch {
-  &:before {
-    content: $icon-git-branch;
-  }
+.flow-icon-radio-checked:before {
+  content: "\e838";
 }
-
-.flow-icon-branches {
-  &:before {
-    content: $icon-branches;
-  }
+.flow-icon-key:before {
+  content: "\e902";
 }
-
-.flow-icon-layergroup {
-  &:before {
-    content: $icon-layergroup;
-  }
+.flow-icon-user:before {
+  content: "\e903";
 }
-
-.flow-icon-off {
-  &:before {
-    content: $icon-off;
-  }
+.flow-icon-agents:before {
+  content: "\e904";
 }
-
-.flow-icon-code {
-  &:before {
-    content: $icon-code;
-  }
+.flow-icon-branches:before {
+  content: "\e905";
 }
-
-.flow-icon-search2 {
-  &:before {
-    content: $icon-search2;
-  }
+.flow-icon-check:before {
+  content: "\e906";
 }
-
-.flow-icon-search {
-  &:before {
-    content: $icon-search;
-  }
+.flow-icon-drag:before {
+  content: "\e907";
 }
-
-.flow-icon-arrow-left {
-  &:before {
-    content: $icon-arrow-left;
-  }
+.flow-icon-pencil:before {
+  content: "\e908";
 }
-
-.flow-icon-key {
-  &:before {
-    content: $icon-key;
-  }
+.flow-icon-logo:before {
+  content: "\e909";
 }
-
-.flow-icon-user {
-  &:before {
-    content: $icon-user;
-  }
+.flow-icon-checkbox-indeterminate:before {
+  content: "\e90a";
 }
-
-.flow-icon-users {
-  &:before {
-    content: $icon-users;
-  }
+.flow-icon-settings:before {
+  content: "\e90b";
 }
-
-.flow-icon-plus-sm {
-  &:before {
-    content: $icon-plus-sm;
-  }
+.flow-icon-logout:before {
+  content: "\e90c";
 }
-
-.flow-icon-add_circle {
-  &:before {
-    content: $icon-add_circle;
-  }
+.flow-icon-search:before {
+  content: "\e90d";
 }
-
-.flow-icon-control_point {
-  &:before {
-    content: $icon-control_point;
-  }
+.flow-icon-equalizer:before {
+  content: "\e90e";
 }
-
-.flow-icon-agents {
-  &:before {
-    content: $icon-agents;
-  }
+.flow-icon-git-branch:before {
+  content: "\e90f";
 }
-
-.flow-icon-logout {
-  &:before {
-    content: $icon-logout;
-  }
+.flow-icon-layergroup:before {
+  content: "\e910";
 }
-
-.flow-icon-question-thin {
-  &:before {
-    content: $icon-question-thin;
-  }
+.flow-icon-off:before {
+  content: "\e911";
 }
-
-.flow-icon-warning {
-  &:before {
-    content: $icon-warning;
-  }
+.flow-icon-search2:before {
+  content: "\e912";
 }
-
-.flow-icon-question {
-  &:before {
-    content: $icon-question;
-  }
+.flow-icon-code:before {
+  content: "\e913";
 }
-
-.flow-icon-loading {
-  &:before {
-    content: $icon-loading;
-  }
+.flow-icon-plus-sm:before {
+  content: "\e914";
 }
-
-.flow-icon-loading1 {
-  &:before {
-    content: $icon-loading1;
-  }
+.flow-icon-question-thin:before {
+  content: "\e915";
 }
-
-.flow-icon-radio-checked {
-  &:before {
-    content: $icon-radio-checked;
-  }
+.flow-icon-warning:before {
+  content: "\e916";
 }
-
-.flow-icon-radio-unchecked {
-  &:before {
-    content: $icon-radio-unchecked;
-  }
+.flow-icon-bookmark:before {
+  content: "\e917";
 }
-
-.flow-icon-checkbox-checked {
-  &:before {
-    content: $icon-checkbox-checked;
-  }
+.flow-icon-jigsaw:before {
+  content: "\e918";
 }
-
-.flow-icon-checkbox-unchecked {
-  &:before {
-    content: $icon-checkbox-unchecked;
-  }
+.flow-icon-notification:before {
+  content: "\e919";
 }
-
-.flow-icon-checkbox-indeterminate {
-  &:before {
-    content: $icon-checkbox-indeterminate;
-  }
+.flow-icon-users:before {
+  content: "\e91a";
 }
-
-.flow-icon-caretdown {
-  &:before {
-    content: $icon-caretdown;
-  }
+.flow-icon-timeout:before {
+  content: "\e91b";
 }
-
-.flow-icon-pencil {
-  &:before {
-    content: $icon-pencil;
-  }
+.flow-icon-social-github:before {
+  content: "\e91c";
 }
-
-.flow-icon-settings {
-  &:before {
-    content: $icon-settings;
-  }
+.flow-icon-trash:before {
+  content: "\e91d";
 }
-
-@media screen and (max-width: $screen-desktop) {
-  .flow-icon {
-    font-size: ceil($font-size-root * 0.8);
-  }
+.flow-icon-question:before {
+  content: "\e91e";
 }
-
-@media screen and (max-width: $screen-tablet) {
-  .flow-icon {
-    font-size: ceil($font-size-root * 0.75);
-  }
+.flow-icon-pending:before {
+  content: "\e925";
 }
-
-@media screen and (max-width: $screen-phone) {
-  .flow-icon {
-    font-size: ceil($font-size-root * 0.5);
-  }
+.flow-icon-circle-check:before {
+  content: "\e934";
+}
+.flow-icon-stopped:before {
+  content: "\e93a";
+}
+.flow-icon-failure:before {
+  content: "\e947";
+}
+.flow-icon-running:before {
+  content: "\e949";
+}
+.flow-icon-cross:before {
+  content: "\ea0f";
+}
+.flow-icon-github:before {
+  content: "\eab0";
+}
+.flow-icon-android:before {
+  content: "\eac0";
+}
+.flow-icon-appleinc:before {
+  content: "\eabe";
+}
+.flow-icon-windows8:before {
+  content: "\eac2";
+}
+.flow-icon-smile:before {
+  content: "\e9e1";
+}
+.flow-icon-tongue:before {
+  content: "\e9e3";
+}
+.flow-icon-sad:before {
+  content: "\e9e5";
+}
+.flow-icon-wink:before {
+  content: "\e9e7";
+}
+.flow-icon-grin:before {
+  content: "\e9e9";
+}
+.flow-icon-cool:before {
+  content: "\e9eb";
+}
+.flow-icon-angry:before {
+  content: "\e9ed";
+}
+.flow-icon-shocked:before {
+  content: "\e9f1";
+}
+.flow-icon-baffled:before {
+  content: "\e9f3";
+}
+.flow-icon-confused:before {
+  content: "\e9f5";
+}
+.flow-icon-neutral:before {
+  content: "\e9f7";
+}
+.flow-icon-hipster:before {
+  content: "\e9f9";
+}
+.flow-icon-wondering:before {
+  content: "\e9fb";
+}
+.flow-icon-sleepy:before {
+  content: "\e9fd";
+}
+.flow-icon-frustrated:before {
+  content: "\e9ff";
+}
+.flow-icon-crying:before {
+  content: "\ea01";
+}
+.flow-icon-download:before {
+  content: "\e920";
+}
+.flow-icon-message:before {
+  content: "\e91f";
 }

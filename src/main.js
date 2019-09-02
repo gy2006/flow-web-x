@@ -50,6 +50,10 @@ Vue.mixin({
 
     isLoginPage () {
       return this.$route.name === 'Login'
+    },
+
+    appVersion () {
+      return process.env.APP_VERSION
     }
   },
   methods: {

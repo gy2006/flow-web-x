@@ -33,6 +33,14 @@ export class StepWrapper {
     return this.stepIndex
   }
 
+  get startAt () {
+    return moment(this.step.startAt).format("kk:mm:ss SSS")
+  }
+
+  get finishAt () {
+    return moment(this.step.finishAt).format("kk:mm:ss SSS")
+  }
+
   get flow () {
     return this.flowName
   }

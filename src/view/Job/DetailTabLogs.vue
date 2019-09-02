@@ -5,20 +5,14 @@
 
     <!-- start status -->
     <v-timeline-item small color="grey" fill-dot>
-      <v-layout pt-1>
-        <v-flex xs10>
-          <!-- empty expansion panel as placeholder -->
-          <v-expansion-panel class="elevation-0" disabled>
-            <v-expansion-panel-content hide-actions>
-              <template v-slot:header>
-                <div></div>
-              </template>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+      <v-layout pt-3>
+        <v-flex xs1>
+          {{ first.startAt }}
         </v-flex>
       </v-layout>
     </v-timeline-item>
 
+    <!-- logs -->
     <v-timeline-item
         color=""
         small
@@ -58,7 +52,13 @@
     </v-timeline-item>
 
     <!-- end status -->
-    <v-timeline-item small color="grey"></v-timeline-item>
+    <v-timeline-item small color="grey">
+      <v-layout pt-3>
+        <v-flex xs1>
+          {{ last.startAt }}
+        </v-flex>
+      </v-layout>
+    </v-timeline-item>
   </v-timeline>
 </template>
 
@@ -87,7 +87,7 @@
         logs: state => state.logs.items
       }),
 
-      items: function () {
+      items () {
         const wrapperList = []
 
         this.steps.forEach((s, index) => {
@@ -98,6 +98,14 @@
         this.resetConfig(wrapperList)
 
         return wrapperList
+      },
+
+      first () {
+        return this.items[0]
+      },
+
+      last () {
+        return this.items[this.items.length - 1]
       }
     },
     watch: {

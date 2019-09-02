@@ -1,6 +1,15 @@
-# flow-web-x
+flow-web-x
+============
 
-> new version web of flow.ci
+[![LICENSE](https://img.shields.io/github/license/pingcap/tidb.svg)](https://github.com/pingcap/tidb/blob/master/LICENSE)  
+
+The flow.ci web component
+
+## How to start
+
+- [Start from docker](https://github.com/FlowCI/docker)
+
+- For more detail, please refer [doc](https://github.com/flowci/docs)
 
 ## Build Setup
 
@@ -8,8 +17,8 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
+# serve with hot reload at localhost:3000
+npm start
 
 # build for production with minification
 npm run build
@@ -17,5 +26,3 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

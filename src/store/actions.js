@@ -1,4 +1,8 @@
 export default {
+  app: {
+    showSnackbar: 'g/show'
+  },
+
   auth: {
     load: 'auth/load',
     login: 'auth/login',

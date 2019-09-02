@@ -8,6 +8,18 @@
                      position="bottom right">
       </notifications>
 
+      <v-snackbar
+          v-model="snackbar.show"
+          color="info"
+          :timeout="5000"
+          :top="true"
+      >
+        {{ snackbar.text }}
+        <v-btn flat @click="snackbar.show = false">
+          {{ $t('close') }}
+        </v-btn>
+      </v-snackbar>
+
       <!--flow list-->
       <flow-menu ref="flowList" v-if="!isLoginPage"></flow-menu>
 
@@ -54,6 +66,7 @@
   import FlowMenu from '@/view/Flow/Menu'
   import AgentMenu from '@/view/Common/AgentMenu'
   import ProfileMenu from '@/view/Common/ProfileMenu'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'App',
@@ -62,10 +75,16 @@
       AgentMenu,
       ProfileMenu
     },
+    computed: {
+      ...mapState({
+        snackbar: state => state.g.snackbar
+      }),
+    },
     methods: {
       refs (name) {
         return this.$refs[ name ]
       },
+
       onFlowMenuClick () {
         if (!this.isLoginPage) {
           this.refs('flowList').click()

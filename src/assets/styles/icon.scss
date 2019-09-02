@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'flowci';
-  src:  url('fonts/flowci.eot?lfxsfj');
-  src:  url('fonts/flowci.eot?lfxsfj#iefix') format('embedded-opentype'),
-  url('fonts/flowci.ttf?lfxsfj') format('truetype'),
-  url('fonts/flowci.woff?lfxsfj') format('woff'),
-  url('fonts/flowci.svg?lfxsfj#flowci') format('svg');
+  src:  url('fonts/flowci.eot?axxatz');
+  src:  url('fonts/flowci.eot?axxatz#iefix') format('embedded-opentype'),
+  url('fonts/flowci.ttf?axxatz') format('truetype'),
+  url('fonts/flowci.woff?axxatz') format('woff'),
+  url('fonts/flowci.svg?axxatz#flowci') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="flow-icon-"], [class*=" flow-icon-"] {
@@ -24,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.flow-icon-file_copy:before {
+  content: "\e927";
+}
 .flow-icon-git-merge:before {
   content: "\e900";
 }

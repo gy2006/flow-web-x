@@ -42,9 +42,9 @@
             <v-flex xs4>
               <v-list-tile-sub-title>
                 <div v-if="wrapper.prBaseRepo !== wrapper.prHeadRepo">
-                  {{ wrapper.prBaseRepo }} < {{ wrapper.prHeadRepo}}
+                  {{ wrapper.prBaseRepo }} &#x2190; {{ wrapper.prHeadRepo}}
                 </div>
-                <div>{{ wrapper.prBaseBranch }} < {{ wrapper.prHeadBranch}}</div>
+                <div>{{ wrapper.prBaseBranch }} &#x2190; {{ wrapper.prHeadBranch}}</div>
               </v-list-tile-sub-title>
             </v-flex>
 

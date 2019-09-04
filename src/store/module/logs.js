@@ -43,7 +43,7 @@ const actions = {
       return
     }
 
-    let url = 'jobs/logs/' + cmdId + '/download?raw=true'
+    let url = 'jobs/logs/' + cmdId + '/download'
     http.get(url, (data, _file) => {
       let blob = new Blob([ data ], {type: 'text/plain'})
       commitLog(commit, cmdId, blob)

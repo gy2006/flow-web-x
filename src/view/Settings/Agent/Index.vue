@@ -13,7 +13,7 @@
           <v-flex xs2>
             <v-icon small>{{ props.item.icon }}</v-icon>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs5>
             <v-chip v-for="tag in props.item.tags"
                     :key="tag"
                     class="my-0"
@@ -22,6 +22,11 @@
                     label
             >{{ tag }}
             </v-chip>
+          </v-flex>
+          <v-flex xs1>
+            <v-btn flat icon class="ma-0" @click="onTokenCopyClick(props.item)">
+              <v-icon small>flow-icon-file_copy</v-icon>
+            </v-btn>
           </v-flex>
           <v-flex xs1>
             <v-btn flat icon class="ma-0" @click="onDownloadClick(props.item)">
@@ -79,6 +84,19 @@
 
       onDownloadClick (wrapper) {
 
+      },
+
+      onTokenCopyClick (wrapper) {
+        this.snackbarShow = true
+
+        this.$copyText(wrapper.token)
+          .then((e) => {
+            const text = 'Token ' + e.text + ' is copied'
+            this.$store.commit(actions.app.showSnackbar, text)
+          })
+          .catch((e) => {
+
+          })
       },
 
       onEditClick (wrapper) {

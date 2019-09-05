@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { Store as Global } from './module/global'
 import { Store as AuthStore } from './module/auth'
 import { Store as ErrorStore } from './module/error'
 import { Store as FlowStore } from './module/flows'
@@ -15,6 +16,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
+    'g': Global,
     'auth': AuthStore,
     'err': ErrorStore,
     'flows': FlowStore,

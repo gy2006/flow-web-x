@@ -55,7 +55,7 @@
     <v-timeline-item small color="grey">
       <v-layout pt-3>
         <v-flex xs1>
-          {{ last.startAt }}
+          {{ last.finishAt }}
         </v-flex>
       </v-layout>
     </v-timeline-item>

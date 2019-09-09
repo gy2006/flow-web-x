@@ -104,11 +104,9 @@
 
       // subscribe logs when steps been loaded
       steps (after, before) {
-        for (let i = 0; i < after.length; i++) {
-          const step = after[ i ]
-
+        for (let step of after) {
           if (isStepFinished(step)) {
-            return
+            continue
           }
 
           subscribeTopic.logs(step.id, (wrapper) => {

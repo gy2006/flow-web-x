@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
+
+## build from docker
+build_image=node:10.16.3-jessie
+
+docker run -it --rm \
+-v "$PWD":/usr/src/flowci.web \
+-w /usr/src/flowci.web \
+$build_image \
+npm run build
+
+## create docker image
 version=$1
 
 if [[ -n ${version} ]]; then
-  VersionTag="-t flowci/web:$version"
+  versionTag="-t flowci/web:$version"
 fi
 
-npm run build
-docker build -f ./Dockerfile -t flowci/web:latest $VersionTag .
+#docker build -f ./Dockerfile -t flowci/web:latest versionTag .

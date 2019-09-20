@@ -9,21 +9,26 @@
 
     <v-card-text class="pt-0 tab-wrapper">
       <v-tabs left class="full-size">
-        <v-tab href="#tab-yml">
-          YML
-        </v-tab>
         <v-tab href="#tab-options">
           Options
+        </v-tab>
+        <v-tab href="#tab-env">
+          Environment
+        </v-tab>
+        <v-tab href="#tab-yml">
+          YML Configuration
         </v-tab>
         <v-tab href="#tab-users">
           Members
         </v-tab>
-
-        <v-tab-item value="tab-yml">
-          <settings-yml-tab :flow="flow"></settings-yml-tab>
-        </v-tab-item>
         <v-tab-item value="tab-options">
           <settings-option-tab :flow="flow"></settings-option-tab>
+        </v-tab-item>
+        <v-tab-item value="tab-env">
+          <settings-env-tab :flow="flow"></settings-env-tab>
+        </v-tab-item>
+        <v-tab-item value="tab-yml">
+          <settings-yml-tab :flow="flow"></settings-yml-tab>
         </v-tab-item>
         <v-tab-item value="tab-users">
           <settings-member-tab :flow="flow"></settings-member-tab>
@@ -37,8 +42,9 @@
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
   import Nav from '@/components/Common/Nav'
-  import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
   import SettingsOptionTab from '@/view/Flow/SettingsOptionTab'
+  import SettingsEnvTab from '@/view/Flow/SettingsEnvTab'
+  import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
   import SettingsMemberTab from '@/view/Flow/SettingsMemberTab'
 
   export default {
@@ -46,6 +52,7 @@
     components: {
       Nav,
       SettingsYmlTab,
+      SettingsEnvTab,
       SettingsOptionTab,
       SettingsMemberTab
     },

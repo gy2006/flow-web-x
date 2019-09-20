@@ -1,7 +1,15 @@
+export const VarTypes = [
+  'STRING',
+  'INTEGER',
+  'HTTP_URL',
+  'GIT_URL',
+  'EMAIL'
+]
+
 export default {
 
   app: {
-    url: 'FLOWCI_SERVER_URL',
+    url: 'FLOWCI_SERVER_URL'
   },
 
   flow: {

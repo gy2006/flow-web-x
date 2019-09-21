@@ -35,6 +35,10 @@ export default {
     delete_btn: '删除当前 Flow',
     delete_desc: '删除当前 Flow 后无法恢复，请谨慎操作',
 
+    var_type: '数据类型',
+    var_name: '名称',
+    var_value: '值',
+
     hint: {
       name_required: '请输入 Flow 名称',
       name_size: 'Flow 名称长度需要小于 20 个字符',
@@ -75,7 +79,7 @@ export default {
       offline: '离线'
     },
     hint: {
-      name_required: 'Agent name is required',
+      name_required: '请输入 Agent 名称',
       name_size: 'Agent name length should be 2 - 20 characters',
       name_rule: 'Agent name only accept characters of a-z, A-Z, 0-9, _, -',
       tag_required: 'Agent tag is required',

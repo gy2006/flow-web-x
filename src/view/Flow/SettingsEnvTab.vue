@@ -12,12 +12,13 @@
     </v-flex>
 
     <env-item :edit="false"
+              :flow="flow"
               v-for="obj in localVars"
               :key="obj.name"
               :item="obj"
               :editable="true"
-              :onSave="onVarSave"
-              :onRemove="onVarRemove"
+              :onSaved="onVarSaved"
+              :onRemoved="onVarRemoved"
     ></env-item>
 
     <v-flex xs11 class="mt-4 mb-4">
@@ -26,6 +27,7 @@
     </v-flex>
 
     <env-item :edit="false"
+              :flow="flow"
               v-for="obj in ymlVars"
               :key="obj.name"
               :item="obj"
@@ -36,7 +38,6 @@
 
 <script>
   import EnvItem from '@/components/Flow/EnvItem'
-  import actions from '@/store/actions'
 
   export default {
     name: 'SettingsEnvTab',
@@ -104,13 +105,17 @@
         this.localVars.push(copy)
       },
 
-      onVarSave (obj) {
-        let flow = this.flow
-        this.$store.dispatch(actions.flows.vars.add, {flow, ...obj}).then()
+      onVarSaved (oldVal, newVal) {
+
       },
 
-      onVarRemove (obj) {
-
+      onVarRemoved (val) {
+        for (let i = 0; i < this.localVars.length; i++) {
+          if (this.localVars[i].name === val.name) {
+            this.localVars.splice(i, 1)
+            break
+          }
+        }
       }
     }
   }

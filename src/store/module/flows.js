@@ -109,6 +109,35 @@ const mutations = {
 
       selected.locally[ name ] = value
     }
+  },
+
+  removeVar (state, {flow, name}) {
+    // update flow in items
+    for (let item of state.items) {
+      if (item.id !== flow.id) {
+        continue
+      }
+
+      if (!item.locally) {
+        break
+      }
+
+      delete item.locally[ name ]
+    }
+
+    // update flow if selected
+    const selected = state.selected.flow
+    if (!selected || !selected.id) {
+      return
+    }
+
+    if (selected.id === flow.id) {
+      if (!selected.locally) {
+        return
+      }
+
+      delete selected.locally[ name ]
+    }
   }
 }
 
@@ -280,6 +309,16 @@ const actions = {
     }
 
     await http.post(`flows/${flow.name}/variables`, onSuccess, payload)
+  },
+
+  async removeVar ({commit}, {flow, name}) {
+    const payload = [ name ]
+
+    const onSuccess = () => {
+      commit('removeVar', {flow, name})
+    }
+
+    await http.delete(`flows/${flow.name}/variables`, onSuccess, payload)
   }
 }
 

@@ -3,7 +3,7 @@
     <v-flex xs3>
       <v-text-field
           :label="$t('flow.var_name')"
-          :readonly="!edit"
+          :readonly="!isNew"
           v-model="obj.name"
           solo
       ></v-text-field>
@@ -59,10 +59,16 @@
 
 <script>
   import { VarTypes } from '@/util/vars'
+  import actions from '@/store/actions'
 
   export default {
     name: 'EnvItem',
     props: {
+      flow: {
+        required: true,
+        type: Object
+      },
+
       /**
        * {
        *   name: 'xxxx',
@@ -81,12 +87,12 @@
         required: true
       },
 
-      onSave: {
+      onSaved: {
         type: Function,
         required: false
       },
 
-      onRemove: {
+      onRemoved: {
         type: Function,
         required: false
       }
@@ -102,21 +108,33 @@
         this.edit = this.obj.edit
       }
     },
+    computed: {
+      isNew () {
+        return this.item.name === ''
+      }
+    },
     methods: {
       onSaveClick () {
-        if (this.onSave) {
-          this.onSave(this.obj)
-        }
+        let flow = this.flow
+        this.$store.dispatch(actions.flows.vars.add, {flow, ...this.obj})
+          .then(() => {
+            if (this.onSaved) {
+              this.onSaved(this.item, this.obj)
+            }
+            this.edit = false
+          })
 
-        this.edit = false
       },
 
       onRemoveClick () {
-        if (this.onRemove) {
-          this.onRemove(this.obj)
-        }
-
-        this.edit = false
+        let flow = this.flow
+        this.$store.dispatch(actions.flows.vars.remove, {flow, ...this.obj})
+          .then(() => {
+            if (this.onRemoved) {
+              this.onRemoved(this.obj)
+            }
+            this.edit = false
+          })
       }
     }
   }

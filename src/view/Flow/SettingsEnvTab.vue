@@ -16,6 +16,8 @@
               :key="obj.name"
               :item="obj"
               :editable="true"
+              :onSave="onVarSave"
+              :onRemove="onVarRemove"
     ></env-item>
 
     <v-flex xs11 class="mt-4 mb-4">
@@ -34,6 +36,7 @@
 
 <script>
   import EnvItem from '@/components/Flow/EnvItem'
+  import actions from '@/store/actions'
 
   export default {
     name: 'SettingsEnvTab',
@@ -51,7 +54,7 @@
         name: '',
         value: '',
         type: 'STRING',
-        editable: true
+        edit: true
       },
 
       localVars: []
@@ -69,7 +72,7 @@
           return
         }
 
-        this.localVars = this.toVarObjectList(this.flow.locally, true)
+        this.localVars = this.toVarObjectList(this.flow.locally, false)
       }
     },
     methods: {
@@ -99,6 +102,15 @@
 
         const copy = Object.assign({}, this.empty)
         this.localVars.push(copy)
+      },
+
+      onVarSave (obj) {
+        let flow = this.flow
+        this.$store.dispatch(actions.flows.vars.add, {flow, ...obj}).then()
+      },
+
+      onVarRemove (obj) {
+
       }
     }
   }

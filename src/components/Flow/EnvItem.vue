@@ -68,6 +68,7 @@
        *   name: 'xxxx',
        *   value: 'xxxx',
        *   type: 'xxxx',
+       *   edit: true | false (option)
        * }
        */
       item: {
@@ -78,6 +79,16 @@
       editable: {
         type: Boolean,
         required: true
+      },
+
+      onSave: {
+        type: Function,
+        required: false
+      },
+
+      onRemove: {
+        type: Function,
+        required: false
       }
     },
     data: () => ({
@@ -86,14 +97,25 @@
       obj: {}
     }),
     mounted () {
-      Object.assign(this.obj, this.item)
+      this.obj = Object.assign({}, this.item)
+      if (this.obj.edit) {
+        this.edit = this.obj.edit
+      }
     },
     methods: {
       onSaveClick () {
+        if (this.onSave) {
+          this.onSave(this.obj)
+        }
+
         this.edit = false
       },
 
       onRemoveClick () {
+        if (this.onRemove) {
+          this.onRemove(this.obj)
+        }
+
         this.edit = false
       }
     }

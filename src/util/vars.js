@@ -1,6 +1,6 @@
 export const VarTypes = [
   'STRING',
-  'INTEGER',
+  'INT',
   'HTTP_URL',
   'GIT_URL',
   'EMAIL'

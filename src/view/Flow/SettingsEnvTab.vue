@@ -82,12 +82,24 @@
 
         for (let name in varsMap) {
           let value = varsMap[ name ]
-          list.push({
-            name: name,
-            value: value,
-            type: 'STRING',
-            edit: edit
-          })
+
+          if (typeof (value) === 'string') {
+            list.push({
+              name: name,
+              value: value,
+              type: 'STRING',
+              edit: edit
+            })
+          }
+
+          if (typeof (value) === 'object') {
+            list.push({
+              name: name,
+              value: value.data,
+              type: value.type,
+              edit: edit
+            })
+          }
         }
 
         return list

@@ -5,6 +5,7 @@
           :label="$t('flow.var_name')"
           :readonly="!isNew"
           v-model="obj.name"
+          :error-messages="errors"
           solo
       ></v-text-field>
     </v-flex>
@@ -100,7 +101,8 @@
     data: () => ({
       types: VarTypes,
       edit: false,
-      obj: {}
+      obj: {},
+      errors: []
     }),
     mounted () {
       this.obj = Object.assign({}, this.item)
@@ -115,6 +117,8 @@
     },
     methods: {
       onSaveClick () {
+        this.errors = []
+
         let flow = this.flow
         this.$store.dispatch(actions.flows.vars.add, {flow, ...this.obj})
           .then(() => {
@@ -123,10 +127,14 @@
             }
             this.edit = false
           })
-
+          .catch((err) => {
+            this.errors.push(err.message)
+          })
       },
 
       onRemoveClick () {
+        this.errors = []
+
         let flow = this.flow
         this.$store.dispatch(actions.flows.vars.remove, {flow, ...this.obj})
           .then(() => {
@@ -134,6 +142,9 @@
               this.onRemoved(this.obj)
             }
             this.edit = false
+          })
+          .catch((err) => {
+            console.log(err)
           })
       }
     }

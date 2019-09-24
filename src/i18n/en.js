@@ -35,6 +35,10 @@ export default {
     delete_btn: 'Delete This Flow',
     delete_desc: 'Once you delete a repository, there is no going back. Please be certain.',
 
+    var_type: 'Data Type',
+    var_name: 'Name',
+    var_value: 'Value',
+
     hint: {
       name_required: 'Flow name is required',
       name_size: 'Flow name must be less than 20 character',

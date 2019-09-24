@@ -65,10 +65,7 @@ export class FlowWrapper {
   }
 
   get webhook () {
-    if (!this.flow.variables) {
-      return ''
-    }
-    return this.flow.variables[ vars.flow.webhook ] || ''
+    return this.flow.webhook
   }
 
   get webhookStatus () {
@@ -87,18 +84,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    if (!this.flow.variables) {
-      return ''
-    }
-    return this.flow.variables[ vars.flow.gitUrl ] || ''
+    return this.flow.gitUrl
   }
 
   get credential () {
-    if (!this.flow.variables) {
-      return ''
-    }
-
-    return this.flow.variables[ vars.credential.ssh ] || ''
+    return this.flow.credentialName
   }
 
   get ssh () {

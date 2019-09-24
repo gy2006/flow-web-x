@@ -24,6 +24,10 @@ export default {
       add: 'flows/addUser',
       remove: 'flows/removeUser'
     },
+    vars: {
+      add: 'flows/addVar',
+      remove: 'flows/removeVar'
+    },
     yml: {
       load: 'flows/loadYml',
       save: 'flows/saveYml'

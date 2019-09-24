@@ -16,7 +16,7 @@
               v-for="obj in localVars"
               :key="obj.name"
               :item="obj"
-              :editable="true"
+              :editable="obj.editable"
               :onSaved="onVarSaved"
               :onRemoved="onVarRemoved"
     ></env-item>
@@ -31,7 +31,7 @@
               v-for="obj in ymlVars"
               :key="obj.name"
               :item="obj"
-              :editable="false"
+              :editable="obj.editable"
     ></env-item>
   </v-container>
 </template>
@@ -55,7 +55,8 @@
         name: '',
         value: '',
         type: 'STRING',
-        edit: true
+        edit: true,
+        editable: true
       },
 
       localVars: []
@@ -88,7 +89,8 @@
               name: name,
               value: value,
               type: 'STRING',
-              edit: edit
+              edit: false,
+              editable: false
             })
           }
 
@@ -97,7 +99,8 @@
               name: name,
               value: value.data,
               type: value.type,
-              edit: edit
+              edit: edit,
+              editable: value.editable
             })
           }
         }

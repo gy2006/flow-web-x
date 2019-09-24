@@ -75,7 +75,7 @@
        *   name: 'xxxx',
        *   value: 'xxxx',
        *   type: 'xxxx',
-       *   edit: true | false (option)
+       *   edit: true | false (option) , edit status
        * }
        */
       item: {

@@ -69,7 +69,10 @@ export default {
       info: 'Info',
       yml: 'Yml',
       logs: 'Logs'
-    }
+    },
+
+    started: 'Started',
+    finished: 'Finished'
   },
 
   agent: {

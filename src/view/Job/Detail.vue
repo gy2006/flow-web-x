@@ -10,12 +10,34 @@
     <v-card-text class="pt-1">
       <v-divider></v-divider>
 
-      <v-flex class="py-2">
-        Summary Status Bar
-        <span>
-        <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
-        </span>
-      </v-flex>
+      <v-layout align-center class="pa-4 grey lighten-5">
+        <v-flex>
+          <span>
+            <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
+            {{ wrapper.status.text }}
+          </span>
+        </v-flex>
+
+        <v-flex>
+          {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
+        </v-flex>
+
+        <v-flex>
+          <div>
+            <span>Agent : {{ wrapper.agentInfo.name }}</span>
+            <span>OS: {{ wrapper.agentInfo.os }}</span>
+          </div>
+          <div>
+            <span>{{ wrapper.agentInfo.cpu }}</span>
+            <span>{{ wrapper.agentInfo.memory }}</span>
+          </div>
+        </v-flex>
+
+        <v-flex>
+          Triggered By:
+        </v-flex>
+
+      </v-layout>
 
       <v-divider></v-divider>
 
@@ -40,11 +62,11 @@
 
 <script>
   import actions from '@/store/actions'
-  import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
-  import {isJobFinished, JobWrapper} from '@/util/jobs'
-  import {isStepFinished} from '@/util/steps'
-  import {mapState} from 'vuex'
+  import { isJobFinished, JobWrapper } from '@/util/jobs'
+  import { isStepFinished } from '@/util/steps'
+  import { mapState } from 'vuex'
 
   import Nav from '@/components/Common/Nav'
   import DetailTabInfo from '@/view/Job/DetailTabInfo'

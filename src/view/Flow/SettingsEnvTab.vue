@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-flex xs11 class="mb-4">
-      <span class="font-weight-light title">From Web
+      <span class="font-weight-light title">Variables
         <v-btn icon
                @click="onAddLocalVar"
         >
@@ -22,7 +22,7 @@
     ></env-item>
 
     <v-flex xs11 class="mt-4 mb-4">
-      <span class="font-weight-light title">From YAML</span>
+      <span class="font-weight-light title">YAML</span>
       <v-divider></v-divider>
     </v-flex>
 

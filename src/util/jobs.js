@@ -92,6 +92,31 @@ export class JobWrapper {
     return contextAsPairList
   }
 
+  get duration () {
+    if (this.job.startAt && this.job.finishAt) {
+      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'milliseconds')
+    }
+
+    return '-'
+  }
+
+  get finishedAt () {
+    if (this.job.finishAt) {
+      return moment(this.job.finishAt).fromNow()
+    }
+
+    return '-'
+  }
+
+  get agentInfo () {
+    return this.job.agentInfo || {
+      name: '-',
+      os: '-',
+      cpu: '-',
+      memory: '-'
+    }
+  }
+
   get prTitle () {
     return this.job.context[ vars.git.pr.title ]
   }
@@ -135,37 +160,44 @@ export const mapping = {
   status: {
     default: {
       icon: 'flow-icon-loading1',
-      class: [ 'grey--text', 'rotate' ]
+      class: [ 'grey--text', 'rotate' ],
+      text: ''
     },
 
     [ STATUS_QUEUED ]: {
       icon: 'flow-icon-pending',
-      class: 'green--text'
+      class: 'green--text',
+      text: STATUS_QUEUED
     },
 
     [ STATUS_RUNNING ]: {
       icon: 'flow-icon-running',
-      class: [ 'blue--text', 'rotate' ]
+      class: [ 'blue--text', 'rotate' ],
+      text: STATUS_RUNNING
     },
 
     [ STATUS_SUCCESS ]: {
       icon: 'flow-icon-check',
-      class: 'green--text'
+      class: 'green--text',
+      text: STATUS_SUCCESS
     },
 
     [ STATUS_FAILURE ]: {
       icon: 'flow-icon-failure',
-      class: 'red--text'
+      class: 'red--text',
+      text: STATUS_FAILURE
     },
 
     [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
-      class: 'grey--text'
+      class: 'grey--text',
+      text: STATUS_CANCELLED
     },
 
     [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
-      class: 'orange--text'
+      class: 'orange--text',
+      text: STATUS_TIMEOUT
     }
   },
 

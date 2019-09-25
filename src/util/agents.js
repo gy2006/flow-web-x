@@ -6,7 +6,7 @@ const STATUS_OFFLINE = 'OFFLINE'
 const STATUS_IDLE = 'IDLE'
 const STATUS_BUSY = 'BUSY'
 
-const icons = {
+export const icons = {
   [OS_MAC]: 'flow-icon-appleinc',
   [OS_LINUX]: 'flow-icon-linux',
   [OS_WIN]: 'flow-icon-windows8'

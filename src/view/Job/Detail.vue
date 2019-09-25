@@ -24,8 +24,8 @@
 
         <v-flex>
           <div>
-            <span>Agent : {{ wrapper.agentInfo.name }}</span>
-            <span>OS: {{ wrapper.agentInfo.os }}</span>
+            <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
+            <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
           </div>
           <div>
             <span>{{ wrapper.agentInfo.cpu }}</span>
@@ -65,6 +65,7 @@
   import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
   import { isJobFinished, JobWrapper } from '@/util/jobs'
+  import { icons } from '@/util/agents'
   import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
@@ -75,7 +76,9 @@
   export default {
     name: 'JobDetail',
     data () {
-      return {}
+      return {
+        agentIcons: icons
+      }
     },
     components: {
       Nav,

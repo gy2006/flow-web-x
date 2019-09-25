@@ -1,13 +1,24 @@
 <template>
   <v-card class="full-size">
-    <v-card-title>
+    <v-card-title class="pb-1">
       <Nav
           :items="[flow, buildNumberText]"
           :links="['jobs', 'jobs/' + number]"
       ></Nav>
     </v-card-title>
 
-    <v-card-text>
+    <v-card-text class="pt-1">
+      <v-divider></v-divider>
+
+      <v-flex class="py-2">
+        Summary Status Bar
+        <span>
+        <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
+        </span>
+      </v-flex>
+
+      <v-divider></v-divider>
+
       <v-tabs fixed-tabs>
         <v-tab href="#info" class="ml-0">
           {{ $t('job.tab.info') }}
@@ -29,11 +40,11 @@
 
 <script>
   import actions from '@/store/actions'
-  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
+  import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
 
-  import { isJobFinished, JobWrapper } from '@/util/jobs'
-  import { isStepFinished } from '@/util/steps'
-  import { mapState } from 'vuex'
+  import {isJobFinished, JobWrapper} from '@/util/jobs'
+  import {isStepFinished} from '@/util/steps'
+  import {mapState} from 'vuex'
 
   import Nav from '@/components/Common/Nav'
   import DetailTabInfo from '@/view/Job/DetailTabInfo'

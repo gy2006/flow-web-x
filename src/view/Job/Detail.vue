@@ -49,6 +49,9 @@
         <v-tab href="#context">
           {{ $t('job.tab.context') }}
         </v-tab>
+        <v-tab href="#yml">
+          {{ $t('job.tab.yml') }}
+        </v-tab>
 
         <v-tab-item value="logs">
           <detail-tab-logs class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-logs>
@@ -56,25 +59,29 @@
         <v-tab-item value="context">
           <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
         </v-tab-item>
+        <v-tab-item value="yml">
+          <detail-tab-yml class="ma-2"></detail-tab-yml>
+        </v-tab-item>
       </v-tabs>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import actions from '@/store/actions'
-  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
+    import actions from '@/store/actions'
+    import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
 
-  import { isJobFinished, JobWrapper } from '@/util/jobs'
-  import { icons } from '@/util/agents'
-  import { isStepFinished } from '@/util/steps'
-  import { mapState } from 'vuex'
+    import {isJobFinished, JobWrapper} from '@/util/jobs'
+    import {icons} from '@/util/agents'
+    import {isStepFinished} from '@/util/steps'
+    import {mapState} from 'vuex'
 
-  import Nav from '@/components/Common/Nav'
-  import DetailTabLogs from '@/view/Job/DetailTabLogs'
-  import DetailTabContext from '@/view/Job/DetailTabContext'
+    import Nav from '@/components/Common/Nav'
+    import DetailTabLogs from '@/view/Job/DetailTabLogs'
+    import DetailTabContext from '@/view/Job/DetailTabContext'
+    import DetailTabYml from '@/view/Job/DetailTabYml'
 
-  export default {
+    export default {
     name: 'JobDetail',
     data () {
       return {
@@ -84,7 +91,8 @@
     components: {
       Nav,
       DetailTabContext,
-      DetailTabLogs
+      DetailTabLogs,
+      DetailTabYml
     },
     mounted () {
       this.load()

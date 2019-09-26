@@ -10,7 +10,8 @@
     <v-card-text class="pt-1">
       <v-divider></v-divider>
 
-      <v-layout align-center class="pa-4 grey lighten-5">
+      <!-- job summary bar -->
+      <v-layout align-center class="px-5 py-3 grey lighten-5">
         <v-flex>
           <span>
             <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
@@ -41,19 +42,19 @@
 
       <v-divider></v-divider>
 
-      <v-tabs fixed-tabs>
-        <v-tab href="#info" class="ml-0">
-          {{ $t('job.tab.info') }}
-        </v-tab>
-        <v-tab href="#logs">
+      <v-tabs fixed-tabs class="mt-2 elevation-1">
+        <v-tab href="#logs" class="ml-0">
           {{ $t('job.tab.logs') }}
         </v-tab>
+        <v-tab href="#context">
+          {{ $t('job.tab.context') }}
+        </v-tab>
 
-        <v-tab-item value="info">
-          <detail-tab-info :wrapper="wrapper"></detail-tab-info>
-        </v-tab-item>
         <v-tab-item value="logs">
-          <detail-tab-logs :steps="steps" ref="stepLogs"></detail-tab-logs>
+          <detail-tab-logs class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-logs>
+        </v-tab-item>
+        <v-tab-item value="context">
+          <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -70,8 +71,8 @@
   import { mapState } from 'vuex'
 
   import Nav from '@/components/Common/Nav'
-  import DetailTabInfo from '@/view/Job/DetailTabInfo'
   import DetailTabLogs from '@/view/Job/DetailTabLogs'
+  import DetailTabContext from '@/view/Job/DetailTabContext'
 
   export default {
     name: 'JobDetail',
@@ -82,7 +83,7 @@
     },
     components: {
       Nav,
-      DetailTabInfo,
+      DetailTabContext,
       DetailTabLogs
     },
     mounted () {

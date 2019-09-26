@@ -66,7 +66,7 @@ export default {
   job: {
     run: 'Run',
     tab: {
-      info: 'Info',
+      context: 'Context',
       yml: 'Yml',
       logs: 'Logs'
     },

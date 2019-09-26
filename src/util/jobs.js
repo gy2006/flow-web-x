@@ -77,16 +77,14 @@ export class JobWrapper {
     return status
   }
 
-  get contextAsList () {
+  get customVarList () {
     const contextAsPairList = []
     const context = this.job.context
 
-    if (!context) {
-      return contextAsPairList
-    }
-
     Object.keys(context).forEach(key => {
-      contextAsPairList.push({key: key, value: context[ key ]})
+      if (!key.startsWith("FLOWCI_")) {
+        contextAsPairList.push({key: key, value: context[key]})
+      }
     })
 
     return contextAsPairList
@@ -151,6 +149,14 @@ export class JobWrapper {
 
   get prBaseBranch () {
     return this.job.context[ vars.git.pr.base_branch ]
+  }
+
+  get isPushOrTag () {
+    return this.job.trigger === TRIGGER_PUSH || this.job.trigger === TRIGGER_TAG
+  }
+
+  get isPr () {
+    return this.job.trigger === TRIGGER_PR_OPEN || this.job.trigger === TRIGGER_PR_CLOSE
   }
 }
 

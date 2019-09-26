@@ -34,9 +34,9 @@
         </v-flex>
 
         <v-flex>
-          Triggered By:
+          <span>{{ $t('job.triggerBy') }}: {{ wrapper.triggerBy }}</span>
+          <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
         </v-flex>
-
       </v-layout>
 
       <v-divider></v-divider>

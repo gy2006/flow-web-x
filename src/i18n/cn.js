@@ -70,9 +70,7 @@ export default {
       yml: 'Yml',
       logs: 'Logs'
     },
-
-    started: '开始时间',
-    finished: '完成时间'
+    triggerBy: 'Triggered By'
   },
 
   agent: {

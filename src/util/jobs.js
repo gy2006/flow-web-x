@@ -117,6 +117,10 @@ export class JobWrapper {
     }
   }
 
+  get triggerBy () {
+    return this.job.context[ vars.job.triggerBy ] || '-'
+  }
+
   get prTitle () {
     return this.job.context[ vars.git.pr.title ]
   }

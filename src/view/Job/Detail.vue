@@ -24,14 +24,13 @@
         </v-flex>
 
         <v-flex>
-          <div>
-            <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
-            <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
-          </div>
-          <div>
-            <span>{{ wrapper.agentInfo.cpu }}</span>
-            <span>{{ wrapper.agentInfo.memory }}</span>
-          </div>
+          <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
+          <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
+        </v-flex>
+
+        <v-flex>
+          <div>cpu: {{ wrapper.agentInfo.cpu }}</div>
+          <div>{{ wrapper.agentInfo.freeMemory * 1024 }}</div>
         </v-flex>
 
         <v-flex>

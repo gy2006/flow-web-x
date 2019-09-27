@@ -110,9 +110,12 @@ export class JobWrapper {
     return this.job.agentInfo || {
       name: '-',
       os: '-',
-      cpu: '-',
-      memory: '-'
-    }
+      cpu: 0,
+      freeMemory: 0,
+      totalMemory: 0,
+      freeDisk: 0,
+      totalDisk: 0
+    };
   }
 
   get triggerBy () {

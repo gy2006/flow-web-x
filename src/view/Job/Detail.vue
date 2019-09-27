@@ -30,7 +30,8 @@
 
         <v-flex class="caption">
           <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
-          <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)</div>
+          <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
+          </div>
           <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
         </v-flex>
 
@@ -45,14 +46,14 @@
 
       <v-divider></v-divider>
 
-      <v-tabs fixed-tabs class="mt-2 elevation-1">
-        <v-tab href="#logs" class="ml-0">
+      <v-tabs fixed-tabs class="mt-2">
+        <v-tab href="#logs" class="ml-0 elevation-1">
           {{ $t('job.tab.logs') }}
         </v-tab>
-        <v-tab href="#context">
+        <v-tab href="#context" class="elevation-1">
           {{ $t('job.tab.context') }}
         </v-tab>
-        <v-tab href="#yml">
+        <v-tab href="#yml" class="elevation-1">
           {{ $t('job.tab.yml') }}
         </v-tab>
 
@@ -63,7 +64,7 @@
           <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
         </v-tab-item>
         <v-tab-item value="yml">
-          <detail-tab-yml class="ma-2"></detail-tab-yml>
+          <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"></detail-tab-yml>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -71,20 +72,20 @@
 </template>
 
 <script>
-    import actions from '@/store/actions'
-    import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
+  import actions from '@/store/actions'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
-    import {isJobFinished, JobWrapper} from '@/util/jobs'
-    import {icons} from '@/util/agents'
-    import {isStepFinished} from '@/util/steps'
-    import {mapState} from 'vuex'
+  import { isJobFinished, JobWrapper } from '@/util/jobs'
+  import { icons } from '@/util/agents'
+  import { isStepFinished } from '@/util/steps'
+  import { mapState } from 'vuex'
 
-    import Nav from '@/components/Common/Nav'
-    import DetailTabLogs from '@/view/Job/DetailTabLogs'
-    import DetailTabContext from '@/view/Job/DetailTabContext'
-    import DetailTabYml from '@/view/Job/DetailTabYml'
+  import Nav from '@/components/Common/Nav'
+  import DetailTabLogs from '@/view/Job/DetailTabLogs'
+  import DetailTabContext from '@/view/Job/DetailTabContext'
+  import DetailTabYml from '@/view/Job/DetailTabYml'
 
-    export default {
+  export default {
     name: 'JobDetail',
     data () {
       return {
@@ -178,5 +179,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .text-height {
+    height: 75%;
+  }
 </style>

@@ -44,6 +44,7 @@ export default {
     list: 'jobs/list',
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',
+    getYml: 'jobs/getYml',
     steps: {
       get: 'steps/get',
       update: 'steps/update'

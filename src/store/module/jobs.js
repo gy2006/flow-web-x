@@ -13,7 +13,8 @@ const state = {
   },
   JobsStatus: {},
   selected: {},
-  updated: {}
+  updated: {},
+  yml: ''
 }
 
 const mutations = {
@@ -71,15 +72,26 @@ const mutations = {
 
   JobsStatus (state, res) {
     state.JobsStatus = res
+  },
+
+  updateYml (state, yml) {
+    state.yml = yml
   }
 }
 
 const actions = {
 
   get ({commit}, {flow, buildNumberOrLatest}) {
-    const url = 'jobs/' + flow + '/' + buildNumberOrLatest
+    const url = `jobs/${flow}/${buildNumberOrLatest}`
     return http.get(url, (job) => {
       commit('update', job)
+    })
+  },
+
+  getYml ({commit}, {flow, buildNumber}) {
+    const url = `jobs/${flow}/${buildNumber}/yml`
+    return http.get(url, (base64Yml) => {
+      commit('updateYml', atob(base64Yml))
     })
   },
 

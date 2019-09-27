@@ -28,14 +28,18 @@
           <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
         </v-flex>
 
-        <v-flex>
-          <div>cpu: {{ wrapper.agentInfo.cpu }}</div>
-          <div>{{ wrapper.agentInfo.freeMemory * 1024 }}</div>
+        <v-flex class="caption">
+          <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
+          <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)</div>
+          <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
         </v-flex>
 
-        <v-flex>
-          <span>{{ $t('job.triggerBy') }}: {{ wrapper.triggerBy }}</span>
-          <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
+        <v-flex class="caption">
+          <div>{{ $t('job.triggerBy') }}</div>
+          <div>
+            <span>{{ wrapper.triggerBy }}</span>
+            <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
+          </div>
         </v-flex>
       </v-layout>
 

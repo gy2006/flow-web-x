@@ -69,7 +69,7 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'JobDetailLogs',
+    name: 'DetailTabSummary',
     data () {
       return {
         // key=id, value={xterm: object, expended: false, currentRow: 0}

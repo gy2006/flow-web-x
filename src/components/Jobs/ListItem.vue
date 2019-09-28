@@ -22,7 +22,7 @@
 
         <v-flex xs9>
           <!-- for push and tag -->
-          <v-layout align-center v-if="wrapper.trigger === TRIGGER_PUSH || wrapper.trigger === TRIGGER_TAG">
+          <v-layout align-center v-if="wrapper.isPushOrTag">
             <v-flex xs4>
               <v-list-tile-sub-title>
                 <i>{{ wrapper.branch }}</i>
@@ -38,7 +38,7 @@
           </v-layout>
 
           <!-- for pr -->
-          <v-layout align-center v-if="wrapper.trigger === TRIGGER_PR_OPEN || wrapper.trigger === TRIGGER_PR_CLOSE">
+          <v-layout align-center v-if="wrapper.isPr">
             <v-flex xs4>
               <v-list-tile-sub-title>
                 <div v-if="wrapper.prBaseRepo !== wrapper.prHeadRepo">

@@ -1,10 +1,10 @@
 <template>
-  <v-card class="full-size" flat>
-    <v-card-text class="editor">
+  <v-card class="full-size pa-0" flat>
+    <v-card-text class="editor pa-0">
       <div id="yml-editor" class="full-height"></div>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions class="px-0">
       <div class="ml-2 mr-2">
         <v-btn color="secondary" blod @click="onResetClick" :disabled="!isCodeChange">
           <b>{{ $t('reset') }}</b>

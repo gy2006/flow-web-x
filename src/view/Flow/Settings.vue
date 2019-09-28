@@ -1,5 +1,5 @@
 <template>
-  <v-card class="full-size">
+  <v-card class="full-size flow-settings">
     <v-card-title>
       <Nav
           :items="[name, 'settings']"
@@ -81,13 +81,15 @@
 </script>
 
 <style lang="scss">
-  .tab-wrapper {
-    height: 80%;
-  }
+  .flow-settings {
+    .tab-wrapper {
+      height: 80%;
+    }
 
-  .tab-wrapper .v-window,
-  .tab-wrapper .v-window__container,
-  .tab-wrapper .v-window-item {
-    height: 100%;
+    .tab-wrapper .v-window,
+    .tab-wrapper .v-window__container,
+    .tab-wrapper .v-window-item {
+      height: 100%;
+    }
   }
 </style>

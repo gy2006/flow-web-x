@@ -101,11 +101,17 @@
       },
 
       first () {
-        return this.items[0]
+        return this.items[0] || {
+          startAt: '-',
+          finishAt: '-'
+        }
       },
 
       last () {
-        return this.items[this.items.length - 1]
+        return this.items[this.items.length - 1] || {
+          startAt: '-',
+          finishAt: '-'
+        }
       }
     },
     watch: {

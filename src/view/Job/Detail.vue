@@ -1,26 +1,70 @@
 <template>
-  <v-card class="full-size">
-    <v-card-title>
+  <v-card class="full-size job-detail">
+    <v-card-title class="pb-1">
       <Nav
           :items="[flow, buildNumberText]"
           :links="['jobs', 'jobs/' + number]"
       ></Nav>
     </v-card-title>
 
-    <v-card-text>
-      <v-tabs fixed-tabs>
-        <v-tab href="#info" class="ml-0">
-          {{ $t('job.tab.info') }}
-        </v-tab>
-        <v-tab href="#logs">
+    <v-card-text class="px-0 py-1 tab-wrapper">
+      <v-divider></v-divider>
+
+      <!-- job summary bar -->
+      <v-layout align-center class="px-5 py-3 grey lighten-5">
+        <v-flex>
+          <span>
+            <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
+            {{ wrapper.status.text }}
+          </span>
+        </v-flex>
+
+        <v-flex>
+          {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
+        </v-flex>
+
+        <v-flex>
+          <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
+          <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
+        </v-flex>
+
+        <v-flex class="caption">
+          <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
+          <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
+          </div>
+          <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
+        </v-flex>
+
+        <v-flex class="caption">
+          <div>{{ $t('job.triggerBy') }}</div>
+          <div>
+            <span>{{ wrapper.triggerBy }}</span>
+            <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
+          </div>
+        </v-flex>
+      </v-layout>
+
+      <v-divider></v-divider>
+
+      <v-tabs fixed-tabs class="mt-2 full-size">
+        <v-tab href="#logs" class="ml-0 elevation-1">
           {{ $t('job.tab.logs') }}
         </v-tab>
+        <v-tab href="#context" class="elevation-1">
+          {{ $t('job.tab.context') }}
+        </v-tab>
+        <v-tab href="#yml" class="elevation-1">
+          {{ $t('job.tab.yml') }}
+        </v-tab>
 
-        <v-tab-item value="info">
-          <detail-tab-info :wrapper="wrapper"></detail-tab-info>
-        </v-tab-item>
         <v-tab-item value="logs">
-          <detail-tab-logs :steps="steps" ref="stepLogs"></detail-tab-logs>
+          <detail-tab-logs class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-logs>
+        </v-tab-item>
+        <v-tab-item value="context">
+          <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
+        </v-tab-item>
+        <v-tab-item value="yml">
+          <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"></detail-tab-yml>
         </v-tab-item>
       </v-tabs>
     </v-card-text>
@@ -32,22 +76,27 @@
   import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
   import { isJobFinished, JobWrapper } from '@/util/jobs'
+  import { icons } from '@/util/agents'
   import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
   import Nav from '@/components/Common/Nav'
-  import DetailTabInfo from '@/view/Job/DetailTabInfo'
   import DetailTabLogs from '@/view/Job/DetailTabLogs'
+  import DetailTabContext from '@/view/Job/DetailTabContext'
+  import DetailTabYml from '@/view/Job/DetailTabYml'
 
   export default {
     name: 'JobDetail',
     data () {
-      return {}
+      return {
+        agentIcons: icons
+      }
     },
     components: {
       Nav,
-      DetailTabInfo,
-      DetailTabLogs
+      DetailTabContext,
+      DetailTabLogs,
+      DetailTabYml
     },
     mounted () {
       this.load()
@@ -129,6 +178,16 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .job-detail {
+    .tab-wrapper {
+      height: 80%;
+    }
 
+    .tab-wrapper .v-window,
+    .tab-wrapper .v-window__container,
+    .tab-wrapper .v-window-item {
+      height: 95%;
+    }
+  }
 </style>

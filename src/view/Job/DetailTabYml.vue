@@ -31,7 +31,7 @@
         lineNumbers: 'on',
         roundedSelection: false,
         scrollBeyondLastLine: false,
-        readOnly: false,
+        readOnly: true,
         automaticLayout: true,
         theme: 'vs-dark'
       })

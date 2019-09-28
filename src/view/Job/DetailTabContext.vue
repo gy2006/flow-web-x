@@ -1,18 +1,17 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-layout row
-              class="mb-3"
-              v-for="(value, key) in contextData"
-              :key="key">
-      <v-flex xs12 v-if="value.show">
-        <div class="text-center">
-          <span class="body-1">----------------- {{ value.name }} -----------------</span>
-        </div>
+    <v-card v-for="(value, key) in contextData"
+            :key="key"
+            class="mb-2">
+      <v-card-title class="pb-1" v-if="value.show">
+        {{ value.name }}
+      </v-card-title>
 
+      <v-card-text class="pt-0" v-if="value.show">
         <v-data-table
-                :items="value.data"
-                hide-headers
-                hide-actions>
+            :items="value.data"
+            hide-headers
+            hide-actions>
 
           <template v-slot:items="props">
             <td>
@@ -23,8 +22,8 @@
             </td>
           </template>
         </v-data-table>
-      </v-flex>
-    </v-layout>
+      </v-card-text>
+    </v-card>
   </div>
 
 </template>

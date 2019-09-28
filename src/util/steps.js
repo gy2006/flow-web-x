@@ -63,7 +63,7 @@ export class StepWrapper {
   get duration () {
     const start = moment(this.step.startAt)
     const end = moment(this.step.finishAt)
-    return end.diff(start, 'seconds')
+    return end.diff(start, 'milliseconds')
   }
 
   get isFinished () {

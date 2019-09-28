@@ -1,7 +1,5 @@
 <template>
-  <div class="full-size">
-    <div id="yml-editor" class="full-height"></div>
-  </div>
+  <div id="yml-editor" class="full-height"></div>
 </template>
 
 <script>
@@ -21,8 +19,13 @@
         required: true
       }
     },
+    data () {
+      return {
+        editor: {}
+      }
+    },
     mounted () {
-      monaco.editor.create(document.getElementById('yml-editor'), {
+      this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
         value: this.yml,
         language: 'yaml',
         lineNumbers: 'on',
@@ -40,10 +43,17 @@
       ...mapState({
         yml: state => state.jobs.yml
       })
+    },
+    watch: {
+      yml (newValue) {
+        this.editor.setValue(newValue)
+      }
     }
   }
 </script>
 
 <style scoped>
-
+  .editor {
+    height: 50%;
+  }
 </style>

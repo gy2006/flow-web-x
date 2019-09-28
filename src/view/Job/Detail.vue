@@ -1,5 +1,5 @@
 <template>
-  <v-card class="full-size">
+  <v-card class="full-size job-detail">
     <v-card-title class="pb-1">
       <Nav
           :items="[flow, buildNumberText]"
@@ -7,7 +7,7 @@
       ></Nav>
     </v-card-title>
 
-    <v-card-text class="pt-1">
+    <v-card-text class="px-0 py-1 tab-wrapper">
       <v-divider></v-divider>
 
       <!-- job summary bar -->
@@ -46,7 +46,7 @@
 
       <v-divider></v-divider>
 
-      <v-tabs fixed-tabs class="mt-2">
+      <v-tabs fixed-tabs class="mt-2 full-size">
         <v-tab href="#logs" class="ml-0 elevation-1">
           {{ $t('job.tab.logs') }}
         </v-tab>
@@ -178,8 +178,16 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .text-height {
-    height: 75%;
+<style lang="scss">
+  .job-detail {
+    .tab-wrapper {
+      height: 80%;
+    }
+
+    .tab-wrapper .v-window,
+    .tab-wrapper .v-window__container,
+    .tab-wrapper .v-window-item {
+      height: 95%;
+    }
   }
 </style>

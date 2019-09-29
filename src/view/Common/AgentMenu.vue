@@ -5,12 +5,14 @@
         <v-icon>dvr</v-icon>
       </v-btn>
     </template>
-    <v-list>
+    <v-list class="pa-0 agent-list">
       <v-list-tile avatar
                    v-for="agent in items"
                    :key="agent.id"
                    @click="onAgentItemClick"
       >
+        <div :class="[agent.color, 'agent-state']"></div>
+
         <v-list-tile-avatar>
           <v-icon small>{{ agent.icon }}</v-icon>
         </v-list-tile-avatar>
@@ -20,7 +22,7 @@
         </v-list-tile-content>
 
         <v-list-tile-action>
-          <v-chip small light :color="agent.color" text-color="white">{{ $t(agent.text) }}</v-chip>
+<!--          <v-chip small light :color="agent.color" text-color="white">{{ $t(agent.text) }}</v-chip>-->
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
@@ -72,6 +74,15 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss">
+  .agent-list {
+    .agent-state {
+      height: 100%;
+      width: 5%;
+    }
 
+    .v-list__tile {
+      padding: 0 !important;
+    }
+  }
 </style>

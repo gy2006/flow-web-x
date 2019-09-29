@@ -23,20 +23,24 @@ export class JobWrapper {
     this.job = job
   }
 
+  get context () {
+    return this.job.context || {}
+  }
+
   get rawInstance () {
     return this.job
   }
 
   get commitId () {
-    return this.job.context[ vars.git.commit.id ]
+    return this.context[ vars.git.commit.id ]
   }
 
   get commitMsg () {
-    return this.job.context[ vars.git.commit.message ]
+    return this.context[ vars.git.commit.message ]
   }
 
   get commitUrl () {
-    return this.job.context[ vars.git.commit.url ]
+    return this.context[ vars.git.commit.url ]
   }
 
   get fromNow () {
@@ -44,7 +48,7 @@ export class JobWrapper {
   }
 
   get branch () {
-    return this.job.context[ vars.git.branch ]
+    return this.context[ vars.git.branch ]
   }
 
   get buildNumber () {
@@ -52,15 +56,19 @@ export class JobWrapper {
   }
 
   get trigger () {
-    return this.job.trigger
+    return this.job.trigger || 'default'
   }
 
   get triggerText () {
-    return mapping.trigger[ this.job.trigger ].text
+    return mapping.trigger[ this.trigger ].text
   }
 
   get triggerIcon () {
-    return mapping.trigger[ this.job.trigger ].icon
+    return mapping.trigger[ this.trigger ].icon
+  }
+
+  get triggerBy () {
+    return this.context[ vars.job.triggerBy ] || '-'
   }
 
   get status () {
@@ -79,11 +87,10 @@ export class JobWrapper {
 
   get customVarList () {
     const contextAsPairList = []
-    const context = this.job.context
 
-    Object.keys(context).forEach(key => {
-      if (!key.startsWith("FLOWCI_")) {
-        contextAsPairList.push({key: key, value: context[key]})
+    Object.keys(this.context).forEach(key => {
+      if (!key.startsWith('FLOWCI_')) {
+        contextAsPairList.push({key: key, value: this.context[ key ]})
       }
     })
 
@@ -115,51 +122,47 @@ export class JobWrapper {
       totalMemory: 0,
       freeDisk: 0,
       totalDisk: 0
-    };
-  }
-
-  get triggerBy () {
-    return this.job.context[ vars.job.triggerBy ] || '-'
+    }
   }
 
   get prTitle () {
-    return this.job.context[ vars.git.pr.title ]
+    return this.context[ vars.git.pr.title ]
   }
 
   get prMessage () {
-    return this.job.context[ vars.git.pr.message ]
+    return this.context[ vars.git.pr.message ]
   }
 
   get prUrl () {
-    return this.job.context[ vars.git.pr.url ]
+    return this.context[ vars.git.pr.url ]
   }
 
   get prNumber () {
-    return this.job.context[ vars.git.pr.number ]
+    return this.context[ vars.git.pr.number ]
   }
 
   get prHeadRepo () {
-    return this.job.context[ vars.git.pr.head_repo ]
+    return this.context[ vars.git.pr.head_repo ]
   }
 
   get prHeadBranch () {
-    return this.job.context[ vars.git.pr.head_branch ]
+    return this.context[ vars.git.pr.head_branch ]
   }
 
   get prBaseRepo () {
-    return this.job.context[ vars.git.pr.base_repo ]
+    return this.context[ vars.git.pr.base_repo ]
   }
 
   get prBaseBranch () {
-    return this.job.context[ vars.git.pr.base_branch ]
+    return this.context[ vars.git.pr.base_branch ]
   }
 
   get isPushOrTag () {
-    return this.job.trigger === TRIGGER_PUSH || this.job.trigger === TRIGGER_TAG
+    return this.trigger === TRIGGER_PUSH || this.trigger === TRIGGER_TAG
   }
 
   get isPr () {
-    return this.job.trigger === TRIGGER_PR_OPEN || this.job.trigger === TRIGGER_PR_CLOSE
+    return this.trigger === TRIGGER_PR_OPEN || this.trigger === TRIGGER_PR_CLOSE
   }
 }
 
@@ -216,6 +219,11 @@ export const mapping = {
 
   // job trigger mapping
   trigger: {
+    default: {
+      text: 'push',
+      icon: 'flow-icon-git-commit'
+    },
+
     [ TRIGGER_PUSH ]: {
       text: 'push',
       icon: 'flow-icon-git-commit'

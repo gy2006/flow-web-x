@@ -47,8 +47,8 @@
       <v-divider></v-divider>
 
       <v-tabs fixed-tabs class="mt-2 full-size">
-        <v-tab href="#logs" class="ml-0 elevation-1">
-          {{ $t('job.tab.logs') }}
+        <v-tab href="#summary" class="ml-0 elevation-1">
+          {{ $t('job.tab.summary') }}
         </v-tab>
         <v-tab href="#context" class="elevation-1">
           {{ $t('job.tab.context') }}
@@ -57,8 +57,8 @@
           {{ $t('job.tab.yml') }}
         </v-tab>
 
-        <v-tab-item value="logs">
-          <detail-tab-logs class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-logs>
+        <v-tab-item value="summary">
+          <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-summary>
         </v-tab-item>
         <v-tab-item value="context">
           <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
@@ -81,7 +81,7 @@
   import { mapState } from 'vuex'
 
   import Nav from '@/components/Common/Nav'
-  import DetailTabLogs from '@/view/Job/DetailTabLogs'
+  import DetailTabSummary from '@/view/Job/DetailTabSummary'
   import DetailTabContext from '@/view/Job/DetailTabContext'
   import DetailTabYml from '@/view/Job/DetailTabYml'
 
@@ -95,7 +95,7 @@
     components: {
       Nav,
       DetailTabContext,
-      DetailTabLogs,
+      DetailTabSummary,
       DetailTabYml
     },
     mounted () {

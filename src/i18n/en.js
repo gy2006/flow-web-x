@@ -66,9 +66,9 @@ export default {
   job: {
     run: 'Run',
     tab: {
+      summary: 'Summary',
       context: 'Context',
-      yml: 'Yml',
-      logs: 'Logs'
+      yml: 'Yml'
     },
     triggerBy: 'Triggered By'
   },

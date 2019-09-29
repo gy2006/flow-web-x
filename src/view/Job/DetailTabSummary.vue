@@ -1,16 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-timeline
       align-top
-      dense>
-
-    <!-- start status -->
-    <v-timeline-item small color="grey" fill-dot>
-      <v-layout pt-3>
-        <v-flex xs1>
-          {{ first.startAt }}
-        </v-flex>
-      </v-layout>
-    </v-timeline-item>
+      dense
+      class="job-summary">
 
     <!-- logs -->
     <v-timeline-item
@@ -20,7 +12,6 @@
         :key="n.id"
         :icon="n.status.icon"
     >
-
       <v-layout pt-1>
         <v-flex xs10 @click="onExpand(i)">
           <v-expansion-panel class="elevation-0">
@@ -32,7 +23,10 @@
                   </v-flex>
                   <v-flex xs1 v-if="n.isFinished">
                     <span class="caption">{{ n.duration }}</span>
-                    <span class="ml-1">s</span>
+                    <span class="ml-1">(ms)</span>
+                  </v-flex>
+                  <v-flex xs1 v-if="n.isFinished">
+                    <v-icon small @click="onLogDownload(n.id)">flow-icon-download</v-icon>
                   </v-flex>
                 </v-layout>
               </template>
@@ -44,20 +38,8 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-flex>
-        <v-flex xs1 v-if="n.isFinished">
-          <v-icon small class="mt-3" @click="onLogDownload(n.id)">flow-icon-download</v-icon>
-        </v-flex>
       </v-layout>
 
-    </v-timeline-item>
-
-    <!-- end status -->
-    <v-timeline-item small color="grey">
-      <v-layout pt-3>
-        <v-flex xs1>
-          {{ last.finishAt }}
-        </v-flex>
-      </v-layout>
     </v-timeline-item>
   </v-timeline>
 </template>
@@ -69,7 +51,7 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'JobDetailLogs',
+    name: 'DetailTabSummary',
     data () {
       return {
         // key=id, value={xterm: object, expended: false, currentRow: 0}
@@ -196,6 +178,12 @@
   .v-stepper__step__step {
     .v-icon {
       color: inherit;
+    }
+  }
+
+  .job-summary {
+    .v-timeline-item__body {
+      max-width: calc(100% - 40px) !important;
     }
   }
 </style>

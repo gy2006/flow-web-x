@@ -33,31 +33,35 @@
     name: 'JobDetailInfo',
     data () {
       return {
-        contextData: {
-          commit: {
-            name: 'Git Commit Info',
-            show: this.isPushOrTag,
-            data: this.getCommitData()
-          },
-
-          pr: {
-            name: 'Git Pull Request Info',
-            show: this.isPr,
-            data: this.getPrData()
-          },
-
-          variables: {
-            name: 'Variables',
-            show: true,
-            data: this.wrapper.customVarList
-          }
-        }
       }
     },
     props: {
       wrapper: {
         required: true,
         type: Object
+      }
+    },
+    computed: {
+      contextData () {
+        return {
+          commit: {
+            name: 'Git Commit Info',
+              show: this.isPushOrTag,
+              data: this.getCommitData()
+          },
+
+          pr: {
+            name: 'Git Pull Request Info',
+              show: this.isPr,
+              data: this.getPrData()
+          },
+
+          variables: {
+            name: 'Variables',
+              show: true,
+              data: this.wrapper.customVarList
+          }
+        }
       }
     },
     methods: {

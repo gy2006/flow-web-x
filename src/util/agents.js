@@ -81,6 +81,14 @@ export class AgentWrapper {
     return this.agent.host ? this.agent.host : 'unknown'
   }
 
+  get freeMemory () {
+    if (this.agent.resource.freeMemory === 0) {
+      return '-'
+    }
+
+    return this.agent.resource.freeMemory + ' (mb)'
+  }
+
   set name (name) {
     this.agent.name = name
   }

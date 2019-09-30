@@ -12,15 +12,18 @@
                    @click="onAgentItemClick"
       >
         <div :class="[agent.color, 'state']"></div>
+
+        <div class="title">
+          <span class="body-2">{{ agent.name }}</span>
+        </div>
+
         <div class="icon">
           <v-icon small>{{ agent.icon }}</v-icon>
         </div>
-        <div class="title">
-          <v-list-tile-title>{{ agent.name }}</v-list-tile-title>
+
+        <div class="resource">
+          <span class="body-1">{{ agent.freeMemory }} free</span>
         </div>
-        <v-list-tile-action>
-          <!--          <v-chip small light :color="agent.color" text-color="white">{{ $t(agent.text) }}</v-chip>-->
-        </v-list-tile-action>
       </v-list-tile>
     </v-list>
   </v-menu>
@@ -80,14 +83,18 @@
       width: 5%;
     }
 
+    .title {
+      margin-left: 10px;
+      width: 40%;
+    }
+
     .icon {
-      margin-left: 5px;
       margin-right: 5px;
       width: 10%;
     }
 
-    .title {
-      width: 50%;
+    .resource {
+      width: 40%;
     }
 
     .v-list__tile {

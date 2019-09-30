@@ -5,10 +5,12 @@
       hide-headers>
 
     <template slot="items" slot-scope="props">
-      <td>
+      <td :class="[props.item.color, 'px-1']">
+      </td>
+      <td class="pa-0">
         <v-layout row align-center>
           <v-flex xs2>
-            {{ props.item.name }}
+            <span class="ml-2">{{ props.item.name }}</span>
           </v-flex>
           <v-flex xs1>
             <v-icon small>{{ props.item.icon }}</v-icon>
@@ -112,6 +114,11 @@
 </script>
 
 <style scoped>
+  .agent-state {
+    height: 100%;
+    width: 5%;
+  }
+
   .agent-resource {
     font-size: 10px;
   }

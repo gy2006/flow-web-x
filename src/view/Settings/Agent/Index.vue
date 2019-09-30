@@ -10,10 +10,10 @@
           <v-flex xs2>
             {{ props.item.name }}
           </v-flex>
-          <v-flex xs2>
+          <v-flex xs1>
             <v-icon small>{{ props.item.icon }}</v-icon>
           </v-flex>
-          <v-flex xs5>
+          <v-flex xs3>
             <v-chip v-for="tag in props.item.tags"
                     :key="tag"
                     class="my-0"
@@ -22,6 +22,11 @@
                     label
             >{{ tag }}
             </v-chip>
+          </v-flex>
+          <v-flex xs4 class="agent-resource">
+            <div>cpu: {{ props.item.numOfCpu }}</div>
+            <div>memory: {{ props.item.freeMemory }} / {{ props.item.totalMemory }} (mb)</div>
+            <div>disk: {{ props.item.freeDisk }} / {{ props.item.totalDisk }} (mb)</div>
           </v-flex>
           <v-flex xs1>
             <v-btn flat icon class="ma-0" @click="onTokenCopyClick(props.item)">
@@ -107,5 +112,7 @@
 </script>
 
 <style scoped>
-
+  .agent-resource {
+    font-size: 10px;
+  }
 </style>

@@ -82,11 +82,23 @@ export class AgentWrapper {
   }
 
   get freeMemory () {
-    if (this.agent.resource.freeMemory === 0) {
-      return '-'
-    }
+    return this.fetchResource('freeMemory')
+  }
 
-    return this.agent.resource.freeMemory + ' (mb)'
+  get totalMemory () {
+    return this.fetchResource('totalMemory')
+  }
+
+  get numOfCpu () {
+    return this.fetchResource('cpu')
+  }
+
+  get freeDisk () {
+    return this.fetchResource('freeDisk')
+  }
+
+  get totalDisk () {
+    return this.fetchResource('totalDisk')
   }
 
   set name (name) {
@@ -95,5 +107,13 @@ export class AgentWrapper {
 
   set tags (tags) {
     this.agent.tags = tags
+  }
+
+  fetchResource(field) {
+    if (this.agent.resource[field] === 0) {
+      return '-'
+    }
+
+    return this.agent.resource[field]
   }
 }

@@ -22,7 +22,7 @@
         </div>
 
         <div class="resource">
-          <span class="body-1">{{ agent.freeMemory }} free</span>
+          <span class="body-1">{{ agent.freeMemory }} free (mb)</span>
         </div>
       </v-list-tile>
     </v-list>
@@ -76,7 +76,7 @@
 
 <style lang="scss">
   .agent-list {
-    min-width: 200px;
+    min-width: 260px;
 
     .state {
       height: 100%;

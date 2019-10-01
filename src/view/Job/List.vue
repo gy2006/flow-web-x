@@ -27,10 +27,15 @@
             :loading="loading"
             :disabled="loading"
             color="success"
-            @click.native="onRunClick">
+            @click.native="onRunClick(true)">
           <v-icon class="mr-1">play_arrow</v-icon>
           {{ $t('job.run') }}:
         </v-btn>
+        <Dialog :dialog="dialog"
+                :content="$t('job.hint.missing_agent')"
+                :confirmBtn="confirmBtn"
+                :cancelBtn="cancelBtn"
+        ></Dialog>
       </v-flex>
 
       <v-flex xs2 class="ml-4">
@@ -81,6 +86,7 @@
   import equal from 'fast-deep-equal'
   import { mapState } from 'vuex'
   import Nav from '@/components/Common/Nav'
+  import Dialog from '@/components/Common/Dialog'
   import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
   import { subscribeTopic } from '@/store/subscribe'
@@ -89,6 +95,7 @@
     name: 'JobList',
     data () {
       return {
+        dialog: false,
         loading: false,
         alert: false,
         selectedBranch: null,
@@ -98,11 +105,27 @@
           rowsPerPage: 10,
           sortBy: null,
           totalItems: 0
+        },
+        confirmBtn: {
+          text: 'Run',
+          action: () => {
+            this.dialog = false
+            this.onRunClick(false)
+          },
+          color: 'success'
+        },
+        cancelBtn: {
+          text: 'Cancel',
+          action: () => {
+            this.dialog = false
+          },
+          color: 'error'
         }
       }
     },
     components: {
       Nav,
+      Dialog,
       JobListItem
     },
     mounted () {
@@ -113,7 +136,8 @@
       ...mapState({
         gitBranches: state => state.flows.gitBranches,
         jobs: state => state.jobs.items,
-        total: state => state.jobs.pagination.total
+        total: state => state.jobs.pagination.total,
+        agents: state => state.agents.items
       }),
 
       name () {
@@ -151,7 +175,12 @@
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
       },
 
-      onRunClick () {
+      onRunClick (check) {
+        if (check && this.agents.length === 0) {
+          this.dialog = true
+          return
+        }
+
         this.$store.dispatch(actions.jobs.start, {
           flow: this.name,
           branch: this.selectedBranch

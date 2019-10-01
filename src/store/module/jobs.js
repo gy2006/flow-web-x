@@ -98,14 +98,14 @@ const actions = {
   /**
    * Start a new job
    */
-  start ({commit, state}, {flow, branch}) {
+  async start ({commit, state}, {flow, branch}) {
     let inputs = {}
 
     if (branch) {
       inputs[ vars.flow.gitBranch ] = branch
     }
 
-    return http.post('jobs/run', emptyFunc, {flow, inputs})
+    await http.post('jobs/run', emptyFunc, {flow, inputs})
   },
 
   /**

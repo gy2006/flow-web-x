@@ -65,12 +65,15 @@ export default {
 
   job: {
     run: '开始任务',
+    triggerBy: 'Triggered By',
     tab: {
       summary: 'Summary',
       context: 'Context',
       yml: 'Yml'
     },
-    triggerBy: 'Triggered By'
+    hint: {
+      missing_agent: 'There is NO agents, the job will be started until agent has been created'
+    }
   },
 
   agent: {

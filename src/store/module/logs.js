@@ -8,7 +8,6 @@ const browserDownload = (url, file) => {
   document.body.appendChild(link)
   link.click()
   window.URL.revokeObjectURL(url)
-
 }
 
 const commitLog = (commit, cmdId, blob) => {

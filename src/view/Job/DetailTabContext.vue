@@ -46,13 +46,13 @@
         return {
           commit: {
             name: 'Git Commit Info',
-              show: this.isPushOrTag,
+              show: this.wrapper.isPushOrTag,
               data: this.getCommitData()
           },
 
           pr: {
             name: 'Git Pull Request Info',
-              show: this.isPr,
+              show: this.wrapper.isPr,
               data: this.getPrData()
           },
 

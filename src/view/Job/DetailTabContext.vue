@@ -15,10 +15,15 @@
 
           <template v-slot:items="props">
             <td>
-              {{ props.item.key }}
-            </td>
-            <td>
-              {{ props.item.value }}
+              <v-layout row>
+                <v-flex xs3>
+                  {{ props.item.key }}
+                </v-flex>
+                <v-flex>
+                  <a v-if="props.item.link" :href="props.item.link" target="_blank">{{ props.item.value }}</a>
+                  <span v-if="!props.item.link">{{ props.item.value }}</span>
+                </v-flex>
+              </v-layout>
             </td>
           </template>
         </v-data-table>
@@ -44,15 +49,21 @@
     computed: {
       contextData () {
         return {
-          commit: {
-            name: 'Git Commit Info',
-              show: this.wrapper.isPushOrTag,
-              data: this.getCommitData()
+          push: {
+            name: 'Git Push Info',
+              show: this.wrapper.isPushTrigger,
+              data: this.getPushData()
+          },
+
+          tag: {
+            name: 'Git Tag Info',
+            show: this.wrapper.isTagTrigger,
+            data: this.getTagData()
           },
 
           pr: {
             name: 'Git Pull Request Info',
-              show: this.wrapper.isPr,
+              show: this.wrapper.isPrOpenedTrigger || this.wrapper.isPrClosedTrigger,
               data: this.getPrData()
           },
 
@@ -65,7 +76,7 @@
       }
     },
     methods: {
-      getCommitData () {
+      getPushData () {
         return [
           {
             key: 'Branch',
@@ -73,16 +84,31 @@
           },
           {
             key: 'Commit ID',
-            value: this.wrapper.commitId
+            value: this.wrapper.commitId,
+            link: this.wrapper.commitUrl
           },
           {
             key: 'Commit Message',
             value: this.wrapper.commitMsg
+          }
+        ]
+      },
+
+      getTagData () {
+        return [
+          {
+            key: 'Tag',
+            value: this.wrapper.branch
           },
           {
-            key: 'Commit URL',
-            value: this.wrapper.commitUrl
+            key: 'Commit ID',
+            value: this.wrapper.commitId,
+            link: this.wrapper.commitUrl
           },
+          {
+            key: 'Commit Message',
+            value: this.wrapper.commitMsg
+          }
         ]
       },
 
@@ -93,16 +119,17 @@
             value: this.wrapper.prTitle
           },
           {
+            key: 'Status',
+            value: this.wrapper.isPrOpenedTrigger ? 'Opened' : (this.wrapper.isPrMergedTrigger ? 'Merged' : '-')
+          },
+          {
             key: 'Message',
             value: this.wrapper.prMessage
           },
           {
-            key: 'PR URL',
-            value: this.wrapper.prUrl
-          },
-          {
             key: 'PR Number',
-            value: this.wrapper.prNumber
+            value: this.wrapper.prNumber,
+            link: this.wrapper.prUrl
           },
           {
             key: 'PR Head Repo/Branch',

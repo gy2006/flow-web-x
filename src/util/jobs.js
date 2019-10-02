@@ -157,12 +157,20 @@ export class JobWrapper {
     return this.context[ vars.git.pr.base_branch ]
   }
 
-  get isPushOrTag () {
-    return this.trigger === TRIGGER_PUSH || this.trigger === TRIGGER_TAG
+  get isPushTrigger () {
+    return this.trigger === TRIGGER_PUSH
   }
 
-  get isPr () {
-    return this.trigger === TRIGGER_PR_OPENED || this.trigger === TRIGGER_PR_MERGED
+  get isTagTrigger () {
+    return this.trigger === TRIGGER_TAG
+  }
+
+  get isPrOpenedTrigger () {
+    return this.trigger === TRIGGER_PR_OPENED
+  }
+
+  get isPrMergedTrigger () {
+    return this.trigger === TRIGGER_PR_MERGED
   }
 }
 

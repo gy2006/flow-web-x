@@ -11,8 +11,8 @@ const STATUS_TIMEOUT = 'TIMEOUT'
 
 // triggers
 export const TRIGGER_PUSH = 'PUSH'
-export const TRIGGER_PR_OPEN = 'PR_OPEN'
-export const TRIGGER_PR_CLOSE = 'PR_CLOSE'
+export const TRIGGER_PR_OPENED = 'PR_OPENED'
+export const TRIGGER_PR_MERGED = 'PR_MERGED'
 export const TRIGGER_TAG = 'TAG'
 export const TRIGGER_MANUAL = 'MANUAL'
 export const TRIGGER_API = 'API'
@@ -157,12 +157,20 @@ export class JobWrapper {
     return this.context[ vars.git.pr.base_branch ]
   }
 
-  get isPushOrTag () {
-    return this.trigger === TRIGGER_PUSH || this.trigger === TRIGGER_TAG
+  get isPushTrigger () {
+    return this.trigger === TRIGGER_PUSH
   }
 
-  get isPr () {
-    return this.trigger === TRIGGER_PR_OPEN || this.trigger === TRIGGER_PR_CLOSE
+  get isTagTrigger () {
+    return this.trigger === TRIGGER_TAG
+  }
+
+  get isPrOpenedTrigger () {
+    return this.trigger === TRIGGER_PR_OPENED
+  }
+
+  get isPrMergedTrigger () {
+    return this.trigger === TRIGGER_PR_MERGED
   }
 }
 
@@ -229,12 +237,12 @@ export const mapping = {
       icon: 'flow-icon-git-commit'
     },
 
-    [ TRIGGER_PR_OPEN ]: {
+    [ TRIGGER_PR_OPENED ]: {
       text: 'pull request open',
       icon: 'flow-icon-git-pull-request'
     },
 
-    [ TRIGGER_PR_CLOSE ]: {
+    [ TRIGGER_PR_MERGED ]: {
       text: 'pull request close',
       icon: 'flow-icon-git-merge'
     },

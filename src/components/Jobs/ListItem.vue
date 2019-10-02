@@ -22,7 +22,7 @@
 
         <v-flex xs9>
           <!-- for push and tag -->
-          <v-layout align-center v-if="wrapper.isPushOrTag">
+          <v-layout align-center v-if="wrapper.isPushTrigger || wrapper.isTagTrigger">
             <v-flex xs4>
               <v-list-tile-sub-title>
                 <i>{{ wrapper.branch }}</i>
@@ -38,7 +38,7 @@
           </v-layout>
 
           <!-- for pr -->
-          <v-layout align-center v-if="wrapper.isPr">
+          <v-layout align-center v-if="wrapper.isPrOpenedTrigger || wrapper.isPrMergedTrigger">
             <v-flex xs4>
               <v-list-tile-sub-title>
                 <div v-if="wrapper.prBaseRepo !== wrapper.prHeadRepo">
@@ -69,15 +69,11 @@
 </template>
 
 <script>
-  import { JobWrapper, TRIGGER_PR_CLOSE, TRIGGER_PR_OPEN, TRIGGER_PUSH, TRIGGER_TAG } from '@/util/jobs'
+  import { JobWrapper } from '@/util/jobs'
 
   export default {
     data () {
       return {
-        TRIGGER_PUSH,
-        TRIGGER_TAG,
-        TRIGGER_PR_OPEN,
-        TRIGGER_PR_CLOSE,
         wrapper: new JobWrapper(this.job)
       }
     },

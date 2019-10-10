@@ -8,9 +8,18 @@
         ></Nav>
       </v-flex>
 
-      <v-flex xs5></v-flex>
+      <v-flex xs4></v-flex>
 
-      <v-flex xs1>
+      <v-flex xs2 d-flex>
+        <v-btn
+            flat
+            color="blue-grey"
+            class="white--text"
+            @click="onStatisticClick">
+          <v-icon small class="mr-1">trending_up</v-icon>
+          {{ $t('flow.statistic') }}
+        </v-btn>
+
         <v-btn
             flat
             color="blue-grey"
@@ -134,6 +143,7 @@
     },
     computed: {
       ...mapState({
+        flow: state => state.flows.selected.obj,
         gitBranches: state => state.flows.gitBranches,
         jobs: state => state.jobs.items,
         total: state => state.jobs.pagination.total,
@@ -189,6 +199,10 @@
 
       onSettingsClick () {
         this.$router.push({path: `/flows/${this.name}/settings`})
+      },
+
+      onStatisticClick () {
+        this.$router.push({path: `/flows/${this.name}/statistic`})
       },
 
       loadJobList () {

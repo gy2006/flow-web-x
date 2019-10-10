@@ -22,6 +22,7 @@ export default {
     create: 'Create Flow',
     search: 'Search by key words',
     settings: 'Settings',
+    statistic: 'Statistic',
     config_yml: 'YML Config',
 
     create_title_name: 'Enter Flow Name',

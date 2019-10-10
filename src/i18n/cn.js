@@ -22,6 +22,7 @@ export default {
     create: '创建 Flow',
     search: '输入关键词搜索',
     settings: '设置',
+    statistic: 'Statistic',
     config_yml: '配置 YML',
 
     create_title_name: '输入 Flow 名称',

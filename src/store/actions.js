@@ -77,5 +77,11 @@ export default {
     create: 'users/create',
     changePassword: 'users/changePassword',
     changeRole: 'users/changeRole'
+  },
+
+  stats: {
+    list: 'stats/list',
+    metaType: 'stats/metaType',
+    metaTypeList: 'stats/metaTypeList'
   }
 }

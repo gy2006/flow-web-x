@@ -9,11 +9,69 @@
 
     <v-card-text class="pt-0 tab-wrapper">
       <!-- header that includes data selection -->
-      <v-flex xs12
-              v-for="type in metaTypeList"
-              :key="type.name">
-        <div :id="type.name" class="chart"></div>
-      </v-flex>
+      <v-layout row wrap>
+        <v-flex xs3>
+        </v-flex>
+
+        <v-flex xs4>
+          <v-menu
+              v-model="fromDateMenu"
+              :close-on-content-click="false"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              max-width="290px"
+              min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                  v-model="fromDate"
+                  label="From Day"
+                  persistent-hint
+                  prepend-icon="event"
+                  v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="fromDate" no-title @input="fromDateMenu = false"></v-date-picker>
+          </v-menu>
+        </v-flex>
+        <v-flex xs4>
+          <v-menu
+              v-model="toDateMenu"
+              :close-on-content-click="false"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              max-width="290px"
+              min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                  v-model="toDate"
+                  label="To Day"
+                  persistent-hint
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="toDate" no-title @input="toDateMenu = false"></v-date-picker>
+          </v-menu>
+        </v-flex>
+        <v-flex xs1>
+        </v-flex>
+      </v-layout>
+
+      <!-- chart list for every type -->
+      <v-layout row wrap class="mt-4">
+        <v-flex xs12
+                v-for="type in metaTypeList"
+                :key="type.name">
+          <div :id="type.name" class="chart"></div>
+        </v-flex>
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>
@@ -23,6 +81,7 @@
   import actions from '@/store/actions'
   import Nav from '@/components/Common/Nav'
   import * as echarts from 'echarts'
+  import { textMapping, defaultChartOption } from '@/util/stats'
 
   export default {
     name: 'FlowStatistic',
@@ -31,36 +90,12 @@
     },
     data () {
       return {
-        chartData: {
-          title: {
-            text: '',
-            left: 0
-          },
-          xAxis: {
-            data: []
-          },
-          yAxis: {
-            type: 'value'
-          },
-          legend: {
-            data: []
-          },
-          dataZoom: [
-            {
-              type: 'inside',
-              start: 50,
-              end: 100
-            },
-            {
-              show: true,
-              type: 'slider',
-              y: '90%',
-              start: 50,
-              end: 100
-            }
-          ],
-          series: []
-        }
+        fromDate: '2019-10-01',
+        fromDateMenu: false,
+        toDate: '2019-10-12',
+        toDateMenu: false,
+        textMapping,
+        defaultChartOption
       }
     },
     mounted () {
@@ -121,13 +156,13 @@
           // calculate percentage
           const calculated = this.calculate({structured, fields})
 
-          const chartOpt = Object.assign({}, this.chartData)
-          chartOpt.title.text = metaType.name
+          const chartOpt = Object.assign({}, this.defaultChartOption)
+          chartOpt.title.text = this.textMapping[metaType.name] || metaType.name
           chartOpt.legend.data = calculated.fields
           chartOpt.xAxis.data = calculated.dayList
 
           for (let category of calculated.fields) {
-            this.chartData.series.push({
+            chartOpt.series.push({
               name: category,
               data: calculated.data[category],
               type: 'line',

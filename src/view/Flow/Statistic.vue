@@ -246,7 +246,7 @@
 
           // no available anymore
           if (!item) {
-            item = Object.assign({}, empty)
+            item = _.cloneDeep(empty)
           }
 
           let sumPerDay = 0.0

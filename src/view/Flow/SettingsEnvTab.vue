@@ -38,6 +38,7 @@
 
 <script>
   import EnvItem from '@/components/Flow/EnvItem'
+  import _ from 'lodash'
 
   export default {
     name: 'SettingsEnvTab',
@@ -69,7 +70,7 @@
     watch: {
       flow () {
         if (!this.flow.locally || Object.keys(this.flow.locally).length === 0) {
-          const copy = Object.assign({}, this.empty)
+          const copy = _.cloneDeep(this.empty)
           this.localVars = [ copy ]
           return
         }
@@ -116,7 +117,7 @@
           }
         }
 
-        const copy = Object.assign({}, this.empty)
+        const copy = _.cloneDeep(this.empty)
         this.localVars.push(copy)
       },
 

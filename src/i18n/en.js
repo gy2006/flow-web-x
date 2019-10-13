@@ -11,6 +11,7 @@ export default {
   delete: 'Delete',
   login: 'Login',
   password: 'Password',
+  confirm: 'Confirm',
 
   menu: {
     signedInAs: 'Signed in as ',
@@ -30,7 +31,6 @@ export default {
     create_title_git_access: 'Config Git Access',
     create_title_git_test: 'Test Git Connection',
     create_title_yml: 'Config YML',
-
     create_btn_finish: 'Finish',
 
     delete_btn: 'Delete This Flow',
@@ -39,6 +39,8 @@ export default {
     var_type: 'Data Type',
     var_name: 'Name',
     var_value: 'Value',
+
+    stats_date_select: 'Select Statistic Date:',
 
     hint: {
       name_required: 'Flow name is required',

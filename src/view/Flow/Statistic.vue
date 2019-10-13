@@ -9,11 +9,11 @@
 
     <v-card-text class="pt-0 tab-wrapper">
       <!-- header that includes data selection -->
-      <v-layout row wrap>
-        <v-flex xs3>
+      <v-layout row wrap class="align-center">
+        <v-flex xs3 class="text-xs-center">
+          <span class="subheading">{{ $t('flow.stats_date_select') }}</span>
         </v-flex>
-
-        <v-flex xs4>
+        <v-flex xs3>
           <v-menu
               v-model="fromDateMenu"
               :close-on-content-click="false"
@@ -33,10 +33,15 @@
                   v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="fromDate" no-title @input="fromDateMenu = false"></v-date-picker>
+            <v-date-picker v-model="fromDate"
+                           no-title
+                           :min="min"
+                           :max="max"
+                           @input="fromDateMenu = false"
+            ></v-date-picker>
           </v-menu>
         </v-flex>
-        <v-flex xs4>
+        <v-flex xs3>
           <v-menu
               v-model="toDateMenu"
               :close-on-content-click="false"
@@ -57,8 +62,20 @@
                   v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="toDate" no-title @input="toDateMenu = false"></v-date-picker>
+            <v-date-picker v-model="toDate"
+                           no-title
+                           :min="min"
+                           :max="max"
+                           @input="toDateMenu = false"
+            ></v-date-picker>
           </v-menu>
+        </v-flex>
+        <v-flex xs2>
+          <v-btn outline
+                 color="indigo"
+                 class="ml-4 mt-2"
+                 @click="onConfirmClicked"
+          >{{ $t('confirm') }}</v-btn>
         </v-flex>
         <v-flex xs1>
         </v-flex>
@@ -81,6 +98,7 @@
   import actions from '@/store/actions'
   import Nav from '@/components/Common/Nav'
   import * as echarts from 'echarts'
+  import moment from 'moment'
   import { textMapping, defaultChartOption } from '@/util/stats'
 
   export default {
@@ -90,9 +108,11 @@
     },
     data () {
       return {
-        fromDate: '2019-10-01',
+        min: moment().subtract(31, 'days').format('YYYY-MM-DD'),
+        max: moment().format('YYYY-MM-DD'),
+        fromDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
         fromDateMenu: false,
-        toDate: '2019-10-12',
+        toDate: moment().format('YYYY-MM-DD'),
         toDateMenu: false,
         textMapping,
         defaultChartOption
@@ -103,12 +123,6 @@
         this.$store.dispatch(actions.flows.select, this.name).then()
       } else {
         this.load()
-      }
-    },
-    updated () {
-      for (const t of this.metaTypeList) {
-        const instance = echarts.init(document.getElementById(t.name))
-        this.setChartData(t, instance)
       }
     },
     computed: {
@@ -133,19 +147,28 @@
       }
     },
     methods: {
+      onConfirmClicked() {
+        this.load()
+      },
+
       load () {
-        this.$store.dispatch(actions.stats.metaTypeList).then()
+        this.$store.dispatch(actions.stats.metaTypeList).then(() => {
+          for (const t of this.metaTypeList) {
+            const instance = echarts.init(document.getElementById(t.name))
+            this.setChartData(t, instance)
+          }
+        })
       },
 
       setChartData (metaType, echartInstance) {
         const fields = metaType.fields
 
         let flowId = this.flow.id
-        const params = {
+        let params = {
           flowId: flowId,
           metaType: metaType.name,
-          from: 20191001,
-          to: 20191011
+          from: parseInt(moment(this.fromDate).format('YYYYMMDD'), 10),
+          to: parseInt(moment(this.toDate).format('YYYYMMDD'), 10)
         }
 
         // load statistic data list
@@ -154,7 +177,7 @@
           const structured = this.structureData(this.statsList)
 
           // calculate percentage
-          const calculated = this.calculate({structured, fields})
+          const calculated = this.calculate({structured, fields, fromDay: params.from, toDay: params.to})
 
           const chartOpt = Object.assign({}, this.defaultChartOption)
           chartOpt.title.text = this.textMapping[metaType.name] || metaType.name
@@ -188,11 +211,9 @@
         return dataPerDay
       },
 
-      calculate ({structured, fields}) {
+      calculate ({structured, fields, fromDay, toDay}) {
         let dayList = []
         let data = {} // counter key with array, {PASSED: [0.1, 0.2, 0.3], xxxx}
-        let fromDay = 20191001
-        let toDay = 20191007
 
         // create empty data
         const empty = {counter: {}}

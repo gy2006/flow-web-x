@@ -11,6 +11,7 @@ export default {
   delete: '删除',
   login: '登录',
   password: '密码',
+  confirm: '确认',
 
   menu: {
     signedInAs: '当前用户 ',
@@ -30,7 +31,6 @@ export default {
     create_title_git_access: '配置 Git 权限',
     create_title_git_test: '测试 Git 链接',
     create_title_yml: '配置 YML',
-
     create_btn_finish: '完成创建',
 
     delete_btn: '删除当前 Flow',
@@ -39,6 +39,8 @@ export default {
     var_type: '数据类型',
     var_name: '名称',
     var_value: '值',
+
+    stats_date_select: '选择统计日期',
 
     hint: {
       name_required: '请输入 Flow 名称',

@@ -100,6 +100,7 @@
   import * as echarts from 'echarts'
   import moment from 'moment'
   import { textMapping, defaultChartOption } from '@/util/stats'
+  import _ from 'lodash'
 
   export default {
     name: 'FlowStatistic',
@@ -108,6 +109,7 @@
     },
     data () {
       return {
+        echartsInstances: {},
         min: moment().subtract(31, 'days').format('YYYY-MM-DD'),
         max: moment().format('YYYY-MM-DD'),
         fromDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
@@ -154,7 +156,11 @@
       load () {
         this.$store.dispatch(actions.stats.metaTypeList).then(() => {
           for (const t of this.metaTypeList) {
-            const instance = echarts.init(document.getElementById(t.name))
+            let instance = this.echartsInstances[t.name]
+            if (!instance) {
+              instance = this.echartsInstances[t.name] = echarts.init(document.getElementById(t.name))
+            }
+
             this.setChartData(t, instance)
           }
         })
@@ -171,6 +177,7 @@
           to: parseInt(moment(this.toDate).format('YYYYMMDD'), 10)
         }
 
+
         // load statistic data list
         this.$store.dispatch(actions.stats.list, params).then(() => {
           // make data to map
@@ -179,7 +186,7 @@
           // calculate percentage
           const calculated = this.calculate({structured, fields, fromDay: params.from, toDay: params.to})
 
-          const chartOpt = Object.assign({}, this.defaultChartOption)
+          const chartOpt = _.cloneDeep(this.defaultChartOption)
           chartOpt.title.text = this.textMapping[metaType.name] || metaType.name
           chartOpt.legend.data = calculated.fields
           chartOpt.xAxis.data = calculated.dayList
@@ -196,6 +203,7 @@
             })
           }
 
+          echartInstance.clear()
           echartInstance.setOption(chartOpt)
         })
       },

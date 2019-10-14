@@ -62,7 +62,9 @@ export default {
       ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
 
       delete_title: '请输入要删除的 Flow 名称',
-      delete_confirm_name_not_same: '输入的名称错误'
+      delete_confirm_name_not_same: '输入的名称错误',
+
+      stats_invalid_date: 'Invalid statistic date'
     }
   },
 

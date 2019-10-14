@@ -62,7 +62,9 @@ export default {
       ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
 
       delete_title: 'Please type in the name of the flow to confirm',
-      delete_confirm_name_not_same: 'The typed in name not the same of the flow'
+      delete_confirm_name_not_same: 'The typed in name not the same of the flow',
+
+      stats_invalid_date: 'Invalid statistic date'
     }
   },
 

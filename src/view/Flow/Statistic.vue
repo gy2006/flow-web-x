@@ -105,7 +105,7 @@
   export default {
     name: 'FlowStatistic',
     components: {
-      Nav
+      Nav,
     },
     data () {
       return {
@@ -135,6 +135,14 @@
       }),
       name () {
         return this.$route.params.id
+      },
+
+      intFromDate () {
+        return parseInt(moment(this.fromDate).format('YYYYMMDD'), 10)
+      },
+
+      intToDate () {
+        return parseInt(moment(this.toDate).format('YYYYMMDD'), 10)
       }
     },
     watch: {
@@ -150,6 +158,11 @@
     },
     methods: {
       onConfirmClicked() {
+        if (this.intFromDate > this.intToDate) {
+          this.showSnackBar(this.$t('flow.hint.stats_invalid_date'), 'error')
+          return
+        }
+
         this.load()
       },
 
@@ -173,10 +186,9 @@
         let params = {
           flowId: flowId,
           metaType: metaType.name,
-          from: parseInt(moment(this.fromDate).format('YYYYMMDD'), 10),
-          to: parseInt(moment(this.toDate).format('YYYYMMDD'), 10)
+          from: this.intFromDate,
+          to: this.intToDate
         }
-
 
         // load statistic data list
         this.$store.dispatch(actions.stats.list, params).then(() => {

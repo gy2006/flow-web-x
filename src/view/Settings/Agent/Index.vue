@@ -94,12 +94,10 @@
       },
 
       onTokenCopyClick (wrapper) {
-        this.snackbarShow = true
-
         this.$copyText(wrapper.token)
           .then((e) => {
             const text = 'Token ' + e.text + ' is copied'
-            this.$store.commit(actions.app.showSnackbar, text)
+            this.showSnackBar(text, 'info')
           })
           .catch((e) => {
 

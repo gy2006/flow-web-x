@@ -56,9 +56,6 @@
       SettingsOptionTab,
       SettingsMemberTab
     },
-    mounted () {
-      this.$store.dispatch(actions.flows.select, this.name).then()
-    },
     computed: {
       ...mapState({
         flow: state => state.flows.selected.obj,
@@ -69,7 +66,9 @@
     },
     watch: {
       name (after) {
-        this.$store.dispatch(actions.flows.select, after).then()
+        if (after !== this.flow.name) {
+          this.$store.dispatch(actions.flows.select, after).then()
+        }
       }
     },
     methods: {

@@ -10,7 +10,7 @@
 
       <v-snackbar
           v-model="snackbar.show"
-          color="info"
+          :color="snackbar.color"
           :timeout="5000"
           :top="true"
       >

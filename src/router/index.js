@@ -5,6 +5,7 @@ import Login from '@/view/Home/Login'
 import Home from '@/view/Home/Index'
 
 import FlowSettings from '@/view/Flow/Settings'
+import FlowStatistic from '@/view/Flow/Statistic'
 
 import JobDetail from '@/view/Job/Detail'
 import JobList from '@/view/Job/List'
@@ -46,6 +47,11 @@ export default new Router({
       path: '/flows/:id/settings',
       name: 'FlowSettings',
       component: FlowSettings
+    },
+    {
+      path: '/flows/:id/statistic',
+      name: 'FlowStatistic',
+      component: FlowStatistic
     },
     {
       path: '/flows/:id/jobs/:num',

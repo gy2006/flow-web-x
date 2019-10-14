@@ -11,6 +11,7 @@ export default {
   delete: 'Delete',
   login: 'Login',
   password: 'Password',
+  confirm: 'Confirm',
 
   menu: {
     signedInAs: 'Signed in as ',
@@ -22,6 +23,7 @@ export default {
     create: 'Create Flow',
     search: 'Search by key words',
     settings: 'Settings',
+    statistic: 'Statistic',
     config_yml: 'YML Config',
 
     create_title_name: 'Enter Flow Name',
@@ -29,7 +31,6 @@ export default {
     create_title_git_access: 'Config Git Access',
     create_title_git_test: 'Test Git Connection',
     create_title_yml: 'Config YML',
-
     create_btn_finish: 'Finish',
 
     delete_btn: 'Delete This Flow',
@@ -38,6 +39,8 @@ export default {
     var_type: 'Data Type',
     var_name: 'Name',
     var_value: 'Value',
+
+    stats_date_select: 'Select Statistic Date:',
 
     hint: {
       name_required: 'Flow name is required',
@@ -59,7 +62,9 @@ export default {
       ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
 
       delete_title: 'Please type in the name of the flow to confirm',
-      delete_confirm_name_not_same: 'The typed in name not the same of the flow'
+      delete_confirm_name_not_same: 'The typed in name not the same of the flow',
+
+      stats_invalid_date: 'Invalid statistic date'
     }
   },
 

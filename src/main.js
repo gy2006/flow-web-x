@@ -65,6 +65,11 @@ Vue.mixin({
       if (!this.isLoginPage) {
         this.$router.replace('/login')
       }
+    },
+
+    showSnackBar (text, color) {
+      color = color || 'info'
+      this.$store.commit(actions.app.showSnackbar, {text, color})
     }
   }
 })

@@ -61,6 +61,7 @@
 <script>
   import { VarTypes } from '@/util/vars'
   import actions from '@/store/actions'
+  import _ from 'lodash'
 
   export default {
     name: 'EnvItem',
@@ -105,7 +106,7 @@
       errors: []
     }),
     mounted () {
-      this.obj = Object.assign({}, this.item)
+      this.obj = _.cloneDeep(this.item)
       if (this.obj.edit) {
         this.edit = this.obj.edit
       }

@@ -31,6 +31,10 @@ export class JobWrapper {
     return this.job
   }
 
+  get errorMsg() {
+    return this.job.message
+  }
+
   get commitId () {
     return this.context[ vars.git.commit.id ]
   }

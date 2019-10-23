@@ -13,7 +13,7 @@
         :icon="n.status.icon"
     >
       <v-layout pt-1>
-        <v-flex xs10 @click="onExpand(i)">
+        <v-flex @click="onExpand(i)">
           <v-expansion-panel class="elevation-0">
             <v-expansion-panel-content>
               <template v-slot:header>
@@ -80,20 +80,6 @@
         this.resetConfig(wrapperList)
 
         return wrapperList
-      },
-
-      first () {
-        return this.items[0] || {
-          startAt: '-',
-          finishAt: '-'
-        }
-      },
-
-      last () {
-        return this.items[this.items.length - 1] || {
-          startAt: '-',
-          finishAt: '-'
-        }
       }
     },
     watch: {

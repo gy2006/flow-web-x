@@ -13,10 +13,10 @@
       <!-- job summary bar -->
       <v-layout align-center class="px-5 py-3 grey lighten-5">
         <v-flex>
-          <span>
-            <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
-            {{ wrapper.status.text }}
-          </span>
+            <v-icon small
+                    v-bind:class="[wrapper.status.class]"
+            >{{ wrapper.status.icon }}</v-icon>
+            <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
         </v-flex>
 
         <v-flex>
@@ -43,6 +43,11 @@
           </div>
         </v-flex>
       </v-layout>
+      <v-divider></v-divider>
+
+      <div class="error-bar" v-if="wrapper.errorMsg">
+        <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
+      </div>
 
       <v-divider></v-divider>
 
@@ -188,6 +193,11 @@
     .tab-wrapper .v-window__container,
     .tab-wrapper .v-window-item {
       height: 95%;
+    }
+
+    .error-bar {
+      background-color: #FFEBEE;
+      color: #EF5350;
     }
   }
 </style>

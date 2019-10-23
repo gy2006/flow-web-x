@@ -13,10 +13,10 @@
       <!-- job summary bar -->
       <v-layout align-center class="px-5 py-3 grey lighten-5">
         <v-flex>
-          <span>
-            <v-icon small v-bind:class="[wrapper.status.class]">{{ wrapper.status.icon }}</v-icon>
-            {{ wrapper.status.text }}
-          </span>
+            <v-icon small
+                    v-bind:class="[wrapper.status.class]"
+            >{{ wrapper.status.icon }}</v-icon>
+            <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
         </v-flex>
 
         <v-flex>

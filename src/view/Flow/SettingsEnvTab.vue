@@ -14,7 +14,7 @@
     <env-item :edit="false"
               :flow="flow"
               v-for="obj in localVars"
-              :key="obj.name"
+              :key= "`local-${obj.name}`"
               :item="obj"
               :editable="obj.editable"
               :onSaved="onVarSaved"
@@ -29,7 +29,7 @@
     <env-item :edit="false"
               :flow="flow"
               v-for="obj in ymlVars"
-              :key="obj.name"
+              :key="`yml-${obj.name}`"
               :item="obj"
               :editable="obj.editable"
     ></env-item>
@@ -62,23 +62,30 @@
 
       localVars: []
     }),
+    mounted () {
+      this.loadLocalVars(this.flow)
+    },
     computed: {
       ymlVars () {
         return this.toVarObjectList(this.flow.variables, false)
       }
     },
     watch: {
-      flow () {
-        if (!this.flow.locally || Object.keys(this.flow.locally).length === 0) {
+      flow (after) {
+        this.loadLocalVars(after)
+      }
+    },
+    methods: {
+      loadLocalVars(flow) {
+        if (!flow.locally || Object.keys(flow.locally).length === 0) {
           const copy = _.cloneDeep(this.empty)
           this.localVars = [ copy ]
           return
         }
 
-        this.localVars = this.toVarObjectList(this.flow.locally, false)
-      }
-    },
-    methods: {
+        this.localVars = this.toVarObjectList(flow.locally, false)
+      },
+
       toVarObjectList (varsMap, edit) {
         let list = []
 

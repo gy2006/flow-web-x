@@ -28,21 +28,20 @@ const actions = {
     })
   },
 
-  async metaTypeList({commit}) {
-    await http.get(`stats/type`, (list) => {
+  async metaTypeList({commit}, name) {
+    await http.get(`flows/${name}/stats/types`, (list) => {
       commit('updateMetaTypeList', list)
     })
   },
 
-  async list({commit}, {flowId, metaType, from, to}) {
+  async list({commit}, {name, metaType, from, to}) {
     const params = {
-      id: flowId,
       t: metaType,
       from,
       to
     }
 
-    await http.get(`stats`, (statsList) => {
+    await http.get(`flows/${name}/stats`, (statsList) => {
       commit('updateStatsData', statsList)
     }, params)
   }

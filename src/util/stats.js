@@ -1,7 +1,3 @@
-export const textMapping = {
-  CI_JOB_STATUS: 'Job Status'
-}
-
 export const defaultChartOption = {
   title: {
     text: '',

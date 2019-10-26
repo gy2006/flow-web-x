@@ -99,7 +99,7 @@
   import Nav from '@/components/Common/Nav'
   import * as echarts from 'echarts'
   import moment from 'moment'
-  import { textMapping, defaultChartOption } from '@/util/stats'
+  import { defaultChartOption } from '@/util/stats'
   import _ from 'lodash'
 
   export default {
@@ -116,7 +116,6 @@
         fromDateMenu: false,
         toDate: moment().format('YYYY-MM-DD'),
         toDateMenu: false,
-        textMapping,
         defaultChartOption
       }
     },
@@ -167,9 +166,10 @@
       },
 
       load () {
-        this.$store.dispatch(actions.stats.metaTypeList).then(() => {
+        this.$store.dispatch(actions.stats.metaTypeList, this.flow.name).then(() => {
           for (const t of this.metaTypeList) {
             let instance = this.echartsInstances[t.name]
+
             if (!instance) {
               instance = this.echartsInstances[t.name] = echarts.init(document.getElementById(t.name))
             }
@@ -182,9 +182,9 @@
       setChartData (metaType, echartInstance) {
         const fields = metaType.fields
 
-        let flowId = this.flow.id
+        let name = this.flow.name
         let params = {
-          flowId: flowId,
+          name,
           metaType: metaType.name,
           from: this.intFromDate,
           to: this.intToDate
@@ -199,7 +199,7 @@
           const calculated = this.calculate({structured, fields, fromDay: params.from, toDay: params.to})
 
           const chartOpt = _.cloneDeep(this.defaultChartOption)
-          chartOpt.title.text = this.textMapping[metaType.name] || metaType.name
+          chartOpt.title.text = metaType.desc
           chartOpt.legend.data = calculated.fields
           chartOpt.xAxis.data = calculated.dayList
 

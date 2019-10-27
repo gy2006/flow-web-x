@@ -12,35 +12,46 @@
 
       <!-- job summary bar -->
       <v-layout align-center class="px-5 py-3 grey lighten-5">
-        <v-flex>
+        <v-flex xs2>
             <v-icon small
                     v-bind:class="[wrapper.status.class]"
             >{{ wrapper.status.icon }}</v-icon>
             <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
         </v-flex>
 
-        <v-flex>
+        <v-flex xs2>
           {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
         </v-flex>
 
-        <v-flex>
+        <v-flex xs2>
           <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
           <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
         </v-flex>
 
-        <v-flex class="caption">
+        <v-flex class="caption" xs3>
           <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
           <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
           </div>
           <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
         </v-flex>
 
-        <v-flex class="caption">
+        <v-flex class="caption" xs2>
           <div>{{ $t('job.triggerBy') }}</div>
           <div>
             <span>{{ wrapper.triggerBy }}</span>
             <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
           </div>
+        </v-flex>
+
+        <v-flex xs1>
+          <v-btn flat
+                 color="error"
+                 @click="onStopClick"
+                 v-if="!finished"
+          >
+            <v-icon>stop</v-icon>
+            {{ $t('cancel') }}
+          </v-btn>
         </v-flex>
       </v-layout>
       <v-divider></v-divider>
@@ -127,6 +138,10 @@
 
       wrapper () {
         return new JobWrapper(this.job)
+      },
+
+      finished () {
+        return isJobFinished(this.job)
       }
     },
     destroyed () {
@@ -178,6 +193,10 @@
       load () {
         this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
         this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+      },
+
+      onStopClick () {
+        this.$store.dispatch(actions.jobs.cancel, {flow: this.flow, buildNumber: this.number}).then()
       }
     }
   }

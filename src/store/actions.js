@@ -41,6 +41,7 @@ export default {
     get: 'jobs/get',
     start: 'jobs/start',
     create: 'jobs/create',
+    cancel: 'jobs/cancel',
     list: 'jobs/list',
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',

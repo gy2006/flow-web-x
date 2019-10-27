@@ -108,6 +108,10 @@ const actions = {
     await http.post('jobs/run', emptyFunc, {flow, inputs})
   },
 
+  async cancel({commit}, {flow, buildNumber}) {
+    await http.post(`jobs/${flow}/${buildNumber}/cancel`, emptyFunc)
+  },
+
   /**
    * Add a job instance to current job list
    */

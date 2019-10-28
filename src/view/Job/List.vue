@@ -12,7 +12,7 @@
 
       <v-flex xs2 d-flex>
         <v-btn
-            flat
+            text
             color="blue-grey"
             class="white--text"
             @click="onStatisticClick">
@@ -21,7 +21,7 @@
         </v-btn>
 
         <v-btn
-            flat
+            text
             color="blue-grey"
             class="white--text"
             @click="onSettingsClick">
@@ -32,7 +32,7 @@
 
       <v-flex xs1 class="ml-4">
         <v-btn
-            flat
+            text
             :loading="loading"
             :disabled="loading"
             color="success"
@@ -78,7 +78,7 @@
           <v-alert :value="true" color="white">
             <span class="light-blue--text">Click to start the first build</span>
             <v-btn
-                flat
+                text
                 icon
                 color="success"
                 @click.native="onRunClick">

@@ -19,25 +19,17 @@
     <!--      </v-btn>-->
     <!--    </v-snackbar>-->
 
-    <!--flow list-->
-    <!--    <flow-menu ref="flowList" v-if="!isLoginPage"></flow-menu>-->
-
-    <!--toolbar-->
-    <!--    <v-toolbar color="grey lighten-4" dense app fixed clipped-left>-->
-    <!--      <v-toolbar-side-icon @click.native="onFlowMenuClick"></v-toolbar-side-icon>-->
-    <!--      <v-toolbar-title>-->
-    <!--        <v-icon class="black&#45;&#45;text">flow-icon-logo</v-icon>-->
-    <!--      </v-toolbar-title>-->
-    <!--      <v-spacer></v-spacer>-->
-    <!--      <agent-menu v-if="!isLoginPage"></agent-menu>-->
-    <!--      <profile-menu v-if="!isLoginPage"></profile-menu>-->
-    <!--    </v-toolbar>-->
-
-    <v-navigation-drawer v-model="flowNav" app>
+    <v-navigation-drawer v-model="flowNavDrawer"
+                         :clipped="$vuetify.breakpoint.lgAndUp"
+                         app>
+      <flow-menu v-if="!isLoginPage"></flow-menu>
     </v-navigation-drawer>
 
-    <v-app-bar app color="grey lighten-4">
+    <v-app-bar app
+               :clipped-left="$vuetify.breakpoint.lgAndUp"
+               color="grey lighten-4">
       <v-toolbar-title>
+        <v-app-bar-nav-icon @click.stop="flowNavDrawer = !flowNavDrawer"></v-app-bar-nav-icon>
         <v-icon class="black--text">flow-icon-logo</v-icon>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -45,8 +37,8 @@
       <profile-menu v-if="!isLoginPage"></profile-menu>
     </v-app-bar>
 
-    <v-content fluid>
-      <v-container fill-height class="pa-2">
+    <v-content>
+      <v-container fluid fill-height>
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -76,7 +68,7 @@
   import FlowMenu from '@/view/Flow/Menu'
   import AgentMenu from '@/view/Common/AgentMenu'
   import ProfileMenu from '@/view/Common/ProfileMenu'
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'App',
@@ -87,20 +79,20 @@
     },
     data () {
       return {
-        flowNav: false
+        flowNavDrawer: false
       }
     },
     computed: {
       ...mapState({
         snackbar: state => state.g.snackbar
-      }),
+      })
     },
     methods: {
-      refs(name) {
-        return this.$refs[name]
+      refs (name) {
+        return this.$refs[ name ]
       },
 
-      onFlowMenuClick() {
+      onFlowMenuClick () {
         if (!this.isLoginPage) {
           this.refs('flowList').click()
         }

@@ -2,27 +2,27 @@
   <v-card class="full-size pa-0" flat>
     <v-card-text class="editor pa-0">
       <div id="yml-editor" class="full-height"></div>
+
+      <div class="error-message" v-if="errorOnSave">
+        <span class="px-5 py-1">{{ errorOnSave }}</span>
+      </div>
     </v-card-text>
 
-    <v-card-actions class="px-0">
-      <div class="ml-2 mr-2">
+    <v-card-actions class="mt-4">
         <v-btn color="secondary" blod @click="onResetClick" :disabled="!isCodeChange">
           <b>{{ $t('reset') }}</b>
         </v-btn>
-      </div>
 
-      <div class="ml-2 mr-2">
         <v-btn color="primary" blod @click="onSaveClick" :disabled="!isCodeChange">
           <b>{{ $t('save') }}</b>
         </v-btn>
-      </div>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
   import * as monaco from 'monaco-editor'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import actions from '@/store/actions'
 
   export default {
@@ -33,13 +33,14 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         editor: {},
+        errorOnSave: '',
         isCodeChange: false
       }
     },
-    mounted () {
+    mounted() {
       this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
         value: this.yml,
         language: 'yaml',
@@ -60,41 +61,47 @@
         yml: state => state.flows.selected.yml
       }),
 
-      name () {
+      name() {
         return this.flow.name
       }
     },
     watch: {
-      yml (after) {
+      yml(after) {
         this.editor.setValue(after)
       },
 
-      flow () {
+      flow() {
         this.reload()
       }
     },
     methods: {
-      reload () {
+      reload() {
         this.$store.dispatch(actions.flows.yml.load, this.flow.name).then()
       },
 
-      onCodeChange (e) {
+      onCodeChange(e) {
         this.isCodeChange = true
       },
 
-      onResetClick () {
+      onResetClick() {
         this.editor.setValue(this.yml)
         this.isCodeChange = false
       },
 
-      onSaveClick () {
-        const payload = {name: this.name, yml: this.editor.getValue()}
-        this.$store.dispatch(actions.flows.yml.save, payload).then(() => {
-          this.isCodeChange = false
+      onSaveClick() {
+        this.errorOnSave = ''
 
-          // reload current flow since vars may changed
-          this.$store.dispatch(actions.flows.select, this.name).then()
-        })
+        const payload = {name: this.name, yml: this.editor.getValue()}
+        this.$store.dispatch(actions.flows.yml.save, payload)
+          .then(() => {
+            this.isCodeChange = false
+
+            // reload current flow since vars may changed
+            this.$store.dispatch(actions.flows.select, this.name).then()
+          })
+          .catch((err) => {
+            this.errorOnSave = err.message
+          })
       }
     }
   }

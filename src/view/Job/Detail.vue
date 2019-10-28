@@ -56,7 +56,7 @@
       </v-layout>
       <v-divider></v-divider>
 
-      <div class="error-bar" v-if="wrapper.errorMsg">
+      <div class="error-message" v-if="wrapper.errorMsg">
         <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
       </div>
 
@@ -212,11 +212,6 @@
     .tab-wrapper .v-window__container,
     .tab-wrapper .v-window-item {
       height: 95%;
-    }
-
-    .error-bar {
-      background-color: #FFEBEE;
-      color: #EF5350;
     }
   }
 </style>

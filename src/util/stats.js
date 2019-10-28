@@ -6,6 +6,9 @@ export const defaultChartOption = {
       fontSize: 16
     }
   },
+  tooltip: {
+    trigger: 'axis'
+  },
   xAxis: {
     data: []
   },
@@ -13,7 +16,7 @@ export const defaultChartOption = {
     type: 'value',
     min:0,
     max:100,
-    splitNumber: 10,
+    splitNumber: 5,
     axisLabel: {
       formatter: '{value} %'
     }

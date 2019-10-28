@@ -10,7 +10,13 @@ export const defaultChartOption = {
     data: []
   },
   yAxis: {
-    type: 'value'
+    type: 'value',
+    min:0,
+    max:100,
+    splitNumber: 10,
+    axisLabel: {
+      formatter: '{value} %'
+    }
   },
   legend: {
     data: []

@@ -272,7 +272,7 @@
 
           // calculate percentage
           for (const category of Object.keys(counter)) {
-            const percent = counter[ category ] / sumPerDay
+            const percent = (counter[ category ] / sumPerDay) * 100
             data[ category ].push(percent || 0.0)
           }
         }

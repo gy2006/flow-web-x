@@ -4,7 +4,7 @@
     <v-btn small color="primary" @click="handleFinishClick">{{ $t('flow.create_btn_finish') }}</v-btn>
 
     <!-- back button -->
-    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
+    <v-btn small text @click="onBackClick">{{ $t('back') }}</v-btn>
 
     <!-- test button -->
     <git-test-btn :wrapper="flow"></git-test-btn>

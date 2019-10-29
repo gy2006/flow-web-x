@@ -22,7 +22,7 @@
       <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew && !isReadOnly">
         <template v-slot:activator="{ on }">
           <v-btn small
-                 outline
+                 text
                  v-on="on"
                  color="indigo"
                  open-delay="2000"
@@ -50,15 +50,15 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="dialog = false">{{ $t('close') }}</v-btn>
-            <v-btn color="blue darken-1" flat @click="onCreateSSHClick">{{ $t('create') }}</v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">{{ $t('close') }}</v-btn>
+            <v-btn color="blue darken-1" text @click="onCreateSSHClick">{{ $t('create') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
       <v-flex class="mt-1">
         <v-textarea
-            box
+            filled
             label="Public Key"
             rows="4"
             class="font-weight-medium caption"
@@ -72,7 +72,7 @@
 
       <v-flex>
         <v-textarea
-            box
+            filled
             class="font-weight-medium caption"
             label="Private Key"
             rows="8"

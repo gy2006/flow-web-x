@@ -62,11 +62,12 @@
 
     <v-card-text class="pt-0">
       <v-data-table
-          hide-headers
+          hide-default-header
           :items="jobs"
-          :pagination.sync="pagination"
-          :total-items="total"
-          :rows-per-page-items="[10, 25, 50]">
+          :options="pagination"
+          :server-items-length="total"
+          footer-props.items-per-page-options="[10, 25, 50]"
+      >
 
         <template slot="items" slot-scope="props">
           <td @click="onItemClick(props.item)">

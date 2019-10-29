@@ -12,7 +12,7 @@
       </v-layout>
     </v-form>
     <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
+    <v-btn small text @click="onBackClick">{{ $t('back') }}</v-btn>
   </div>
 </template>
 

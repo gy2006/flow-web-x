@@ -1,6 +1,6 @@
 <template>
   <v-layout class="align-center justify-center fill-height row">
-    <v-flex xs12 sm6>
+    <v-flex xs6 sm6>
       <v-card>
         <v-card-title class="pb-0">
           <span class="title font-weight-bold">{{ $t('login') }}</span>

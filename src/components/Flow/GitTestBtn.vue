@@ -1,7 +1,7 @@
 <template>
   <span>
     <v-btn color="info"
-           outline
+           outlined
            small
            @click="onTestClick"
            :loading="loading"

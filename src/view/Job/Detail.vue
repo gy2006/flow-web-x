@@ -9,8 +9,8 @@
 
     <v-divider></v-divider>
 
-    <v-row align="center" justify="start" class="ma-0 px-2 grey lighten-5">
-      <v-col cols="1">
+    <v-row align="center" justify="start" class="ma-0 px-4 grey lighten-5">
+      <v-col cols="2">
         <v-icon small
                 v-bind:class="[wrapper.status.class]"
         >{{ wrapper.status.icon }}
@@ -54,13 +54,13 @@
       </v-col>
     </v-row>
 
+    <div class="error-message" v-if="wrapper.errorMsg">
+      <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
+    </div>
+
+    <v-divider></v-divider>
+
     <v-card-text class="px-0 py-1 tab-wrapper">
-      <div class="error-message" v-if="wrapper.errorMsg">
-        <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
-      </div>
-
-      <v-divider></v-divider>
-
       <v-tabs fixed-tabs class="mt-2 full-size">
         <v-tab href="#summary" class="ml-0 elevation-1">
           {{ $t('job.tab.summary') }}

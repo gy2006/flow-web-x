@@ -6,40 +6,39 @@
 
     <!-- logs -->
     <v-timeline-item
-        color=""
         small
+        right
         v-for="(n, i) in items"
         :key="n.id"
+        color=""
         :icon="n.status.icon"
     >
-      <v-layout pt-1>
-        <v-flex @click="onExpand(i)">
-          <v-expansion-panel class="elevation-0">
-            <v-expansion-panel-content>
-              <template v-slot:header>
-                <v-layout>
-                  <v-flex xs2>
+      <v-row class="console">
+        <v-col @click="onExpand(i)">
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="pa-1">
+                <v-row>
+                  <v-col cols="2">
                     <span class="subheading font-weight-bold">{{ n.name }}</span>
-                  </v-flex>
-                  <v-flex xs1 v-if="n.isFinished">
+                  </v-col>
+                  <v-col cols="1" v-if="n.isFinished">
                     <span class="caption">{{ n.duration }}</span>
                     <span class="ml-1">(ms)</span>
-                  </v-flex>
-                  <v-flex xs1 v-if="n.isFinished">
+                  </v-col>
+                  <v-col cols="1" v-if="n.isFinished">
                     <v-icon small @click="onLogDownload(n.id)">flow-icon-download</v-icon>
-                  </v-flex>
-                </v-layout>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <div :id="n.id + `-console`"></div>
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-flex>
-      </v-layout>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content class="pa-1">
+                <div :id="n.id + `-console`"></div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
+        </v-col>
+      </v-row>
     </v-timeline-item>
   </v-timeline>
 </template>
@@ -52,7 +51,7 @@
 
   export default {
     name: 'DetailTabSummary',
-    data () {
+    data() {
       return {
         // key=id, value={xterm: object, expended: false, currentRow: 0}
         config: {}
@@ -69,7 +68,7 @@
         logs: state => state.logs.items
       }),
 
-      items () {
+      items() {
         const wrapperList = []
 
         this.steps.forEach((s, index) => {
@@ -83,28 +82,28 @@
       }
     },
     watch: {
-      logs (after, before) {
+      logs(after, before) {
         after.forEach((logWrapper) => {
           this.addLog(logWrapper)
         })
       }
     },
     methods: {
-      resetConfig (wrapperList) {
+      resetConfig(wrapperList) {
         this.config = {}
 
         wrapperList.forEach((s) => {
-          this.config[ s.id ] = {xterm: null, expended: false, currentRow: 0}
+          this.config[s.id] = {xterm: null, expended: false, currentRow: 0}
         })
       },
 
-      onExpand (index) {
-        let stepWrapper = this.items[ index ]
+      onExpand(index) {
+        let stepWrapper = this.items[index]
         let stepId = stepWrapper.id
-        let instance = this.config[ stepId ].xterm
-        let expanded = this.config[ stepId ].expended
+        let instance = this.config[stepId].xterm
+        let expanded = this.config[stepId].expended
 
-        this.config[ stepId ].expended = expanded = !expanded
+        this.config[stepId].expended = expanded = !expanded
 
         if (!expanded) {
           return
@@ -112,13 +111,14 @@
 
         if (!instance) {
           instance = new Terminal()
+
           instance.open(document.getElementById(stepId + '-console'))
-          instance.fit()
           instance.on('scroll', (e) => {
             this.onTermScroll(stepId, e)
           })
+          instance.fit()
 
-          this.config[ stepId ].xterm = instance
+          this.config[stepId].xterm = instance
 
           // load logs from server
           if (isStepFinished(stepWrapper.rawInstance)) {
@@ -127,28 +127,28 @@
         }
       },
 
-      onLogDownload (stepId) {
+      onLogDownload(stepId) {
         this.$store.dispatch(actions.jobs.logs.download, stepId).then()
       },
 
-      onTermScroll (stepId, e) {
-        this.config[ stepId ].currentRow = e
+      onTermScroll(stepId, e) {
+        this.config[stepId].currentRow = e
       },
 
       // external: invoked by parent component
-      updateStep (newStep) {
+      updateStep(newStep) {
         for (let i = 0; i < this.items.length; i++) {
-          const item = this.items[ i ]
+          const item = this.items[i]
           if (item.id === newStep.id) {
-            this.items[ i ].rawStatus = newStep.status
+            this.items[i].rawStatus = newStep.status
             return
           }
         }
       },
 
       // external: invoked by parent component
-      addLog (logWrapper) {
-        let config = this.config[ logWrapper.id ]
+      addLog(logWrapper) {
+        let config = this.config[logWrapper.id]
 
         if (!config || !config.xterm) {
           return
@@ -161,15 +161,11 @@
 </script>
 
 <style lang="scss">
-  .v-stepper__step__step {
-    .v-icon {
-      color: inherit;
-    }
-  }
-
   .job-summary {
-    .v-timeline-item__body {
-      max-width: calc(100% - 40px) !important;
+    .console {
+      .v-expansion-panel-content__wrap {
+        padding: 0 !important;
+      }
     }
   }
 </style>

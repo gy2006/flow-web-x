@@ -16,7 +16,7 @@
             label="Tags"
             :rules="tagRules"
             v-model="tagInput"
-            append-icon="add_box"
+            append-icon="mdi-plus-box"
             @click:append="onTagAddClick"
         ></v-text-field>
       </v-form>
@@ -57,7 +57,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-btn
-              outline
+              outlined
               color="error"
               v-on="on"
           >{{ $t('delete') }}
@@ -75,12 +75,12 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" @click="dialog = false">{{ $t('cancel') }}</v-btn>
-            <v-btn outline color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
+            <v-btn outlined color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
-      <v-btn outline color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
+      <v-btn outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
       <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
     </v-flex>
   </v-layout>

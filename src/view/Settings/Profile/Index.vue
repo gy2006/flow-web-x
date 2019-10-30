@@ -39,7 +39,7 @@
       </v-form>
 
       <v-btn color="primary" @click="onUpdatePasswordClick">Update password</v-btn>
-      <v-btn color="info" outline @click="onForgotPasswordClick">I forgot my password</v-btn>
+      <v-btn color="info" outlined @click="onForgotPasswordClick">I forgot my password</v-btn>
     </v-flex>
 
     <!-- password change confirmed dialog -->

@@ -58,6 +58,8 @@
       </v-flex>
     </v-card-title>
 
+    <v-divider></v-divider>
+
     <v-card-text class="pt-0">
       <v-data-table
           hide-default-header
@@ -70,7 +72,7 @@
 
         <template v-slot:item="{ item }">
           <tr>
-            <td>
+            <td @click="onItemClick(item)">
               <job-list-item :job="item"></job-list-item>
             </td>
           </tr>

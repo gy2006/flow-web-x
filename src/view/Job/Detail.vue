@@ -7,9 +7,9 @@
       ></Nav>
     </v-card-title>
 
-    <v-card-text class="px-0 py-1 tab-wrapper">
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
+    <v-card-text class="px-0 py-1 tab-wrapper">
       <!-- job summary bar -->
       <v-layout align-center class="px-5 py-3 grey lighten-5">
         <v-flex xs2>

@@ -1,13 +1,18 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-breadcrumbs divider=">" class="pa-0 pl-3 nav-link">
-    <v-breadcrumbs-item
-        v-for="data in itemsObjArray"
-        :key="data.text"
-        :href="data.href"
-        :disabled="data.disabled"
-        class="headline font-weight-bold">
-      {{ data.text }}
-    </v-breadcrumbs-item>
+  <v-breadcrumbs :items="itemsObjArray" class="pt-1">
+    <template v-slot:divider>
+      <v-icon>mdi-chevron-right</v-icon>
+    </template>
+
+    <template v-slot:item="{ item }">
+      <v-breadcrumbs-item
+          :href="item.href"
+          :disabled="item.disabled"
+          class="headline font-weight-bold"
+      >
+        {{ item.text }}
+      </v-breadcrumbs-item>
+    </template>
   </v-breadcrumbs>
 </template>
 

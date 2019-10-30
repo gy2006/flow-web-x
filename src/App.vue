@@ -79,7 +79,7 @@
     },
     data () {
       return {
-        flowNavDrawer: false
+        flowNavDrawer: true
       }
     },
     computed: {

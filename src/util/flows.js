@@ -8,7 +8,7 @@ export const GIT_TEST_ERROR = 'ERROR'
 export const gitTestStatus = {
   default: {
     class: [],
-    icon: 'help',
+    icon: 'mdi-help-circle-outline',
     message: ''
   },
 

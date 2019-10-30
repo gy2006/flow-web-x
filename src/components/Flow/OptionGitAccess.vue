@@ -1,54 +1,57 @@
 <template>
-  <v-layout d-block class="full-size" wrap>
-    <v-form ref="gitAccessForm" lazy-validation>
-      <v-flex xs8>
-        <v-layout row wrap align-center>
-          <v-flex xs9>
-            <span class="caption grey--text text--darken-1">{{ `Webhook (${vars.flow.webhook})` }}</span>
-            <v-text-field
-                class="pt-0"
-                v-model="wrapper.webhook"
-                append-icon="help"
-                @click:append="onHelpClick('hook')"
-                readonly
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs1>
-            <v-icon :class="['ml-4', 'mt-2', wrapper.webhookStatus.color]">{{ wrapper.webhookStatus.icon }}</v-icon>
-          </v-flex>
-        </v-layout>
-      </v-flex>
+  <v-form ref="gitAccessForm" lazy-validation>
+    <v-row align="center">
+      <v-col cols="6">
+        <span class="caption grey--text text--darken-1">{{ `Webhook (${vars.flow.webhook})` }}</span>
+        <v-text-field
+            class="pt-0"
+            v-model="wrapper.webhook"
+            append-icon="mdi-help-circle-outline"
+            @click:append="onHelpClick('hook')"
+            readonly
+        ></v-text-field>
+      </v-col>
+      <v-col cols="1">
+        <v-icon small :class="['ml-4', 'mt-2', wrapper.webhookStatus.color]">{{ wrapper.webhookStatus.icon }}</v-icon>
+      </v-col>
+    </v-row>
 
-      <v-flex xs6>
+    <v-row>
+      <v-col cols="6">
         <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.flow.gitUrl})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.gitUrl"
-            append-icon="help"
+            append-icon="mdi-help-circle-outline"
             append-outer-icon=""
             :rules="gitUrlRules"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
-      </v-flex>
+      </v-col>
+    </v-row>
 
-      <v-flex xs6>
+    <v-row>
+      <v-col cols="6">
         <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.credential"
-            append-icon="help"
+            append-icon="mdi-help-circle-outline"
             :rules="credentialNameRules"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
-      </v-flex>
-    </v-form>
+      </v-col>
+    </v-row>
 
-    <v-flex xs12 class="d-flex">
-      <git-test-btn :wrapper="wrapper" :onBeforeTest="onTestClick"></git-test-btn>
-    </v-flex>
-  </v-layout>
+    <v-row>
+      <v-col cols="6">
+        <git-test-btn :wrapper="wrapper" :onBeforeTest="onTestClick"></git-test-btn>
+      </v-col>
+    </v-row>
+  </v-form>
+
 </template>
 
 <script>

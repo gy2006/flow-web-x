@@ -2,7 +2,7 @@
   <div>
     <v-card v-for="(value, key) in contextData"
             :key="key"
-            class="mb-2">
+            class="mb-2 elevation-1">
       <v-card-title class="pb-1" v-if="value.show">
         {{ value.name }}
       </v-card-title>
@@ -10,21 +10,23 @@
       <v-card-text class="pt-0" v-if="value.show">
         <v-data-table
             :items="value.data"
-            hide-headers
-            hide-actions>
+            hide-default-footer
+            hide-default-header>
 
-          <template v-slot:items="props">
-            <td>
-              <v-layout row>
-                <v-flex xs3>
-                  {{ props.item.key }}
-                </v-flex>
-                <v-flex>
-                  <a v-if="props.item.link" :href="props.item.link" target="_blank">{{ props.item.value }}</a>
-                  <span v-if="!props.item.link">{{ props.item.value }}</span>
-                </v-flex>
-              </v-layout>
-            </td>
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>
+                <v-row>
+                  <v-col cols="3">
+                    {{ item.key }}
+                  </v-col>
+                  <v-col>
+                    <a v-if="item.link" :href="item.link" target="_blank">{{ item.value }}</a>
+                    <span v-if="!item.link">{{ item.value }}</span>
+                  </v-col>
+                </v-row>
+              </td>
+            </tr>
           </template>
         </v-data-table>
       </v-card-text>
@@ -37,8 +39,7 @@
   export default {
     name: 'JobDetailInfo',
     data () {
-      return {
-      }
+      return {}
     },
     props: {
       wrapper: {
@@ -51,8 +52,8 @@
         return {
           push: {
             name: 'Git Push Info',
-              show: this.wrapper.isPushTrigger,
-              data: this.getPushData()
+            show: this.wrapper.isPushTrigger,
+            data: this.getPushData()
           },
 
           tag: {
@@ -63,14 +64,14 @@
 
           pr: {
             name: 'Git Pull Request Info',
-              show: this.wrapper.isPrOpenedTrigger || this.wrapper.isPrClosedTrigger,
-              data: this.getPrData()
+            show: this.wrapper.isPrOpenedTrigger || this.wrapper.isPrClosedTrigger,
+            data: this.getPrData()
           },
 
           variables: {
             name: 'Variables',
-              show: true,
-              data: this.wrapper.customVarList
+            show: true,
+            data: this.wrapper.customVarList
           }
         }
       }

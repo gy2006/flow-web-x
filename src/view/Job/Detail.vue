@@ -203,14 +203,14 @@
 
 <style lang="scss">
   .job-detail {
-    /*.tab-wrapper {*/
-    /*  height: 80%;*/
-    /*}*/
+    .tab-wrapper {
+      height: 80%;
+    }
 
-    /*.tab-wrapper .v-window,*/
-    /*.tab-wrapper .v-window__container,*/
-    /*.tab-wrapper .v-window-item {*/
-    /*  height: 95%;*/
-    /*}*/
+    .tab-wrapper .v-window,
+    .tab-wrapper .v-window__container,
+    .tab-wrapper .v-window-item {
+      height: 95%;
+    }
   }
 </style>

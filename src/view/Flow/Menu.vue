@@ -4,7 +4,7 @@
       <v-text-field
           :placeholder="$t('flow.search')"
           single-line
-          append-icon="search"
+          append-icon="mdi-magnify"
           v-model="searchVal"/>
     </v-list-item>
     <div class="text-xs-center mt-5" v-if="loading">

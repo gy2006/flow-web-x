@@ -2,7 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
       <v-btn text v-on="on" small class="mx-0 px-0">
-        <v-icon>dvr</v-icon>
+        <v-icon>mdi-view-grid</v-icon>
       </v-btn>
     </template>
     <v-list class="pa-0 agent-list">

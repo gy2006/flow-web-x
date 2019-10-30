@@ -16,7 +16,7 @@
             color="blue-grey"
             class="white--text"
             @click="onStatisticClick">
-          <v-icon small class="mr-1">trending_up</v-icon>
+          <v-icon small class="mr-1">mdi-trending-up</v-icon>
           {{ $t('flow.statistic') }}
         </v-btn>
 
@@ -25,7 +25,7 @@
             color="blue-grey"
             class="white--text"
             @click="onSettingsClick">
-          <v-icon small class="mr-1">settings</v-icon>
+          <v-icon small class="mr-1">mdi-settings</v-icon>
           {{ $t('flow.settings') }}
         </v-btn>
       </v-flex>
@@ -35,7 +35,7 @@
             text
             color="success"
             @click.native="onRunClick(true)">
-          <v-icon class="mr-1">play_arrow</v-icon>
+          <v-icon class="mr-1" small>mdi-play-circle-outline</v-icon>
           {{ $t('job.run') }}:
         </v-btn>
         <Dialog :dialog="dialog"

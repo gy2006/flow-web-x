@@ -14,9 +14,9 @@ import code from './util/code'
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import '@mdi/font/css/materialdesignicons.css'
 
 import 'babel-polyfill'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './assets/styles/style.scss'
 
 import 'xterm/dist/xterm.css'
@@ -81,7 +81,11 @@ new Vue({
     fallbackLocale: 'en',
     messages
   }),
-  vuetify: new Vuetify(),
+  vuetify: new Vuetify({
+    icons: {
+      iconfont: 'mdi',
+    },
+  }),
   router,
   store,
   render: h => h(App),

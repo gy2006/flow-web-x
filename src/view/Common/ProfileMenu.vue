@@ -2,7 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
         <v-btn text v-on="on" small class="mx-0 px-0">
-          <v-icon>account_circle</v-icon>
+          <v-icon>mdi-account-circle</v-icon>
         </v-btn>
     </template>
 

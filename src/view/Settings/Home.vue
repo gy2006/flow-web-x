@@ -9,13 +9,11 @@
         <v-card class="full-size">
           <v-card-title class="pb-0 bottom-border">
             <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
-            <v-btn flat
-                   color="blue-grey"
-                   class="white--text"
+            <v-btn icon
                    v-if="showAddBtn"
                    @click="$refs.childView.onAddBtnClick"
             >
-              <v-icon>add_box</v-icon>
+              <v-icon>mdi-plus-box</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text class="pt-0">

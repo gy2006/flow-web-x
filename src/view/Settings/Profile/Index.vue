@@ -1,5 +1,5 @@
 <template>
-  <div class="full-size">
+  <div>
     <v-row>
       <v-col cols="6">
         <text-box title="E-Mail"

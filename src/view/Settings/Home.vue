@@ -6,7 +6,7 @@
       </v-col>
 
       <v-col class="d-flex ml-2 pa-0">
-        <v-card>
+        <v-card class="full-size">
           <v-card-title class="pb-0 bottom-border">
             <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
             <v-btn flat

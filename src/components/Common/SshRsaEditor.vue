@@ -1,14 +1,16 @@
 <template>
   <div>
-    <v-flex align-center>
-      <span class="body-2 grey--text">SSH-RSA Key Pair</span>
-      <div v-if="showSelection">
-        <v-radio-group v-model="option" row>
-          <v-radio label="Select" value="select"></v-radio>
-          <v-radio label="Edit or Create" value="edit"></v-radio>
-        </v-radio-group>
-      </div>
-    </v-flex>
+    <v-row align="center">
+      <v-col>
+        <span class="body-2 grey--text">SSH-RSA Key Pair</span>
+        <div v-if="showSelection">
+          <v-radio-group v-model="option" row>
+            <v-radio label="Select" value="select"></v-radio>
+            <v-radio label="Edit or Create" value="edit"></v-radio>
+          </v-radio-group>
+        </div>
+      </v-col>
+    </v-row>
 
     <div v-if="showSelection & isSelectOption">
       <v-select
@@ -22,13 +24,13 @@
       <v-dialog v-model="dialog" persistent max-width="30%" v-if="showCreateNew && !isReadOnly">
         <template v-slot:activator="{ on }">
           <v-btn small
-                 text
+                 outlined
                  v-on="on"
                  color="indigo"
                  open-delay="2000"
                  @click="dialog = true">
             Create new SSH key
-            <v-icon right small>add</v-icon>
+            <v-icon right small>mdi-plus-box</v-icon>
           </v-btn>
         </template>
         <v-card>
@@ -50,8 +52,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">{{ $t('close') }}</v-btn>
-            <v-btn color="blue darken-1" text @click="onCreateSSHClick">{{ $t('create') }}</v-btn>
+            <v-btn color="error" outlined @click="dialog = false">{{ $t('close') }}</v-btn>
+            <v-btn color="primary" outlined @click="onCreateSSHClick">{{ $t('create') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -141,7 +143,7 @@
         sshPrivateKeyRules: sshPrivateKeyRules(this)
       }
     },
-    mounted() {
+    mounted () {
       if (this.showSelection) {
         this.$store.dispatch(actions.credentials.listNameOnly).then()
       }

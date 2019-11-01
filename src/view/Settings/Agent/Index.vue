@@ -10,13 +10,13 @@
         </td>
         <td>
           <v-row align="center">
-            <v-col cols="1">
+            <v-col cols="2">
               <span class="ml-2">{{ item.name }}</span>
             </v-col>
             <v-col cols="1">
               <v-icon small>{{ item.icon }}</v-icon>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="3">
               <v-chip v-for="tag in item.tags"
                       :key="tag"
                       class="my-0"

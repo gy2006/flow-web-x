@@ -1,28 +1,26 @@
 <template>
-  <v-card class="func-list">
-    <v-list class="pa-0">
-      <v-list-tile class="grey lighten-2">
-        <v-list-tile-title class="font-weight-bold">
-          Settings
-        </v-list-tile-title>
-      </v-list-tile>
+  <v-list class="pa-0 func-list full-size">
+    <v-list-item class="grey lighten-2">
+      <v-list-item-title class="font-weight-bold">
+        Settings
+      </v-list-item-title>
+    </v-list-item>
 
-      <v-list-tile v-for="item in items"
-                   :key="item.path"
-                   :class="['blue--text', item.path === current ? 'selected' : '']"
-                   @click="onMenuItemClick(item.path)">
-        <v-list-tile-title>
-          {{ $t(`${item.i18n}`) }}
-        </v-list-tile-title>
-      </v-list-tile>
-    </v-list>
-  </v-card>
+    <v-list-item v-for="item in items"
+                 :key="item.path"
+                 :class="['blue--text', item.path === current ? 'selected' : '']"
+                 @click="onMenuItemClick(item.path)">
+      <v-list-item-title>
+        {{ $t(`${item.i18n}`) }}
+      </v-list-item-title>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
   export default {
     name: 'SettingsFunList',
-    data () {
+    data() {
       return {
         items: [
           {
@@ -45,12 +43,12 @@
       }
     },
     computed: {
-      current () {
-        return this.$route.path.split('/')[ 2 ]
+      current() {
+        return this.$route.path.split('/')[2]
       }
     },
     methods: {
-      onMenuItemClick (path) {
+      onMenuItemClick(path) {
         this.$router.push(`/settings/${path}`)
       }
     }

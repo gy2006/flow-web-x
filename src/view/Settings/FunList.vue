@@ -1,19 +1,22 @@
 <template>
   <v-list class="pa-0 func-list full-size">
-    <v-list-item class="grey lighten-2">
-      <v-list-item-title class="font-weight-bold">
-        Settings
-      </v-list-item-title>
-    </v-list-item>
+    <v-subheader class="grey lighten-2">
+      <span class="font-weight-bold">Settings</span>
+    </v-subheader>
 
-    <v-list-item v-for="item in items"
-                 :key="item.path"
-                 :class="['blue--text', item.path === current ? 'selected' : '']"
-                 @click="onMenuItemClick(item.path)">
-      <v-list-item-title>
-        {{ $t(`${item.i18n}`) }}
-      </v-list-item-title>
-    </v-list-item>
+    <v-divider></v-divider>
+
+    <v-list-item-group v-model="selected" color="primary">
+      <v-list-item v-for="item in items"
+                   :key="item.path"
+                   @click="onMenuItemClick(item.path)">
+        <v-list-item-content>
+          <v-list-item-subtitle>
+            {{ $t(`${item.i18n}`) }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list-item-group>
   </v-list>
 </template>
 
@@ -22,6 +25,7 @@
     name: 'SettingsFunList',
     data() {
       return {
+        selected: 0,
         items: [
           {
             i18n: 'settings.li.profile',
@@ -42,11 +46,6 @@
         ]
       }
     },
-    computed: {
-      current() {
-        return this.$route.path.split('/')[2]
-      }
-    },
     methods: {
       onMenuItemClick(path) {
         this.$router.push(`/settings/${path}`)
@@ -59,23 +58,14 @@
   .func-list {
     font-size: 1px !important;
 
-    div[role="listitem"].selected > a {
-      font-weight: bold;
-    }
-
-    div[role="listitem"].selected > a::before {
-      background-color: #e36209;
+    div[role="listitem"][aria-selected="true"] > div::before {
+      background-color: #3dace3;
       bottom: 0;
       content: "";
       left: 0;
       position: absolute;
       top: 0;
-      width: 2px;
-    }
-
-    .v-list__tile {
-      font-size: 12px;
-      border-bottom: 1px solid #e1e4e8;
+      width: 3px;
     }
   }
 </style>

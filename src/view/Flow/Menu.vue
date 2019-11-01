@@ -1,22 +1,18 @@
 <template>
-  <v-list dense>
-    <v-list-item class="mt-3">
+  <v-list shaped>
+    <v-subheader>
       <v-text-field
           :placeholder="$t('flow.search')"
           single-line
           append-icon="mdi-magnify"
           v-model="searchVal"/>
-    </v-list-item>
-    <div class="text-xs-center mt-5" v-if="loading">
-      <v-progress-circular
-          indeterminate
-          color="purple"
-      ></v-progress-circular>
-    </div>
-    <template v-for="item in items">
-      <v-list-item @click="onItemClick(item)"
+    </v-subheader>
+
+    <v-list-item-group v-model="selected">
+      <v-list-item v-for="item in items"
                    :key="item.id"
-                   :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']">
+                   :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']"
+                   @click="onItemClick(item)">
         <v-list-item-action>
           <v-icon small :class="item.iconClass">{{ item.icon }}</v-icon>
         </v-list-item-action>
@@ -24,7 +20,7 @@
           <v-list-item-title>{{ item.name }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-    </template>
+    </v-list-item-group>
 
     <!-- button to create-->
     <v-list-item>
@@ -49,8 +45,8 @@
     data () {
       return {
         searchVal: '',
-        loading: false,
-        items: []
+        items: [],
+        selected: 0
       }
     },
     mounted () {

@@ -8,7 +8,16 @@
       <v-col class="d-flex ml-2 pa-0">
         <v-card class="full-size">
           <v-card-title class="pb-0 bottom-border">
-            <v-breadcrumbs :items="navs" divider=">"></v-breadcrumbs>
+            <v-breadcrumbs :items="navs" divider=">">
+              <template v-slot:item="{item}">
+                <v-breadcrumbs-item
+                    :href="item.href"
+                    :class="[item.disabled && 'disabled']"
+                >
+                  <span class="font-weight-bold">{{ item.text }}</span>
+                </v-breadcrumbs-item>
+              </template>
+            </v-breadcrumbs>
             <v-btn icon
                    v-if="showAddBtn"
                    @click="$refs.childView.onAddBtnClick"

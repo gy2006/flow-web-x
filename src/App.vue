@@ -19,10 +19,11 @@
       </v-btn>
     </v-snackbar>
 
-    <v-navigation-drawer v-model="flowNavDrawer"
+    <v-navigation-drawer v-if="!isLoginPage"
+                         v-model="flowNavDrawer"
                          :clipped="$vuetify.breakpoint.lgAndUp"
                          app>
-      <flow-menu v-if="!isLoginPage"></flow-menu>
+      <flow-menu></flow-menu>
     </v-navigation-drawer>
 
     <v-app-bar app

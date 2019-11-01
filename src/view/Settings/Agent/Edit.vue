@@ -1,89 +1,103 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs8>
-      <v-form ref="agentNameForm"
-              lazy-validation>
-        <v-text-field
-            label="Name"
-            :rules="nameRules"
-            v-model="wrapper.name"
+  <div>
+    <v-row>
+      <v-col cols="8">
+        <v-form ref="agentNameForm"
+                lazy-validation>
+          <v-text-field
+              label="Name"
+              :rules="nameRules"
+              v-model="wrapper.name"
+          ></v-text-field>
+        </v-form>
+
+        <v-form ref="agentTagForm"
+                lazy-validation>
+          <v-text-field
+              label="Tags"
+              :rules="tagRules"
+              v-model="tagInput"
+              append-icon="mdi-plus-box"
+              @click:append="onTagAddClick"
+          ></v-text-field>
+        </v-form>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="8" class="py-0">
+        <v-chip
+            close
+            label
+            v-for="(tag, index) in tagRaw"
+            v-model="tag.enabled"
+            :key="tag.text"
+            @input="onTagRemoveClick(index)"
+        >{{ tag.text }}
+        </v-chip>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="isEditMode">
+      <v-col cols="8" class="my-3">
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="isEditMode">
+      <v-col cols="8">
+        <v-text-field label="Token"
+                      readonly
+                      v-model="wrapper.token"
         ></v-text-field>
-      </v-form>
-
-      <v-form ref="agentTagForm"
-              lazy-validation>
-        <v-text-field
-            label="Tags"
-            :rules="tagRules"
-            v-model="tagInput"
-            append-icon="mdi-plus-box"
-            @click:append="onTagAddClick"
+        <v-text-field label="Host"
+                      readonly
+                      v-model="wrapper.host"
         ></v-text-field>
-      </v-form>
-    </v-flex>
+      </v-col>
+    </v-row>
 
-    <v-flex xs8>
-      <v-chip
-          close
-          label
-          v-for="(tag, index) in tagRaw"
-          v-model="tag.enabled"
-          :key="tag.text"
-          @input="onTagRemoveClick(index)"
-      >{{ tag.text }}
-      </v-chip>
-    </v-flex>
+    <v-row>
+      <v-col cols="4"></v-col>
+      <v-col cols="2">
+        <v-dialog
+            v-model="dialog"
+            width="500"
+            v-if="isEditMode"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+                outlined
+                color="error"
+                v-on="on"
+            >{{ $t('delete') }}
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title
+                class="error--text"
+                primary-title
+            >Delete Agent {{ name }}?
+            </v-card-title>
 
-    <v-flex xs8 class="my-3" v-if="isEditMode">
-      <v-divider></v-divider>
-    </v-flex>
+            <v-divider></v-divider>
 
-    <v-flex xs8 v-if="isEditMode">
-      <v-text-field label="Token"
-                    readonly
-                    v-model="wrapper.token"
-      ></v-text-field>
-      <v-text-field label="Host"
-                    readonly
-                    v-model="wrapper.host"
-      ></v-text-field>
-    </v-flex>
-
-    <v-flex xs8 d-flex>
-      <v-dialog
-          v-model="dialog"
-          width="500"
-          v-if="isEditMode"
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn
-              outlined
-              color="error"
-              v-on="on"
-          >{{ $t('delete') }}
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title
-              class="error--text"
-              primary-title
-          >Delete Agent {{ name }}?
-          </v-card-title>
-
-          <v-divider></v-divider>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="dialog = false">{{ $t('cancel') }}</v-btn>
-            <v-btn outlined color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <v-btn outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
-      <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
-    </v-flex>
-  </v-layout>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" @click="dialog = false">{{ $t('cancel') }}</v-btn>
+              <v-btn outlined color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+      <v-col cols="1">
+        <v-btn outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

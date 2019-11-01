@@ -7,17 +7,17 @@
     <!--                   position="bottom right">-->
     <!--    </notifications>-->
 
-    <!--    <v-snackbar-->
-    <!--        v-model="snackbar.show"-->
-    <!--        :color="snackbar.color"-->
-    <!--        :timeout="5000"-->
-    <!--        :top="true"-->
-    <!--    >-->
-    <!--      {{ snackbar.text }}-->
-    <!--      <v-btn flat @click="snackbar.show = false">-->
-    <!--        {{ $t('close') }}-->
-    <!--      </v-btn>-->
-    <!--    </v-snackbar>-->
+    <v-snackbar
+        v-model="snackbar.show"
+        :color="snackbar.color"
+        :timeout="5000"
+        :top="true"
+    >
+      {{ snackbar.text }}
+      <v-btn text @click="snackbar.show = false">
+        {{ $t('close') }}
+      </v-btn>
+    </v-snackbar>
 
     <v-navigation-drawer v-model="flowNavDrawer"
                          :clipped="$vuetify.breakpoint.lgAndUp"
@@ -68,7 +68,7 @@
   import FlowMenu from '@/view/Flow/Menu'
   import AgentMenu from '@/view/Common/AgentMenu'
   import ProfileMenu from '@/view/Common/ProfileMenu'
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'App',

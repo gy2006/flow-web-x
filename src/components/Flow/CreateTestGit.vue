@@ -1,14 +1,27 @@
 <template>
-  <div>
+  <v-row>
     <!-- finish button -->
-    <v-btn small color="primary" @click="handleFinishClick">{{ $t('flow.create_btn_finish') }}</v-btn>
+    <v-col cols="1">
+      <v-btn small
+             color="primary"
+             @click="handleFinishClick"
+      >{{ $t('flow.create_btn_finish') }}</v-btn>
+    </v-col>
 
     <!-- back button -->
-    <v-btn small text @click="onBackClick">{{ $t('back') }}</v-btn>
+    <v-col cols="1">
+      <v-btn small
+             outlined
+             color="warning"
+             @click="onBackClick"
+      >{{ $t('back') }}</v-btn>
+    </v-col>
 
     <!-- test button -->
-    <git-test-btn :wrapper="flow"></git-test-btn>
-  </div>
+    <v-col cols="1">
+      <git-test-btn :wrapper="flow"></git-test-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

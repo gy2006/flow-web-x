@@ -84,11 +84,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.flow.gitUrl
+    return this.flow.variables[ vars.flow.gitUrl ] || ''
   }
 
   get credential () {
-    return this.flow.credentialName
+    return this.flow.variables[ vars.credential.ssh ] || ''
   }
 
   get ssh () {

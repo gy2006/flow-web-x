@@ -97,7 +97,8 @@
       ...mapState({
         created: state => state.flows.created,
       }),
-      flow: function () {
+
+      flow () {
         if (this.created === undefined) {
           return new FlowWrapper({name: '', variables: {}})
         }

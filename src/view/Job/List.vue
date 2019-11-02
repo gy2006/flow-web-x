@@ -1,61 +1,63 @@
 <template>
   <v-card class="full-size job-list">
     <v-card-title>
-      <v-flex xs2>
-        <Nav
-            :items="[name]"
-            :links="['jobs']"
-        ></Nav>
-      </v-flex>
+      <v-row>
+        <v-col cols="2">
+          <Nav
+              :items="[name]"
+              :links="['jobs']"
+          ></Nav>
+        </v-col>
 
-      <v-flex xs4></v-flex>
+        <v-col cols="4"></v-col>
 
-      <v-flex xs2 d-flex>
-        <v-btn
-            text
-            color="blue-grey"
-            class="white--text"
-            @click="onStatisticClick">
-          <v-icon small class="mr-1">mdi-trending-up</v-icon>
-          {{ $t('flow.statistic') }}
-        </v-btn>
+        <v-col cols="1">
+          <v-btn
+              text
+              color="blue-grey"
+              class="white--text"
+              @click="onStatisticClick">
+            <v-icon class="mr-1">mdi-trending-up</v-icon>
+            {{ $t('flow.statistic') }}
+          </v-btn>
+        </v-col>
 
-        <v-btn
-            text
-            color="blue-grey"
-            class="white--text"
-            @click="onSettingsClick">
-          <v-icon small class="mr-1">mdi-settings</v-icon>
-          {{ $t('flow.settings') }}
-        </v-btn>
-      </v-flex>
+        <v-col cols="1">
+          <v-btn
+              text
+              color="blue-grey"
+              class="white--text"
+              @click="onSettingsClick">
+            <v-icon class="mr-1">mdi-settings</v-icon>
+            {{ $t('flow.settings') }}
+          </v-btn>
+        </v-col>
 
-      <v-flex xs1 class="ml-4">
-        <v-btn
-            text
-            color="success"
-            @click.native="onRunClick(true)">
-          <v-icon class="mr-1" small>mdi-play-circle-outline</v-icon>
-          {{ $t('job.run') }}:
-        </v-btn>
-        <Dialog :dialog="dialog"
-                :content="$t('job.hint.missing_agent')"
-                :confirmBtn="confirmBtn"
-                :cancelBtn="cancelBtn"
-        ></Dialog>
-      </v-flex>
+        <v-col cols="1">
+          <v-btn
+              text
+              color="success"
+              @click.native="onRunClick(true)">
+            <v-icon class="mr-1">mdi-play-circle-outline</v-icon>
+            {{ $t('job.run') }}:
+          </v-btn>
+          <Dialog :dialog="dialog"
+                  :content="$t('job.hint.missing_agent')"
+                  :confirmBtn="confirmBtn"
+                  :cancelBtn="cancelBtn"
+          ></Dialog>
+        </v-col>
 
-      <v-flex xs2 class="ml-4">
-        <v-select
-            solo
-            small-chips
-            deletable-chips
-            class="fix-height"
-            v-model="selectedBranch"
-            :items="gitBranches"
-            label="branch: none"
-        ></v-select>
-      </v-flex>
+        <v-col cols="2">
+          <v-combobox dense
+                      outlined
+                      prepend-icon="mdi-source-branch"
+                      v-model="selectedBranch"
+                      :items="gitBranches"
+                      label="branch:">
+          </v-combobox>
+        </v-col>
+      </v-row>
     </v-card-title>
 
     <v-divider></v-divider>

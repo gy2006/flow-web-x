@@ -38,7 +38,7 @@
               text
               color="success"
               @click.native="onRunClick(true)">
-            <v-icon class="mr-1">mdi-play-circle-outline</v-icon>
+            <v-icon class="mr-1">mdi-play</v-icon>
             {{ $t('job.run') }}:
           </v-btn>
           <Dialog :dialog="dialog"

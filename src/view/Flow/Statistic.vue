@@ -9,11 +9,13 @@
 
     <v-card-text class="pt-0 tab-wrapper">
       <!-- header that includes data selection -->
-      <v-layout row wrap class="align-center">
-        <v-flex xs3 class="text-xs-center">
-          <span class="subheading">{{ $t('flow.stats_date_select') }}</span>
-        </v-flex>
-        <v-flex xs3>
+      <v-row>
+        <v-col cols="3">
+        </v-col>
+        <v-col cols="2" class="align-self-center title">
+          <span>{{ $t('flow.stats_date_select') }}</span>
+        </v-col>
+        <v-col cols="2">
           <v-menu
               v-model="fromDateMenu"
               :close-on-content-click="false"
@@ -29,7 +31,7 @@
                   v-model="fromDate"
                   label="From Day"
                   persistent-hint
-                  prepend-icon="event"
+                  prepend-icon="mdi-calendar  "
                   v-on="on"
               ></v-text-field>
             </template>
@@ -40,8 +42,8 @@
                            @input="fromDateMenu = false"
             ></v-date-picker>
           </v-menu>
-        </v-flex>
-        <v-flex xs3>
+        </v-col>
+        <v-col cols="2">
           <v-menu
               v-model="toDateMenu"
               :close-on-content-click="false"
@@ -57,7 +59,7 @@
                   v-model="toDate"
                   label="To Day"
                   persistent-hint
-                  prepend-icon="event"
+                  prepend-icon="mdi-calendar"
                   readonly
                   v-on="on"
               ></v-text-field>
@@ -69,26 +71,24 @@
                            @input="toDateMenu = false"
             ></v-date-picker>
           </v-menu>
-        </v-flex>
-        <v-flex xs2>
-          <v-btn outline
+        </v-col>
+        <v-col cols="2">
+          <v-btn outlined
                  color="indigo"
                  class="ml-4 mt-2"
                  @click="onConfirmClicked"
           >{{ $t('confirm') }}</v-btn>
-        </v-flex>
-        <v-flex xs1>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
       <!-- chart list for every type -->
-      <v-layout row wrap class="mt-4">
-        <v-flex xs12
+      <v-row row wrap class="mt-4">
+        <v-col
                 v-for="type in metaTypeList"
                 :key="type.name">
           <div :id="type.name" class="chart"></div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <v-layout row class="env-item">
-    <v-flex xs3>
+  <v-row class="env-item">
+    <v-col cols="3">
       <v-text-field
           :label="$t('flow.var_name')"
           :readonly="!isNew"
@@ -8,8 +8,9 @@
           :error-messages="errors"
           solo
       ></v-text-field>
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+
+    <v-col cols="4">
       <v-text-field
           class="ml-2"
           :label="$t('flow.var_value')"
@@ -17,10 +18,10 @@
           v-model="obj.value"
           solo
       ></v-text-field>
-    </v-flex>
+    </v-col>
 
     <!--  show type while editing  -->
-    <v-flex xs2 v-if="edit">
+    <v-col cols="2" v-if="edit">
       <v-select
           :items="types"
           :label="$t('flow.var_type')"
@@ -28,15 +29,15 @@
           class="ml-2"
           solo
       ></v-select>
-    </v-flex>
+    </v-col>
 
-    <v-flex xs2>
+    <v-col cols="2">
       <v-btn icon
              v-if="editable && !edit"
              class="mt-0 mr-2 mr-0"
              @click="edit = !edit"
       >
-        <v-icon small>edit</v-icon>
+        <v-icon small>mdi-pencil-outline</v-icon>
       </v-btn>
 
       <!--  show save and remove button while editing  -->
@@ -45,17 +46,17 @@
                class="mt-0 mx-0"
                @click="onSaveClick"
         >
-          <v-icon class="light-green--text" small>done</v-icon>
+          <v-icon class="light-green--text" small>mdi-check-outline</v-icon>
         </v-btn>
         <v-btn icon
                class="mt-0 mx-0"
                @click="onRemoveClick"
         >
-          <v-icon class="red--text" small>delete</v-icon>
+          <v-icon class="red--text" small>mdi-trash-can-outline</v-icon>
         </v-btn>
       </div>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -154,6 +155,10 @@
 
 <style lang="scss">
   .env-item {
+    .col {
+      padding: 0;
+    }
+
     .v-input__control {
       min-height: 34px !important;
     }

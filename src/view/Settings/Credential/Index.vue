@@ -1,26 +1,29 @@
 <template>
   <v-data-table
       :items="credentials"
-      hide-actions
-      hide-headers>
-    <template slot="items" slot-scope="props">
-      <td>
-        <v-layout row align-center>
-          <v-flex xs2>
-            {{ props.item.name }}
-          </v-flex>
-          <v-flex xs1>
-            {{ props.item.category }}
-          </v-flex>
-          <v-flex xs8>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
-              <v-icon small>edit</v-icon>
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </td>
+      :loading="loading"
+      hide-default-footer
+      hide-default-headers>
+    <template v-slot:item="{item}">
+      <tr>
+        <td>
+          <v-row align="center">
+            <v-col cols="3">
+              {{ item.name }}
+            </v-col>
+            <v-col cols="3">
+              {{ item.category }}
+            </v-col>
+            <v-col cols="4">
+            </v-col>
+            <v-col cols="1">
+              <v-btn icon class="ma-0" @click="onEditClick(item)">
+                <v-icon small>mdi-pencil</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </td>
+      </tr>
     </template>
 
     <template slot="no-data">
@@ -40,6 +43,7 @@
     name: 'SettingsCredentialHome',
     data () {
       return {
+        loading: false,
         category: {
           sshrsa: CATEGORY_SSH_RSA_PATH
         }
@@ -54,7 +58,11 @@
         ],
         showAddBtn: true
       })
-      this.$store.dispatch(actions.credentials.list).then()
+
+      this.loading = true
+      this.$store.dispatch(actions.credentials.list).then(() => {
+        this.loading = false
+      })
     },
     computed: {
       ...mapState({

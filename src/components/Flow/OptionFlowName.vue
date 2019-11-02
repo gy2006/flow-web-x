@@ -12,7 +12,7 @@
 
       <v-btn
           small
-          outline
+          outlined
           class="mt-3"
           color="indigo"
           disabled

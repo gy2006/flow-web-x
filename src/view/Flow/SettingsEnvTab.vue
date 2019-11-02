@@ -1,30 +1,35 @@
 <template>
-  <v-container>
-    <v-flex xs11 class="mb-4">
+  <v-col cols="10">
+
+    <v-row align="center">
+      <v-col class="mb-4">
       <span class="font-weight-light title">Variables
         <v-btn icon
                @click="onAddLocalVar"
         >
-          <v-icon class="font-weight-bold">add</v-icon>
+          <v-icon class="font-weight-bold">mdi-plus</v-icon>
         </v-btn>
       </span>
-      <v-divider></v-divider>
-    </v-flex>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
 
     <env-item :edit="false"
               :flow="flow"
-              v-for="obj in localVars"
-              :key= "`local-${obj.name}`"
               :item="obj"
+              v-for="obj in localVars"
+              :key="`local-${obj.name}`"
               :editable="obj.editable"
               :onSaved="onVarSaved"
               :onRemoved="onVarRemoved"
     ></env-item>
 
-    <v-flex xs11 class="mt-4 mb-4">
-      <span class="font-weight-light title">YAML</span>
-      <v-divider></v-divider>
-    </v-flex>
+    <v-row>
+      <v-col>
+        <span class="font-weight-light title">YAML</span>
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
 
     <env-item :edit="false"
               :flow="flow"
@@ -33,7 +38,8 @@
               :item="obj"
               :editable="obj.editable"
     ></env-item>
-  </v-container>
+
+  </v-col>
 </template>
 
 <script>
@@ -76,7 +82,7 @@
       }
     },
     methods: {
-      loadLocalVars(flow) {
+      loadLocalVars (flow) {
         if (!flow.locally || Object.keys(flow.locally).length === 0) {
           const copy = _.cloneDeep(this.empty)
           this.localVars = [ copy ]
@@ -134,7 +140,7 @@
 
       onVarRemoved (val) {
         for (let i = 0; i < this.localVars.length; i++) {
-          if (this.localVars[i].name === val.name) {
+          if (this.localVars[ i ].name === val.name) {
             this.localVars.splice(i, 1)
             break
           }

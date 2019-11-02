@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <template v-slot:activator="{ on }">
-      <v-btn small flat v-on="on" block color="blue-grey">
+      <v-btn small outlined v-on="on" block color="primary">
         {{ $t('flow.create') }}
         <v-icon small class="ml-1">flow-icon-control_point</v-icon>
       </v-btn>
@@ -11,7 +11,7 @@
       <!-- toolbar -->
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="onCancelClick">
-          <v-icon>close</v-icon>
+          <v-icon>mdi-close-circle-outline</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t('flow.create') }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -97,7 +97,8 @@
       ...mapState({
         created: state => state.flows.created,
       }),
-      flow: function () {
+
+      flow () {
         if (this.created === undefined) {
           return new FlowWrapper({name: '', variables: {}})
         }

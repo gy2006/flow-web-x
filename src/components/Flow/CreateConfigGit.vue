@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-layout>
-      <v-flex xs12 sm6>
+    <v-row>
+      <v-col cols="4">
         <v-form
             ref="form"
             lazy-validation
@@ -10,7 +10,7 @@
               v-model="webhook"
               label="Webhook"
               readonly
-              append-icon="help"
+              append-icon="mdi-help-circle-outline"
               @click:append="onHelpClick('hook')"
           ></v-text-field>
 
@@ -18,21 +18,44 @@
               v-model="gitUrl"
               label="Git URL"
               required
-              append-icon="help"
+              append-icon="mdi-help-circle-outline"
               :rules="gitUrlRules"
               @click:append="onHelpClick('url')"
           ></v-text-field>
         </v-form>
-      </v-flex>
-    </v-layout>
-    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
-    <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn small flat @click="onSkipClick" v-on="on">{{ $t('skip') }}</v-btn>
-      </template>
-      <span>{{ $t('flow.hint.git_skip') }}</span>
-    </v-tooltip>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="1">
+        <v-btn small
+               color="primary"
+               @click="handleNextClick"
+        >{{ $t('next') }}</v-btn>
+      </v-col>
+
+      <v-col cols="1">
+        <v-btn small
+               outlined
+               color="warning"
+               @click="onBackClick"
+        >{{ $t('back') }}</v-btn>
+      </v-col>
+
+      <v-col cols="1">
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-btn small
+                   outlined
+                   color="secondary"
+                   @click="onSkipClick"
+                   v-on="on"
+            >{{ $t('skip') }}</v-btn>
+          </template>
+          <span>{{ $t('flow.hint.git_skip') }}</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

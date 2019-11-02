@@ -9,20 +9,20 @@
     </v-card-text>
 
     <v-card-actions class="mt-4">
-        <v-btn color="secondary" blod @click="onResetClick" :disabled="!isCodeChange">
-          <b>{{ $t('reset') }}</b>
-        </v-btn>
+      <v-btn color="secondary" tile @click="onResetClick" :disabled="!isCodeChange">
+        <b>{{ $t('reset') }}</b>
+      </v-btn>
 
-        <v-btn color="primary" blod @click="onSaveClick" :disabled="!isCodeChange">
-          <b>{{ $t('save') }}</b>
-        </v-btn>
+      <v-btn color="primary" tile @click="onSaveClick" :disabled="!isCodeChange">
+        <b>{{ $t('save') }}</b>
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
   import * as monaco from 'monaco-editor'
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import actions from '@/store/actions'
 
   export default {
@@ -33,14 +33,14 @@
         type: Object
       }
     },
-    data() {
+    data () {
       return {
         editor: {},
         errorOnSave: '',
         isCodeChange: false
       }
     },
-    mounted() {
+    mounted () {
       this.editor = monaco.editor.create(document.getElementById('yml-editor'), {
         value: this.yml,
         language: 'yaml',
@@ -61,34 +61,34 @@
         yml: state => state.flows.selected.yml
       }),
 
-      name() {
+      name () {
         return this.flow.name
       }
     },
     watch: {
-      yml(after) {
+      yml (after) {
         this.editor.setValue(after)
       },
 
-      flow() {
+      flow () {
         this.reload()
       }
     },
     methods: {
-      reload() {
+      reload () {
         this.$store.dispatch(actions.flows.yml.load, this.flow.name).then()
       },
 
-      onCodeChange(e) {
+      onCodeChange (e) {
         this.isCodeChange = true
       },
 
-      onResetClick() {
+      onResetClick () {
         this.editor.setValue(this.yml)
         this.isCodeChange = false
       },
 
-      onSaveClick() {
+      onSaveClick () {
         this.errorOnSave = ''
 
         const payload = {name: this.name, yml: this.editor.getValue()}

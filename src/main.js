@@ -7,15 +7,16 @@ import VueClipboard from 'vue-clipboard2'
 import App from './App'
 
 import router from './router'
-import Vuetify from 'vuetify'
 import messages from './i18n/index'
 import store from './store/index'
 import actions from './store/actions'
 import code from './util/code'
 
-import 'babel-polyfill'
+import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
+
+import 'babel-polyfill'
 import './assets/styles/style.scss'
 
 import 'xterm/dist/xterm.css'
@@ -79,6 +80,11 @@ new Vue({
     locale: 'en',
     fallbackLocale: 'en',
     messages
+  }),
+  vuetify: new Vuetify({
+    icons: {
+      iconfont: 'mdi',
+    },
   }),
   router,
   store,

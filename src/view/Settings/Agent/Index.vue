@@ -1,52 +1,50 @@
 <template>
   <v-data-table
       :items="items"
-      hide-actions
-      hide-headers>
+      hide-default-footer
+      hide-default-header>
 
-    <template slot="items" slot-scope="props">
-      <td :class="[props.item.color, 'px-1']">
-      </td>
-      <td class="pa-0">
-        <v-layout row align-center>
-          <v-flex xs2>
-            <span class="ml-2">{{ props.item.name }}</span>
-          </v-flex>
-          <v-flex xs1>
-            <v-icon small>{{ props.item.icon }}</v-icon>
-          </v-flex>
-          <v-flex xs3>
-            <v-chip v-for="tag in props.item.tags"
-                    :key="tag"
-                    class="my-0"
-                    outline
-                    small
-                    label
-            >{{ tag }}
-            </v-chip>
-          </v-flex>
-          <v-flex xs4 class="agent-resource">
-            <div>cpu: {{ props.item.numOfCpu }}</div>
-            <div>memory: {{ props.item.freeMemory }} / {{ props.item.totalMemory }} (mb)</div>
-            <div>disk: {{ props.item.freeDisk }} / {{ props.item.totalDisk }} (mb)</div>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onTokenCopyClick(props.item)">
-              <v-icon small>flow-icon-file_copy</v-icon>
-            </v-btn>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onDownloadClick(props.item)">
-              <v-icon small>vertical_align_bottom</v-icon>
-            </v-btn>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
-              <v-icon small>edit</v-icon>
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </td>
+    <template v-slot:item="{item}">
+      <tr>
+        <td :class="[item.color, 'px-1']">
+        </td>
+        <td>
+          <v-row align="center">
+            <v-col cols="2">
+              <span class="ml-2">{{ item.name }}</span>
+            </v-col>
+            <v-col cols="1">
+              <v-icon small>{{ item.icon }}</v-icon>
+            </v-col>
+            <v-col cols="3">
+              <v-chip v-for="tag in item.tags"
+                      :key="tag"
+                      class="my-0"
+                      outlined
+                      small
+                      label
+              >{{ tag }}
+              </v-chip>
+            </v-col>
+            <v-col cols="4" class="agent-resource">
+              <div>cpu: {{ item.numOfCpu }}</div>
+              <div>memory: {{ item.freeMemory }} / {{ item.totalMemory }} (mb)</div>
+              <div>disk: {{ item.freeDisk }} / {{ item.totalDisk }} (mb)</div>
+            </v-col>
+            <v-col cols="2">
+              <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
+                <v-icon small>flow-icon-file_copy</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-0" @click="onDownloadClick(item)">
+                <v-icon small>mdi-download</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-0" @click="onEditClick(item)">
+                <v-icon small>mdi-pencil</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </td>
+      </tr>
     </template>
 
     <template slot="no-data">

@@ -8,7 +8,7 @@ export const GIT_TEST_ERROR = 'ERROR'
 export const gitTestStatus = {
   default: {
     class: [],
-    icon: 'help',
+    icon: 'mdi-help-circle-outline',
     message: ''
   },
 
@@ -65,7 +65,7 @@ export class FlowWrapper {
   }
 
   get webhook () {
-    return this.flow.webhook
+    return this.flow.webhook || ''
   }
 
   get webhookStatus () {
@@ -84,11 +84,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.flow.gitUrl
+    return this.flow.variables[ vars.flow.gitUrl ] || ''
   }
 
   get credential () {
-    return this.flow.credentialName
+    return this.flow.variables[ vars.credential.ssh ] || ''
   }
 
   get ssh () {

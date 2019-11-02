@@ -7,61 +7,60 @@
       ></Nav>
     </v-card-title>
 
+    <v-divider></v-divider>
+
+    <v-row align="center" justify="start" class="ma-0 px-4 grey lighten-5">
+      <v-col cols="2">
+        <v-icon small
+                v-bind:class="[wrapper.status.class]"
+        >{{ wrapper.status.icon }}
+        </v-icon>
+        <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
+      </v-col>
+
+      <v-col cols="2">
+        {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
+      </v-col>
+
+      <v-col cols="2">
+        <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
+        <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
+      </v-col>
+
+      <v-col class="caption" cols="3">
+        <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
+        <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
+        </div>
+        <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
+      </v-col>
+
+      <v-col class="caption" cols="2">
+        <div>{{ $t('job.triggerBy') }}</div>
+        <div>
+          <span>{{ wrapper.triggerBy }}</span>
+          <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
+        </div>
+      </v-col>
+
+      <v-col cols="1">
+        <v-btn text
+               color="error"
+               @click="onStopClick"
+               v-if="!finished"
+        >
+          <v-icon>mdi-stop</v-icon>
+          {{ $t('cancel') }}
+        </v-btn>
+      </v-col>
+    </v-row>
+
+    <div class="error-message" v-if="wrapper.errorMsg">
+      <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
+    </div>
+
+    <v-divider></v-divider>
+
     <v-card-text class="px-0 py-1 tab-wrapper">
-      <v-divider></v-divider>
-
-      <!-- job summary bar -->
-      <v-layout align-center class="px-5 py-3 grey lighten-5">
-        <v-flex xs2>
-            <v-icon small
-                    v-bind:class="[wrapper.status.class]"
-            >{{ wrapper.status.icon }}</v-icon>
-            <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
-        </v-flex>
-
-        <v-flex xs2>
-          {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
-        </v-flex>
-
-        <v-flex xs2>
-          <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
-          <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
-        </v-flex>
-
-        <v-flex class="caption" xs3>
-          <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
-          <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
-          </div>
-          <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
-        </v-flex>
-
-        <v-flex class="caption" xs2>
-          <div>{{ $t('job.triggerBy') }}</div>
-          <div>
-            <span>{{ wrapper.triggerBy }}</span>
-            <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
-          </div>
-        </v-flex>
-
-        <v-flex xs1>
-          <v-btn flat
-                 color="error"
-                 @click="onStopClick"
-                 v-if="!finished"
-          >
-            <v-icon>stop</v-icon>
-            {{ $t('cancel') }}
-          </v-btn>
-        </v-flex>
-      </v-layout>
-      <v-divider></v-divider>
-
-      <div class="error-message" v-if="wrapper.errorMsg">
-        <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
-      </div>
-
-      <v-divider></v-divider>
-
       <v-tabs fixed-tabs class="mt-2 full-size">
         <v-tab href="#summary" class="ml-0 elevation-1">
           {{ $t('job.tab.summary') }}
@@ -89,12 +88,12 @@
 
 <script>
   import actions from '@/store/actions'
-  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
+  import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
 
-  import { isJobFinished, JobWrapper } from '@/util/jobs'
-  import { icons } from '@/util/agents'
-  import { isStepFinished } from '@/util/steps'
-  import { mapState } from 'vuex'
+  import {isJobFinished, JobWrapper} from '@/util/jobs'
+  import {icons} from '@/util/agents'
+  import {isStepFinished} from '@/util/steps'
+  import {mapState} from 'vuex'
 
   import Nav from '@/components/Common/Nav'
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
@@ -103,7 +102,7 @@
 
   export default {
     name: 'JobDetail',
-    data () {
+    data() {
       return {
         agentIcons: icons
       }
@@ -114,7 +113,7 @@
       DetailTabSummary,
       DetailTabYml
     },
-    mounted () {
+    mounted() {
       this.load()
     },
     computed: {
@@ -124,46 +123,46 @@
         stepChange: state => state.steps.change
       }),
 
-      flow () {
+      flow() {
         return this.$route.params.id
       },
 
-      number () {
+      number() {
         return this.$route.params.num
       },
 
-      buildNumberText () {
+      buildNumberText() {
         return 'build #' + this.$route.params.num
       },
 
-      wrapper () {
+      wrapper() {
         return new JobWrapper(this.job)
       },
 
-      finished () {
+      finished() {
         return isJobFinished(this.job)
       }
     },
-    destroyed () {
+    destroyed() {
       this.$router.push({path: `/flows/${this.flow}/jobs`})
 
       unsubscribeTopic.steps(this.job.id)
 
       for (let i = 0; i < this.steps.length; i++) {
-        unsubscribeTopic.logs(this.steps[ i ].id)
+        unsubscribeTopic.logs(this.steps[i].id)
       }
     },
     watch: {
-      flow () {
+      flow() {
         this.load()
       },
 
-      number () {
+      number() {
         this.load()
       },
 
       // subscribe steps change when job been loaded
-      job (newJob, oldJob) {
+      job(newJob, oldJob) {
         if (isJobFinished(newJob)) {
           return
         }
@@ -172,7 +171,7 @@
       },
 
       // subscribe logs when steps been loaded
-      steps (after, before) {
+      steps(after, before) {
         for (let step of after) {
           if (isStepFinished(step)) {
             continue
@@ -185,17 +184,17 @@
       },
 
       // update step when it has been changed
-      stepChange (after, before) {
+      stepChange(after, before) {
         this.$refs.stepLogs.updateStep(after)
       }
     },
     methods: {
-      load () {
+      load() {
         this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
         this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
       },
 
-      onStopClick () {
+      onStopClick() {
         this.$store.dispatch(actions.jobs.cancel, {flow: this.flow, buildNumber: this.number}).then()
       }
     }

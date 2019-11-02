@@ -9,11 +9,13 @@
 
     <v-card-text class="pt-0 tab-wrapper">
       <!-- header that includes data selection -->
-      <v-layout row wrap class="align-center">
-        <v-flex xs3 class="text-xs-center">
-          <span class="subheading">{{ $t('flow.stats_date_select') }}</span>
-        </v-flex>
-        <v-flex xs3>
+      <v-row>
+        <v-col cols="3">
+        </v-col>
+        <v-col cols="2" class="align-self-center title">
+          <span>{{ $t('flow.stats_date_select') }}</span>
+        </v-col>
+        <v-col cols="2">
           <v-menu
               v-model="fromDateMenu"
               :close-on-content-click="false"
@@ -26,22 +28,22 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                  v-model="fromDate"
+                  v-model="formattedFromDate"
                   label="From Day"
                   persistent-hint
-                  prepend-icon="event"
+                  prepend-icon="mdi-calendar  "
                   v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="fromDate"
+            <v-date-picker v-model="formattedFromDate"
                            no-title
                            :min="min"
                            :max="max"
                            @input="fromDateMenu = false"
             ></v-date-picker>
           </v-menu>
-        </v-flex>
-        <v-flex xs3>
+        </v-col>
+        <v-col cols="2">
           <v-menu
               v-model="toDateMenu"
               :close-on-content-click="false"
@@ -54,41 +56,41 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                  v-model="toDate"
+                  v-model="formattedToDate"
                   label="To Day"
                   persistent-hint
-                  prepend-icon="event"
+                  prepend-icon="mdi-calendar"
                   readonly
                   v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="toDate"
+            <v-date-picker v-model="formattedToDate"
                            no-title
                            :min="min"
                            :max="max"
                            @input="toDateMenu = false"
             ></v-date-picker>
           </v-menu>
-        </v-flex>
-        <v-flex xs2>
-          <v-btn outline
+        </v-col>
+        <v-col cols="2">
+          <v-btn outlined
                  color="indigo"
                  class="ml-4 mt-2"
                  @click="onConfirmClicked"
-          >{{ $t('confirm') }}</v-btn>
-        </v-flex>
-        <v-flex xs1>
-        </v-flex>
-      </v-layout>
+          >{{ $t('confirm') }}
+          </v-btn>
+        </v-col>
+      </v-row>
 
       <!-- chart list for every type -->
-      <v-layout row wrap class="mt-4">
-        <v-flex xs12
-                v-for="type in metaTypeList"
-                :key="type.name">
+      <v-row>
+        <v-col cols="10"
+               class="mb-4"
+               v-for="type in metaTypeList"
+               :key="type.name">
           <div :id="type.name" class="chart"></div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -105,16 +107,16 @@
   export default {
     name: 'FlowStatistic',
     components: {
-      Nav,
+      Nav
     },
     data () {
       return {
         echartsInstances: {},
-        min: moment().subtract(31, 'days').format('YYYY-MM-DD'),
-        max: moment().format('YYYY-MM-DD'),
-        fromDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+        min: this.momentToString(moment().subtract(31, 'days')),
+        max: this.momentToString(moment()),
+        fromDate: moment().subtract(7, 'days'),
         fromDateMenu: false,
-        toDate: moment().format('YYYY-MM-DD'),
+        toDate: moment(),
         toDateMenu: false,
         defaultChartOption
       }
@@ -135,13 +137,23 @@
       name () {
         return this.$route.params.id
       },
+      formattedFromDate: {
+        get () {
+          return this.momentToString(this.fromDate)
+        },
 
-      intFromDate () {
-        return parseInt(moment(this.fromDate).format('YYYYMMDD'), 10)
+        set (newVal) {
+          this.fromDate = moment(newVal)
+        }
       },
+      formattedToDate: {
+        get () {
+          return this.momentToString(this.toDate)
+        },
 
-      intToDate () {
-        return parseInt(moment(this.toDate).format('YYYYMMDD'), 10)
+        set (newVal) {
+          this.toDate = moment(newVal)
+        }
       }
     },
     watch: {
@@ -156,8 +168,16 @@
       }
     },
     methods: {
-      onConfirmClicked() {
-        if (this.intFromDate > this.intToDate) {
+      toIntDay (d) {
+        return parseInt(moment(d).format('YYYYMMDD'), 10)
+      },
+
+      momentToString (m) {
+        return m.format('YYYY-MM-DD')
+      },
+
+      onConfirmClicked () {
+        if (this.fromDate.isAfter(this.toDate)) {
           this.showSnackBar(this.$t('flow.hint.stats_invalid_date'), 'error')
           return
         }
@@ -168,10 +188,10 @@
       load () {
         this.$store.dispatch(actions.stats.metaTypeList, this.flow.name).then(() => {
           for (const t of this.metaTypeList) {
-            let instance = this.echartsInstances[t.name]
+            let instance = this.echartsInstances[ t.name ]
 
             if (!instance) {
-              instance = this.echartsInstances[t.name] = echarts.init(document.getElementById(t.name))
+              instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
             }
 
             this.setChartData(t, instance)
@@ -186,8 +206,8 @@
         let params = {
           name,
           metaType: metaType.name,
-          from: this.intFromDate,
-          to: this.intToDate
+          from: this.toIntDay(this.fromDate),
+          to: this.toIntDay(this.toDate)
         }
 
         // load statistic data list
@@ -196,7 +216,7 @@
           const structured = this.structureData(this.statsList)
 
           // calculate percentage
-          const calculated = this.calculate({structured, fields, fromDay: params.from, toDay: params.to})
+          const calculated = this.calculate({structured, fields, fromDay: this.fromDate, toDay: this.toDate})
 
           const chartOpt = _.cloneDeep(this.defaultChartOption)
           chartOpt.title.text = metaType.desc
@@ -206,7 +226,7 @@
           for (let category of calculated.fields) {
             chartOpt.series.push({
               name: category,
-              data: calculated.data[category],
+              data: calculated.data[ category ],
               type: 'line',
               smooth: false,
               lineStyle: {
@@ -241,14 +261,14 @@
           empty.counter[ category ] = 0.0
         }
 
-        for (let day = fromDay; day <= toDay; day++) {
-          let item = structured[ day ]
-          dayList.push(day)
+        for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
+          let item = structured[ this.toIntDay(day) ]
+          dayList.push(this.momentToString(day))
 
           // no data, find previous day data
           if (!item) {
-            for (let i = day; i >= fromDay; i--) {
-              let previousVal = structured[ i ]
+            for (let i = moment(day); i.isSameOrAfter(fromDay); i = i.subtract(1, 'd')) {
+              let previousVal = structured[ this.toIntDay(i) ]
               if (previousVal) {
                 item = previousVal
                 break
@@ -256,7 +276,7 @@
             }
           }
 
-          // no available anymore
+          // not available anymore
           if (!item) {
             item = _.cloneDeep(empty)
           }
@@ -273,7 +293,7 @@
           // calculate percentage
           for (const category of Object.keys(counter)) {
             const percent = (counter[ category ] / sumPerDay) * 100
-            data[ category ].push(percent || 0.0)
+            data[ category ].push(percent.toFixed(2) || 0.0)
           }
         }
 

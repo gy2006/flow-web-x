@@ -15,8 +15,8 @@
         <v-tab href="#tab-env">
           Environment
         </v-tab>
-        <v-tab href="#tab-yml">
-          YML Configuration
+        <v-tab href="#tab-config">
+          Configuration
         </v-tab>
         <v-tab href="#tab-users">
           Members
@@ -27,8 +27,8 @@
         <v-tab-item value="tab-env">
           <settings-env-tab :flow="flow"></settings-env-tab>
         </v-tab-item>
-        <v-tab-item value="tab-yml">
-          <settings-yml-tab :flow="flow"></settings-yml-tab>
+        <v-tab-item value="tab-config">
+          <settings-config-tab :flow="flow"></settings-config-tab>
         </v-tab-item>
         <v-tab-item value="tab-users">
           <settings-member-tab :flow="flow"></settings-member-tab>
@@ -44,14 +44,14 @@
   import Nav from '@/components/Common/Nav'
   import SettingsOptionTab from '@/view/Flow/SettingsOptionTab'
   import SettingsEnvTab from '@/view/Flow/SettingsEnvTab'
-  import SettingsYmlTab from '@/view/Flow/SettingsYMLTab'
+  import SettingsConfigTab from '@/view/Flow/SettingsConfigTab'
   import SettingsMemberTab from '@/view/Flow/SettingsMemberTab'
 
   export default {
     name: 'FlowSettings',
     components: {
       Nav,
-      SettingsYmlTab,
+      SettingsConfigTab,
       SettingsEnvTab,
       SettingsOptionTab,
       SettingsMemberTab

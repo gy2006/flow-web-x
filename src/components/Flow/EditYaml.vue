@@ -1,21 +1,34 @@
 <template>
-  <v-card class="full-size pa-0" flat>
+  <v-card flat class="full-size">
     <v-card-text class="editor pa-0">
       <div id="yml-editor" class="full-height"></div>
-
       <div class="error-message" v-if="errorOnSave">
         <span class="px-5 py-1">{{ errorOnSave }}</span>
       </div>
     </v-card-text>
 
-    <v-card-actions class="mt-4">
-      <v-btn color="secondary" tile @click="onResetClick" :disabled="!isCodeChange">
-        <b>{{ $t('reset') }}</b>
-      </v-btn>
-
-      <v-btn color="primary" tile @click="onSaveClick" :disabled="!isCodeChange">
-        <b>{{ $t('save') }}</b>
-      </v-btn>
+    <v-card-actions class="mt-2">
+      <v-row>
+        <v-col cols="8"></v-col>
+        <v-col cols="2">
+          <v-btn color="secondary"
+                 tile
+                 @click="onResetClick"
+                 block
+                 :disabled="!isCodeChange">
+            <b>{{ $t('reset') }}</b>
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-btn color="primary"
+                 tile
+                 @click="onSaveClick"
+                 block
+                 :disabled="!isCodeChange">
+            <b>{{ $t('save') }}</b>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,7 +39,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsYMLTab',
+    name: 'EditYaml',
     props: {
       flow: {
         required: true,

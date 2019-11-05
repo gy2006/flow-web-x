@@ -12,6 +12,7 @@
           <v-list-item-group v-model="selected">
             <v-list-item v-for="plugin in plugins"
                          :key="plugin.id"
+                         @click="getReadMe(plugin.name)"
             >
               <v-list-item-content>
                 <v-list-item-subtitle>
@@ -24,7 +25,7 @@
       </v-col>
 
       <v-col>
-        Content
+        {{ currentReadMe }}
       </v-col>
     </v-row>
   </div>
@@ -44,7 +45,8 @@
     },
     data () {
       return {
-        selected: false
+        selected: 0,
+        currentReadMe: ''
       }
     },
     computed: {
@@ -54,13 +56,26 @@
       }),
     },
     mounted() {
-      this.$store.dispatch(actions.plugins.list).then()
-      this.getReadMe("maven-test")
+      this.$store.dispatch(actions.plugins.list).then(() => {
+        let plugin = this.plugins[this.selected]
+        if (plugin) {
+          this.getReadMe(plugin.name)
+        }
+      })
     },
     methods: {
       getReadMe(name) {
+        let loaded = this.readmes[name]
+
+        if (loaded) {
+          this.currentReadMe = loaded
+          return
+        }
+
         this.$store.dispatch(actions.plugins.readme, name)
-          .then()
+          .then(() => {
+            this.currentReadMe = this.readmes[name]
+          })
           .catch(() => {})
       }
     }

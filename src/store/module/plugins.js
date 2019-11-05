@@ -16,14 +16,14 @@ const mutations = {
 }
 
 const actions = {
-  list({commit}) {
-    return http.get('plugins', (plugins) => {
+  async list({commit}) {
+    await http.get('plugins', (plugins) => {
       commit('setItems', plugins)
     })
   },
 
-  readme({commit}, name) {
-    return http.get(`plugins/${name}/readme`, (contentInBase64) => {
+  async readme({commit}, name) {
+    await http.get(`plugins/${name}/readme`, (contentInBase64) => {
       let content = atob(contentInBase64)
       commit('setReadMe', {name, content})
     })

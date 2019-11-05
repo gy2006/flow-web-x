@@ -2,7 +2,8 @@ import http from '../http'
 
 const state = {
   items: [],
-  readme: {}
+  readme: {},
+  icon: {},
 }
 
 const mutations = {
@@ -13,6 +14,10 @@ const mutations = {
   setReadMe (state, {name, content}) {
     state.readme[name] = content
   },
+
+  setIcon (state, {name, contentInBase64}) {
+    state.icon[name] = contentInBase64
+  }
 }
 
 const actions = {
@@ -26,6 +31,12 @@ const actions = {
     await http.get(`plugins/${name}/readme`, (contentInBase64) => {
       let content = atob(contentInBase64)
       commit('setReadMe', {name, content})
+    })
+  },
+
+  async icon({commit}, name) {
+    await http.get(`plugins/${name}/icon`, (contentInBase64) => {
+      commit('setIcon', {name, contentInBase64})
     })
   }
 }

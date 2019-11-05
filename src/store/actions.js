@@ -88,6 +88,7 @@ export default {
 
   plugins: {
     list: 'plugins/list',
-    readme: 'plugins/readme'
+    readme: 'plugins/readme',
+    icon: 'plugins/icon'
   }
 }

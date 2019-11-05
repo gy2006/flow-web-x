@@ -12,6 +12,7 @@ import { Store as AgentStore } from './module/agents'
 import { Store as CredentialStore } from './module/credentials'
 import { Store as UserStore } from './module/users'
 import { Store as StatsStore } from './module/stats'
+import { Store as PluginStore } from './module/plugins'
 
 Vue.use(Vuex)
 
@@ -27,7 +28,8 @@ const store = new Vuex.Store({
     'agents': AgentStore,
     'credentials': CredentialStore,
     'users': UserStore,
-    'stats': StatsStore
+    'stats': StatsStore,
+    'plugins': PluginStore
   }
 })
 

@@ -38,16 +38,17 @@
       </v-col>
 
       <v-col class="py-1">
-        {{ currentReadMe }}
+        <iframe id="markdown" class="markdown"></iframe>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import actions from '@/store/actions'
   import http from '@/store/http'
+  import marked from 'marked'
 
   export default {
     name: 'Plugins',
@@ -57,10 +58,9 @@
         type: Object
       }
     },
-    data () {
+    data() {
       return {
         selected: 0,
-        currentReadMe: ''
       }
     },
     mounted() {
@@ -88,15 +88,16 @@
         let loaded = this.readmeCache[name]
 
         if (loaded) {
-          this.currentReadMe = loaded
+          this.setMarkdown(loaded)
           return
         }
 
         this.$store.dispatch(actions.plugins.readme, name)
           .then(() => {
-            this.currentReadMe = this.readmeCache[name]
+            this.setMarkdown(this.readmeCache[name])
           })
-          .catch(() => {})
+          .catch(() => {
+          })
       },
 
       isDefaultIcon(plugin) {
@@ -109,7 +110,7 @@
           return false
         }
 
-        return pathOrLink.startsWith("http") || pathOrLink.startsWith("https")
+        return pathOrLink.startsWith('http') || pathOrLink.startsWith('https')
       },
 
       isRepoSrcIcon(plugin) {
@@ -119,6 +120,28 @@
         }
 
         return !this.isHttpLinkIcon(plugin)
+      },
+
+      setMarkdown(raw) {
+        let element = document.getElementById('markdown')
+        let doc = element.contentWindow.document
+        const css =
+          `<style type="text/css">
+            html, body {
+              margin: 0;
+              padding: 0;
+              font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+              /* color: #333; */
+              background-color: #fbfbfb;
+              height: 100%;
+            }
+          </style>`
+
+        doc.body.innerHTML =
+          `<html>
+            <head>${css}</head>
+            <body class="inner-frame">${marked(raw)}</body>
+          </html>`
       },
 
       setSrcIcon(plugin) {
@@ -145,15 +168,15 @@
 
         const suffix = plugin.icon.substring(dotIndex + 1)
 
-        if (suffix === "jpg" || suffix === "jpeg") {
+        if (suffix === 'jpg' || suffix === 'jpeg') {
           return 'image/jpeg'
         }
 
-        if (suffix === "gif") {
+        if (suffix === 'gif') {
           return 'image/gif'
         }
 
-        if (suffix === "png") {
+        if (suffix === 'png') {
           return 'image/png'
         }
 
@@ -163,9 +186,16 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .plugin-icon {
     max-height: 24px;
     max-width: 24px;
+  }
+
+  .markdown {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    /*background: #fbfbfb;*/
   }
 </style>

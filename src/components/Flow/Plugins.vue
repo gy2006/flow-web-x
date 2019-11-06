@@ -56,6 +56,10 @@
       flow: {
         required: true,
         type: Object
+      },
+      steps: {
+        required: true,
+        type: Array
       }
     },
     data() {

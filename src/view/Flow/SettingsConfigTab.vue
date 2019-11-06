@@ -14,7 +14,7 @@
       <edit-yaml :flow="flow" class="mt-2"></edit-yaml>
     </v-tab-item>
     <v-tab-item value="tab-plugins">
-      <plugins :flow="flow" class="mt-2"></plugins>
+      <plugins :flow="flow" :steps="steps" class="mt-2"></plugins>
     </v-tab-item>
   </v-tabs>
 </template>
@@ -29,6 +29,10 @@
       flow: {
         required: true,
         type: Object
+      },
+      steps: {
+        required: true,
+        type: Array
       }
     },
     components: {

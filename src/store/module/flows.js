@@ -10,7 +10,8 @@ const state = {
   gitTestMessage: undefined,  // git test message update
   gitBranches: [],
   itemsByCredential: [],
-  users: [] // flow users
+  users: [], // flow users
+  steps: [] // flow steps from yml
 }
 
 const mutations = {
@@ -138,6 +139,10 @@ const mutations = {
 
       delete selected.locally[ name ]
     }
+  },
+
+  setSteps (state, steps) {
+    state.steps = steps
   }
 }
 
@@ -225,9 +230,13 @@ const actions = {
     commit('updateExist', undefined)
   },
 
-  select ({commit, state}, name) {
-    return http.get(`flows/${name}`, (flow) => {
+  async select ({commit, state}, name) {
+    await http.get(`flows/${name}`, (flow) => {
       commit('select', flow)
+    })
+
+    await http.get(`flows/${name}/yml/steps`, (steps) => {
+      commit('setSteps', steps)
     })
   },
 

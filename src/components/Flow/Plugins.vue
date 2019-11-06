@@ -1,35 +1,43 @@
 <template>
   <div class="full-size">
     <v-row>
-      <v-col>
+      <v-col class="py-1">
         Plugins
       </v-col>
     </v-row>
 
     <v-row class="full-height">
-      <v-col cols="2">
-        <v-list>
-          <v-list-item-group v-model="selected">
+      <v-col cols="2" class="py-1">
+        <v-list dense>
+          <v-list-item-group v-model="selected" color="primary">
             <v-list-item v-for="plugin in plugins"
                          :key="plugin.id"
                          @click="getReadMe(plugin)"
             >
+              <v-list-item-icon>
+                <v-icon v-if="isDefaultIcon(plugin)">mdi-plus</v-icon>
+                <v-img v-if="isHttpLinkIcon(plugin)"
+                       :src="plugin.icon"
+                       max-height="24"
+                       max-width="24"
+                ></v-img>
+                <img v-if="isRepoSrcIcon(plugin)"
+                     class="plugin-icon"
+                     :id="plugin.id"
+                     alt=""
+                >
+              </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-icon>
-                  <v-icon v-if="isDefaultIcon(plugin)">mdi-plus</v-icon>
-                  <v-img v-if="isHttpLinkIcon(plugin)" :src="plugin.icon"></v-img>
-                  <img v-if="isRepoSrcIcon(plugin)" :id="plugin.id" alt="">
-                </v-list-item-icon>
-                <v-list-item-subtitle>
+                <v-list-item-title>
                   {{ plugin.name }}
-                </v-list-item-subtitle>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-col>
 
-      <v-col>
+      <v-col class="py-1">
         {{ currentReadMe }}
       </v-col>
     </v-row>
@@ -116,19 +124,48 @@
       setSrcIcon(plugin) {
         const element = document.getElementById(plugin.id)
         if (!element) {
-          console.log(plugin.id)
           return
         }
 
         this.$store.dispatch(actions.plugins.icon, plugin.name).then(() => {
           const b64 = this.iconCache[plugin.name]
-          element.src = "data:image/svg+xml;base64," + b64
+          element.src = `data:${this.getMediaType(plugin)};base64,${b64}`
         })
+      },
+
+      getMediaType(plugin) {
+        if (!plugin.icon) {
+          return 'image/svg+xml'
+        }
+
+        const dotIndex = plugin.icon.lastIndexOf('.')
+        if (dotIndex < 0) {
+          return 'image/svg+xml'
+        }
+
+        const suffix = plugin.icon.substring(dotIndex + 1)
+
+        if (suffix === "jpg" || suffix === "jpeg") {
+          return 'image/jpeg'
+        }
+
+        if (suffix === "gif") {
+          return 'image/gif'
+        }
+
+        if (suffix === "png") {
+          return 'image/png'
+        }
+
+        return 'image/svg+xml'
       }
     }
   }
 </script>
 
 <style scoped>
-
+  .plugin-icon {
+    max-height: 24px;
+    max-width: 24px;
+  }
 </style>

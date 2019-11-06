@@ -15,11 +15,11 @@
                          @click="getReadMe(plugin)"
             >
               <v-list-item-icon>
-                <v-icon v-if="isDefaultIcon(plugin)">mdi-plus</v-icon>
+                <v-icon v-if="isDefaultIcon(plugin)" small>mdi-view-grid-plus-outline</v-icon>
                 <v-img v-if="isHttpLinkIcon(plugin)"
                        :src="plugin.icon"
                        max-height="24"
-                       max-width="24"
+                       max-width="16"
                 ></v-img>
                 <img v-if="isRepoSrcIcon(plugin)"
                      class="plugin-icon"
@@ -37,7 +37,7 @@
         </v-list>
       </v-col>
 
-      <v-col class="py-1">
+      <v-col class="pa-0">
         <iframe id="markdown" class="markdown"></iframe>
       </v-col>
     </v-row>
@@ -127,12 +127,10 @@
         let doc = element.contentWindow.document
         const css =
           `<style type="text/css">
-            html, body {
+            body {
               margin: 0;
-              padding: 0;
+              padding: 0px;
               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-              /* color: #333; */
-              background-color: #fbfbfb;
               height: 100%;
             }
           </style>`
@@ -140,7 +138,7 @@
         doc.body.innerHTML =
           `<html>
             <head>${css}</head>
-            <body class="inner-frame">${marked(raw)}</body>
+            <body>${marked(raw)}</body>
           </html>`
       },
 
@@ -189,13 +187,13 @@
 <style lang="scss" scoped>
   .plugin-icon {
     max-height: 24px;
-    max-width: 24px;
+    max-width: 16px;
   }
 
   .markdown {
     width: 100%;
     height: 100%;
     border: 0;
-    /*background: #fbfbfb;*/
+    background: #fbfbfb;
   }
 </style>

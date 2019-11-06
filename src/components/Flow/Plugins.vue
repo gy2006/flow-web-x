@@ -29,9 +29,12 @@
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ plugin.name }}
+                  <span>{{ plugin.name }}</span>
                 </v-list-item-title>
               </v-list-item-content>
+              <v-list-item-action>
+                <v-icon v-if="isInstalledOnFlow(plugin)" x-small>mdi-checkbox-marked</v-icon>
+              </v-list-item-action>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -102,6 +105,16 @@
           })
           .catch(() => {
           })
+      },
+
+      isInstalledOnFlow(plugin) {
+        for (let step of this.steps) {
+          if (step.plugin && step.plugin === plugin.name) {
+            return true
+          }
+        }
+
+        return false
       },
 
       isDefaultIcon(plugin) {

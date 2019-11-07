@@ -31,6 +31,9 @@
                 <v-list-item-title>
                   <span>{{ plugin.name }}</span>
                 </v-list-item-title>
+                <v-list-item-subtitle>
+                  <span>{{ plugin.version }}</span>
+                </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
                 <v-icon v-if="isInstalledOnFlow(plugin)" x-small>mdi-checkbox-marked</v-icon>

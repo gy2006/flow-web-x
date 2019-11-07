@@ -4,11 +4,20 @@ const state = {
   items: [],
   readme: {},
   icon: {},
+  tags:[], // tag set
 }
 
 const mutations = {
   setItems (state, items) {
+    let tags = new Set()
+    for (let item of items) {
+      for (let tag of item.tags) {
+        tags.add(tag)
+      }
+    }
+
     state.items = items
+    state.tags = [...tags]
   },
 
   setReadMe (state, {name, content}) {

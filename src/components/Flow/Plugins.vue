@@ -2,7 +2,18 @@
   <div class="full-size">
     <v-row>
       <v-col class="py-1">
-        Plugins
+        <v-chip
+            v-for="item in tagList"
+            :key="item.name"
+            class="ma-2"
+            color="primary"
+            filter
+            outlined
+            :input-value="item.selected"
+            @click="onTagClick(item)"
+        >
+          {{ item.name }}
+        </v-chip>
       </v-col>
     </v-row>
 
@@ -10,18 +21,18 @@
       <v-col cols="2" class="py-1">
         <v-list dense>
           <v-list-item-group v-model="selected" color="primary">
-            <v-list-item v-for="plugin in plugins"
+            <v-list-item v-for="plugin in pluginList"
                          :key="plugin.id"
                          @click="getReadMe(plugin)"
             >
               <v-list-item-icon>
-                <v-icon v-if="isDefaultIcon(plugin)" small>mdi-view-grid-plus-outline</v-icon>
-                <v-img v-if="isHttpLinkIcon(plugin)"
+                <v-icon v-if="plugin.isDefaultIcon" small>mdi-view-grid-plus-outline</v-icon>
+                <v-img v-if="plugin.isHttpLinkIcon"
                        :src="plugin.icon"
                        max-height="24"
                        max-width="16"
                 ></v-img>
-                <img v-if="isRepoSrcIcon(plugin)"
+                <img v-if="plugin.isRepoSrcIcon"
                      class="plugin-icon"
                      :id="plugin.id"
                      alt=""
@@ -53,7 +64,7 @@
 <script>
   import {mapState} from 'vuex'
   import actions from '@/store/actions'
-  import http from '@/store/http'
+  import {PluginWrapper} from '@/util/plugins'
   import marked from 'marked'
 
   export default {
@@ -71,6 +82,8 @@
     data() {
       return {
         selected: 0,
+        tagList: [],
+        pluginList: []
       }
     },
     mounted() {
@@ -79,20 +92,71 @@
         if (plugin) {
           this.getReadMe(plugin.name)
         }
-
-        for (let p of this.plugins) {
-          this.setSrcIcon(p)
-        }
       })
+    },
+    updated() {
+      for (let wrapper of this.pluginList) {
+        this.setSrcIcon(wrapper)
+      }
     },
     computed: {
       ...mapState({
+        tags: state => state.plugins.tags,
         plugins: state => state.plugins.items,
         readmeCache: state => state.plugins.readme,
         iconCache: state => state.plugins.icon
-      }),
+      })
+    },
+
+    watch: {
+      plugins (newVal) {
+        this.pluginList = this.toPluginWrapperList(newVal)
+      },
+
+      tags (newVal) {
+        let list = []
+        for (let t of newVal) {
+          list.push({
+            name: t,
+            selected: false
+          })
+        }
+        this.tagList = list
+      }
     },
     methods: {
+      onTagClick(tag) {
+        tag.selected = !tag.selected
+
+        let selected = new Set()
+
+        for (let tag of this.tagList) {
+          if (tag.selected) {
+            selected.add(tag.name)
+          }
+        }
+
+        if (selected.size === 0) {
+          this.pluginList = this.toPluginWrapperList(this.plugins)
+          return
+        }
+
+        this.pluginList = this.toPluginWrapperList(this.plugins).filter(((p) => {
+          let s = new Set(p.tags)
+          let intersect = new Set([...selected].filter(i => s.has(i)));
+          return intersect.size > 0
+        }))
+      },
+
+      toPluginWrapperList(plugins) {
+        let list = []
+        for (let p of plugins) {
+          list.push(new PluginWrapper(p))
+        }
+
+        return list
+      },
+
       getReadMe(plugin) {
         let name = plugin.name
         let loaded = this.readmeCache[name]
@@ -120,28 +184,6 @@
         return false
       },
 
-      isDefaultIcon(plugin) {
-        return !plugin.icon
-      },
-
-      isHttpLinkIcon(plugin) {
-        const pathOrLink = plugin.icon
-        if (!pathOrLink) {
-          return false
-        }
-
-        return pathOrLink.startsWith('http') || pathOrLink.startsWith('https')
-      },
-
-      isRepoSrcIcon(plugin) {
-        const pathOrLink = plugin.icon
-        if (!pathOrLink) {
-          return false
-        }
-
-        return !this.isHttpLinkIcon(plugin)
-      },
-
       setMarkdown(raw) {
         let element = document.getElementById('markdown')
         let doc = element.contentWindow.document
@@ -162,15 +204,21 @@
           </html>`
       },
 
-      setSrcIcon(plugin) {
-        const element = document.getElementById(plugin.id)
-        if (!element) {
+      setSrcIcon(wrapper) {
+        const element = document.getElementById(wrapper.id)
+        if (!element || element.src) {
           return
         }
 
-        this.$store.dispatch(actions.plugins.icon, plugin.name).then(() => {
-          const b64 = this.iconCache[plugin.name]
-          element.src = `data:${this.getMediaType(plugin)};base64,${b64}`
+        const b64 = this.iconCache[wrapper.name]
+        if (b64) {
+          element.src = `data:${this.getMediaType(wrapper)};base64,${b64}`
+          return
+        }
+
+        this.$store.dispatch(actions.plugins.icon, wrapper.name).then(() => {
+          const b64 = this.iconCache[wrapper.name]
+          element.src = `data:${this.getMediaType(wrapper)};base64,${b64}`
         })
       },
 

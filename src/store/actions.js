@@ -84,5 +84,11 @@ export default {
     list: 'stats/list',
     metaType: 'stats/metaType',
     metaTypeList: 'stats/metaTypeList'
+  },
+
+  plugins: {
+    list: 'plugins/list',
+    readme: 'plugins/readme',
+    icon: 'plugins/icon'
   }
 }

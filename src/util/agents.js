@@ -6,7 +6,7 @@ const STATUS_OFFLINE = 'OFFLINE'
 const STATUS_IDLE = 'IDLE'
 const STATUS_BUSY = 'BUSY'
 
-const icons = {
+export const icons = {
   [OS_MAC]: 'flow-icon-appleinc',
   [OS_LINUX]: 'flow-icon-linux',
   [OS_WIN]: 'flow-icon-windows8'
@@ -81,11 +81,39 @@ export class AgentWrapper {
     return this.agent.host ? this.agent.host : 'unknown'
   }
 
+  get freeMemory () {
+    return this.fetchResource('freeMemory')
+  }
+
+  get totalMemory () {
+    return this.fetchResource('totalMemory')
+  }
+
+  get numOfCpu () {
+    return this.fetchResource('cpu')
+  }
+
+  get freeDisk () {
+    return this.fetchResource('freeDisk')
+  }
+
+  get totalDisk () {
+    return this.fetchResource('totalDisk')
+  }
+
   set name (name) {
     this.agent.name = name
   }
 
   set tags (tags) {
     this.agent.tags = tags
+  }
+
+  fetchResource(field) {
+    if (this.agent.resource[field] === 0) {
+      return '-'
+    }
+
+    return this.agent.resource[field]
   }
 }

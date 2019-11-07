@@ -1,36 +1,36 @@
 <template>
-  <v-container>
-    <v-layout row d-block class="flow-settings-option">
+  <v-col cols="10">
+    <v-row d-block class="flow-settings-option">
       <!-- Settings -->
-      <v-flex xs11 class="mb-4">
+      <v-col cols="12" class="mb-4">
         <span class="font-weight-black title">Settings</span>
         <v-divider></v-divider>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs5>
+      <v-col cols="6">
         <option-flow-name :flow="flow"></option-flow-name>
-      </v-flex>
+      </v-col>
 
       <!-- Git Access Option -->
-      <v-flex xs11 class="mt-4 mb-4">
+      <v-col cols="12" class="mt-4 mb-4">
         <span class="font-weight-black title">Git Access</span>
         <v-divider></v-divider>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs12>
+      <v-col cols="12">
         <option-git-access :flow="flow"></option-git-access>
-      </v-flex>
+      </v-col>
 
       <!-- Danger Zone -->
-      <v-flex xs11 class="mt-4 mb-1">
+      <v-col cols="12" class="mt-4 mb-1">
         <span class="font-weight-black title">Danger Zone</span>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs11 class="danger-zone pa-3">
+      <v-col cols="12" class="danger-zone pa-3">
         <option-delete-flow :flow="flow"></option-delete-flow>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      </v-col>
+    </v-row>
+  </v-col>
 </template>
 
 <script>

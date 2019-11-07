@@ -3,6 +3,7 @@ import { errorCommit, newTokenCommit } from './index'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 import code from '../util/code'
+import _ from 'lodash'
 
 const url = process.env.VUE_APP_API_URL
 const token = process.env.VUE_APP_TOKEN
@@ -175,7 +176,9 @@ const http = {
   },
 
   get: (url, onSuccess, params) => {
-    const config = Object.assign({params: params}, helper.config)
+    const config = _.cloneDeep(helper.config)
+    config.params = params
+
     return instance.get(url, config).then((r) => {
       handleResponse(r, onSuccess)
     })
@@ -191,7 +194,7 @@ const http = {
   },
 
   delete: (url, onSuccess, body) => {
-    const config = Object.assign({}, helper.config)
+    const config = _.cloneDeep(helper.config)
     if (body) {
       config.data = body
     }

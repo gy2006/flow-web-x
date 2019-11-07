@@ -3,13 +3,15 @@ export const Store = {
   state: {
     snackbar: {
       show: false,
-      text: ''
+      text: '',
+      color: ''
     }
   },
   mutations: {
-    show (state, text) {
+    show (state, {text, color}) {
       state.snackbar.text = text;
       state.snackbar.show = true;
+      state.snackbar.color = color;
     }
   }
 }

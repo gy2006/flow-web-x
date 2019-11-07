@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-layout>
-      <v-flex xs12 sm6>
+    <v-row>
+      <v-col cols="4">
         <v-form
             ref="form"
             v-model="valid"
@@ -15,9 +15,17 @@
               :error-messages="errorMsg"
           ></v-text-field>
         </v-form>
-      </v-flex>
-    </v-layout>
-    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="1">
+        <v-btn small
+               color="primary"
+               @click="handleNextClick"
+        >{{ $t('next') }}</v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

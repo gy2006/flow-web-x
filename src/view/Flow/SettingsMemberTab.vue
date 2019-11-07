@@ -1,63 +1,64 @@
 <template>
-  <v-layout>
-    <v-flex xs6 class="ml-4">
-      <v-card flat>
-        <v-card-title>
-          <v-autocomplete
-              v-model="model"
-              :items="searchResult"
-              :search-input.sync="searchText"
-              hide-no-data
-              item-text="email"
-              label="Search email to add member to flow"
-              prepend-inner-icon="search"
-          >
-            <template v-slot:item="{ item }">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="item.email"></v-list-tile-title>
-                <v-list-tile-sub-title v-text="item.role"></v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon @click="onAddClick(item)">
-                  <v-icon small>add</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </template>
-          </v-autocomplete>
-        </v-card-title>
+  <v-col cols="6">
+    <v-card flat>
+      <v-card-title>
+        <v-autocomplete
+            v-model="model"
+            :items="searchResult"
+            :search-input.sync="searchText"
+            hide-no-data
+            item-text="email"
+            label="Search email to add member to flow"
+            prepend-inner-icon="mdi-magnify-outline"
+        >
+          <template v-slot:item="{ item }">
+            <v-list-item-content>
+              <v-list-item-title v-text="item.email"></v-list-item-title>
+              <v-list-item-subtitle v-text="item.role"></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn icon @click="onAddClick(item)">
+                <v-icon small>mdi-plus-outline</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </template>
+        </v-autocomplete>
+      </v-card-title>
 
-        <v-card-text>
-          <v-divider></v-divider>
-          <v-data-table
-              hide-headers
-              hide-actions
-              :items="flowUsers"
-              class="user-table"
-          >
-            <template v-slot:items="props">
+      <v-card-text>
+        <v-divider></v-divider>
+        <v-data-table
+            hide-default-header
+            hide-default-footer
+            :items="flowUsers"
+            class="user-table"
+        >
+          <template v-slot:item="{ item }">
+            <tr>
               <td>avatar</td>
-              <td class="text-xs-left">{{ props.item.email }}</td>
-              <td>{{ props.item.role }}</td>
+              <td class="text-xs-left">{{ item.email }}</td>
+              <td>{{ item.role }}</td>
               <td class="text-xs-right">
-                <v-btn flat icon class="ma-0" @click="onRemoveClick(props.item)">
-                  <v-icon small>delete</v-icon>
+                <v-btn text icon class="ma-0" @click="onRemoveClick(item)">
+                  <v-icon small>mdi-trash-can-outline</v-icon>
                 </v-btn>
               </td>
-            </template>
-            <template v-slot:no-results>
-              <v-alert :value="true" color="error" icon="warning">
-                Your search for "{{ searchText }}" found no results.
-              </v-alert>
-            </template>
-          </v-data-table>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>
+            </tr>
+          </template>
+
+          <template v-slot:no-results>
+            <v-alert :value="true" color="error" icon="warning">
+              Your search for "{{ searchText }}" found no results.
+            </v-alert>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </v-card>
+  </v-col>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import actions from '@/store/actions'
 
   export default {
@@ -72,13 +73,13 @@
       return {
         model: null,
         searchText: '',
-        searchResult: [],
+        searchResult: []
       }
     },
     computed: {
       ...mapState({
         flowUsers: state => state.flows.users,
-        allUsers: state => state.users.items,
+        allUsers: state => state.users.items
       }),
 
       notInFlowUsers () {
@@ -103,13 +104,15 @@
     methods: {
       onAddClick (user) {
         let payload = {name: this.flow.name, userId: user.id}
-        this.$store.dispatch(actions.flows.users.add, payload).catch((err) => {})
+        this.$store.dispatch(actions.flows.users.add, payload).catch((err) => {
+        })
         this.searchText = ''
       },
 
       onRemoveClick (user) {
         let payload = {name: this.flow.name, userId: user.id}
-        this.$store.dispatch(actions.flows.users.remove, payload).catch((err) => {})
+        this.$store.dispatch(actions.flows.users.remove, payload).catch((err) => {
+        })
       }
     }
   }

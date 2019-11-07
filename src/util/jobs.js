@@ -11,8 +11,8 @@ const STATUS_TIMEOUT = 'TIMEOUT'
 
 // triggers
 export const TRIGGER_PUSH = 'PUSH'
-export const TRIGGER_PR_OPEN = 'PR_OPEN'
-export const TRIGGER_PR_CLOSE = 'PR_CLOSE'
+export const TRIGGER_PR_OPENED = 'PR_OPENED'
+export const TRIGGER_PR_MERGED = 'PR_MERGED'
 export const TRIGGER_TAG = 'TAG'
 export const TRIGGER_MANUAL = 'MANUAL'
 export const TRIGGER_API = 'API'
@@ -23,20 +23,28 @@ export class JobWrapper {
     this.job = job
   }
 
+  get context () {
+    return this.job.context || {}
+  }
+
   get rawInstance () {
     return this.job
   }
 
+  get errorMsg() {
+    return this.job.message
+  }
+
   get commitId () {
-    return this.job.context[ vars.git.commit.id ]
+    return this.context[ vars.git.commit.id ]
   }
 
   get commitMsg () {
-    return this.job.context[ vars.git.commit.message ]
+    return this.context[ vars.git.commit.message ]
   }
 
   get commitUrl () {
-    return this.job.context[ vars.git.commit.url ]
+    return this.context[ vars.git.commit.url ]
   }
 
   get fromNow () {
@@ -44,7 +52,7 @@ export class JobWrapper {
   }
 
   get branch () {
-    return this.job.context[ vars.git.branch ]
+    return this.context[ vars.git.branch ]
   }
 
   get buildNumber () {
@@ -52,15 +60,19 @@ export class JobWrapper {
   }
 
   get trigger () {
-    return this.job.trigger
+    return this.job.trigger || 'default'
   }
 
   get triggerText () {
-    return mapping.trigger[ this.job.trigger ].text
+    return mapping.trigger[ this.trigger ].text
   }
 
   get triggerIcon () {
-    return mapping.trigger[ this.job.trigger ].icon
+    return mapping.trigger[ this.trigger ].icon
+  }
+
+  get triggerBy () {
+    return this.context[ vars.job.triggerBy ] || '-'
   }
 
   get status () {
@@ -77,51 +89,92 @@ export class JobWrapper {
     return status
   }
 
-  get contextAsList () {
+  get customVarList () {
     const contextAsPairList = []
-    const context = this.job.context
 
-    if (!context) {
-      return contextAsPairList
-    }
-
-    Object.keys(context).forEach(key => {
-      contextAsPairList.push({key: key, value: context[ key ]})
+    Object.keys(this.context).forEach(key => {
+      if (!key.startsWith('FLOWCI_')) {
+        contextAsPairList.push({key: key, value: this.context[ key ]})
+      }
     })
 
     return contextAsPairList
   }
 
+  get duration () {
+    if (this.job.startAt && this.job.finishAt) {
+      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'milliseconds')
+    }
+
+    return '-'
+  }
+
+  get finishedAt () {
+    if (this.job.finishAt) {
+      return moment(this.job.finishAt).fromNow()
+    }
+
+    return '-'
+  }
+
+  get agentInfo () {
+    return this.job.agentInfo || {
+      name: '-',
+      os: '-',
+      cpu: 0,
+      freeMemory: 0,
+      totalMemory: 0,
+      freeDisk: 0,
+      totalDisk: 0
+    }
+  }
+
   get prTitle () {
-    return this.job.context[ vars.git.pr.title ]
+    return this.context[ vars.git.pr.title ]
   }
 
   get prMessage () {
-    return this.job.context[ vars.git.pr.message ]
+    return this.context[ vars.git.pr.message ]
   }
 
   get prUrl () {
-    return this.job.context[ vars.git.pr.url ]
+    return this.context[ vars.git.pr.url ]
   }
 
   get prNumber () {
-    return this.job.context[ vars.git.pr.number ]
+    return this.context[ vars.git.pr.number ]
   }
 
   get prHeadRepo () {
-    return this.job.context[ vars.git.pr.head_repo ]
+    return this.context[ vars.git.pr.head_repo ]
   }
 
   get prHeadBranch () {
-    return this.job.context[ vars.git.pr.head_branch ]
+    return this.context[ vars.git.pr.head_branch ]
   }
 
   get prBaseRepo () {
-    return this.job.context[ vars.git.pr.base_repo ]
+    return this.context[ vars.git.pr.base_repo ]
   }
 
   get prBaseBranch () {
-    return this.job.context[ vars.git.pr.base_branch ]
+    return this.context[ vars.git.pr.base_branch ]
+  }
+
+  get isPushTrigger () {
+    return this.trigger === TRIGGER_PUSH
+  }
+
+  get isTagTrigger () {
+    return this.trigger === TRIGGER_TAG
+  }
+
+  get isPrOpenedTrigger () {
+    return this.trigger === TRIGGER_PR_OPENED
+  }
+
+  get isPrMergedTrigger () {
+    return this.trigger === TRIGGER_PR_MERGED
   }
 }
 
@@ -135,53 +188,65 @@ export const mapping = {
   status: {
     default: {
       icon: 'flow-icon-loading1',
-      class: [ 'grey--text', 'rotate' ]
+      class: [ 'grey--text', 'rotate' ],
+      text: ''
     },
 
     [ STATUS_QUEUED ]: {
       icon: 'flow-icon-pending',
-      class: 'green--text'
+      class: 'green--text',
+      text: STATUS_QUEUED
     },
 
     [ STATUS_RUNNING ]: {
       icon: 'flow-icon-running',
-      class: [ 'blue--text', 'rotate' ]
+      class: [ 'blue--text', 'rotate' ],
+      text: STATUS_RUNNING
     },
 
     [ STATUS_SUCCESS ]: {
       icon: 'flow-icon-check',
-      class: 'green--text'
+      class: 'green--text',
+      text: STATUS_SUCCESS
     },
 
     [ STATUS_FAILURE ]: {
       icon: 'flow-icon-failure',
-      class: 'red--text'
+      class: 'red--text',
+      text: STATUS_FAILURE
     },
 
     [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
-      class: 'grey--text'
+      class: 'grey--text',
+      text: STATUS_CANCELLED
     },
 
     [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
-      class: 'orange--text'
+      class: 'orange--text',
+      text: STATUS_TIMEOUT
     }
   },
 
   // job trigger mapping
   trigger: {
+    default: {
+      text: 'push',
+      icon: 'flow-icon-git-commit'
+    },
+
     [ TRIGGER_PUSH ]: {
       text: 'push',
       icon: 'flow-icon-git-commit'
     },
 
-    [ TRIGGER_PR_OPEN ]: {
+    [ TRIGGER_PR_OPENED ]: {
       text: 'pull request open',
       icon: 'flow-icon-git-pull-request'
     },
 
-    [ TRIGGER_PR_CLOSE ]: {
+    [ TRIGGER_PR_MERGED ]: {
       text: 'pull request close',
       icon: 'flow-icon-git-merge'
     },

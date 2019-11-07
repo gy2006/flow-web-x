@@ -2,19 +2,22 @@
   <v-data-table
       :headers="headers"
       :items="users"
-      :pagination.sync="pagination"
-      :total-items="total"
+      :options.sync="pagination"
+      :server-items-length="total"
+      :loading="loading"
       :search="searchText"
   >
-    <template v-slot:items="props">
-      <td>{{ props.item.email }}</td>
-      <td>{{ props.item.role }}</td>
-      <td>{{ props.item.createdAt }}</td>
-      <td>
-        <v-btn flat icon class="ma-0" @click="onEditBtnClick(props.item)">
-          <v-icon small>edit</v-icon>
-        </v-btn>
-      </td>
+    <template v-slot:item="{item}">
+      <tr>
+        <td>{{ item.email }}</td>
+        <td>{{ item.role }}</td>
+        <td>{{ item.createdAt }}</td>
+        <td>
+          <v-btn icon class="ma-0" @click="onEditBtnClick(item)">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </td>
+      </tr>
     </template>
     <template v-slot:no-results>
       <v-alert :value="true" color="error" icon="warning">
@@ -33,9 +36,10 @@
     data () {
       return {
         searchText: '',
+        loading: false,
         pagination: {
           page: 1,
-          rowsPerPage: 5
+          itemsPerPage: 5
         },
         headers: [
           {
@@ -74,9 +78,15 @@
     },
     methods: {
       load () {
-        // const { sortBy, descending, page, rowsPerPage } = this.pagination
-        const { page, rowsPerPage } = this.pagination
-        this.$store.dispatch(actions.users.listAll, {page: page, size: rowsPerPage}).catch((err) => {})
+        this.loading = true
+        const { page, itemsPerPage } = this.pagination
+        this.$store.dispatch(actions.users.listAll, {page: page, size: itemsPerPage})
+          .then(() => {
+            this.loading = false
+          })
+          .catch((err) => {
+            this.loading = false
+          })
       },
 
       onAddBtnClick () {

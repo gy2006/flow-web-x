@@ -1,18 +1,32 @@
 <template>
   <div>
-    <v-form ref="sshForm" lazy-validation>
-      <v-layout>
-        <v-flex xs6>
+    <v-row>
+      <v-col cols="4">
+        <v-form ref="sshForm" lazy-validation>
           <ssh-rsa-editor :show-help="true"
                           :show-create-new="true"
                           :show-selection="true"
                           :module="credential"
           ></ssh-rsa-editor>
-        </v-flex>
-      </v-layout>
-    </v-form>
-    <v-btn small color="primary" @click="handleNextClick">{{ $t('next') }}</v-btn>
-    <v-btn small flat @click="onBackClick">{{ $t('back') }}</v-btn>
+        </v-form>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="1">
+        <v-btn small
+               color="primary"
+               @click="handleNextClick"
+        >{{ $t('next') }}</v-btn>
+      </v-col>
+      <v-col cols="1">
+        <v-btn small
+               outlined
+               color="warning"
+               @click="onBackClick"
+        >{{ $t('back') }}</v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

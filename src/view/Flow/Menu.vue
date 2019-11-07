@@ -1,40 +1,34 @@
 <template>
-  <v-navigation-drawer v-model="drawer" fixed clipped app>
-    <v-list dense>
-      <v-list-tile class="mt-3">
-        <v-text-field
-            :placeholder="$t('flow.search')"
-            single-line
-            append-icon="search"
-            v-model="searchVal"/>
-      </v-list-tile>
-      <div class="text-xs-center mt-5" v-if="loading">
-        <v-progress-circular
-            indeterminate
-            color="purple"
-        ></v-progress-circular>
-      </div>
-      <template v-for="item in items">
-        <v-list-tile @click="onItemClick(item)"
-                     :key="item.id"
-                     :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']">
-          <v-list-tile-action>
-            <v-icon small :class="item.iconClass">{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </template>
+  <v-list shaped>
+    <v-subheader>
+      <v-text-field
+          :placeholder="$t('flow.search')"
+          single-line
+          append-icon="mdi-magnify"
+          v-model="searchVal"/>
+    </v-subheader>
 
-      <!-- button to create-->
-      <v-list-tile>
-        <v-list-tile-content class="btn-create">
-          <flow-create-dialog></flow-create-dialog>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
+    <v-list-item-group v-model="selected">
+      <v-list-item v-for="item in items"
+                   :key="item.id"
+                   :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']"
+                   @click="onItemClick(item)">
+        <v-list-item-action>
+          <v-icon small :class="item.iconClass">{{ item.icon }}</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list-item-group>
+
+    <!-- button to create-->
+    <v-list-item>
+      <v-list-item-content class="btn-create">
+        <flow-create-dialog></flow-create-dialog>
+      </v-list-item-content>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
@@ -50,10 +44,9 @@
     },
     data () {
       return {
-        drawer: true,
         searchVal: '',
-        loading: false,
-        items: []
+        items: [],
+        selected: 0
       }
     },
     mounted () {
@@ -72,10 +65,6 @@
       }
     },
     methods: {
-      click () {
-        this.drawer = !this.drawer
-      },
-
       onItemClick (flow) {
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
@@ -89,7 +78,8 @@
       fetchLatestStatus (items) {
         items.forEach((wrapper) => {
           let body = {flow: wrapper.name, buildNumberOrLatest: 'latest'}
-          this.$store.dispatch(actions.jobs.get, body).then().catch(() => {})
+          this.$store.dispatch(actions.jobs.get, body).then().catch(() => {
+          })
         })
       },
 

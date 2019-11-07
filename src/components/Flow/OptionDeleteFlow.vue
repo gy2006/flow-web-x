@@ -1,11 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <div class="d-flex">
-    <v-flex>
+  <v-row align="center">
+    <v-col>
       <div class="font-weight-bold body-1">{{ $t('delete') }} Flow</div>
       <div>{{ $t('flow.delete_desc') }}</div>
-    </v-flex>
+    </v-col>
 
-    <v-flex xs3>
+    <v-col cols="3">
       <v-dialog v-model="dialog" persistent max-width="40%">
         <template v-slot:activator="{ on }">
           <v-btn
@@ -38,8 +38,8 @@
         </v-card>
       </v-dialog>
 
-    </v-flex>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

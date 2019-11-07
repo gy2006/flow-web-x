@@ -10,7 +10,8 @@ const state = {
   gitTestMessage: undefined,  // git test message update
   gitBranches: [],
   itemsByCredential: [],
-  users: [] // flow users
+  users: [], // flow users
+  steps: [] // flow steps from yml
 }
 
 const mutations = {
@@ -79,6 +80,69 @@ const mutations = {
 
   removeUsers (state, users) {
     state.users = state.users.filter((x) => !users.some((y) => x.id === y.id))
+  },
+
+  addVar (state, {flow, name, value}) {
+    // update flow in items
+    for (let item of state.items) {
+      if (item.id !== flow.id) {
+        continue
+      }
+
+      if (!item.locally) {
+        item.locally = {}
+      }
+
+      item.locally[ name ] = value
+      break
+    }
+
+    // update flow if selected
+    const selected = state.selected.flow
+    if (!selected || !selected.id) {
+      return
+    }
+
+    if (selected.id === flow.id) {
+      if (!selected.locally) {
+        selected.locally = {}
+      }
+
+      selected.locally[ name ] = value
+    }
+  },
+
+  removeVar (state, {flow, name}) {
+    // update flow in items
+    for (let item of state.items) {
+      if (item.id !== flow.id) {
+        continue
+      }
+
+      if (!item.locally) {
+        break
+      }
+
+      delete item.locally[ name ]
+    }
+
+    // update flow if selected
+    const selected = state.selected.flow
+    if (!selected || !selected.id) {
+      return
+    }
+
+    if (selected.id === flow.id) {
+      if (!selected.locally) {
+        return
+      }
+
+      delete selected.locally[ name ]
+    }
+  },
+
+  setSteps (state, steps) {
+    state.steps = steps
   }
 }
 
@@ -166,9 +230,13 @@ const actions = {
     commit('updateExist', undefined)
   },
 
-  select ({commit, state}, name) {
-    return http.get(`flows/${name}`, (flow) => {
+  async select ({commit, state}, name) {
+    await http.get(`flows/${name}`, (flow) => {
       commit('select', flow)
+    })
+
+    await http.get(`flows/${name}/yml/steps`, (steps) => {
+      commit('setSteps', steps)
     })
   },
 
@@ -227,14 +295,39 @@ const actions = {
     const onSuccess = (list) => {
       commit('addUsers', list)
     }
-    await http.post(`flows/${name}/users`, onSuccess, [userId])
+    await http.post(`flows/${name}/users`, onSuccess, [ userId ])
   },
 
   async removeUser ({commit}, {name, userId}) {
     const onSuccess = (list) => {
       commit('removeUsers', list)
     }
-    await http.delete(`flows/${name}/users`, onSuccess, [userId])
+    await http.delete(`flows/${name}/users`, onSuccess, [ userId ])
+  },
+
+  async addVar ({commit}, {flow, name, value, type}) {
+    const payload = {
+      [ name ]: {
+        data: value,
+        type: type
+      }
+    }
+
+    const onSuccess = () => {
+      commit('addVar', {flow, name, value})
+    }
+
+    await http.post(`flows/${flow.name}/variables`, onSuccess, payload)
+  },
+
+  async removeVar ({commit}, {flow, name}) {
+    const payload = [ name ]
+
+    const onSuccess = () => {
+      commit('removeVar', {flow, name})
+    }
+
+    await http.delete(`flows/${flow.name}/variables`, onSuccess, payload)
   }
 }
 

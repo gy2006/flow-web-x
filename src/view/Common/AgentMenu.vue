@@ -1,46 +1,45 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn flat v-on="on" small class="mx-0 px-0">
-        <v-icon>dvr</v-icon>
+      <v-btn text v-on="on" small class="mx-0 px-0">
+        <v-icon>mdi-view-grid</v-icon>
       </v-btn>
     </template>
-    <v-list>
-      <v-list-tile avatar
-                   v-for="agent in items"
+    <v-list class="pa-0 agent-list">
+      <v-list-item class="pl-0 item"
+                    v-for="agent in items"
                    :key="agent.id"
                    @click="onAgentItemClick"
       >
-        <v-list-tile-avatar>
-          <v-icon small>{{ agent.icon }}</v-icon>
-        </v-list-tile-avatar>
+        <div :class="[agent.color, 'state']"></div>
 
-        <v-list-tile-content>
-          <v-list-tile-title>{{ agent.name }}</v-list-tile-title>
-        </v-list-tile-content>
+        <v-list-item-content class="pt-0 pb-0">
+          <v-list-item-title>{{ agent.name }}</v-list-item-title>
+          <v-list-item-subtitle>{{ agent.freeMemory }} free (mb)</v-list-item-subtitle>
+        </v-list-item-content>
 
-        <v-list-tile-action>
-          <v-chip small light :color="agent.color" text-color="white">{{ $t(agent.text) }}</v-chip>
-        </v-list-tile-action>
-      </v-list-tile>
+        <v-list-item-icon>
+          <v-icon>{{ agent.icon }}</v-icon>
+        </v-list-item-icon>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script>
   import actions from '@/store/actions'
-  import { subscribeTopic } from '@/store/subscribe'
-  import { util, AgentWrapper } from '@/util/agents'
-  import { mapState } from 'vuex'
+  import {subscribeTopic} from '@/store/subscribe'
+  import {AgentWrapper, util} from '@/util/agents'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'AgentMenu',
-    data () {
+    data() {
       return {
         items: []
       }
     },
-    mounted () {
+    mounted() {
       this.$store.dispatch(actions.agents.list).then()
       subscribeTopic.agents(this.$store)
     },
@@ -51,11 +50,11 @@
       })
     },
     watch: {
-      agents (after) {
+      agents(after) {
         this.items = util.convert(after)
       },
 
-      updated (after) {
+      updated(after) {
         let wrapper = new AgentWrapper(after)
         this.$notify({
           group: 'appInfo',
@@ -65,13 +64,29 @@
       }
     },
     methods: {
-      onAgentItemClick () {
+      onAgentItemClick() {
         // do nothing
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss">
+  .agent-list {
+    min-width: 260px;
 
+    .item {
+      height: 58px;
+    }
+
+    .state {
+      height: 100%;
+      width: 5%;
+      margin-right: 10px;
+    }
+
+    .agent-name {
+      min-width: 100px !important;
+    }
+  }
 </style>

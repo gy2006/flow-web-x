@@ -13,7 +13,8 @@ const state = {
   },
   JobsStatus: {},
   selected: {},
-  updated: {}
+  updated: {},
+  yml: ''
 }
 
 const mutations = {
@@ -71,29 +72,44 @@ const mutations = {
 
   JobsStatus (state, res) {
     state.JobsStatus = res
+  },
+
+  updateYml (state, yml) {
+    state.yml = yml
   }
 }
 
 const actions = {
 
   get ({commit}, {flow, buildNumberOrLatest}) {
-    const url = 'jobs/' + flow + '/' + buildNumberOrLatest
+    const url = `jobs/${flow}/${buildNumberOrLatest}`
     return http.get(url, (job) => {
       commit('update', job)
+    })
+  },
+
+  getYml ({commit}, {flow, buildNumber}) {
+    const url = `jobs/${flow}/${buildNumber}/yml`
+    return http.get(url, (base64Yml) => {
+      commit('updateYml', atob(base64Yml))
     })
   },
 
   /**
    * Start a new job
    */
-  start ({commit, state}, {flow, branch}) {
+  async start ({commit, state}, {flow, branch}) {
     let inputs = {}
 
     if (branch) {
       inputs[ vars.flow.gitBranch ] = branch
     }
 
-    return http.post('jobs/run', emptyFunc, {flow, inputs})
+    await http.post('jobs/run', emptyFunc, {flow, inputs})
+  },
+
+  async cancel({commit}, {flow, buildNumber}) {
+    await http.post(`jobs/${flow}/${buildNumber}/cancel`, emptyFunc)
   },
 
   /**

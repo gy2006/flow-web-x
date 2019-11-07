@@ -11,6 +11,7 @@ export default {
   delete: '删除',
   login: '登录',
   password: '密码',
+  confirm: '确认',
 
   menu: {
     signedInAs: '当前用户 ',
@@ -22,6 +23,7 @@ export default {
     create: '创建 Flow',
     search: '输入关键词搜索',
     settings: '设置',
+    statistic: 'Statistic',
     config_yml: '配置 YML',
 
     create_title_name: '输入 Flow 名称',
@@ -29,11 +31,16 @@ export default {
     create_title_git_access: '配置 Git 权限',
     create_title_git_test: '测试 Git 链接',
     create_title_yml: '配置 YML',
-
     create_btn_finish: '完成创建',
 
     delete_btn: '删除当前 Flow',
     delete_desc: '删除当前 Flow 后无法恢复，请谨慎操作',
+
+    var_type: '数据类型',
+    var_name: '名称',
+    var_value: '值',
+
+    stats_date_select: '选择统计日期',
 
     hint: {
       name_required: '请输入 Flow 名称',
@@ -55,16 +62,22 @@ export default {
       ssh_private_format: 'Start with -----BEGIN RSA PRIVATE KEY-----',
 
       delete_title: '请输入要删除的 Flow 名称',
-      delete_confirm_name_not_same: '输入的名称错误'
+      delete_confirm_name_not_same: '输入的名称错误',
+
+      stats_invalid_date: 'Invalid statistic date'
     }
   },
 
   job: {
     run: '开始任务',
+    triggerBy: 'Triggered By',
     tab: {
-      info: 'Info',
-      yml: 'Yml',
-      logs: 'Logs'
+      summary: 'Summary',
+      context: 'Context',
+      yml: 'Yml'
+    },
+    hint: {
+      missing_agent: 'There is NO agents, the job will be started until agent has been created'
     }
   },
 
@@ -75,7 +88,7 @@ export default {
       offline: '离线'
     },
     hint: {
-      name_required: 'Agent name is required',
+      name_required: '请输入 Agent 名称',
       name_size: 'Agent name length should be 2 - 20 characters',
       name_rule: 'Agent name only accept characters of a-z, A-Z, 0-9, _, -',
       tag_required: 'Agent tag is required',

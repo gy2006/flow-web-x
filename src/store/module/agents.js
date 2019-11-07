@@ -1,10 +1,11 @@
 import http from '../http'
 import { emptyObject } from '@/util/agents'
+import _ from 'lodash'
 
 const state = {
   items: [],
   updated: {}, // updated agent received
-  loaded: Object.assign({}, emptyObject)
+  loaded: _.cloneDeep(emptyObject)
 }
 
 const mutations = {

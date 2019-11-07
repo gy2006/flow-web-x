@@ -1,45 +1,50 @@
 <template>
   <v-data-table
       :items="items"
-      hide-actions
-      hide-headers>
+      hide-default-footer
+      hide-default-header>
 
-    <template slot="items" slot-scope="props">
-      <td>
-        <v-layout row align-center>
-          <v-flex xs2>
-            {{ props.item.name }}
-          </v-flex>
-          <v-flex xs2>
-            <v-icon small>{{ props.item.icon }}</v-icon>
-          </v-flex>
-          <v-flex xs5>
-            <v-chip v-for="tag in props.item.tags"
-                    :key="tag"
-                    class="my-0"
-                    outline
-                    small
-                    label
-            >{{ tag }}
-            </v-chip>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onTokenCopyClick(props.item)">
-              <v-icon small>flow-icon-file_copy</v-icon>
-            </v-btn>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onDownloadClick(props.item)">
-              <v-icon small>vertical_align_bottom</v-icon>
-            </v-btn>
-          </v-flex>
-          <v-flex xs1>
-            <v-btn flat icon class="ma-0" @click="onEditClick(props.item)">
-              <v-icon small>edit</v-icon>
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </td>
+    <template v-slot:item="{item}">
+      <tr>
+        <td :class="[item.color, 'px-1']">
+        </td>
+        <td>
+          <v-row align="center">
+            <v-col cols="2">
+              <span class="ml-2">{{ item.name }}</span>
+            </v-col>
+            <v-col cols="1">
+              <v-icon small>{{ item.icon }}</v-icon>
+            </v-col>
+            <v-col cols="3">
+              <v-chip v-for="tag in item.tags"
+                      :key="tag"
+                      class="my-0"
+                      outlined
+                      small
+                      label
+              >{{ tag }}
+              </v-chip>
+            </v-col>
+            <v-col cols="4" class="agent-resource">
+              <div>cpu: {{ item.numOfCpu }}</div>
+              <div>memory: {{ item.freeMemory }} / {{ item.totalMemory }} (mb)</div>
+              <div>disk: {{ item.freeDisk }} / {{ item.totalDisk }} (mb)</div>
+            </v-col>
+            <v-col cols="2">
+              <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
+                <v-icon small>flow-icon-file_copy</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-0" @click="onDownloadClick(item)">
+                <v-icon small>mdi-download</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-0" @click="onEditClick(item)">
+                <v-icon small>mdi-pencil</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </td>
+      </tr>
     </template>
 
     <template slot="no-data">
@@ -87,12 +92,10 @@
       },
 
       onTokenCopyClick (wrapper) {
-        this.snackbarShow = true
-
         this.$copyText(wrapper.token)
           .then((e) => {
             const text = 'Token ' + e.text + ' is copied'
-            this.$store.commit(actions.app.showSnackbar, text)
+            this.showSnackBar(text, 'info')
           })
           .catch((e) => {
 
@@ -107,5 +110,12 @@
 </script>
 
 <style scoped>
+  .agent-state {
+    height: 100%;
+    width: 5%;
+  }
 
+  .agent-resource {
+    font-size: 10px;
+  }
 </style>

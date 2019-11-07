@@ -1,29 +1,35 @@
 <template>
-  <v-card-text class="pt-0">
-    <v-layout row wrap>
-      <v-flex xs8>
+  <div>
+    <v-row>
+      <v-col cols="8">
         <v-text-field label="Name"
                       readonly
                       v-model="name"
         ></v-text-field>
-      </v-flex>
+      </v-col>
+    </v-row>
 
-      <v-flex xs8 v-if="isSshRsa">
+
+    <v-row>
+      <v-col cols="8" v-if="isSshRsa">
         <ssh-rsa-editor :show-help="false"
                         :show-create-new="false"
                         :is-read-only="true"
                         :module="credentialModule"
         ></ssh-rsa-editor>
-      </v-flex>
+      </v-col>
+    </v-row>
 
-      <v-flex xs8 d-flex>
+    <v-row>
+      <v-col cols="5"></v-col>
+      <v-col cols="2">
         <v-dialog
             v-model="dialog"
             width="500"
         >
           <template v-slot:activator="{ on }">
             <v-btn
-                outline
+                outlined
                 color="error"
                 v-on="on"
             >{{ $t('delete') }}
@@ -38,12 +44,12 @@
 
             <!-- list the flows which are connected with credential -->
             <v-card-text>
-              <v-flex>
+              <div>
                 You are going to credential {{ name }}.
                 Removed credential CANNOT be restored!
-              </v-flex>
+              </div>
 
-              <v-flex class="mt-3 red--text" v-if="connectedFlows.length > 0">
+              <div class="mt-3 red--text" v-if="connectedFlows.length > 0">
                 <span>The following flow will be affected!</span>
 
                 <ul>
@@ -52,7 +58,7 @@
                   >{{ flow.name }}
                   </li>
                 </ul>
-              </v-flex>
+              </div>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -60,15 +66,16 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="dialog = false">{{ $t('cancel') }}</v-btn>
-              <v-btn outline color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
+              <v-btn outlined color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-
-        <v-btn outline color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
-      </v-flex>
-    </v-layout>
-  </v-card-text>
+      </v-col>
+      <v-col cols="1">
+        <v-btn outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

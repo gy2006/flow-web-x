@@ -24,6 +24,10 @@ export default {
       add: 'flows/addUser',
       remove: 'flows/removeUser'
     },
+    vars: {
+      add: 'flows/addVar',
+      remove: 'flows/removeVar'
+    },
     yml: {
       load: 'flows/loadYml',
       save: 'flows/saveYml'
@@ -37,9 +41,11 @@ export default {
     get: 'jobs/get',
     start: 'jobs/start',
     create: 'jobs/create',
+    cancel: 'jobs/cancel',
     list: 'jobs/list',
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',
+    getYml: 'jobs/getYml',
     steps: {
       get: 'steps/get',
       update: 'steps/update'
@@ -72,5 +78,17 @@ export default {
     create: 'users/create',
     changePassword: 'users/changePassword',
     changeRole: 'users/changeRole'
+  },
+
+  stats: {
+    list: 'stats/list',
+    metaType: 'stats/metaType',
+    metaTypeList: 'stats/metaTypeList'
+  },
+
+  plugins: {
+    list: 'plugins/list',
+    readme: 'plugins/readme',
+    icon: 'plugins/icon'
   }
 }

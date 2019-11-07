@@ -1,7 +1,15 @@
+export const VarTypes = [
+  'STRING',
+  'INT',
+  'HTTP_URL',
+  'GIT_URL',
+  'EMAIL'
+]
+
 export default {
 
   app: {
-    url: 'FLOWCI_SERVER_URL',
+    url: 'FLOWCI_SERVER_URL'
   },
 
   flow: {
@@ -14,6 +22,7 @@ export default {
   job: {
     status: 'FLOWCI_JOB_STATUS',
     trigger: 'FLOWCI_JOB_TRIGGER',
+    triggerBy: 'FLOWCI_JOB_TRIGGER_BY',
     build_number: 'FLOWCI_JOB_BUILD_NUM'
   },
 

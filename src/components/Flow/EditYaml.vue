@@ -1,21 +1,34 @@
 <template>
-  <v-card class="full-size" flat>
-    <v-card-text class="editor">
+  <v-card flat class="full-size">
+    <v-card-text class="editor pa-0">
       <div id="yml-editor" class="full-height"></div>
+      <div class="error-message" v-if="errorOnSave">
+        <span class="px-5 py-1">{{ errorOnSave }}</span>
+      </div>
     </v-card-text>
 
-    <v-card-actions>
-      <div class="ml-2 mr-2">
-        <v-btn color="secondary" blod @click="onResetClick" :disabled="!isCodeChange">
-          <b>{{ $t('reset') }}</b>
-        </v-btn>
-      </div>
-
-      <div class="ml-2 mr-2">
-        <v-btn color="primary" blod @click="onSaveClick" :disabled="!isCodeChange">
-          <b>{{ $t('save') }}</b>
-        </v-btn>
-      </div>
+    <v-card-actions class="mt-2">
+      <v-row>
+        <v-col cols="8"></v-col>
+        <v-col cols="2">
+          <v-btn color="secondary"
+                 tile
+                 @click="onResetClick"
+                 block
+                 :disabled="!isCodeChange">
+            <b>{{ $t('reset') }}</b>
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-btn color="primary"
+                 tile
+                 @click="onSaveClick"
+                 block
+                 :disabled="!isCodeChange">
+            <b>{{ $t('save') }}</b>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,7 +39,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsYMLTab',
+    name: 'EditYaml',
     props: {
       flow: {
         required: true,
@@ -36,6 +49,7 @@
     data () {
       return {
         editor: {},
+        errorOnSave: '',
         isCodeChange: false
       }
     },
@@ -88,13 +102,19 @@
       },
 
       onSaveClick () {
-        const payload = {name: this.name, yml: this.editor.getValue()}
-        this.$store.dispatch(actions.flows.yml.save, payload).then(() => {
-          this.isCodeChange = false
+        this.errorOnSave = ''
 
-          // reload current flow since vars may changed
-          this.$store.dispatch(actions.flows.select, this.name).then()
-        })
+        const payload = {name: this.name, yml: this.editor.getValue()}
+        this.$store.dispatch(actions.flows.yml.save, payload)
+          .then(() => {
+            this.isCodeChange = false
+
+            // reload current flow since vars may changed
+            this.$store.dispatch(actions.flows.select, this.name).then()
+          })
+          .catch((err) => {
+            this.errorOnSave = err.message
+          })
       }
     }
   }

@@ -38,7 +38,7 @@
             class="pt-0"
             v-model="wrapper.credential"
             append-icon="mdi-help-circle-outline"
-            :rules="credentialNameRules"
+            :rules="[credentialNameRule]"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
@@ -77,9 +77,16 @@
         vars: vars,
         flowNameRules: flowNameRules(this),
         gitUrlRules: gitUrlRules(this),
-        credentialNameRules: [
-          v => !!v || this.$t('flow.hint.credential_name_required')
-        ]
+
+        credentialNameRule: (value) => {
+          const gitUrl = this.wrapper.gitUrl
+
+          if (gitUrl.startsWith('http') || gitUrl.startsWith('https')) {
+            return true
+          }
+
+          return !!value || this.$t('flow.hint.credential_name_required')
+        }
       }
     },
     computed: {
@@ -93,6 +100,10 @@
       },
 
       onHelpClick (type) {
+
+      },
+
+      isHttpUrl() {
 
       }
     }

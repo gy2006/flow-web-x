@@ -5,16 +5,34 @@
         <v-form ref="nameForm" lazy-validation>
           <v-text-field label="Name"
                         :rules="nameRules"
-                        v-model="instance.name"
+                        v-model="name"
           ></v-text-field>
         </v-form>
       </v-col>
     </v-row>
 
     <v-row>
+      <v-col cols="8">
+        <v-select :items="[CATEGORY_SSH_RSA, CATEGORY_AUTH]"
+                  label="Category"
+                  v-model="category"
+        ></v-select>
+      </v-col>
+    </v-row>
+
+    <v-row>
       <v-col cols="8" v-if="isSshRsa">
         <v-form ref="sshForm" lazy-validation>
-          <ssh-rsa-editor :showHelp="false" :showCreateNew="true" :module="instance"></ssh-rsa-editor>
+          <ssh-rsa-editor :showHelp="false"
+                          :showCreateNew="true"
+                          :model="instance"
+          ></ssh-rsa-editor>
+        </v-form>
+      </v-col>
+
+      <v-col cols="8" v-if="isAuth">
+        <v-form ref="authForm" lazy-validation>
+          <auth-editor :model="instance"></auth-editor>
         </v-form>
       </v-col>
     </v-row>
@@ -34,36 +52,38 @@
 
 <script>
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
+  import AuthEditor from '@/components/Common/AuthEditor'
   import actions from '@/store/actions'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
   import { credentialNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsCredentialNew',
-    props: {
-      category: {
-        type: String,
-        required: false,
-        default () {
-          return CATEGORY_SSH_RSA
-        }
-      }
-    },
     components: {
-      SshRsaEditor
+      SshRsaEditor,
+      AuthEditor
     },
     data () {
       return {
+        CATEGORY_SSH_RSA,
+        CATEGORY_AUTH,
         nameRules: credentialNameRules(this),
+
+        name: '',
+        category: CATEGORY_SSH_RSA,
+
         credential: {
           [ CATEGORY_SSH_RSA ]: {
-            name: '',
-            category: CATEGORY_SSH_RSA,
             selected: '',
             pair: {
               publicKey: '',
               privateKey: ''
             }
+          },
+
+          [ CATEGORY_AUTH ]: {
+            username: '',
+            password: ''
           }
         }
       }
@@ -83,9 +103,6 @@
           },
           {
             text: 'New'
-          },
-          {
-            text: this.category
           }
         ]
       },
@@ -96,6 +113,10 @@
 
       isSshRsa () {
         return this.category === CATEGORY_SSH_RSA
+      },
+
+      isAuth () {
+        return this.category === CATEGORY_AUTH
       }
     },
     methods: {
@@ -104,10 +125,36 @@
       },
 
       onSaveClick () {
-        if (this.$refs.nameForm.validate() && this.$refs.sshForm.validate()) {
-          this.$store.dispatch(actions.credentials.create, this.instance).then(() => {
+        if (!this.$refs.nameForm.validate()) {
+          return
+        }
+
+        if (this.isSshRsa && this.$refs.sshForm.validate()) {
+          const param = {
+            name: this.name,
+            publicKey: this.instance.pair.publicKey,
+            privateKey: this.instance.pair.privateKey
+          }
+
+          this.$store.dispatch(actions.credentials.createRsa, param).then(() => {
             this.onBackClick()
           })
+
+          return
+        }
+
+        if (this.isAuth && this.$refs.authForm.validate()) {
+          const param = {
+            name: this.name,
+            username: this.instance.username,
+            password: this.instance.password
+          }
+
+          this.$store.dispatch(actions.credentials.createAuth, param).then(() => {
+            this.onBackClick()
+          })
+
+          return
         }
       }
     }

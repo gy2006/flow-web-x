@@ -23,7 +23,7 @@ export default {
     create: '创建 Flow',
     search: '输入关键词搜索',
     settings: '设置',
-    statistic: 'Statistic',
+    statistic: '统计',
     config_yml: '配置 YML',
 
     create_title_name: '输入 Flow 名称',
@@ -117,6 +117,9 @@ export default {
       name_required: 'Credential name is required',
       name_size: 'Credential name length should be 2 - 20 characters',
       name_rule: 'Credential name only accept characters of a-z, A-Z, 0-9, _, -',
+
+      auth_required: '此项为必填',
+      auth_length: '长度必须在 1 - 100 字符之间',
     }
   }
 }

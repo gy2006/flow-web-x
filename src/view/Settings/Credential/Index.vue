@@ -37,16 +37,12 @@
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import { CATEGORY_SSH_RSA_PATH } from '@/util/credentials'
 
   export default {
     name: 'SettingsCredentialHome',
     data () {
       return {
-        loading: false,
-        category: {
-          sshrsa: CATEGORY_SSH_RSA_PATH
-        }
+        loading: false
       }
     },
     mounted () {
@@ -72,10 +68,7 @@
     methods: {
       onAddBtnClick () {
         this.$router.push({
-          name: 'SettingsCredentialNew',
-          params: {
-            category: this.category.sshrsa.toUpperCase()
-          }
+          name: 'SettingsCredentialNew'
         })
       },
 

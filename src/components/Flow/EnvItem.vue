@@ -3,7 +3,7 @@
     <v-col cols="3">
       <v-text-field
           :label="$t('flow.var_name')"
-          :readonly="!isNew"
+          :readonly="!edit"
           v-model="obj.name"
           :error-messages="errors"
           solo
@@ -80,7 +80,7 @@
        *   edit: true | false (option) , edit status
        * }
        */
-      item: {
+      obj: {
         type: Object,
         required: true
       },
@@ -107,14 +107,8 @@
       errors: []
     }),
     mounted () {
-      this.obj = _.cloneDeep(this.item)
       if (this.obj.edit) {
         this.edit = this.obj.edit
-      }
-    },
-    computed: {
-      isNew () {
-        return this.item.name === ''
       }
     },
     methods: {

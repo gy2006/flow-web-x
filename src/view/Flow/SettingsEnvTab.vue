@@ -16,9 +16,9 @@
 
     <env-item :edit="false"
               :flow="flow"
-              :item="obj"
-              v-for="obj in localVars"
-              :key="`local-${obj.name}`"
+              :obj="obj"
+              v-for="(obj, index) in localVars"
+              :key="`local-${index}`"
               :editable="obj.editable"
               :onSaved="onVarSaved"
               :onRemoved="onVarRemoved"
@@ -33,9 +33,9 @@
 
     <env-item :edit="false"
               :flow="flow"
-              v-for="obj in ymlVars"
-              :key="`yml-${obj.name}`"
-              :item="obj"
+              v-for="(obj, index) in ymlVars"
+              :key="`yml-${index}`"
+              :obj="obj"
               :editable="obj.editable"
     ></env-item>
 
@@ -100,8 +100,8 @@
 
           if (typeof (value) === 'string') {
             list.push({
-              name: name,
-              value: value,
+              name,
+              value,
               type: 'STRING',
               edit: false,
               editable: false
@@ -110,7 +110,7 @@
 
           if (typeof (value) === 'object') {
             list.push({
-              name: name,
+              name,
               value: value.data,
               type: value.type,
               edit: edit,
@@ -123,19 +123,11 @@
       },
 
       onAddLocalVar () {
-        // return if has empty name
-        for (let item of this.localVars) {
-          if (item.name === '') {
-            return
-          }
-        }
-
         const copy = _.cloneDeep(this.empty)
         this.localVars.push(copy)
       },
 
       onVarSaved (oldVal, newVal) {
-
       },
 
       onVarRemoved (val) {

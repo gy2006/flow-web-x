@@ -62,7 +62,6 @@
 <script>
   import { VarTypes } from '@/util/vars'
   import actions from '@/store/actions'
-  import _ from 'lodash'
 
   export default {
     name: 'EnvItem',
@@ -103,7 +102,6 @@
     data: () => ({
       types: VarTypes,
       edit: false,
-      obj: {},
       errors: []
     }),
     mounted () {

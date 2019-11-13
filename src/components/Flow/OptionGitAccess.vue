@@ -33,7 +33,7 @@
 
     <v-row>
       <v-col cols="6">
-        <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
+        <span class="caption grey--text text--darken-1">{{ `Credential (${vars.credential.name})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.credential"

@@ -103,7 +103,7 @@ export class FlowWrapper {
   }
 
   get credential () {
-    return this.fetchVars(vars.credential.ssh)
+    return this.fetchVars(vars.credential.name)
   }
 
   get ssh () {
@@ -143,7 +143,7 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    return this.flow.variables[ vars.credential.ssh ] = credentialName
+    return this.flow.variables[ vars.credential.name ] = credentialName
   }
 
   // latest job

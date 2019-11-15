@@ -15,8 +15,15 @@
         <ssh-rsa-editor :show-help="false"
                         :show-create-new="false"
                         :is-read-only="true"
-                        :module="credentialModule"
+                        :model="instance"
         ></ssh-rsa-editor>
+      </v-col>
+
+      <v-col cols="8" v-if="isAuth">
+        <auth-editor
+            :is-read-only="true"
+            :model="instance"
+        ></auth-editor>
       </v-col>
     </v-row>
 
@@ -81,13 +88,15 @@
 <script>
   import actions from '@/store/actions'
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import AuthEditor from '@/components/Common/AuthEditor'
+  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
   import { mapState } from 'vuex'
 
   export default {
     name: 'SettingsCredentialEdit',
     components: {
-      SshRsaEditor
+      SshRsaEditor,
+      AuthEditor
     },
     props: {
       credentialObj: {
@@ -104,11 +113,7 @@
     },
     data () {
       return {
-        dialog: false,
-        credentialModule: {
-          selected: '',
-          pair: this.credentialObj.pair
-        }
+        dialog: false
       }
     },
     mounted () {
@@ -144,6 +149,25 @@
 
       isSshRsa () {
         return this.credentialObj.category === CATEGORY_SSH_RSA
+      },
+
+      isAuth () {
+        return this.credentialObj.category === CATEGORY_AUTH
+      },
+
+      instance() {
+        if (this.isSshRsa) {
+          return {
+            selected: '',
+            pair: this.credentialObj.pair
+          }
+        }
+
+        if (this.isAuth) {
+          return this.credentialObj.pair
+        }
+
+        return {}
       }
     },
     methods: {

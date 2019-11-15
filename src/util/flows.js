@@ -44,6 +44,21 @@ export class FlowWrapper {
     }
   }
 
+  fetchVars(name) {
+    let locally = this.flow.locally
+
+    if (locally && locally[ name ] ) {
+      return locally[ name ].data
+    }
+
+    let variables = this.flow.variables
+    if (variables && variables[ name ]) {
+      return variables[ name ]
+    }
+
+    return ''
+  }
+
   get rawInstance () {
     return this.flow
   }
@@ -84,11 +99,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.flow.variables[ vars.flow.gitUrl ] || ''
+    return this.fetchVars(vars.flow.gitUrl)
   }
 
   get credential () {
-    return this.flow.variables[ vars.credential.ssh ] || ''
+    return this.fetchVars(vars.credential.name)
   }
 
   get ssh () {
@@ -128,7 +143,7 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    return this.flow.variables[ vars.credential.ssh ] = credentialName
+    return this.flow.variables[ vars.credential.name ] = credentialName
   }
 
   // latest job

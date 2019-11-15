@@ -14,7 +14,7 @@
 
     <div v-if="showSelection & isSelectOption">
       <v-select
-          v-model="module.selected"
+          v-model="model.selected"
           :items="names"
           label="Select Credential"
       ></v-select>
@@ -66,7 +66,7 @@
             class="font-weight-medium caption"
             :rules="sshPublicKeyRules"
             :append-outer-icon="showHelp ? 'mdi-help-circle-outline' : ''"
-            v-model="module.pair.publicKey"
+            v-model="model.pair.publicKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_public')"
         ></v-textarea>
@@ -80,7 +80,7 @@
             rows="8"
             :rules="sshPrivateKeyRules"
             :append-outer-icon="showHelp ? 'mdi-help-circle-outline' : ''"
-            v-model="module.pair.privateKey"
+            v-model="model.pair.privateKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_private')"
         ></v-textarea>
@@ -107,7 +107,7 @@
        *   }
        * }
        */
-      module: {
+      model: {
         type: Object,
         required: true
       },
@@ -172,7 +172,7 @@
     },
     watch: {
       sshRsa (newValue) {
-        Object.assign(this.module.pair, newValue)
+        Object.assign(this.model.pair, newValue)
       }
     },
     methods: {

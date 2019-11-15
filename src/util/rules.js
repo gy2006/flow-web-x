@@ -58,3 +58,10 @@ export function agentTagRules (vue) {
     v => (v.length >= 2 && v.length <= 5) || vue.$t('agent.hint.tag_size'),
   ]
 }
+
+export function authFormRules (vue) {
+  return [
+    v => !!v || vue.$t('credential.hint.auth_required'),
+    v => (v.length >= 1 && v.length <= 100) || vue.$t('credential.hint.auth_length'),
+  ]
+}

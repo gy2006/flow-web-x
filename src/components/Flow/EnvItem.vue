@@ -3,7 +3,7 @@
     <v-col cols="3">
       <v-text-field
           :label="$t('flow.var_name')"
-          :readonly="!isNew"
+          :readonly="!edit"
           v-model="obj.name"
           :error-messages="errors"
           solo
@@ -62,7 +62,6 @@
 <script>
   import { VarTypes } from '@/util/vars'
   import actions from '@/store/actions'
-  import _ from 'lodash'
 
   export default {
     name: 'EnvItem',
@@ -80,7 +79,7 @@
        *   edit: true | false (option) , edit status
        * }
        */
-      item: {
+      obj: {
         type: Object,
         required: true
       },
@@ -103,18 +102,11 @@
     data: () => ({
       types: VarTypes,
       edit: false,
-      obj: {},
       errors: []
     }),
     mounted () {
-      this.obj = _.cloneDeep(this.item)
       if (this.obj.edit) {
         this.edit = this.obj.edit
-      }
-    },
-    computed: {
-      isNew () {
-        return this.item.name === ''
       }
     },
     methods: {

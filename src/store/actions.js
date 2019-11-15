@@ -66,7 +66,8 @@ export default {
   },
 
   credentials: {
-    create: 'credentials/create',
+    createRsa: 'credentials/createRsa',
+    createAuth: 'credentials/createAuth',
     list: 'credentials/list',
     listNameOnly: 'credentials/listNameOnly',
     get: 'credentials/get',

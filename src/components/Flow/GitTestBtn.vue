@@ -55,6 +55,10 @@
       }),
 
       currentGitTest () {
+        if (this.error !== '') {
+          return gitTestStatus[GIT_TEST_ERROR]
+        }
+
         if (this.gitTestMessage === undefined) {
           return gitTestStatus.default
         }

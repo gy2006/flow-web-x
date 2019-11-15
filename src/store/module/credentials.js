@@ -39,10 +39,10 @@ const actions = {
     })
   },
 
-  listNameOnly ({commit}) {
+  listNameOnly ({commit}, category) {
     http.get('credentials/list/name', (c) => {
       commit('list', c)
-    })
+    }, {category})
   },
 
   async createRsa ({commit}, {name, publicKey, privateKey}) {

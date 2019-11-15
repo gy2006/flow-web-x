@@ -6,7 +6,7 @@
           <ssh-rsa-editor :show-help="true"
                           :show-create-new="true"
                           :show-selection="true"
-                          :module="credential"
+                          :model="credential"
           ></ssh-rsa-editor>
         </v-form>
       </v-col>

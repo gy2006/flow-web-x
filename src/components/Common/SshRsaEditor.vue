@@ -92,6 +92,7 @@
 <script>
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
+  import { CATEGORY_SSH_RSA } from '@/util/credentials'
   import { sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
 
   export default {
@@ -145,7 +146,7 @@
     },
     mounted () {
       if (this.showSelection) {
-        this.$store.dispatch(actions.credentials.listNameOnly).then()
+        this.$store.dispatch(actions.credentials.listNameOnly, CATEGORY_SSH_RSA).then()
       }
     },
     computed: {

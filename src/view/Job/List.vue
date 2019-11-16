@@ -82,13 +82,13 @@
 
         <template slot="no-data">
           <v-alert :value="true" color="white">
-            <span class="light-blue--text">Click to start the first build</span>
+            <span class="light-blue--text">Start first build</span>
             <v-btn
                 text
                 icon
                 color="success"
                 @click.native="onRunClick">
-              <v-icon>play_arrow</v-icon>
+              <v-icon>mdi-play</v-icon>
             </v-btn>
           </v-alert>
         </template>

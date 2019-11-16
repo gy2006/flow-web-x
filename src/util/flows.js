@@ -35,7 +35,7 @@ export const gitTestStatus = {
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
-    this.statusIcon = 'home'
+    this.statusIcon = 'mdi-cloud-question'
     this.statusClass = ''
     this.latestJob = undefined
     this.sshObj = {

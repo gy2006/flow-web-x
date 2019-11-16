@@ -204,6 +204,21 @@ const actions = {
       return
     }
 
+    if (wrapper.hasAuth) {
+      await http.post(
+        `flows/${wrapper.name}/credentials/auth`,
+        (credential) => {
+          console.log('[DONE]: setup credential: ' + credential)
+          gitSettings.credential = credential
+        },
+        wrapper.auth
+      ).then(() => {
+        console.log(gitSettings)
+        confirmFunc()
+      })
+      return
+    }
+
     await confirmFunc()
   },
 

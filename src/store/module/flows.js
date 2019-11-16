@@ -166,8 +166,9 @@ const actions = {
       },
       {
         gitUrl: wrapper.gitUrl,
-        privateKey: wrapper.ssh ? wrapper.ssh.privateKey : '',
-        credential: wrapper.credential
+        credential: wrapper.credential,
+        ssh: wrapper.ssh,
+        auth: wrapper.auth
       })
   },
 

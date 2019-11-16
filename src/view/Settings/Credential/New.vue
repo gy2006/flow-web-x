@@ -82,8 +82,11 @@
           },
 
           [ CATEGORY_AUTH ]: {
-            username: '',
-            password: ''
+            selected: '',
+            pair: {
+              username: '',
+              password: ''
+            }
           }
         }
       }
@@ -146,8 +149,8 @@
         if (this.isAuth && this.$refs.authForm.validate()) {
           const param = {
             name: this.name,
-            username: this.instance.username,
-            password: this.instance.password
+            username: this.instance.pair.username,
+            password: this.instance.pair.password
           }
 
           this.$store.dispatch(actions.credentials.createAuth, param).then(() => {

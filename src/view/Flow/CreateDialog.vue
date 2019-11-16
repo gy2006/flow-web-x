@@ -49,6 +49,7 @@
         </v-stepper-step>
         <v-stepper-content step="3">
           <create-config-access
+              :git-url="flow.gitUrl"
               :on-next-click="onNextClick"
               :on-back-click="onBackClick"
           ></create-config-access>
@@ -78,6 +79,8 @@
   import actions from '@/store/actions'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
+  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
+
 
   export default {
     name: 'FlowCreateDialog',
@@ -150,11 +153,17 @@
             console.log('git url: ' + gitUrl)
           },
           3: (credential) => {
-            this.flow.ssh = credential.pair
-            this.flow.credential = credential.selected
-
-            console.log('ssh-rsa: ' + credential.pair)
+            console.log('category: ' + credential.category)
             console.log('selected: ' + credential.selected)
+
+            this.flow.credential = credential.selected
+            if (credential.category === CATEGORY_SSH_RSA) {
+              this.flow.ssh = credential.pair
+            }
+
+            if (credential.category === CATEGORY_AUTH) {
+              this.flow.auth = credential.pair
+            }
           }
         }
 

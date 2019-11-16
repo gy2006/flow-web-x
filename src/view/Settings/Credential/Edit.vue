@@ -164,7 +164,10 @@
         }
 
         if (this.isAuth) {
-          return this.credentialObj.pair
+          return {
+            selected: '',
+            pair: this.credentialObj.pair
+          }
         }
 
         return {}

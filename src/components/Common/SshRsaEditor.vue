@@ -14,6 +14,7 @@
 
     <div v-if="showSelection & isSelectOption">
       <v-select
+          dense
           v-model="model.selected"
           :items="names"
           label="Select Credential"

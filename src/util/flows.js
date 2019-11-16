@@ -42,6 +42,10 @@ export class FlowWrapper {
       privateKey: '',
       publicKey: ''
     }
+    this.authObj = {
+      username: '',
+      password: ''
+    }
   }
 
   fetchVars(name) {
@@ -110,6 +114,10 @@ export class FlowWrapper {
     return this.sshObj
   }
 
+  get auth () {
+    return this.authObj
+  }
+
   get variables () {
     return this.flow.variables
   }
@@ -119,7 +127,11 @@ export class FlowWrapper {
   }
 
   get hasSSH () {
-    return this.ssh.privateKey !== '' || this.ssh.publicKey !== ''
+    return this.ssh.privateKey !== '' && this.ssh.publicKey !== ''
+  }
+
+  get hasAuth () {
+    return this.authObj.username !== '' && this.authObj.password !== ''
   }
 
   set name (name) {
@@ -136,6 +148,10 @@ export class FlowWrapper {
 
   set ssh (sshObj) {
     this.sshObj = sshObj
+  }
+
+  set auth (authObj) {
+    this.authObj = authObj
   }
 
   set credential (credentialName) {

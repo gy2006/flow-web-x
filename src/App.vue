@@ -1,12 +1,5 @@
 <template>
   <v-app id="inspire">
-
-    <!--notification-->
-    <!--    <notifications group="appInfo"-->
-    <!--                   type="info"-->
-    <!--                   position="bottom right">-->
-    <!--    </notifications>-->
-
     <v-snackbar
         v-model="snackbar.show"
         :color="snackbar.color"

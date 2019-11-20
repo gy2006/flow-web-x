@@ -56,11 +56,8 @@
 
       updated(after) {
         let wrapper = new AgentWrapper(after)
-        this.$notify({
-          group: 'appInfo',
-          text: `Agent '${wrapper.name}' ${this.$t(wrapper.text)}`,
-          duration: 5000
-        })
+        let info = `Agent '${wrapper.name}' ${this.$t(wrapper.text)}`
+        this.showSnackBar(info, 'info')
       }
     },
     methods: {

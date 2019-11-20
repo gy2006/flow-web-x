@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 import VueI18n from 'vue-i18n'
-import VueNotifications from 'vue-notification'
 import VueClipboard from 'vue-clipboard2'
 
 import App from './App'
@@ -30,7 +29,6 @@ VueClipboard.config.autoSetContainer = true
 
 Vue.use(Vuetify)
 Vue.use(VueI18n)
-Vue.use(VueNotifications)
 Vue.use(VueClipboard)
 
 Vue.filter('Status', function (status) {

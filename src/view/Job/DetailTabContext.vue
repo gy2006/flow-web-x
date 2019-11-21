@@ -52,7 +52,7 @@
         return {
           push: {
             name: 'Git Push Info',
-            show: this.wrapper.isPushTrigger,
+            show: this.wrapper.isPushTrigger || this.wrapper.hasGitCommitInfo,
             data: this.getPushData()
           },
 

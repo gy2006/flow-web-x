@@ -31,7 +31,7 @@ export class JobWrapper {
     return this.job
   }
 
-  get errorMsg() {
+  get errorMsg () {
     return this.job.message
   }
 
@@ -159,6 +159,11 @@ export class JobWrapper {
 
   get prBaseBranch () {
     return this.context[ vars.git.pr.base_branch ]
+  }
+
+  get hasGitCommitInfo () {
+    return this.context[ vars.git.commit.id ]
+      && this.context[ vars.git.commit.message ]
   }
 
   get isPushTrigger () {

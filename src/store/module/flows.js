@@ -166,8 +166,9 @@ const actions = {
       },
       {
         gitUrl: wrapper.gitUrl,
-        privateKey: wrapper.ssh ? wrapper.ssh.privateKey : '',
-        credential: wrapper.credential
+        credential: wrapper.credential,
+        ssh: wrapper.ssh,
+        auth: wrapper.auth
       })
   },
 
@@ -196,6 +197,21 @@ const actions = {
           gitSettings.credential = credential
         },
         wrapper.ssh
+      ).then(() => {
+        console.log(gitSettings)
+        confirmFunc()
+      })
+      return
+    }
+
+    if (wrapper.hasAuth) {
+      await http.post(
+        `flows/${wrapper.name}/credentials/auth`,
+        (credential) => {
+          console.log('[DONE]: setup credential: ' + credential)
+          gitSettings.credential = credential
+        },
+        wrapper.auth
       ).then(() => {
         console.log(gitSettings)
         confirmFunc()

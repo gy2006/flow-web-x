@@ -39,19 +39,29 @@ const actions = {
     })
   },
 
-  listNameOnly ({commit}) {
+  listNameOnly ({commit}, category) {
     http.get('credentials/list/name', (c) => {
       commit('list', c)
-    })
+    }, {category})
   },
 
-  async create ({commit}, {name, pair}) {
+  async createRsa ({commit}, {name, publicKey, privateKey}) {
     await http.post('credentials/rsa', (c) => {
       commit('add', c)
     }, {
       name,
-      publicKey: pair.publicKey,
-      privateKey: pair.privateKey
+      publicKey,
+      privateKey
+    })
+  },
+
+  async createAuth({commit}, {name, username, password}) {
+    await http.post('credentials/auth', (c) => {
+      commit('add', c)
+    }, {
+      name,
+      username,
+      password
     })
   },
 

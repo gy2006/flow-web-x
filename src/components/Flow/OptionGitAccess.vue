@@ -24,7 +24,7 @@
             v-model="wrapper.gitUrl"
             append-icon="mdi-help-circle-outline"
             append-outer-icon=""
-            :rules="gitUrlRules"
+            :rules="rules.gitUrl"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
@@ -33,12 +33,12 @@
 
     <v-row>
       <v-col cols="6">
-        <span class="caption grey--text text--darken-1">{{ `SSH keys (${vars.credential.ssh})` }}</span>
+        <span class="caption grey--text text--darken-1">{{ `Credential (${vars.credential.name})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.credential"
             append-icon="mdi-help-circle-outline"
-            :rules="credentialNameRules"
+            :rules="[rules.credential]"
             @click:append="onHelpClick('url')"
             readonly
         ></v-text-field>
@@ -59,7 +59,7 @@
   import GitTestBtn from '@/components/Flow/GitTestBtn'
 
   import { FlowWrapper } from '@/util/flows'
-  import { flowNameRules, gitUrlRules } from '@/util/rules'
+  import { gitUrlRules } from '@/util/rules'
 
   export default {
     name: 'OptionGitAccess',
@@ -75,11 +75,19 @@
     data () {
       return {
         vars: vars,
-        flowNameRules: flowNameRules(this),
-        gitUrlRules: gitUrlRules(this),
-        credentialNameRules: [
-          v => !!v || this.$t('flow.hint.credential_name_required')
-        ]
+
+        rules: {
+          gitUrl: gitUrlRules(this),
+          credential: (value) => {
+            const gitUrl = this.wrapper.gitUrl
+
+            if (gitUrl.startsWith('http') || gitUrl.startsWith('https')) {
+              return true
+            }
+
+            return !!value || this.$t('flow.hint.credential_name_required')
+          }
+        },
       }
     },
     computed: {

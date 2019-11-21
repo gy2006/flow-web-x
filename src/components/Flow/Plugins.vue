@@ -195,12 +195,16 @@
               font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
               height: 100%;
             }
+
+            body div {
+              margin: 15px;
+            }
           </style>`
 
         doc.body.innerHTML =
           `<html>
             <head>${css}</head>
-            <body>${marked(raw)}</body>
+            <body><div>${marked(raw)}</div></body>
           </html>`
       },
 
@@ -260,7 +264,7 @@
 
   .markdown {
     width: 100%;
-    height: 100%;
+    height: 95%;
     border: 0;
     background: #fbfbfb;
   }

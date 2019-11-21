@@ -35,13 +35,32 @@ export const gitTestStatus = {
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
-    this.statusIcon = 'home'
+    this.statusIcon = 'mdi-cloud-question'
     this.statusClass = ''
     this.latestJob = undefined
     this.sshObj = {
       privateKey: '',
       publicKey: ''
     }
+    this.authObj = {
+      username: '',
+      password: ''
+    }
+  }
+
+  fetchVars(name) {
+    let locally = this.flow.locally
+
+    if (locally && locally[ name ] ) {
+      return locally[ name ].data
+    }
+
+    let variables = this.flow.variables
+    if (variables && variables[ name ]) {
+      return variables[ name ]
+    }
+
+    return ''
   }
 
   get rawInstance () {
@@ -84,15 +103,19 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.flow.variables[ vars.flow.gitUrl ] || ''
+    return this.fetchVars(vars.flow.gitUrl)
   }
 
   get credential () {
-    return this.flow.variables[ vars.credential.ssh ] || ''
+    return this.fetchVars(vars.credential.name)
   }
 
   get ssh () {
     return this.sshObj
+  }
+
+  get auth () {
+    return this.authObj
   }
 
   get variables () {
@@ -104,7 +127,11 @@ export class FlowWrapper {
   }
 
   get hasSSH () {
-    return this.ssh.privateKey !== '' || this.ssh.publicKey !== ''
+    return this.ssh.privateKey !== '' && this.ssh.publicKey !== ''
+  }
+
+  get hasAuth () {
+    return this.authObj.username !== '' && this.authObj.password !== ''
   }
 
   set name (name) {
@@ -123,12 +150,16 @@ export class FlowWrapper {
     this.sshObj = sshObj
   }
 
+  set auth (authObj) {
+    this.authObj = authObj
+  }
+
   set credential (credentialName) {
     if (!this.flow.variables) {
       this.flow.variables = {}
     }
 
-    return this.flow.variables[ vars.credential.ssh ] = credentialName
+    return this.flow.variables[ vars.credential.name ] = credentialName
   }
 
   // latest job

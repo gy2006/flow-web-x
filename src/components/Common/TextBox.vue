@@ -3,6 +3,7 @@
     <div class="subheading font-weight-medium my-1">{{ title }}</div>
     <v-text-field
         solo
+        dense
         :readonly="readonly"
         v-model="model.data"
         :rules="rules"
@@ -48,13 +49,5 @@
 </script>
 
 <style lang="scss">
-  .text-box {
-    .v-input__control {
-      min-height: 34px !important;
-    }
-    .v-input__slot {
-      background: #fafbfc !important;
-      font-size: 14px !important;
-    }
-  }
+
 </style>

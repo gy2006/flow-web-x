@@ -14,7 +14,8 @@
 
     <div v-if="showSelection & isSelectOption">
       <v-select
-          v-model="module.selected"
+          dense
+          v-model="model.selected"
           :items="names"
           label="Select Credential"
       ></v-select>
@@ -66,7 +67,7 @@
             class="font-weight-medium caption"
             :rules="sshPublicKeyRules"
             :append-outer-icon="showHelp ? 'mdi-help-circle-outline' : ''"
-            v-model="module.pair.publicKey"
+            v-model="model.pair.publicKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_public')"
         ></v-textarea>
@@ -80,7 +81,7 @@
             rows="8"
             :rules="sshPrivateKeyRules"
             :append-outer-icon="showHelp ? 'mdi-help-circle-outline' : ''"
-            v-model="module.pair.privateKey"
+            v-model="model.pair.privateKey"
             :readonly="isReadOnly"
             @click:append-outer="onHelpClick('ssh_private')"
         ></v-textarea>
@@ -92,6 +93,7 @@
 <script>
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
+  import { CATEGORY_SSH_RSA } from '@/util/credentials'
   import { sshEmailRules, sshPrivateKeyRules, sshPublicKeyRules } from '@/util/rules'
 
   export default {
@@ -107,7 +109,7 @@
        *   }
        * }
        */
-      module: {
+      model: {
         type: Object,
         required: true
       },
@@ -145,7 +147,7 @@
     },
     mounted () {
       if (this.showSelection) {
-        this.$store.dispatch(actions.credentials.listNameOnly).then()
+        this.$store.dispatch(actions.credentials.listNameOnly, CATEGORY_SSH_RSA).then()
       }
     },
     computed: {
@@ -172,7 +174,7 @@
     },
     watch: {
       sshRsa (newValue) {
-        Object.assign(this.module.pair, newValue)
+        Object.assign(this.model.pair, newValue)
       }
     },
     methods: {

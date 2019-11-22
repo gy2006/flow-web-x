@@ -47,6 +47,10 @@ export class JobWrapper {
     return this.context[ vars.git.commit.url ]
   }
 
+  get commitNum () {
+    return this.context[ vars.git.commit.number ]
+  }
+
   get fromNow () {
     return moment(this.job.createdAt).fromNow()
   }
@@ -103,7 +107,7 @@ export class JobWrapper {
 
   get duration () {
     if (this.job.startAt && this.job.finishAt) {
-      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'milliseconds')
+      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'seconds')
     }
 
     return '-'
@@ -112,6 +116,14 @@ export class JobWrapper {
   get finishedAt () {
     if (this.job.finishAt) {
       return moment(this.job.finishAt).fromNow()
+    }
+
+    return '-'
+  }
+
+  get finishedAtInStr () {
+    if (this.job.finishAt) {
+      return moment(this.job.finishAt).format('YYYY-MM-DD kk:mm:ss')
     }
 
     return '-'

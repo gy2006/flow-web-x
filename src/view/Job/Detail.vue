@@ -18,8 +18,9 @@
         <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
       </v-col>
 
-      <v-col cols="2">
-        {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
+      <v-col cols="2" class="caption">
+        <div>{{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)</div>
+        <div>{{ wrapper.finishedAtInStr }}</div>
       </v-col>
 
       <v-col cols="2">

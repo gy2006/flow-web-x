@@ -84,12 +84,16 @@
             value: this.wrapper.branch
           },
           {
-            key: 'Commit ID',
+            key: 'Commits',
+            value: this.wrapper.commitNum
+          },
+          {
+            key: 'Last Commit ID',
             value: this.wrapper.commitId,
             link: this.wrapper.commitUrl
           },
           {
-            key: 'Commit Message',
+            key: 'Last Commit Message',
             value: this.wrapper.commitMsg
           }
         ]

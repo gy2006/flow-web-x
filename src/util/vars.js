@@ -40,7 +40,8 @@ export default {
       id: 'FLOWCI_GIT_COMMIT_ID',
       message: 'FLOWCI_GIT_COMMIT_MESSAGE',
       time: 'FLOWCI_GIT_COMMIT_TIME',
-      url: 'FLOWCI_GIT_COMMIT_URL'
+      url: 'FLOWCI_GIT_COMMIT_URL',
+      number: 'FLOWCI_GIT_COMMIT_NUM'
     },
 
     pr: {

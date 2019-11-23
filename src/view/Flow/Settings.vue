@@ -2,8 +2,8 @@
   <v-card class="full-size flow-settings">
     <v-card-title>
       <Nav
-          :items="[name, 'settings']"
-          :links="['jobs', 'settings']"
+          :items="['flow', name, 'settings']"
+          :links="['#/', `#/flows/${name}/jobs`, `#/flows/${name}/settings`]"
       ></Nav>
     </v-card-title>
 
@@ -59,7 +59,7 @@
     computed: {
       ...mapState({
         steps: state => state.flows.steps,
-        flow: state => state.flows.selected.obj,
+        flow: state => state.flows.selected.obj
       }),
       name () {
         return this.$route.params.id

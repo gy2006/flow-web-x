@@ -32,7 +32,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="onCloseClick">{{ $t('close') }}</v-btn>
+            <v-btn color="blue darken-1" text @click="onCloseClick">{{ $t('close') }}</v-btn>
             <v-btn color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
           </v-card-actions>
         </v-card>
@@ -71,7 +71,7 @@
 
         this.$store.dispatch(actions.flows.delete, this.flow.name).then(() => {
           this.onCloseClick()
-          this.$router.push({path: `/`})
+          this.$router.push({path: `/flows`})
         })
       },
 

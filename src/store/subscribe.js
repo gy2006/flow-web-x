@@ -27,12 +27,12 @@ const subscribed = {}
 
 // subscribe topic
 function subscribe (topic, callback) {
-  if (subscribed[topic]) {
+  if (subscribed[ topic ]) {
     return
   }
 
   if (stompClient.connected) {
-    subscribed[topic] = stompClient.subscribe(topic, callback)
+    subscribed[ topic ] = stompClient.subscribe(topic, callback)
     console.log('subscribe: ' + topic)
     return
   }
@@ -42,11 +42,11 @@ function subscribe (topic, callback) {
 
 // unsubscribe topic
 function unsubscribe (topic) {
-  const subscribedInfo = subscribed[topic]
+  const subscribedInfo = subscribed[ topic ]
 
   if (subscribedInfo) {
     subscribedInfo.unsubscribe()
-    delete subscribed[topic]
+    delete subscribed[ topic ]
   }
 }
 
@@ -54,7 +54,7 @@ stompClient.connect({}, function () {
   console.log('connected')
 
   subscribeBeforeConnected.forEach((item) => {
-    subscribed[item.topic] = stompClient.subscribe(item.topic, item.callback)
+    subscribed[ item.topic ] = stompClient.subscribe(item.topic, item.callback)
     console.log('subscribe: ' + item.topic)
   })
 })

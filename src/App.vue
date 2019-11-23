@@ -84,12 +84,6 @@
     methods: {
       refs (name) {
         return this.$refs[ name ]
-      },
-
-      onFlowMenuClick () {
-        if (!this.isLoginPage) {
-          this.refs('flowList').click()
-        }
       }
     }
   }

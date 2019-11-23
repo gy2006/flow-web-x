@@ -2,8 +2,8 @@
   <v-card class="full-size job-detail">
     <v-card-title class="pb-1">
       <Nav
-          :items="[flow, buildNumberText]"
-          :links="['jobs', 'jobs/' + number]"
+          :items="['flow', flow, buildNumberText]"
+          :links="['#/flows', `#/flows/${flow}/jobs`, `#/flows/${flow}/jobs/${number}`]"
       ></Nav>
     </v-card-title>
 

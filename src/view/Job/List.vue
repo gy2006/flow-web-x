@@ -2,14 +2,14 @@
   <v-card class="full-size job-list">
     <v-card-title>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="3">
           <Nav
-              :items="[name]"
-              :links="['jobs']"
+              :items="['flow', name]"
+              :links="['#/flows', `#/flows/${name}/jobs`]"
           ></Nav>
         </v-col>
 
-        <v-col cols="4"></v-col>
+        <v-col cols="3"></v-col>
 
         <v-col cols="1">
           <v-btn

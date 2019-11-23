@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import {JobWrapper} from '@/util/jobs'
+  import { JobWrapper } from '@/util/jobs'
 
   export default {
     props: {

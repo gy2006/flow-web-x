@@ -79,8 +79,7 @@
   import actions from '@/store/actions'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
-  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
-
+  import { CATEGORY_AUTH, CATEGORY_SSH_RSA } from '@/util/credentials'
 
   export default {
     name: 'FlowCreateDialog',
@@ -98,7 +97,7 @@
     },
     computed: {
       ...mapState({
-        created: state => state.flows.created,
+        created: state => state.flows.created
       }),
 
       flow () {

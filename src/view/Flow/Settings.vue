@@ -3,7 +3,7 @@
     <v-card-title>
       <Nav
           :items="['flow', name, 'settings']"
-          :links="['#/', `#/flows/${name}/jobs`, `#/flows/${name}/settings`]"
+          :links="['#/flows', `#/flows/${name}/jobs`, `#/flows/${name}/settings`]"
       ></Nav>
     </v-card-title>
 

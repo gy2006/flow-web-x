@@ -2,8 +2,8 @@
   <v-card class="full-size flow-statistic">
     <v-card-title>
       <Nav
-          :items="[name, 'statistic']"
-          :links="['jobs', 'settings']"
+          :items="['flows', name, 'statistic']"
+          :links="['#/flows', `#/flows/${name}/jobs`, `#/flows/${name}/statistic`]"
       ></Nav>
     </v-card-title>
 

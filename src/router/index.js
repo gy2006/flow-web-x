@@ -4,11 +4,12 @@ import Router from 'vue-router'
 import Login from '@/view/Home/Login'
 
 import FlowHome from '@/view/Flow/Index'
+import FlowOverview from '@/view/Flow/Overview'
 import FlowSettings from '@/view/Flow/Settings'
 import FlowStatistic from '@/view/Flow/Statistic'
 
-import JobDetail from '@/view/Job/Detail'
 import JobList from '@/view/Job/List'
+import JobDetail from '@/view/Job/Detail'
 
 import SettingsHome from '@/view/Settings/Home'
 import SettingsProfileHome from '@/view/Settings/Profile/Index'
@@ -36,28 +37,51 @@ export default new Router({
     {
       path: '/flows',
       name: 'FlowHome',
-      component: FlowHome
+      component: FlowHome,
+      children: [
+        {
+          path: '',
+          name: 'Overview',
+          component: FlowOverview
+        },
+        {
+          path: ':id/settings',
+          name: 'Settings'
+        },
+        {
+          path: ':id/statistic',
+          name: 'Statistic'
+        },
+        {
+          path: ':id/jobs',
+          name: 'Jobs'
+        },
+        {
+          path: ':id/jobs/:num',
+          name: 'JobDetail'
+        }
+      ]
     },
-    {
-      path: '/flows/:id/jobs',
-      name: 'Jobs',
-      component: JobList
-    },
-    {
-      path: '/flows/:id/settings',
-      name: 'FlowSettings',
-      component: FlowSettings
-    },
-    {
-      path: '/flows/:id/statistic',
-      name: 'FlowStatistic',
-      component: FlowStatistic
-    },
-    {
-      path: '/flows/:id/jobs/:num',
-      name: 'JobDetail',
-      component: JobDetail
-    },
+    // {
+    //   path: '/flows/:id/jobs',
+    //   name: 'Jobs',
+    //   component: JobList
+    // },
+    // {
+    //   path: '/flows/:id/settings',
+    //   name: 'FlowSettings',
+    //   component: FlowSettings
+    // },
+    // {
+    //   path: '/flows/:id/statistic',
+    //   name: 'FlowStatistic',
+    //   component: FlowStatistic
+    // },
+    // {
+    //   path: '/flows/:id/jobs/:num',
+    //   name: 'JobDetail',
+    //   component: JobDetail
+    // },
     {
       path: '/settings',
       name: 'Settings',

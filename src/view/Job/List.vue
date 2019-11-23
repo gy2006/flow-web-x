@@ -10,53 +10,6 @@
         </v-col>
 
         <v-col cols="3"></v-col>
-
-        <v-col cols="1">
-          <v-btn
-              text
-              color="blue-grey"
-              class="white--text"
-              @click="onStatisticClick">
-            <v-icon class="mr-1">mdi-trending-up</v-icon>
-            {{ $t('flow.statistic') }}
-          </v-btn>
-        </v-col>
-
-        <v-col cols="1">
-          <v-btn
-              text
-              color="blue-grey"
-              class="white--text"
-              @click="onSettingsClick">
-            <v-icon class="mr-1">mdi-settings</v-icon>
-            {{ $t('flow.settings') }}
-          </v-btn>
-        </v-col>
-
-        <v-col cols="1">
-          <v-btn
-              text
-              color="success"
-              @click.native="onRunClick(true)">
-            <v-icon class="mr-1">mdi-play</v-icon>
-            {{ $t('job.run') }}:
-          </v-btn>
-          <Dialog :dialog="dialog"
-                  :content="$t('job.hint.missing_agent')"
-                  :confirmBtn="confirmBtn"
-                  :cancelBtn="cancelBtn"
-          ></Dialog>
-        </v-col>
-
-        <v-col cols="2">
-          <v-combobox dense
-                      outlined
-                      prepend-icon="mdi-source-branch"
-                      v-model="selectedBranch"
-                      :items="gitBranches"
-                      label="branch:">
-          </v-combobox>
-        </v-col>
       </v-row>
     </v-card-title>
 

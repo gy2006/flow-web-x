@@ -23,8 +23,8 @@
 
         <!-- flow and job actions-->
         <v-col cols="6" v-if="showFlowAction">
-          <v-row>
-            <v-col cols="2">
+          <v-toolbar elevation="0" bottom>
+            <v-toolbar-items class="align-baseline">
               <v-btn
                   text
                   color="blue-grey"
@@ -33,9 +33,7 @@
                 <v-icon class="mr-1">mdi-trending-up</v-icon>
                 {{ $t('flow.statistic') }}
               </v-btn>
-            </v-col>
 
-            <v-col cols="2">
               <v-btn
                   text
                   color="blue-grey"
@@ -44,9 +42,7 @@
                 <v-icon class="mr-1">mdi-settings</v-icon>
                 {{ $t('flow.settings') }}
               </v-btn>
-            </v-col>
 
-            <v-col cols="2">
               <v-btn
                   text
                   color="success"
@@ -54,21 +50,19 @@
                 <v-icon class="mr-1">mdi-play</v-icon>
                 {{ $t('job.run') }}:
               </v-btn>
-              <Dialog :dialog="dialog"
-                      :content="$t('job.hint.missing_agent')"
-              ></Dialog>
-            </v-col>
 
-            <v-col cols="3">
               <v-combobox dense
                           outlined
                           prepend-icon="mdi-source-branch"
                           label="branch:">
               </v-combobox>
-            </v-col>
-          </v-row>
+            </v-toolbar-items>
+          </v-toolbar>
         </v-col>
       </v-row>
+      <Dialog :dialog="dialog"
+              :content="$t('job.hint.missing_agent')"
+      ></Dialog>
     </v-card-title>
     <v-card-text class="fill-height">
       <router-view></router-view>
@@ -81,6 +75,7 @@
     name: 'FlowHome',
     data () {
       return {
+        dialog: false,
         baseItem: {text: 'flows', href: '#/flows'}
       }
     },

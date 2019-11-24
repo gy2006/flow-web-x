@@ -92,7 +92,6 @@
   import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
-  import Nav from '@/components/Common/Nav'
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
   import DetailTabContext from '@/view/Job/DetailTabContext'
   import DetailTabYml from '@/view/Job/DetailTabYml'
@@ -105,7 +104,6 @@
       }
     },
     components: {
-      Nav,
       DetailTabContext,
       DetailTabSummary,
       DetailTabYml
@@ -128,10 +126,6 @@
         return this.$route.params.num
       },
 
-      buildNumberText () {
-        return 'build #' + this.$route.params.num
-      },
-
       wrapper () {
         return new JobWrapper(this.job)
       },
@@ -141,8 +135,6 @@
       }
     },
     destroyed () {
-      this.$router.push({path: `/flows/${this.flow}/jobs`})
-
       unsubscribeTopic.steps(this.job.id)
 
       for (let i = 0; i < this.steps.length; i++) {

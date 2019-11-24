@@ -286,11 +286,15 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .flow-statistic {
     .chart {
       width: 100%;
       min-height: 400px;
+    }
+
+    .v-banner__actions {
+      margin-right: 5% !important;
     }
   }
 </style>

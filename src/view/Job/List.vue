@@ -34,8 +34,6 @@
 <script>
   import equal from 'fast-deep-equal'
   import { mapState } from 'vuex'
-  import Nav from '@/components/Common/Nav'
-  import Dialog from '@/components/Common/Dialog'
   import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
   import { subscribeTopic } from '@/store/subscribe'

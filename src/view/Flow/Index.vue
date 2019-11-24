@@ -1,8 +1,8 @@
 <template>
   <v-card class="full-size">
-    <v-card-title>
+    <v-card-title class="py-0">
       <v-row>
-        <v-col cols="3">
+        <v-col cols="4">
           <v-breadcrumbs :items="navItems">
             <template v-slot:divider>
               <v-icon>mdi-chevron-right</v-icon>
@@ -19,7 +19,7 @@
           </v-breadcrumbs>
         </v-col>
 
-        <v-col cols="3"></v-col>
+        <v-col cols="2"></v-col>
 
         <!-- flow and job actions-->
         <v-col cols="6" v-if="showFlowAction">
@@ -29,6 +29,7 @@
                   text
                   color="blue-grey"
                   class="white--text"
+                  @click="onStatisticClick"
               >
                 <v-icon class="mr-1">mdi-trending-up</v-icon>
                 {{ $t('flow.statistic') }}
@@ -38,6 +39,7 @@
                   text
                   color="blue-grey"
                   class="white--text"
+                  @click="onSettingsClick"
               >
                 <v-icon class="mr-1">mdi-settings</v-icon>
                 {{ $t('flow.settings') }}
@@ -59,10 +61,11 @@
             </v-toolbar-items>
           </v-toolbar>
         </v-col>
+
+        <Dialog :dialog="dialog"
+                :content="$t('job.hint.missing_agent')"
+        ></Dialog>
       </v-row>
-      <Dialog :dialog="dialog"
-              :content="$t('job.hint.missing_agent')"
-      ></Dialog>
     </v-card-title>
     <v-card-text class="fill-height">
       <router-view></router-view>
@@ -88,19 +91,27 @@
           items = [ this.baseItem ]
         }
 
-        let flowName = route.params.id
-        let flowItem = {text: flowName, href: '#' + route.path}
+        let href = '#' + route.path
+        let flowItem = {text: this.flowName, href}
 
         if (route.name === 'Jobs') {
           items = [ this.baseItem, flowItem ]
         }
 
         if (route.name === 'Settings') {
-          items = [ this.baseItem, flowItem, {text: 'settings', href: '#' + route.path} ]
+          flowItem.href = `#/flows/${this.flowName}/jobs`
+          items = [ this.baseItem, flowItem, {text: 'settings', href} ]
         }
 
         if (route.name === 'Statistic') {
-          items = [ this.baseItem, flowItem, {text: 'statistic', href: '#' + route.path} ]
+          flowItem.href = `#/flows/${this.flowName}/jobs`
+          items = [ this.baseItem, flowItem, {text: 'statistic', href} ]
+        }
+
+        if (route.name === 'JobDetail') {
+          let number = route.params.num
+          flowItem.href = `#/flows/${this.flowName}/jobs`
+          items = [ this.baseItem, flowItem, {text: '#' + number, href} ]
         }
 
         return items
@@ -108,7 +119,20 @@
 
       showFlowAction () {
         return this.$route.name === 'Jobs'
+      },
+
+      flowName () {
+        return this.$route.params.id
       }
+    },
+    methods: {
+      onSettingsClick () {
+        this.$router.push(`/flows/${this.flowName}/settings`)
+      },
+
+      onStatisticClick () {
+        this.$router.push(`/flows/${this.flowName}/statistic`)
+      },
     }
   }
 </script>

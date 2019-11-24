@@ -46,19 +46,23 @@ export default new Router({
         },
         {
           path: ':id/settings',
-          name: 'Settings'
+          name: 'Settings',
+          component: FlowSettings
         },
         {
           path: ':id/statistic',
-          name: 'Statistic'
+          name: 'Statistic',
+          component: FlowStatistic
         },
         {
           path: ':id/jobs',
-          name: 'Jobs'
+          name: 'Jobs',
+          component: JobList
         },
         {
           path: ':id/jobs/:num',
-          name: 'JobDetail'
+          name: 'JobDetail',
+          component: JobDetail
         }
       ]
     },

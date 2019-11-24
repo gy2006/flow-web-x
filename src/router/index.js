@@ -66,26 +66,6 @@ export default new Router({
         }
       ]
     },
-    // {
-    //   path: '/flows/:id/jobs',
-    //   name: 'Jobs',
-    //   component: JobList
-    // },
-    // {
-    //   path: '/flows/:id/settings',
-    //   name: 'FlowSettings',
-    //   component: FlowSettings
-    // },
-    // {
-    //   path: '/flows/:id/statistic',
-    //   name: 'FlowStatistic',
-    //   component: FlowStatistic
-    // },
-    // {
-    //   path: '/flows/:id/jobs/:num',
-    //   name: 'JobDetail',
-    //   component: JobDetail
-    // },
     {
       path: '/settings',
       name: 'Settings',

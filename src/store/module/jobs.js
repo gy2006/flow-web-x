@@ -152,7 +152,7 @@ const actions = {
    * Select job by flow name and build number
    */
   select ({commit}, {flow, buildNumber}) {
-    return http.get('jobs/' + flow + '/' + buildNumber,
+    return http.get(`jobs/${flow}/${buildNumber}`,
       (job) => {
         commit('selected', job)
       }

@@ -48,6 +48,7 @@
               <v-btn
                   text
                   color="success"
+                  @click="onRunClick"
               >
                 <v-icon class="mr-1">mdi-play</v-icon>
                 {{ $t('job.run') }}:
@@ -56,6 +57,8 @@
               <v-combobox dense
                           outlined
                           prepend-icon="mdi-source-branch"
+                          :items="gitBranches"
+                          v-model="selectedBranch"
                           label="branch:">
               </v-combobox>
             </v-toolbar-items>
@@ -74,47 +77,57 @@
 </template>
 
 <script>
+  import actions from '@/store/actions'
+  import { mapState } from 'vuex'
+
   export default {
     name: 'FlowHome',
     data () {
       return {
         dialog: false,
-        baseItem: {text: 'flows', href: '#/flows'}
+        baseItem: {text: 'flows', href: '#/flows'},
+        selectedBranch: 'master'
       }
     },
     computed: {
+      ...mapState({
+        gitBranches: state => state.flows.gitBranches,
+        agents: state => state.agents.items
+      }),
+
       navItems () {
         let route = this.$route
-        let items = []
 
         if (route.name === 'Overview') {
-          items = [ this.baseItem ]
+          return [ this.baseItem ]
         }
 
+        // flow level
         let href = '#' + route.path
         let flowItem = {text: this.flowName, href}
+        this.setCurrentFlow()
 
         if (route.name === 'Jobs') {
-          items = [ this.baseItem, flowItem ]
+          this.loadBranches()
+          return [ this.baseItem, flowItem ]
         }
 
+        flowItem.href = `#/flows/${this.flowName}/jobs`
+
         if (route.name === 'Settings') {
-          flowItem.href = `#/flows/${this.flowName}/jobs`
-          items = [ this.baseItem, flowItem, {text: 'settings', href} ]
+          return [ this.baseItem, flowItem, {text: 'settings', href} ]
         }
 
         if (route.name === 'Statistic') {
-          flowItem.href = `#/flows/${this.flowName}/jobs`
-          items = [ this.baseItem, flowItem, {text: 'statistic', href} ]
+          return [ this.baseItem, flowItem, {text: 'statistic', href} ]
         }
 
         if (route.name === 'JobDetail') {
-          let number = route.params.num
-          flowItem.href = `#/flows/${this.flowName}/jobs`
-          items = [ this.baseItem, flowItem, {text: '#' + number, href} ]
+          this.setCurrentJob()
+          return [ this.baseItem, flowItem, {text: '#' + this.buildNumber, href} ]
         }
 
-        return items
+        return []
       },
 
       showFlowAction () {
@@ -123,8 +136,13 @@
 
       flowName () {
         return this.$route.params.id
+      },
+
+      buildNumber () {
+        return this.$route.params.num
       }
     },
+
     methods: {
       onSettingsClick () {
         this.$router.push(`/flows/${this.flowName}/settings`)
@@ -133,6 +151,32 @@
       onStatisticClick () {
         this.$router.push(`/flows/${this.flowName}/statistic`)
       },
+
+      onRunClick () {
+        if (this.agents.length === 0) {
+          this.dialog = true
+          return
+        }
+
+        const payload = {flow: this.flowName, branch: this.selectedBranch}
+        this.$store.dispatch(actions.jobs.start, payload).then()
+      },
+
+      setCurrentFlow () {
+        this.$store.dispatch(actions.flows.select, this.flowName).then()
+      },
+
+      setCurrentJob () {
+        const payload = {flow: this.flowName, buildNumber: this.buildNumber}
+        this.$store.dispatch(actions.jobs.select, payload).then()
+      },
+
+      loadBranches () {
+        this.$store.dispatch(actions.flows.gitBranches, this.flowName)
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     }
   }
 </script>

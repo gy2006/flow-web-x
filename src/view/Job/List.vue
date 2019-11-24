@@ -22,8 +22,7 @@
         <v-btn
             text
             icon
-            color="success"
-            @click.native="onRunClick">
+            color="success">
           <v-icon>mdi-play</v-icon>
         </v-btn>
       </v-alert>
@@ -45,7 +44,6 @@
         dialog: false,
         loading: false,
         alert: false,
-        selectedBranch: null,
         pagination: {
           page: 1,
           itemsPerPage: 10
@@ -72,15 +70,13 @@
     },
     mounted () {
       subscribeTopic.jobs(this.$store)
-      this.reload()
+      this.loadJobList()
     },
     computed: {
       ...mapState({
         flow: state => state.flows.selected.obj,
-        gitBranches: state => state.flows.gitBranches,
         jobs: state => state.jobs.items,
         total: state => state.jobs.pagination.total,
-        agents: state => state.agents.items
       }),
 
       name () {
@@ -98,7 +94,7 @@
     },
     watch: {
       name () {
-        this.reload()
+        this.loadJobList()
       },
 
       pagination (newVal, oldVal) {
@@ -108,27 +104,8 @@
       }
     },
     methods: {
-      reload () {
-        this.$store.dispatch(actions.flows.select, this.name).then()
-        this.$store.dispatch(actions.flows.gitBranches, this.name).catch(() => {
-        })
-        this.loadJobList()
-      },
-
       onItemClick (job) {
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
-      },
-
-      onRunClick (check) {
-        if (check && this.agents.length === 0) {
-          this.dialog = true
-          return
-        }
-
-        this.$store.dispatch(actions.jobs.start, {
-          flow: this.name,
-          branch: this.selectedBranch
-        }).then()
       },
 
       loadJobList () {

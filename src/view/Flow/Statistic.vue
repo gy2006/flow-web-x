@@ -1,104 +1,86 @@
 <template>
-  <v-card class="full-size flow-statistic">
-    <v-card-title>
-      <Nav
-          :items="['flows', name, 'statistic']"
-          :links="['#/flows', `#/flows/${name}/jobs`, `#/flows/${name}/statistic`]"
-      ></Nav>
-    </v-card-title>
+  <div class="flow-statistic">
+    <v-banner single-line>
+      {{ $t('flow.stats_date_select') }}
 
-    <v-card-text class="pt-0 tab-wrapper">
-      <!-- header that includes data selection -->
-      <v-row>
-        <v-col cols="3">
-        </v-col>
-        <v-col cols="2" class="align-self-center title">
-          <span>{{ $t('flow.stats_date_select') }}</span>
-        </v-col>
-        <v-col cols="2">
-          <v-menu
-              v-model="fromDateMenu"
-              :close-on-content-click="false"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                  v-model="formattedFromDate"
-                  label="From Day"
-                  persistent-hint
-                  prepend-icon="mdi-calendar  "
-                  v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="formattedFromDate"
-                           no-title
-                           :min="min"
-                           :max="max"
-                           @input="fromDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-        <v-col cols="2">
-          <v-menu
-              v-model="toDateMenu"
-              :close-on-content-click="false"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                  v-model="formattedToDate"
-                  label="To Day"
-                  persistent-hint
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="formattedToDate"
-                           no-title
-                           :min="min"
-                           :max="max"
-                           @input="toDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-        <v-col cols="2">
-          <v-btn outlined
-                 color="indigo"
-                 class="ml-4 mt-2"
-                 @click="onConfirmClicked"
-          >{{ $t('confirm') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <template v-slot:actions>
+        <!-- from date-->
+        <v-menu
+            v-model="fromDateMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="formattedFromDate"
+                label="From Day"
+                persistent-hint
+                prepend-icon="mdi-calendar  "
+                v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="formattedFromDate"
+                         no-title
+                         :min="min"
+                         :max="max"
+                         @input="fromDateMenu = false"
+          ></v-date-picker>
+        </v-menu>
 
-      <!-- chart list for every type -->
-      <v-row>
-        <v-col cols="10"
-               class="mb-4"
-               v-for="type in metaTypeList"
-               :key="type.name">
-          <div :id="type.name" class="chart"></div>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+        <!-- to date-->
+        <v-menu
+            v-model="toDateMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="formattedToDate"
+                label="To Day"
+                persistent-hint
+                prepend-icon="mdi-calendar"
+                readonly
+                v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="formattedToDate"
+                         no-title
+                         :min="min"
+                         :max="max"
+                         @input="toDateMenu = false"
+          ></v-date-picker>
+        </v-menu>
+
+        <v-btn small
+               outlined
+               color="indigo"
+               @click="onConfirmClicked"
+        >{{ $t('confirm') }}
+        </v-btn>
+      </template>
+    </v-banner>
+
+    <!-- chart list for every type -->
+    <v-row>
+      <v-col cols="10"
+             class="mb-4"
+             v-for="type in metaTypeList"
+             :key="type.name">
+        <div :id="type.name" class="chart"></div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import Nav from '@/components/Common/Nav'
   import * as echarts from 'echarts'
   import moment from 'moment'
   import { defaultChartOption } from '@/util/stats'
@@ -106,14 +88,11 @@
 
   export default {
     name: 'FlowStatistic',
-    components: {
-      Nav
-    },
     data () {
       return {
         echartsInstances: {},
-        min: this.momentToString(moment().subtract(31, 'days')),
-        max: this.momentToString(moment()),
+        min: moment().subtract(31, 'days').format('YYYY-MM-DD'),
+        max: moment().format('YYYY-MM-DD'),
         fromDate: moment().subtract(7, 'days'),
         fromDateMenu: false,
         toDate: moment(),
@@ -157,6 +136,10 @@
       }
     },
     watch: {
+      '$route' (to, from) {
+        console.log(to)
+      },
+
       flow () {
         this.load()
       },
@@ -303,11 +286,15 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .flow-statistic {
     .chart {
       width: 100%;
       min-height: 400px;
+    }
+
+    .v-banner__actions {
+      margin-right: 5% !important;
     }
   }
 </style>

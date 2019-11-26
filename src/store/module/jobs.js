@@ -15,7 +15,7 @@ const state = {
   JobsStatus: {},
   selected: {},
   yml: '',
-  latest: {} // flow id - latest job object
+  latest: [] // latest job object array
 }
 
 const mutations = {
@@ -40,7 +40,14 @@ const mutations = {
   },
 
   setLatest (state, job) {
-    state.latest[ job.flowId ] = job
+    for (let i = 0; i < state.latest.length; i++) {
+      if (state.latest[i].id === job.id) {
+        state.latest[i] = job
+        return
+      }
+    }
+
+    state.latest.push(job)
   },
 
   updateStatus (state, updatedJob) {

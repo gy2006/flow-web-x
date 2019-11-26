@@ -89,9 +89,12 @@
         items.forEach((wrapper) => {
           this.$store.dispatch(actions.jobs.latest, wrapper.name)
             .then(() => {
-              let latestJob = this.latest[wrapper.id]
-              if (latestJob) {
-                wrapper.latestJob = latestJob
+
+              for (let latest of this.latest) {
+                if (latest.flowId === wrapper.id) {
+                  wrapper.latestJob = latest
+                  break
+                }
               }
             })
             .catch(() => {

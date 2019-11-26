@@ -14,7 +14,7 @@
                    :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']"
                    @click="onItemClick(item)">
         <v-list-item-action>
-<!--          <v-icon small :class="item.iconClass">{{ item.icon }}</v-icon>-->
+          <v-icon small :class="item.latestJob.status.class">{{ item.latestJob.status.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-  import { toWrapperList } from '@/util/flows'
-  import { mapState } from 'vuex'
+  import {toWrapperList} from '@/util/flows'
+  import {mapState} from 'vuex'
   import FlowCreateDialog from './CreateDialog'
   import actions from '@/store/actions'
 
@@ -72,14 +72,6 @@
 
       searchVal (after) {
         this.querySelections(after)
-      },
-
-      latest: {
-        handler (map) {
-          console.log(map)
-        },
-        deep: true,
-        immediate: true
       }
     },
     methods: {
@@ -95,7 +87,14 @@
 
       fetchLatestStatus (items) {
         items.forEach((wrapper) => {
-          this.$store.dispatch(actions.jobs.latest, wrapper.name).then().catch(() => {
+          this.$store.dispatch(actions.jobs.latest, wrapper.name)
+            .then(() => {
+              let latestJob = this.latest[wrapper.id]
+              if (latestJob) {
+                wrapper.latestJob = latestJob
+              }
+            })
+            .catch(() => {
           })
         })
       }

@@ -1,4 +1,4 @@
-import { mapping } from './jobs'
+import { JobWrapper } from './jobs'
 import vars from './vars'
 
 export const GIT_TEST_FETCHING = 'FETCHING'
@@ -43,9 +43,7 @@ export function toWrapperList (flows) {
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
-    this.statusIcon = 'mdi-cloud-question'
-    this.statusClass = ''
-    this.latestJob = undefined
+    this.latestJobWrapper = new JobWrapper({}) // JobWrapper
     this.sshObj = {
       privateKey: '',
       publicKey: ''
@@ -134,6 +132,12 @@ export class FlowWrapper {
     return this.authObj.username !== '' && this.authObj.password !== ''
   }
 
+  get latestJob () {
+    return this.latestJobWrapper
+  }
+
+  // set
+
   set name (name) {
     this.flow.name = name
   }
@@ -160,5 +164,9 @@ export class FlowWrapper {
     }
 
     return this.flow.variables[ vars.credential.name ] = credentialName
+  }
+
+  set latestJob (jobObj) {
+    this.latestJobWrapper = new JobWrapper(jobObj)
   }
 }

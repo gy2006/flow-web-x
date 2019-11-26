@@ -4,7 +4,7 @@
            :key="flow.name"
            cols="3"
     >
-      <summary-card ></summary-card>
+      <summary-card :flow="flow"/>
     </v-col>
   </v-row>
 </template>
@@ -21,10 +21,8 @@
     computed: {
       ...mapState({
         flows: state => state.flows.items,
-        // to receive job updated event and show latest job status on flow list
-        updatedJob: state => state.jobs.updated
-      }),
-    },
+      })
+    }
   }
 </script>
 

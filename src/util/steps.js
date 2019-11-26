@@ -91,7 +91,7 @@ export const mapping = {
   },
 
   [ STATUS_RUNNING ]: {
-    icon: 'flow-icon-running rotate blue--text',
+    icon: 'mdi-settings rotate blue--text',
     text: 'running'
   },
 

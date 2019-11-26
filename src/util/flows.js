@@ -32,6 +32,14 @@ export const gitTestStatus = {
   }
 }
 
+export function toWrapperList (flows) {
+  let list = []
+  for (let flow of flows) {
+    list.push(new FlowWrapper(flow))
+  }
+  return list
+}
+
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
@@ -73,14 +81,6 @@ export class FlowWrapper {
 
   get name () {
     return this.flow.name
-  }
-
-  get icon () {
-    return this.statusIcon
-  }
-
-  get iconClass () {
-    return this.statusClass
   }
 
   get webhook () {
@@ -160,20 +160,5 @@ export class FlowWrapper {
     }
 
     return this.flow.variables[ vars.credential.name ] = credentialName
-  }
-
-  // latest job
-  set job (latestJob) {
-    this.latestJob = latestJob
-    this.icon = mapping.status[ latestJob.status ].icon
-    this.iconClass = mapping.status[ latestJob.status ].class
-  }
-
-  set icon (icon) {
-    this.statusIcon = icon
-  }
-
-  set iconClass (iconClass) {
-    this.statusClass = iconClass
   }
 }

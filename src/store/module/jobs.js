@@ -1,7 +1,8 @@
 import http from '../http'
 import vars from '../../util/vars'
 
-const emptyFunc = () => {}
+const emptyFunc = () => {
+}
 
 const state = {
   name: '', // flow name
@@ -13,8 +14,8 @@ const state = {
   },
   JobsStatus: {},
   selected: {},
-  updated: {},
-  yml: ''
+  yml: '',
+  latest: {} // flow id - latest job object
 }
 
 const mutations = {
@@ -38,8 +39,8 @@ const mutations = {
     state.pagination.total = page.totalElements
   },
 
-  update (state, updatedJob) {
-    state.updated = updatedJob
+  setLatest (state, job) {
+    state.latest[ job.flowId ] = job
   },
 
   updateStatus (state, updatedJob) {
@@ -64,6 +65,9 @@ const mutations = {
     if (state.selected.id === updatedJob.id) {
       state.selected = state.items[ itemIndex ]
     }
+
+    // update latest map
+    state.latest[ updatedJob.flowId ] = updatedJob
   },
 
   selected (state, job) {
@@ -81,10 +85,11 @@ const mutations = {
 
 const actions = {
 
-  get ({commit}, {flow, buildNumberOrLatest}) {
-    const url = `jobs/${flow}/${buildNumberOrLatest}`
+  latest ({commit}, flow) {
+    const url = `jobs/${flow}/latest`
+
     return http.get(url, (job) => {
-      commit('update', job)
+      commit('setLatest', job)
     })
   },
 
@@ -108,7 +113,7 @@ const actions = {
     await http.post('jobs/run', emptyFunc, {flow, inputs})
   },
 
-  async cancel({commit}, {flow, buildNumber}) {
+  async cancel ({commit}, {flow, buildNumber}) {
     await http.post(`jobs/${flow}/${buildNumber}/cancel`, emptyFunc)
   },
 

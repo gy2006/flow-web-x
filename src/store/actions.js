@@ -38,7 +38,7 @@ export default {
   },
 
   jobs: {
-    get: 'jobs/get',
+    latest: 'jobs/latest',
     start: 'jobs/start',
     create: 'jobs/create',
     cancel: 'jobs/cancel',

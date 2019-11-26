@@ -212,37 +212,43 @@ export const mapping = {
     [ STATUS_QUEUED ]: {
       icon: 'flow-icon-pending',
       class: 'green--text',
-      text: STATUS_QUEUED
+      text: STATUS_QUEUED,
+      bg: 'yellow lighten-3'
     },
 
     [ STATUS_RUNNING ]: {
       icon: 'mdi-settings',
       class: [ 'blue--text', 'rotate' ],
-      text: STATUS_RUNNING
+      text: STATUS_RUNNING,
+      bg: 'light-blue lighten-1'
     },
 
     [ STATUS_SUCCESS ]: {
       icon: 'flow-icon-check',
       class: 'green--text',
-      text: STATUS_SUCCESS
+      text: STATUS_SUCCESS,
+      bg: 'green'
     },
 
     [ STATUS_FAILURE ]: {
       icon: 'flow-icon-failure',
       class: 'red--text',
-      text: STATUS_FAILURE
+      text: STATUS_FAILURE,
+      bg: 'red lighten-4'
     },
 
     [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
       class: 'grey--text',
-      text: STATUS_CANCELLED
+      text: STATUS_CANCELLED,
+      bg: 'blue-grey lighten-2'
     },
 
     [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
       class: 'orange--text',
-      text: STATUS_TIMEOUT
+      text: STATUS_TIMEOUT,
+      bg: 'orange lighten-2'
     }
   },
 

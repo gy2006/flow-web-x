@@ -40,14 +40,16 @@ const mutations = {
   },
 
   setLatest (state, job) {
-    for (let i = 0; i < state.latest.length; i++) {
-      if (state.latest[i].id === job.id) {
-        state.latest[i] = job
+    const latestList = state.latest
+
+    for (let i = 0; i < latestList.length; i++) {
+      if (latestList[i].id === job.id) {
+        latestList.splice(i, 1, job)
         return
       }
     }
 
-    state.latest.push(job)
+    latestList.push(job)
   },
 
   updateStatus (state, updatedJob) {
@@ -72,9 +74,6 @@ const mutations = {
     if (state.selected.id === updatedJob.id) {
       state.selected = state.items[ itemIndex ]
     }
-
-    // update latest map
-    state.latest[ updatedJob.flowId ] = updatedJob
   },
 
   selected (state, job) {
@@ -157,7 +156,7 @@ const actions = {
    */
   statusUpdate ({commit, state}, jobWithNewStatus) {
     commit('updateStatus', jobWithNewStatus)
-    commit('update', jobWithNewStatus)
+    commit('setLatest', jobWithNewStatus)
   },
 
   /**

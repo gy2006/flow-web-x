@@ -70,6 +70,20 @@
         this.fetchLatestStatus(this.items)
       },
 
+      latest: {
+        handler (after) {
+          for (let latestJob of after) {
+            for (let flow of this.items) {
+              if (flow.id === latestJob.flowId) {
+                flow.latestJob = latestJob
+              }
+            }
+          }
+        },
+        deep: true,
+        immediate: true
+      },
+
       searchVal (after) {
         this.querySelections(after)
       }

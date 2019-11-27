@@ -194,6 +194,10 @@ export class JobWrapper {
   get isPrMergedTrigger () {
     return this.trigger === TRIGGER_PR_MERGED
   }
+
+  get isRunning () {
+    return this.status.text === STATUS_RUNNING
+  }
 }
 
 export function isJobFinished (job) {

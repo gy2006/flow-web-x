@@ -9,9 +9,19 @@
       </v-card-title>
     </div>
 
-    <v-card-text class="text--secondary">
-      <v-row>
-        <v-col cols="6" class="text-left pl-3">
+    <v-card-text class="text--secondary pa-0">
+      <v-progress-linear
+          v-if="wrapper.latestJob.isRunning"
+          :color="wrapper.latestJob.status.bg"
+          buffer-value="100"
+          height="3"
+          background-opacity="0.3"
+          striped
+          indeterminate
+      ></v-progress-linear>
+
+      <v-row class="pa-2">
+        <v-col cols="6" class="text-left pa-4">
           <div>{{ wrapper.latestJob.status.text }}</div>
           <div>{{ wrapper.latestJob.branch }}</div>
           <div>{{ wrapper.latestJob.triggerBy }}</div>

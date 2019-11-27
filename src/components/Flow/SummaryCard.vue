@@ -3,7 +3,7 @@
       raised
       class="mx-auto flow-summary"
   >
-    <div :class="['title', wrapper.latestJob.status.bg]">
+    <div :class="['title', wrapper.latestJob.status.bg]" @click="onTitleClick">
       <v-card-title>
         {{ wrapper.name }}
       </v-card-title>
@@ -23,7 +23,7 @@
               size="100"
               width="6"
               :value="wrapper.successRate"
-              color="#48da7f"
+              :color="circleColor"
           >
             <div class="rate">{{ wrapper.successRate }} %</div>
             <div class="rate-desc">Success Rate</div>
@@ -41,6 +41,31 @@
       wrapper: {
         type: Object,
         required: true
+      }
+    },
+    data () {
+      return {
+        ratio: [0, 20, 50, 85, 100],
+        colors: ['red lighten-1', 'orange lighten-1', 'lime accent-4', 'green accent-4']
+      }
+    },
+    computed: {
+      circleColor () {
+        for (let i = 0; i < this.ratio.length - 1; i++) {
+          const min = this.ratio[i]
+          const max = this.ratio[i + 1]
+          const rate = this.wrapper.successRate
+          if (min < rate && rate <= max) {
+            return this.colors[i]
+          }
+        }
+
+        return 'green accent-4'
+      }
+    },
+    methods: {
+      onTitleClick () {
+        this.$router.push({path: `/flows/${this.wrapper.name}/jobs`})
       }
     }
   }

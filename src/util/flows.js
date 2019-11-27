@@ -44,6 +44,7 @@ export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
     this.latestJobWrapper = new JobWrapper({}) // JobWrapper
+    this.successPercentage = 0
     this.sshObj = {
       privateKey: '',
       publicKey: ''
@@ -136,6 +137,10 @@ export class FlowWrapper {
     return this.latestJobWrapper
   }
 
+  get successRate () {
+    return this.successPercentage
+  }
+
   // set
 
   set name (name) {
@@ -168,5 +173,9 @@ export class FlowWrapper {
 
   set latestJob (jobObj) {
     this.latestJobWrapper = new JobWrapper(jobObj)
+  }
+
+  set successRate (rate) {
+    this.successPercentage = rate
   }
 }

@@ -13,6 +13,7 @@
   import SummaryCard from '@/components/Flow/SummaryCard'
   import { toWrapperList } from '@/util/flows'
   import { mapState } from 'vuex'
+  import actions from '@/store/actions'
 
   export default {
     name: 'FlowOverview',
@@ -31,7 +32,8 @@
     computed: {
       ...mapState({
         flows: state => state.flows.items,
-        latest: state => state.jobs.latest
+        latest: state => state.jobs.latest,
+        statsTotal: state => state.stats.statsTotal
       })
     },
     watch: {
@@ -44,14 +46,35 @@
       }
     },
     methods: {
-      setLatestJobs() {
+      setLatestJobs () {
         for (let wrapper of this.items) {
           for (let latestJob of this.latest) {
             if (wrapper.id === latestJob.flowId) {
               wrapper.latestJob = latestJob
             }
           }
+
+          this.fetchTotalStats(wrapper)
         }
+      },
+
+      fetchTotalStats (wrapper) {
+        let payload = {name: wrapper.name,  metaType: 'default/ci_job_status'}
+        this.$store.dispatch(actions.stats.total, payload).then(() => {
+          let sum = 0.0
+          let total = this.statsTotal
+
+
+          for (const category of Object.keys(total.counter)) {
+            sum += total.counter[ category ]
+          }
+
+          let numOfSuccess = total.counter[ 'SUCCESS' ]
+          let successPercent = (numOfSuccess / sum) * 100
+          successPercent = successPercent.toFixed(2)
+
+          wrapper.successRate = successPercent
+        })
       }
     }
   }

@@ -15,6 +15,7 @@
           <div>{{ wrapper.latestJob.status.text }}</div>
           <div>{{ wrapper.latestJob.branch }}</div>
           <div>{{ wrapper.latestJob.triggerBy }}</div>
+          <div>{{ wrapper.successRate }}</div>
         </v-col>
 
         <v-col cols="6" class="pa-0 pl-2">

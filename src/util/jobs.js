@@ -2,6 +2,7 @@ import vars from '@/util/vars'
 import moment from 'moment'
 
 // status
+const STATUS_UNKNOWN = 'UNKNOWN'
 const STATUS_QUEUED = 'QUEUED'
 const STATUS_RUNNING = 'RUNNING'
 const STATUS_SUCCESS = 'SUCCESS'
@@ -206,7 +207,8 @@ export const mapping = {
     default: {
       icon: 'mdi-sitemap',
       class: [ 'grey--text' ],
-      text: ''
+      text: STATUS_UNKNOWN,
+      bg: 'grey lighten-1'
     },
 
     [ STATUS_QUEUED ]: {

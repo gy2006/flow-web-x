@@ -42,6 +42,8 @@ export default {
 
     stats_date_select: '选择统计日期',
 
+    summary_rate_text: '成功率',
+
     hint: {
       name_required: '请输入 Flow 名称',
       name_size: 'Flow 名称长度需要小于 20 个字符',
@@ -71,6 +73,8 @@ export default {
   job: {
     run: '开始任务',
     triggerBy: 'Triggered By',
+    list_empty_message: '点击 \'RUN\' 开始任务',
+
     tab: {
       summary: 'Summary',
       context: 'Context',

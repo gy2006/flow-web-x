@@ -18,7 +18,7 @@
 
     <template slot="no-data">
       <v-alert :value="true" color="white">
-        <span class="light-blue--text">Click 'RUN' to start your first build</span>
+        <span class="light-blue--text">{{ $t('job.list_empty_message') }}</span>
       </v-alert>
     </template>
   </v-data-table>

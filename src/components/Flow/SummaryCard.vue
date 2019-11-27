@@ -26,7 +26,7 @@
               :color="circleColor"
           >
             <div class="rate">{{ wrapper.successRate }} %</div>
-            <div class="rate-desc">Success Rate</div>
+            <div class="rate-desc">{{ $t('flow.summary_rate_text') }}</div>
           </v-progress-circular>
         </v-col>
       </v-row>

@@ -42,6 +42,8 @@ export default {
 
     stats_date_select: 'Select Statistic Date:',
 
+    summary_rate_text: 'Success rate',
+
     hint: {
       name_required: 'Flow name is required',
       name_size: 'Flow name must be less than 20 character',
@@ -71,6 +73,8 @@ export default {
   job: {
     run: 'Run',
     triggerBy: 'Triggered By',
+    list_empty_message: 'Click \'RUN\' to start your first build',
+
     tab: {
       summary: 'Summary',
       context: 'Context',

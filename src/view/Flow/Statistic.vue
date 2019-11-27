@@ -111,7 +111,8 @@
       ...mapState({
         flow: state => state.flows.selected.obj,
         metaTypeList: state => state.stats.metaTypeList,
-        statsList: state => state.stats.statsList
+        statsList: state => state.stats.statsList,
+        statsTotal: state => state.stats.statsTotal
       }),
       name () {
         return this.$route.params.id
@@ -169,20 +170,34 @@
       },
 
       load () {
-        this.$store.dispatch(actions.stats.metaTypeList, this.flow.name).then(() => {
+        // load all stats type
+        let name = this.flow.name
+
+        this.$store.dispatch(actions.stats.metaTypeList, name).then(() => {
+
           for (const t of this.metaTypeList) {
-            let instance = this.echartsInstances[ t.name ]
 
-            if (!instance) {
-              instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
-            }
+            // load stats in total
+            let payload = {name, metaType: t.name}
+            this.$store.dispatch(actions.stats.total, payload)
+              .then(() => {
+                // init echart instance
+                let instance = this.echartsInstances[ t.name ]
+                if (!instance) {
+                  instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
+                }
 
-            this.setChartData(t, instance)
+                // fill in data
+                this.setChartData(t, instance, this.statsTotal)
+              })
+              .catch(() => {
+                // no total stats found
+              })
           }
         })
       },
 
-      setChartData (metaType, echartInstance) {
+      setChartData (metaType, echartInstance, total) {
         const fields = metaType.fields
 
         let name = this.flow.name
@@ -199,7 +214,13 @@
           const structured = this.structureData(this.statsList)
 
           // calculate percentage
-          const calculated = this.calculate({structured, fields, fromDay: this.fromDate, toDay: this.toDate})
+          const calculated = this.calculate({
+            structured,
+            fields,
+            fromDay: this.fromDate,
+            toDay: this.toDate,
+            total
+          })
 
           const chartOpt = _.cloneDeep(this.defaultChartOption)
           chartOpt.title.text = metaType.desc
@@ -234,7 +255,7 @@
         return dataPerDay
       },
 
-      calculate ({structured, fields, fromDay, toDay}) {
+      calculate ({structured, fields, fromDay, toDay, total}) {
         let dayList = []
         let data = {} // counter key with array, {PASSED: [0.1, 0.2, 0.3], xxxx}
 
@@ -242,6 +263,12 @@
         const empty = {counter: {}}
         for (const category of fields) {
           empty.counter[ category ] = 0.0
+        }
+
+        // sum total
+        let sumTotal = 0.0
+        for (const category of Object.keys(total.counter)) {
+          sumTotal += total.counter[ category ]
         }
 
         for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
@@ -264,18 +291,12 @@
             item = _.cloneDeep(empty)
           }
 
-          let sumPerDay = 0.0
           let counter = item.counter
-
-          // calculate sum
-          for (const category of Object.keys(counter)) {
-            data[ category ] = data[ category ] || []
-            sumPerDay += counter[ category ]
-          }
 
           // calculate percentage
           for (const category of Object.keys(counter)) {
-            const percent = (counter[ category ] / sumPerDay) * 100
+            const percent = (counter[ category ] / sumTotal) * 100
+            data[ category ] = data[ category ] || []
             data[ category ].push(percent.toFixed(2) || 0.0)
           }
         }

@@ -38,7 +38,7 @@ export default {
   },
 
   jobs: {
-    get: 'jobs/get',
+    latest: 'jobs/latest',
     start: 'jobs/start',
     create: 'jobs/create',
     cancel: 'jobs/cancel',
@@ -83,6 +83,7 @@ export default {
 
   stats: {
     list: 'stats/list',
+    total: 'stats/total',
     metaType: 'stats/metaType',
     metaTypeList: 'stats/metaTypeList'
   },

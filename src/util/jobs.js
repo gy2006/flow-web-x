@@ -213,7 +213,7 @@ export const mapping = {
       icon: 'flow-icon-pending',
       class: 'green--text',
       text: STATUS_QUEUED,
-      bg: 'yellow lighten-3'
+      bg: 'yellow'
     },
 
     [ STATUS_RUNNING ]: {
@@ -234,21 +234,21 @@ export const mapping = {
       icon: 'flow-icon-failure',
       class: 'red--text',
       text: STATUS_FAILURE,
-      bg: 'red lighten-4'
+      bg: 'red'
     },
 
     [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
       class: 'grey--text',
       text: STATUS_CANCELLED,
-      bg: 'blue-grey lighten-2'
+      bg: 'blue-grey'
     },
 
     [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
       class: 'orange--text',
       text: STATUS_TIMEOUT,
-      bg: 'orange lighten-2'
+      bg: 'orange'
     }
   },
 

@@ -83,6 +83,7 @@ export default {
 
   stats: {
     list: 'stats/list',
+    total: 'stats/total',
     metaType: 'stats/metaType',
     metaTypeList: 'stats/metaTypeList'
   },

@@ -179,16 +179,20 @@
 
             // load stats in total
             let payload = {name, metaType: t.name}
-            this.$store.dispatch(actions.stats.total, payload).then(() => {
-              // init echart instance
-              let instance = this.echartsInstances[ t.name ]
-              if (!instance) {
-                instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
-              }
+            this.$store.dispatch(actions.stats.total, payload)
+              .then(() => {
+                // init echart instance
+                let instance = this.echartsInstances[ t.name ]
+                if (!instance) {
+                  instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
+                }
 
-              // fill in data
-              this.setChartData(t, instance, this.statsTotal)
-            })
+                // fill in data
+                this.setChartData(t, instance, this.statsTotal)
+              })
+              .catch(() => {
+                // no total stats found
+              })
           }
         })
       },
@@ -201,7 +205,7 @@
           name,
           metaType: metaType.name,
           from: this.toIntDay(this.fromDate),
-          to: this.toIntDay(this.toDate),
+          to: this.toIntDay(this.toDate)
         }
 
         // load statistic data list

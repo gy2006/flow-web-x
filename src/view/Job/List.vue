@@ -18,13 +18,7 @@
 
     <template slot="no-data">
       <v-alert :value="true" color="white">
-        <span class="light-blue--text">Start first build</span>
-        <v-btn
-            text
-            icon
-            color="success">
-          <v-icon>mdi-play</v-icon>
-        </v-btn>
+        <span class="light-blue--text">Click 'RUN' to start your first build</span>
       </v-alert>
     </template>
   </v-data-table>

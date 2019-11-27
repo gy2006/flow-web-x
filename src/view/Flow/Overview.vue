@@ -51,10 +51,9 @@
           for (let latestJob of this.latest) {
             if (wrapper.id === latestJob.flowId) {
               wrapper.latestJob = latestJob
+              this.fetchTotalStats(wrapper)
             }
           }
-
-          this.fetchTotalStats(wrapper)
         }
       },
 
@@ -71,7 +70,7 @@
 
           let numOfSuccess = total.counter[ 'SUCCESS' ]
           let successPercent = (numOfSuccess / sum) * 100
-          successPercent = successPercent.toFixed(2)
+          successPercent = successPercent.toFixed(0)
 
           wrapper.successRate = successPercent
         })

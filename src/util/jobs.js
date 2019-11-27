@@ -204,8 +204,8 @@ export const mapping = {
   // job status mapping
   status: {
     default: {
-      icon: 'flow-icon-loading1',
-      class: [ 'grey--text', 'rotate' ],
+      icon: 'mdi-sitemap',
+      class: [ 'grey--text' ],
       text: ''
     },
 

@@ -114,8 +114,9 @@
     computed: {
       ...mapState({
         job: state => state.jobs.selected,
+        reports: state => state.jobs.reports,
         steps: state => state.steps.items,
-        stepChange: state => state.steps.change
+        stepChange: state => state.steps.change,
       }),
 
       flow () {
@@ -179,11 +180,14 @@
     },
     methods: {
       load () {
-        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.steps.get, payload).then()
+        this.$store.dispatch(actions.jobs.reports.list, payload).then()
       },
 
       onStopClick () {
-        this.$store.dispatch(actions.jobs.cancel, {flow: this.flow, buildNumber: this.number}).then()
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.cancel, payload).then()
       }
     }
   }

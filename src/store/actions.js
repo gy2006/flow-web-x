@@ -46,6 +46,9 @@ export default {
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',
     getYml: 'jobs/getYml',
+    reports: {
+      list: 'jobs/reports'
+    },
     steps: {
       get: 'steps/get',
       update: 'steps/update'
@@ -53,7 +56,7 @@ export default {
     logs: {
       load: 'logs/load',
       download: 'logs/download'
-    }
+    },
   },
 
   agents: {

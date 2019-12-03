@@ -53,7 +53,5 @@
 </script>
 
 <style scoped>
-  .editor {
-    height: 50%;
-  }
+
 </style>

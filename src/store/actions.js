@@ -47,7 +47,8 @@ export default {
     select: 'jobs/select',
     getYml: 'jobs/getYml',
     reports: {
-      list: 'jobs/reports'
+      list: 'jobs/listReport',
+      fetch: 'jobs/fetchReport'
     },
     steps: {
       get: 'steps/get',

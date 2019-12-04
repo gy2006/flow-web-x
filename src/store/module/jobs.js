@@ -1,5 +1,6 @@
 import http from '../http'
 import vars from '../../util/vars'
+import url from '../../api/axios/url'
 
 const emptyFunc = () => {
 }
@@ -16,7 +17,8 @@ const state = {
   selected: {},
   yml: '',
   latest: [], // latest job object array
-  reports: []
+  reports: [],
+  reportUrlPath: ''
 }
 
 const mutations = {
@@ -91,6 +93,10 @@ const mutations = {
 
   setReports (state, reports) {
     state.reports = reports
+  },
+
+  setReportUrlPath(state, reportUrlPath) {
+    state.reportUrlPath = reportUrlPath
   }
 }
 
@@ -179,11 +185,17 @@ const actions = {
     commit('JobsStatus', args)
   },
 
-  async reports ({commit}, {flow, buildNumber}) {
+  async listReport ({commit}, {flow, buildNumber}) {
     await http.get(`jobs/${flow}/${buildNumber}/reports`, (reports) => {
       commit('setReports', reports)
     })
   },
+
+  async fetchReport({commit}, {flow, buildNumber, reportId}) {
+    await http.get(`jobs/${flow}/${buildNumber}/reports/${reportId}`, (urlPath) => {
+      commit('setReportUrlPath', urlPath)
+    })
+  }
 }
 
 /**

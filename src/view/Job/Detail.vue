@@ -87,7 +87,10 @@
           <v-tab-item v-for="report in reports"
                       :key="report.id"
                       :value="report.name">
-            <detail-html-report :report="report" v-if="report.contentType.includes('html')"/>
+            <detail-html-report :flow="flow"
+                                :buildNumber="number"
+                                :report="report"
+                                v-if="report.contentType.includes('html')"/>
           </v-tab-item>
         </v-tabs>
       </v-col>

@@ -1,6 +1,5 @@
 import http from '../http'
 import vars from '../../util/vars'
-import url from '../../api/axios/url'
 
 const emptyFunc = () => {
 }

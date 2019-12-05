@@ -24,17 +24,22 @@
     },
     mounted() {
       let payload = {flow: this.flow, buildNumber: this.buildNumber, reportId: this.report.id}
-      this.$store.dispatch(actions.jobs.reports.fetch, payload).then()
+      this.$store.dispatch(actions.jobs.reports.fetch, payload).then(() => {
+        if (this.urlPath) {
+          this.reportUrl = `${this.staticBaseUrl}/${this.urlPath}`
+        }
+      })
+    },
+    data () {
+      return {
+        reportUrl: ''
+      }
     },
     computed: {
       ...mapState({
         urlPath: state => state.jobs.reportUrlPath,
         staticBaseUrl: state => state.g.staticBaseUrl
-      }),
-
-      reportUrl() {
-        return `${this.staticBaseUrl}/${this.urlPath}`
-      }
+      })
     }
   }
 </script>

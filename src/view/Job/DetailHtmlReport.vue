@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <iframe src="http://www.baidu.com"></iframe>
-  </div>
+  <iframe :src="reportUrl" class="html-report"></iframe>
 </template>
 
 <script>
@@ -31,16 +29,20 @@
     computed: {
       ...mapState({
         urlPath: state => state.jobs.reportUrlPath,
+        staticBaseUrl: state => state.g.staticBaseUrl
       }),
 
-      fullUrl () {
-        console.log(this.urlPath)
-        return this.urlPath
+      reportUrl() {
+        return `${this.staticBaseUrl}/${this.urlPath}`
       }
     }
   }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .html-report {
+    width: 100%;
+    height: 110%;
+    border-width: 0;
+  }
 </style>

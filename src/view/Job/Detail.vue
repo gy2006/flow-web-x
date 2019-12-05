@@ -213,14 +213,16 @@
 
 <style lang="scss">
   .job-detail {
+    height: 80%;
+
     .tab-wrapper {
-      height: 80%;
+      height: 90%;
     }
 
     .tab-wrapper .v-window,
     .tab-wrapper .v-window__container,
     .tab-wrapper .v-window-item {
-      height: 95%;
+      height: 96%;
     }
   }
 </style>

@@ -112,7 +112,6 @@
         flow: state => state.flows.selected.obj,
         metaTypeList: state => state.stats.metaTypeList,
         statsList: state => state.stats.statsList,
-        statsTotal: state => state.stats.statsTotal
       }),
       name () {
         return this.$route.params.id
@@ -174,30 +173,20 @@
         let name = this.flow.name
 
         this.$store.dispatch(actions.stats.metaTypeList, name).then(() => {
-
           for (const t of this.metaTypeList) {
+            // init echart instance
+            let instance = this.echartsInstances[ t.name ]
+            if (!instance) {
+              instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
+            }
 
-            // load stats in total
-            let payload = {name, metaType: t.name}
-            this.$store.dispatch(actions.stats.total, payload)
-              .then(() => {
-                // init echart instance
-                let instance = this.echartsInstances[ t.name ]
-                if (!instance) {
-                  instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
-                }
-
-                // fill in data
-                this.setChartData(t, instance, this.statsTotal)
-              })
-              .catch(() => {
-                // no total stats found
-              })
+            // fill in data
+            this.setChartData(t, instance)
           }
         })
       },
 
-      setChartData (metaType, echartInstance, total) {
+      setChartData (metaType, echartInstance) {
         const fields = metaType.fields
 
         let name = this.flow.name
@@ -218,8 +207,7 @@
             structured,
             fields,
             fromDay: this.fromDate,
-            toDay: this.toDate,
-            total
+            toDay: this.toDate
           })
 
           const chartOpt = _.cloneDeep(this.defaultChartOption)
@@ -255,48 +243,45 @@
         return dataPerDay
       },
 
-      calculate ({structured, fields, fromDay, toDay, total}) {
+      /**
+       * Calculate in total trend
+       * @param structured
+       * @param fields
+       * @param fromDay
+       * @param toDay
+       * @returns {{data: {}, dayList: [], fields: *}}
+       */
+      calculate ({structured, fields, fromDay, toDay}) {
         let dayList = []
         let data = {} // counter key with array, {PASSED: [0.1, 0.2, 0.3], xxxx}
 
-        // create empty data
-        const empty = {counter: {}}
+        // init data
         for (const category of fields) {
-          empty.counter[ category ] = 0.0
-        }
-
-        // sum total
-        let sumTotal = 0.0
-        for (const category of Object.keys(total.counter)) {
-          sumTotal += total.counter[ category ]
+          data[ category ] = []
         }
 
         for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
           let item = structured[ this.toIntDay(day) ]
           dayList.push(this.momentToString(day))
 
-          // no data, find previous day data
+          // apply previous ratio
           if (!item) {
-            for (let i = moment(day); i.isSameOrAfter(fromDay); i = i.subtract(1, 'd')) {
-              let previousVal = structured[ this.toIntDay(i) ]
-              if (previousVal) {
-                item = previousVal
-                break
-              }
+            for (const category of fields) {
+              data[ category ].push(0.0)
             }
+            continue
           }
 
-          // not available anymore
-          if (!item) {
-            item = _.cloneDeep(empty)
+          let total = item.total
+          let sum = 0.0
+
+          for (const category of fields) {
+            sum += total[ category ]
           }
 
-          let counter = item.counter
-
-          // calculate percentage
-          for (const category of Object.keys(counter)) {
-            const percent = (counter[ category ] / sumTotal) * 100
-            data[ category ] = data[ category ] || []
+          // calculate percentage for each category
+          for (const category of fields) {
+            const percent = (total[ category ] / sum) * 100
             data[ category ].push(percent.toFixed(2) || 0.0)
           }
         }

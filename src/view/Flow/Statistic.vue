@@ -260,6 +260,9 @@
           data[ category ] = []
         }
 
+        let lastItem = {}
+        let lastSum = null
+
         for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
           let item = structured[ this.toIntDay(day) ]
           dayList.push(this.momentToString(day))
@@ -267,6 +270,14 @@
           // apply previous ratio
           if (!item) {
             for (const category of fields) {
+              const lastTotal = lastItem.total
+
+              if (lastTotal && lastTotal[ category ]) {
+                const percent = (lastTotal[ category ] / lastSum) * 100
+                data[ category ].push(percent.toFixed(2) || 0.0)
+                continue
+              }
+
               data[ category ].push(0.0)
             }
             continue
@@ -278,6 +289,9 @@
           for (const category of fields) {
             sum += total[ category ]
           }
+
+          lastItem = item
+          lastSum = sum
 
           // calculate percentage for each category
           for (const category of fields) {

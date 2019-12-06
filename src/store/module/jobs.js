@@ -15,7 +15,9 @@ const state = {
   JobsStatus: {},
   selected: {},
   yml: '',
-  latest: [] // latest job object array
+  latest: [], // latest job object array
+  reports: [],
+  reportUrlPath: ''
 }
 
 const mutations = {
@@ -86,6 +88,14 @@ const mutations = {
 
   updateYml (state, yml) {
     state.yml = yml
+  },
+
+  setReports (state, reports) {
+    state.reports = reports
+  },
+
+  setReportUrlPath(state, reportUrlPath) {
+    state.reportUrlPath = reportUrlPath
   }
 }
 
@@ -172,6 +182,18 @@ const actions = {
 
   JobsStatus ({commit}, args) {
     commit('JobsStatus', args)
+  },
+
+  async listReport ({commit}, {flow, buildNumber}) {
+    await http.get(`jobs/${flow}/${buildNumber}/reports`, (reports) => {
+      commit('setReports', reports)
+    })
+  },
+
+  async fetchReport({commit}, {flow, buildNumber, reportId}) {
+    await http.get(`jobs/${flow}/${buildNumber}/reports/${reportId}`, (urlPath) => {
+      commit('setReportUrlPath', urlPath)
+    })
   }
 }
 

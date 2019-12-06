@@ -1,3 +1,5 @@
+import http from '../http'
+
 export const Store = {
   namespaced: true,
   state: {
@@ -5,7 +7,9 @@ export const Store = {
       show: false,
       text: '',
       color: ''
-    }
+    },
+
+    staticBaseUrl: `${http.host}/static`
   },
   mutations: {
     show (state, {text, color}) {

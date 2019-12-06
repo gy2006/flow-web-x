@@ -61,21 +61,36 @@
           <v-tab href="#summary" class="ml-0 elevation-1">
             {{ $t('job.tab.summary') }}
           </v-tab>
-          <v-tab href="#context" class="elevation-1">
+          <v-tab href="#context" class="ml-0 elevation-1">
             {{ $t('job.tab.context') }}
           </v-tab>
-          <v-tab href="#yml" class="elevation-1">
+          <v-tab href="#yml" class="ml-0 elevation-1">
             {{ $t('job.tab.yml') }}
           </v-tab>
 
+          <v-tab v-for="report in reports"
+                 :key="report.id"
+                 :href="'#' + report.name">
+            {{ report.name }}
+          </v-tab>
+
           <v-tab-item value="summary">
-            <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-summary>
+            <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
           </v-tab-item>
           <v-tab-item value="context">
-            <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
+            <detail-tab-context class="ma-2" :wrapper="wrapper"/>
           </v-tab-item>
           <v-tab-item value="yml">
-            <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"></detail-tab-yml>
+            <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
+          </v-tab-item>
+
+          <v-tab-item v-for="report in reports"
+                      :key="report.id"
+                      :value="report.name">
+            <detail-html-report :flow="flow"
+                                :buildNumber="number"
+                                :report="report"
+                                v-if="report.contentType.includes('html')"/>
           </v-tab-item>
         </v-tabs>
       </v-col>
@@ -96,6 +111,8 @@
   import DetailTabContext from '@/view/Job/DetailTabContext'
   import DetailTabYml from '@/view/Job/DetailTabYml'
 
+  import DetailHtmlReport from '@/view/Job/DetailHtmlReport'
+
   export default {
     name: 'JobDetail',
     data () {
@@ -106,7 +123,8 @@
     components: {
       DetailTabContext,
       DetailTabSummary,
-      DetailTabYml
+      DetailTabYml,
+      DetailHtmlReport
     },
     mounted () {
       this.load()
@@ -114,6 +132,7 @@
     computed: {
       ...mapState({
         job: state => state.jobs.selected,
+        reports: state => state.jobs.reports,
         steps: state => state.steps.items,
         stepChange: state => state.steps.change
       }),
@@ -179,11 +198,14 @@
     },
     methods: {
       load () {
-        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.steps.get, payload).then()
+        this.$store.dispatch(actions.jobs.reports.list, payload).then()
       },
 
       onStopClick () {
-        this.$store.dispatch(actions.jobs.cancel, {flow: this.flow, buildNumber: this.number}).then()
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.cancel, payload).then()
       }
     }
   }
@@ -191,14 +213,16 @@
 
 <style lang="scss">
   .job-detail {
+    height: 80%;
+
     .tab-wrapper {
-      height: 80%;
+      height: 90%;
     }
 
     .tab-wrapper .v-window,
     .tab-wrapper .v-window__container,
     .tab-wrapper .v-window-item {
-      height: 95%;
+      height: 96%;
     }
   }
 </style>

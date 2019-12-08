@@ -16,7 +16,10 @@ export default {
   menu: {
     signedInAs: 'Signed in as ',
     settings: 'Settings',
-    logout: 'Logout'
+    logout: 'Logout',
+    help: 'Get help',
+    issue: 'Submit issue',
+    doc: 'Document'
   },
 
   flow: {

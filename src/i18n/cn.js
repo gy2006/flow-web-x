@@ -16,7 +16,10 @@ export default {
   menu: {
     signedInAs: '当前用户 ',
     settings: '设置',
-    logout: '退出'
+    logout: '退出',
+    help: '获得帮助',
+    issue: '问题反馈',
+    doc: '文档'
   },
 
   flow: {

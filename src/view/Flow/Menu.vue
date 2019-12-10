@@ -11,7 +11,7 @@
     <v-list-item-group v-model="selected">
       <v-list-item v-for="item in items"
                    :key="item.id"
-                   :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']"
+                   class="mx-2"
                    @click="onItemClick(item)">
         <v-list-item-action>
           <v-icon small :class="item.latestJob.status.class">{{ item.latestJob.status.icon }}</v-icon>
@@ -46,7 +46,6 @@
       return {
         searchVal: '',
         items: [],
-        selected: 0
       }
     },
     mounted () {
@@ -62,6 +61,17 @@
       // current flow name
       current () {
         return this.$route.params.id
+      },
+
+      selected () {
+        for (let i = 0; i < this.items.length; i++) {
+          const item = this.items[i]
+          if (item.name === this.current) {
+            return i
+          }
+        }
+
+        return 0
       }
     },
     watch: {

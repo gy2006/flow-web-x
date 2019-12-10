@@ -63,12 +63,7 @@ const mutations = {
         return
       }
 
-      // assign new status
-      job.status = updatedJob.status
-
-      // merge context
-      Object.assign(job.context, updatedJob.context)
-
+      Object.assign(job, updatedJob)
       itemIndex = index
     })
 

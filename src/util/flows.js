@@ -102,11 +102,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.fetchVars(vars.flow.gitUrl)
+    return this.fetchVars(vars.git.url)
   }
 
   get credential () {
-    return this.fetchVars(vars.credential.name)
+    return this.fetchVars(vars.git.credential)
   }
 
   get ssh () {
@@ -152,7 +152,7 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    this.flow.variables[ vars.flow.gitUrl ] = url
+    this.flow.variables[ vars.git.url ] = url
   }
 
   set ssh (sshObj) {
@@ -168,7 +168,7 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    return this.flow.variables[ vars.credential.name ] = credentialName
+    return this.flow.variables[ vars.git.credential ] = credentialName
   }
 
   set latestJob (jobObj) {

@@ -118,7 +118,7 @@ const actions = {
     let inputs = {}
 
     if (branch) {
-      inputs[ vars.flow.gitBranch ] = branch
+      inputs[ vars.git.branch ] = branch
     }
 
     await http.post('jobs/run', emptyFunc, {flow, inputs})

@@ -44,8 +44,9 @@ export default {
     var_value: '值',
 
     stats_date_select: '选择统计日期',
-
     summary_rate_text: '成功率',
+
+    more_template: 'More template',
 
     hint: {
       name_required: '请输入 Flow 名称',

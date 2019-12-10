@@ -9,7 +9,10 @@
 
     <v-card-actions class="mt-2">
       <v-row>
-        <v-col cols="8"></v-col>
+        <v-col cols="2">
+          <a href="https://github.com/FlowCI/templates" target="_blank">{{ $t('flow.more_template') }}</a>
+        </v-col>
+        <v-col cols="6"/>
         <v-col cols="2">
           <v-btn color="secondary"
                  tile

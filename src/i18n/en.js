@@ -44,8 +44,9 @@ export default {
     var_value: 'Value',
 
     stats_date_select: 'Select Statistic Date:',
-
     summary_rate_text: 'Success rate',
+
+    more_template: 'More template',
 
     hint: {
       name_required: 'Flow name is required',

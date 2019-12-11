@@ -25,6 +25,10 @@
         </td>
       </tr>
     </template>
+
+    <template slot="no-data">
+        No artifacts
+    </template>
   </v-data-table>
 </template>
 

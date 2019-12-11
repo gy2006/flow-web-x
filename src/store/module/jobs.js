@@ -1,4 +1,5 @@
 import http from '../http'
+import { browserDownload } from '../util'
 import vars from '../../util/vars'
 
 const emptyFunc = () => {
@@ -17,7 +18,8 @@ const state = {
   yml: '',
   latest: [], // latest job object array
   reports: [],
-  reportUrlPath: ''
+  reportUrlPath: '',
+  artifacts: []
 }
 
 const mutations = {
@@ -89,8 +91,12 @@ const mutations = {
     state.reports = reports
   },
 
-  setReportUrlPath(state, reportUrlPath) {
+  setReportUrlPath (state, reportUrlPath) {
     state.reportUrlPath = reportUrlPath
+  },
+
+  setArtifacts (state, artifacts) {
+    state.artifacts = artifacts
   }
 }
 
@@ -188,6 +194,20 @@ const actions = {
   async fetchReport({commit}, {flow, buildNumber, reportId}) {
     await http.get(`jobs/${flow}/${buildNumber}/reports/${reportId}`, (urlPath) => {
       commit('setReportUrlPath', urlPath)
+    })
+  },
+
+  async listArtifact ({commit}, {flow, buildNumber}) {
+    await http.get(`jobs/${flow}/${buildNumber}/artifacts`, (artifacts) => {
+      commit('setArtifacts', artifacts)
+    })
+  },
+
+  downloadArtifact ({commit}, {flow, buildNumber, artifactId}) {
+    let url = `jobs/${flow}/${buildNumber}/artifacts/${artifactId}`
+    return http.get(url, (data, file) => {
+      const url = window.URL.createObjectURL(new Blob([ data ]))
+      browserDownload(url, file)
     })
   }
 }

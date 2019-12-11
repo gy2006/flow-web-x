@@ -82,7 +82,8 @@ export default {
     tab: {
       summary: 'Summary',
       context: 'Context',
-      yml: 'Yml'
+      yml: 'Yml',
+      artifacts: 'Artifacts'
     },
 
     hint: {

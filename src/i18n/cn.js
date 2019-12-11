@@ -82,7 +82,8 @@ export default {
     tab: {
       summary: 'Summary',
       context: 'Context',
-      yml: 'Yml'
+      yml: 'Yml',
+      artifacts: 'Artifacts'
     },
     hint: {
       missing_agent: 'There is NO agents, the job will be started until agent has been created'

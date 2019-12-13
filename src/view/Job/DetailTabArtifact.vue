@@ -2,12 +2,13 @@
   <v-data-table :items="artifacts"
                 :loading="loading"
                 :headers="headers"
+                :options.sync="pagination"
                 hide-default-footer>
     <template v-slot:item="{item}">
       <tr>
         <td class="name-col">
           <v-icon>
-            {{ files[item.file] || 'mdi-application' }}
+            {{ getFileExtension(item.fileName)}}
           </v-icon>
           <span class="ml-1">{{ item.fileName }}</span>
         </td>
@@ -91,23 +92,6 @@
         loading: false
       }
     },
-    computed: {
-      ...mapState({
-        artifacts: state => state.jobs.artifacts
-      }),
-
-      items() {
-        let list = []
-        for (let artifact of this.artifacts) {
-          let file = artifact.fileName
-          list.push({
-            name: artifact.fileName,
-            file: file.split('.').pop()
-          })
-        }
-        return list
-      }
-    },
     mounted() {
       this.loading = true
       let payload = {flow: this.flow, buildNumber: this.buildNumber}
@@ -119,7 +103,29 @@
           this.loading = false
         })
     },
+    computed: {
+      ...mapState({
+        artifacts: state => state.jobs.artifacts
+      }),
+
+      pagination: {
+        get () {
+          return {
+            page: 1,
+            itemsPerPage: this.artifacts.length
+          }
+        },
+
+        set (newVal) {
+
+        }
+      },
+    },
     methods: {
+      getFileExtension(name) {
+        return this.files[name.split('.').pop()] || 'mdi-application'
+      },
+
       onDownloadClick (artifact) {
         let payload = {flow: this.flow, buildNumber: this.buildNumber, artifactId: artifact.id}
         this.$store.dispatch(actions.jobs.artifacts.download, payload).then()

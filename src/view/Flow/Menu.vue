@@ -42,13 +42,13 @@
     components: {
       FlowCreateDialog
     },
-    data () {
+    data() {
       return {
         searchVal: '',
         items: [],
       }
     },
-    mounted () {
+    mounted() {
       this.$store.dispatch(actions.flows.list).then()
     },
     computed: {
@@ -59,29 +59,34 @@
       }),
 
       // current flow name
-      current () {
+      current() {
         return this.$route.params.id
       },
 
-      selected () {
-        for (let i = 0; i < this.items.length; i++) {
-          const item = this.items[i]
-          if (item.name === this.current) {
-            return i
+      selected: {
+        get () {
+          for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i]
+            if (item.name === this.current) {
+              return i
+            }
           }
-        }
+          return 0
+        },
 
-        return 0
+        set (newValue) {
+
+        }
       }
     },
     watch: {
-      flows (after) {
+      flows(after) {
         this.items = toWrapperList(after)
         this.fetchLatestStatus(this.items)
       },
 
       latest: {
-        handler (after) {
+        handler(after) {
           for (let latestJob of after) {
             for (let flow of this.items) {
               if (flow.id === latestJob.flowId) {
@@ -94,22 +99,22 @@
         immediate: true
       },
 
-      searchVal (after) {
+      searchVal(after) {
         this.querySelections(after)
       }
     },
     methods: {
-      onItemClick (flow) {
+      onItemClick(flow) {
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
 
-      querySelections (v) {
+      querySelections(v) {
         this.items = toWrapperList(this.flows.filter(e => {
           return (e.name || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         }))
       },
 
-      fetchLatestStatus (items) {
+      fetchLatestStatus(items) {
         items.forEach((wrapper) => {
           this.$store.dispatch(actions.jobs.latest, wrapper.name)
             .then(() => {
@@ -122,7 +127,7 @@
               }
             })
             .catch(() => {
-          })
+            })
         })
       }
     }

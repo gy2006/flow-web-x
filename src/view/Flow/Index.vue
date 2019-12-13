@@ -78,10 +78,14 @@
 
 <script>
   import actions from '@/store/actions'
+  import Dialog from '@/components/Common/Dialog'
   import { mapState } from 'vuex'
 
   export default {
     name: 'FlowHome',
+    components: {
+      Dialog
+    },
     data () {
       return {
         dialog: false,

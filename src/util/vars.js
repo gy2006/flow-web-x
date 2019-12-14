@@ -14,9 +14,7 @@ export default {
 
   flow: {
     name: 'FLOWCI_FLOW_NAME',
-    webhook: 'FLOWCI_FLOW_WEBHOOK',
-    gitUrl: 'FLOWCI_GIT_URL',
-    gitBranch: 'FLOWCI_GIT_BRANCH'
+    webhook: 'FLOWCI_FLOW_WEBHOOK'
   },
 
   job: {
@@ -26,21 +24,22 @@ export default {
     build_number: 'FLOWCI_JOB_BUILD_NUM'
   },
 
-  credential: {
-    name: 'FLOWCI_CREDENTIAL_NAME'
-  },
-
   git: {
+    url: 'FLOWCI_GIT_URL',
+    branch: 'FLOWCI_GIT_BRANCH',
+    credential: 'FLOWCI_GIT_CREDENTIAL',
+
     source: 'FLOWCI_GIT_SOURCE',
     event: 'FLOWCI_GIT_EVENT',
     author: 'FLOWCI_GIT_AUTHOR',
-    branch: 'FLOWCI_GIT_BRANCH',
     compare_url: 'FLOWCI_GIT_COMPARE_URL',
+
     commit: {
       id: 'FLOWCI_GIT_COMMIT_ID',
       message: 'FLOWCI_GIT_COMMIT_MESSAGE',
       time: 'FLOWCI_GIT_COMMIT_TIME',
-      url: 'FLOWCI_GIT_COMMIT_URL'
+      url: 'FLOWCI_GIT_COMMIT_URL',
+      number: 'FLOWCI_GIT_COMMIT_NUM'
     },
 
     pr: {

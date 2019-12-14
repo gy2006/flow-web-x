@@ -18,7 +18,7 @@
 
     <v-row>
       <v-col cols="6">
-        <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.flow.gitUrl})` }}</span>
+        <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.git.url})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.gitUrl"
@@ -33,7 +33,7 @@
 
     <v-row>
       <v-col cols="6">
-        <span class="caption grey--text text--darken-1">{{ `Credential (${vars.credential.name})` }}</span>
+        <span class="caption grey--text text--darken-1">{{ `Credential (${vars.git.credential})` }}</span>
         <v-text-field
             class="pt-0"
             v-model="wrapper.credential"

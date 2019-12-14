@@ -38,7 +38,7 @@ export default {
   },
 
   jobs: {
-    get: 'jobs/get',
+    latest: 'jobs/latest',
     start: 'jobs/start',
     create: 'jobs/create',
     cancel: 'jobs/cancel',
@@ -46,6 +46,14 @@ export default {
     statusUpdate: 'jobs/statusUpdate',
     select: 'jobs/select',
     getYml: 'jobs/getYml',
+    reports: {
+      list: 'jobs/listReport',
+      fetch: 'jobs/fetchReport'
+    },
+    artifacts: {
+      list: 'jobs/listArtifact',
+      download: 'jobs/downloadArtifact'
+    },
     steps: {
       get: 'steps/get',
       update: 'steps/update'
@@ -53,7 +61,7 @@ export default {
     logs: {
       load: 'logs/load',
       download: 'logs/download'
-    }
+    },
   },
 
   agents: {
@@ -83,6 +91,7 @@ export default {
 
   stats: {
     list: 'stats/list',
+    total: 'stats/total',
     metaType: 'stats/metaType',
     metaTypeList: 'stats/metaTypeList'
   },

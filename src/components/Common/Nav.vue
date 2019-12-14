@@ -32,7 +32,6 @@
     computed: {
       itemsObjArray () {
         let data = []
-        const linkPrefix = '#/flows/' + this.items[0] + '/'
 
         for (let i = 0; i < this.items.length; i++) {
           const text = this.items[i]
@@ -41,7 +40,7 @@
           data.push({
             text: text,
             disabled: false,
-            href: linkPrefix + link
+            href: link
           })
         }
 

@@ -16,7 +16,10 @@ export default {
   menu: {
     signedInAs: 'Signed in as ',
     settings: 'Settings',
-    logout: 'Logout'
+    logout: 'Logout',
+    help: 'Get help',
+    issue: 'Submit issue',
+    doc: 'Document'
   },
 
   flow: {
@@ -41,6 +44,9 @@ export default {
     var_value: 'Value',
 
     stats_date_select: 'Select Statistic Date:',
+    summary_rate_text: 'Success rate',
+
+    more_template: 'More template',
 
     hint: {
       name_required: 'Flow name is required',
@@ -71,10 +77,13 @@ export default {
   job: {
     run: 'Run',
     triggerBy: 'Triggered By',
+    list_empty_message: 'Click \'RUN\' to start your first build',
+
     tab: {
       summary: 'Summary',
       context: 'Context',
-      yml: 'Yml'
+      yml: 'Yml',
+      artifacts: 'Artifacts'
     },
 
     hint: {

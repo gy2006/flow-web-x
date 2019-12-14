@@ -3,7 +3,8 @@ import http from '../http'
 const state = {
   metaType: {},
   metaTypeList: [],
-  statsList: []
+  statsList: [],
+  statsTotal: {}
 }
 
 const mutations = {
@@ -17,6 +18,10 @@ const mutations = {
 
   updateStatsData (state, list) {
     state.statsList = list
+  },
+
+  updateStatsTotal (stats, total) {
+    stats.statsTotal = total;
   }
 }
 
@@ -32,6 +37,16 @@ const actions = {
     await http.get(`flows/${name}/stats/types`, (list) => {
       commit('updateMetaTypeList', list)
     })
+  },
+
+  async total({commit}, {name, metaType}) {
+    const params = {
+      t: metaType
+    }
+
+    await http.get(`flows/${name}/stats/total`, (total) => {
+      commit('updateStatsTotal', total)
+    }, params)
   },
 
   async list({commit}, {name, metaType, from, to}) {

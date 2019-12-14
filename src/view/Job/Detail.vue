@@ -1,15 +1,6 @@
 <template>
-  <v-card class="full-size job-detail">
-    <v-card-title class="pb-1">
-      <Nav
-          :items="[flow, buildNumberText]"
-          :links="['jobs', 'jobs/' + number]"
-      ></Nav>
-    </v-card-title>
-
-    <v-divider></v-divider>
-
-    <v-row align="center" justify="start" class="ma-0 px-4 grey lighten-5">
+  <div class="job-detail">
+    <v-row align="center" justify="start" class="grey lighten-5">
       <v-col cols="2">
         <v-icon small
                 v-bind:class="[wrapper.status.class]"
@@ -18,8 +9,9 @@
         <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
       </v-col>
 
-      <v-col cols="2">
-        {{ wrapper.finishedAt }} / {{ wrapper.duration }} (ms)
+      <v-col cols="2" class="caption">
+        <div>{{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)</div>
+        <div>{{ wrapper.finishedAtInStr }}</div>
       </v-col>
 
       <v-col cols="2">
@@ -54,115 +46,137 @@
       </v-col>
     </v-row>
 
-    <div class="error-message" v-if="wrapper.errorMsg">
-      <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
-    </div>
+    <v-row>
+      <v-col class="pa-0">
+        <v-divider></v-divider>
+        <div class="error-message" v-if="wrapper.errorMsg">
+          <span class="px-5 py-1">{{ wrapper.errorMsg }}</span>
+        </div>
+      </v-col>
+    </v-row>
 
-    <v-divider></v-divider>
+    <v-row class="tab-wrapper">
+      <v-col class="pa-0">
+        <v-tabs fixed-tabs class="mt-2 full-size">
+          <v-tab href="#summary" class="ml-0 elevation-1">
+            {{ $t('job.tab.summary') }}
+          </v-tab>
+          <v-tab href="#context" class="ml-0 elevation-1">
+            {{ $t('job.tab.context') }}
+          </v-tab>
+          <v-tab href="#yml" class="ml-0 elevation-1">
+            {{ $t('job.tab.yml') }}
+          </v-tab>
+          <v-tab v-for="report in reports"
+                 :key="report.id"
+                 :href="'#' + report.name">
+            {{ report.name }}
+          </v-tab>
+          <v-tab href="#artifacts" class="ml-0 elevation-1">
+            {{ $t('job.tab.artifacts') }}
+          </v-tab>
 
-    <v-card-text class="px-0 py-1 tab-wrapper">
-      <v-tabs fixed-tabs class="mt-2 full-size">
-        <v-tab href="#summary" class="ml-0 elevation-1">
-          {{ $t('job.tab.summary') }}
-        </v-tab>
-        <v-tab href="#context" class="elevation-1">
-          {{ $t('job.tab.context') }}
-        </v-tab>
-        <v-tab href="#yml" class="elevation-1">
-          {{ $t('job.tab.yml') }}
-        </v-tab>
-
-        <v-tab-item value="summary">
-          <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"></detail-tab-summary>
-        </v-tab-item>
-        <v-tab-item value="context">
-          <detail-tab-context class="ma-2" :wrapper="wrapper"></detail-tab-context>
-        </v-tab-item>
-        <v-tab-item value="yml">
-          <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"></detail-tab-yml>
-        </v-tab-item>
-      </v-tabs>
-    </v-card-text>
-  </v-card>
+          <v-tab-item value="summary">
+            <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
+          </v-tab-item>
+          <v-tab-item value="context">
+            <detail-tab-context class="ma-2" :wrapper="wrapper"/>
+          </v-tab-item>
+          <v-tab-item value="yml">
+            <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
+          </v-tab-item>
+          <v-tab-item v-for="report in reports"
+                      :key="report.id"
+                      :value="report.name">
+            <detail-html-report :flow="flow"
+                                :buildNumber="number"
+                                :report="report"
+                                v-if="report.contentType.includes('html')"/>
+          </v-tab-item>
+          <v-tab-item value="artifacts">
+            <detail-tab-artifact :flow="flow" :buildNumber="number"/>
+          </v-tab-item>
+        </v-tabs>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
   import actions from '@/store/actions'
-  import {subscribeTopic, unsubscribeTopic} from '@/store/subscribe'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 
-  import {isJobFinished, JobWrapper} from '@/util/jobs'
-  import {icons} from '@/util/agents'
-  import {isStepFinished} from '@/util/steps'
-  import {mapState} from 'vuex'
+  import { isJobFinished, JobWrapper } from '@/util/jobs'
+  import { icons } from '@/util/agents'
+  import { isStepFinished } from '@/util/steps'
+  import { mapState } from 'vuex'
 
-  import Nav from '@/components/Common/Nav'
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
   import DetailTabContext from '@/view/Job/DetailTabContext'
   import DetailTabYml from '@/view/Job/DetailTabYml'
+  import DetailTabArtifact from '@/view/Job/DetailTabArtifact'
+
+  import DetailHtmlReport from '@/view/Job/DetailHtmlReport'
 
   export default {
     name: 'JobDetail',
-    data() {
+    data () {
       return {
         agentIcons: icons
       }
     },
     components: {
-      Nav,
       DetailTabContext,
       DetailTabSummary,
-      DetailTabYml
+      DetailTabYml,
+      DetailTabArtifact,
+      DetailHtmlReport
     },
-    mounted() {
+    mounted () {
       this.load()
     },
     computed: {
       ...mapState({
         job: state => state.jobs.selected,
+        reports: state => state.jobs.reports,
         steps: state => state.steps.items,
         stepChange: state => state.steps.change
       }),
 
-      flow() {
+      flow () {
         return this.$route.params.id
       },
 
-      number() {
+      number () {
         return this.$route.params.num
       },
 
-      buildNumberText() {
-        return 'build #' + this.$route.params.num
-      },
-
-      wrapper() {
+      wrapper () {
         return new JobWrapper(this.job)
       },
 
-      finished() {
+      finished () {
         return isJobFinished(this.job)
       }
     },
-    destroyed() {
-      this.$router.push({path: `/flows/${this.flow}/jobs`})
-
+    destroyed () {
       unsubscribeTopic.steps(this.job.id)
 
       for (let i = 0; i < this.steps.length; i++) {
-        unsubscribeTopic.logs(this.steps[i].id)
+        unsubscribeTopic.logs(this.steps[ i ].id)
       }
     },
     watch: {
-      flow() {
+      flow () {
         this.load()
       },
 
-      number() {
+      number () {
         this.load()
       },
 
       // subscribe steps change when job been loaded
-      job(newJob, oldJob) {
+      job (newJob, oldJob) {
         if (isJobFinished(newJob)) {
           return
         }
@@ -171,7 +185,7 @@
       },
 
       // subscribe logs when steps been loaded
-      steps(after, before) {
+      steps (after, before) {
         for (let step of after) {
           if (isStepFinished(step)) {
             continue
@@ -184,18 +198,20 @@
       },
 
       // update step when it has been changed
-      stepChange(after, before) {
+      stepChange (after, before) {
         this.$refs.stepLogs.updateStep(after)
       }
     },
     methods: {
-      load() {
-        this.$store.dispatch(actions.jobs.select, {flow: this.flow, buildNumber: this.number}).then()
-        this.$store.dispatch(actions.jobs.steps.get, {flow: this.flow, buildNumber: this.number}).then()
+      load () {
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.steps.get, payload).then()
+        this.$store.dispatch(actions.jobs.reports.list, payload).then()
       },
 
-      onStopClick() {
-        this.$store.dispatch(actions.jobs.cancel, {flow: this.flow, buildNumber: this.number}).then()
+      onStopClick () {
+        let payload = {flow: this.flow, buildNumber: this.number}
+        this.$store.dispatch(actions.jobs.cancel, payload).then()
       }
     }
   }
@@ -203,14 +219,16 @@
 
 <style lang="scss">
   .job-detail {
+    height: 80%;
+
     .tab-wrapper {
-      height: 80%;
+      height: 90%;
     }
 
     .tab-wrapper .v-window,
     .tab-wrapper .v-window__container,
     .tab-wrapper .v-window-item {
-      height: 95%;
+      height: 96%;
     }
   }
 </style>

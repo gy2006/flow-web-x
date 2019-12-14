@@ -7,21 +7,25 @@
     </template>
 
     <v-list nav dense>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>{{ user.email }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <v-subheader>
+        {{ user.email }}
+      </v-subheader>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-list-item @click="onSettingsClick">
+        <v-list-item-icon class="mr-3">
+          <v-icon>mdi-settings</v-icon>
+        </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ $t('menu.settings') }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list-item @click="onLogoutClick">
+        <v-list-item-icon class="mr-3">
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ $t('menu.logout') }}</v-list-item-title>
         </v-list-item-content>

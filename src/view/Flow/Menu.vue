@@ -11,10 +11,10 @@
     <v-list-item-group v-model="selected">
       <v-list-item v-for="item in items"
                    :key="item.id"
-                   :class="['ml-2', 'mr-2', item.name === current ? 'grey lighten-2' : '']"
+                   class="mx-2"
                    @click="onItemClick(item)">
         <v-list-item-action>
-          <v-icon small :class="item.iconClass">{{ item.icon }}</v-icon>
+          <v-icon small :class="item.latestJob.status.class">{{ item.latestJob.status.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-  import { FlowWrapper } from '@/util/flows'
-  import { mapState } from 'vuex'
+  import {toWrapperList} from '@/util/flows'
+  import {mapState} from 'vuex'
   import FlowCreateDialog from './CreateDialog'
   import actions from '@/store/actions'
 
@@ -42,74 +42,93 @@
     components: {
       FlowCreateDialog
     },
-    data () {
+    data() {
       return {
         searchVal: '',
         items: [],
-        selected: 0
       }
     },
-    mounted () {
+    mounted() {
       this.$store.dispatch(actions.flows.list).then()
     },
     computed: {
       ...mapState({
         flows: state => state.flows.items,
         // to receive job updated event and show latest job status on flow list
-        updatedJob: state => state.jobs.updated
+        latest: state => state.jobs.latest
       }),
 
       // current flow name
-      current () {
+      current() {
         return this.$route.params.id
+      },
+
+      selected: {
+        get () {
+          for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i]
+            if (item.name === this.current) {
+              return i
+            }
+          }
+          return 0
+        },
+
+        set (newValue) {
+
+        }
+      }
+    },
+    watch: {
+      flows(after) {
+        this.items = toWrapperList(after)
+        this.fetchLatestStatus(this.items)
+      },
+
+      latest: {
+        handler(after) {
+          for (let latestJob of after) {
+            for (let flow of this.items) {
+              if (flow.id === latestJob.flowId) {
+                flow.latestJob = latestJob
+              }
+            }
+          }
+        },
+        deep: true,
+        immediate: true
+      },
+
+      searchVal(after) {
+        this.querySelections(after)
       }
     },
     methods: {
-      onItemClick (flow) {
+      onItemClick(flow) {
         this.$router.push({path: `/flows/${flow.name}/jobs`})
       },
 
-      querySelections (v) {
-        this.items = this.toWrapperItems(this.flows.filter(e => {
+      querySelections(v) {
+        this.items = toWrapperList(this.flows.filter(e => {
           return (e.name || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         }))
       },
 
-      fetchLatestStatus (items) {
+      fetchLatestStatus(items) {
         items.forEach((wrapper) => {
-          let body = {flow: wrapper.name, buildNumberOrLatest: 'latest'}
-          this.$store.dispatch(actions.jobs.get, body).then().catch(() => {
-          })
+          this.$store.dispatch(actions.jobs.latest, wrapper.name)
+            .then(() => {
+
+              for (let latest of this.latest) {
+                if (latest.flowId === wrapper.id) {
+                  wrapper.latestJob = latest
+                  break
+                }
+              }
+            })
+            .catch(() => {
+            })
         })
-      },
-
-      toWrapperItems (flows) {
-        let list = []
-        for (let flow of flows) {
-          list.push(new FlowWrapper(flow))
-        }
-        return list
-      }
-    },
-    watch: {
-      flows (after) {
-        this.items = this.toWrapperItems(after)
-        this.fetchLatestStatus(this.items)
-      },
-
-      searchVal (after) {
-        this.querySelections(after)
-      },
-
-      updatedJob (job) {
-        for (let wrapper of this.items) {
-          if (wrapper.id !== job.flowId) {
-            continue
-          }
-
-          wrapper.job = job
-          break
-        }
       }
     }
   }

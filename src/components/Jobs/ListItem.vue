@@ -18,7 +18,7 @@
 
     <v-col cols="8">
       <!-- for push and tag -->
-      <v-row align-center v-if="wrapper.isPushTrigger || wrapper.isTagTrigger">
+      <v-row align-center v-if="wrapper.isPushTrigger || wrapper.isTagTrigger || wrapper.hasGitCommitInfo">
         <v-col cols="4">
           <v-list-item-subtitle>
             <i>{{ wrapper.branch }}</i>
@@ -28,7 +28,7 @@
         <v-flex cols="4">
           <v-list-item-subtitle>
             <a :href="wrapper.commitUrl" target="_blank">{{ wrapper.commitId }}</a>
-            <div> {{ wrapper.commitMsg }}</div>
+            <div class="commit-text"> {{ wrapper.commitMsg }}</div>
           </v-list-item-subtitle>
         </v-flex>
       </v-row>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import {JobWrapper} from '@/util/jobs'
+  import { JobWrapper } from '@/util/jobs'
 
   export default {
     props: {
@@ -81,5 +81,11 @@
 <style lang="scss" scoped>
   .job-item {
     min-height: 65px;
+  }
+
+  .commit-text {
+    max-width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 </style>

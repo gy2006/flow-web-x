@@ -2,6 +2,7 @@ import vars from '@/util/vars'
 import moment from 'moment'
 
 // status
+const STATUS_UNKNOWN = 'UNKNOWN'
 const STATUS_QUEUED = 'QUEUED'
 const STATUS_RUNNING = 'RUNNING'
 const STATUS_SUCCESS = 'SUCCESS'
@@ -45,6 +46,10 @@ export class JobWrapper {
 
   get commitUrl () {
     return this.context[ vars.git.commit.url ]
+  }
+
+  get commitNum () {
+    return this.context[ vars.git.commit.number ]
   }
 
   get fromNow () {
@@ -103,7 +108,7 @@ export class JobWrapper {
 
   get duration () {
     if (this.job.startAt && this.job.finishAt) {
-      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'milliseconds')
+      return moment(this.job.finishAt).diff(moment(this.job.startAt), 'seconds')
     }
 
     return '-'
@@ -112,6 +117,14 @@ export class JobWrapper {
   get finishedAt () {
     if (this.job.finishAt) {
       return moment(this.job.finishAt).fromNow()
+    }
+
+    return '-'
+  }
+
+  get finishedAtInStr () {
+    if (this.job.finishAt) {
+      return moment(this.job.finishAt).format('YYYY-MM-DD kk:mm:ss')
     }
 
     return '-'
@@ -181,6 +194,10 @@ export class JobWrapper {
   get isPrMergedTrigger () {
     return this.trigger === TRIGGER_PR_MERGED
   }
+
+  get isRunning () {
+    return this.status.text === STATUS_RUNNING
+  }
 }
 
 export function isJobFinished (job) {
@@ -192,45 +209,52 @@ export const mapping = {
   // job status mapping
   status: {
     default: {
-      icon: 'flow-icon-loading1',
-      class: [ 'grey--text', 'rotate' ],
-      text: ''
+      icon: 'mdi-sitemap',
+      class: [ 'grey--text' ],
+      text: STATUS_UNKNOWN,
+      bg: 'grey lighten-1'
     },
 
     [ STATUS_QUEUED ]: {
       icon: 'flow-icon-pending',
       class: 'green--text',
-      text: STATUS_QUEUED
+      text: STATUS_QUEUED,
+      bg: 'yellow'
     },
 
     [ STATUS_RUNNING ]: {
-      icon: 'flow-icon-running',
+      icon: 'mdi-settings',
       class: [ 'blue--text', 'rotate' ],
-      text: STATUS_RUNNING
+      text: STATUS_RUNNING,
+      bg: 'light-blue lighten-1'
     },
 
     [ STATUS_SUCCESS ]: {
       icon: 'flow-icon-check',
       class: 'green--text',
-      text: STATUS_SUCCESS
+      text: STATUS_SUCCESS,
+      bg: 'green'
     },
 
     [ STATUS_FAILURE ]: {
       icon: 'flow-icon-failure',
       class: 'red--text',
-      text: STATUS_FAILURE
+      text: STATUS_FAILURE,
+      bg: 'red'
     },
 
     [ STATUS_CANCELLED ]: {
       icon: 'flow-icon-stopped',
       class: 'grey--text',
-      text: STATUS_CANCELLED
+      text: STATUS_CANCELLED,
+      bg: 'blue-grey'
     },
 
     [ STATUS_TIMEOUT ]: {
       icon: 'flow-icon-timeout',
       class: 'orange--text',
-      text: STATUS_TIMEOUT
+      text: STATUS_TIMEOUT,
+      bg: 'orange'
     }
   },
 

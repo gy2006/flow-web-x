@@ -1,7 +1,9 @@
 import http from '../http'
+import { browserDownload } from '../util'
 import vars from '../../util/vars'
 
-const emptyFunc = () => {}
+const emptyFunc = () => {
+}
 
 const state = {
   name: '', // flow name
@@ -13,8 +15,11 @@ const state = {
   },
   JobsStatus: {},
   selected: {},
-  updated: {},
-  yml: ''
+  yml: '',
+  latest: [], // latest job object array
+  reports: [],
+  reportUrlPath: '',
+  artifacts: []
 }
 
 const mutations = {
@@ -38,8 +43,17 @@ const mutations = {
     state.pagination.total = page.totalElements
   },
 
-  update (state, updatedJob) {
-    state.updated = updatedJob
+  setLatest (state, job) {
+    const latestList = state.latest
+
+    for (let i = 0; i < latestList.length; i++) {
+      if (latestList[i].id === job.id) {
+        latestList.splice(i, 1, job)
+        return
+      }
+    }
+
+    latestList.push(job)
   },
 
   updateStatus (state, updatedJob) {
@@ -51,12 +65,7 @@ const mutations = {
         return
       }
 
-      // assign new status
-      job.status = updatedJob.status
-
-      // merge context
-      Object.assign(job.context, updatedJob.context)
-
+      Object.assign(job, updatedJob)
       itemIndex = index
     })
 
@@ -76,15 +85,28 @@ const mutations = {
 
   updateYml (state, yml) {
     state.yml = yml
+  },
+
+  setReports (state, reports) {
+    state.reports = reports
+  },
+
+  setReportUrlPath (state, reportUrlPath) {
+    state.reportUrlPath = reportUrlPath
+  },
+
+  setArtifacts (state, artifacts) {
+    state.artifacts = artifacts
   }
 }
 
 const actions = {
 
-  get ({commit}, {flow, buildNumberOrLatest}) {
-    const url = `jobs/${flow}/${buildNumberOrLatest}`
+  latest ({commit}, flow) {
+    const url = `jobs/${flow}/latest`
+
     return http.get(url, (job) => {
-      commit('update', job)
+      commit('setLatest', job)
     })
   },
 
@@ -102,13 +124,13 @@ const actions = {
     let inputs = {}
 
     if (branch) {
-      inputs[ vars.flow.gitBranch ] = branch
+      inputs[ vars.git.branch ] = branch
     }
 
     await http.post('jobs/run', emptyFunc, {flow, inputs})
   },
 
-  async cancel({commit}, {flow, buildNumber}) {
+  async cancel ({commit}, {flow, buildNumber}) {
     await http.post(`jobs/${flow}/${buildNumber}/cancel`, emptyFunc)
   },
 
@@ -145,14 +167,14 @@ const actions = {
    */
   statusUpdate ({commit, state}, jobWithNewStatus) {
     commit('updateStatus', jobWithNewStatus)
-    commit('update', jobWithNewStatus)
+    commit('setLatest', jobWithNewStatus)
   },
 
   /**
    * Select job by flow name and build number
    */
   select ({commit}, {flow, buildNumber}) {
-    return http.get('jobs/' + flow + '/' + buildNumber,
+    return http.get(`jobs/${flow}/${buildNumber}`,
       (job) => {
         commit('selected', job)
       }
@@ -161,6 +183,32 @@ const actions = {
 
   JobsStatus ({commit}, args) {
     commit('JobsStatus', args)
+  },
+
+  async listReport ({commit}, {flow, buildNumber}) {
+    await http.get(`jobs/${flow}/${buildNumber}/reports`, (reports) => {
+      commit('setReports', reports)
+    })
+  },
+
+  async fetchReport({commit}, {flow, buildNumber, reportId}) {
+    await http.get(`jobs/${flow}/${buildNumber}/reports/${reportId}`, (urlPath) => {
+      commit('setReportUrlPath', urlPath)
+    })
+  },
+
+  async listArtifact ({commit}, {flow, buildNumber}) {
+    await http.get(`jobs/${flow}/${buildNumber}/artifacts`, (artifacts) => {
+      commit('setArtifacts', artifacts)
+    })
+  },
+
+  downloadArtifact ({commit}, {flow, buildNumber, artifactId}) {
+    let url = `jobs/${flow}/${buildNumber}/artifacts/${artifactId}`
+    return http.get(url, (data, file) => {
+      const url = window.URL.createObjectURL(new Blob([ data ]))
+      browserDownload(url, file)
+    })
   }
 }
 

@@ -24,10 +24,12 @@
                   </v-col>
                   <v-col cols="1" v-if="n.isFinished">
                     <span class="caption">{{ n.duration }}</span>
-                    <span class="ml-1">(ms)</span>
+                    <span class="ml-1">(s)</span>
                   </v-col>
                   <v-col cols="1" v-if="n.isFinished">
-                    <v-icon small @click="onLogDownload(n.id)">flow-icon-download</v-icon>
+                    <v-btn icon x-small>
+                      <v-icon small @click="onLogDownload(n.id)">flow-icon-download</v-icon>
+                    </v-btn>
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>

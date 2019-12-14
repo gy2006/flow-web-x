@@ -63,7 +63,7 @@ export class StepWrapper {
   get duration () {
     const start = moment(this.step.startAt)
     const end = moment(this.step.finishAt)
-    return end.diff(start, 'milliseconds')
+    return end.diff(start, 'seconds')
   }
 
   get isFinished () {
@@ -91,7 +91,7 @@ export const mapping = {
   },
 
   [ STATUS_RUNNING ]: {
-    icon: 'flow-icon-running rotate blue--text',
+    icon: 'mdi-settings rotate blue--text',
     text: 'running'
   },
 

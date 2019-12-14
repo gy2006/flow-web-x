@@ -1,122 +1,46 @@
 <template>
-  <v-card class="full-size job-list">
-    <v-card-title>
-      <v-row>
-        <v-col cols="2">
-          <Nav
-              :items="[name]"
-              :links="['jobs']"
-          ></Nav>
-        </v-col>
+  <v-data-table
+      hide-default-header
+      :items="jobs"
+      :options.sync="pagination"
+      :server-items-length="total"
+      :loading="loading"
+      footer-props.items-per-page-options="[10, 25, 50]"
+  >
 
-        <v-col cols="4"></v-col>
+    <template v-slot:item="{ item }">
+      <tr>
+        <td @click="onItemClick(item)">
+          <job-list-item :job="item"></job-list-item>
+        </td>
+      </tr>
+    </template>
 
-        <v-col cols="1">
-          <v-btn
-              text
-              color="blue-grey"
-              class="white--text"
-              @click="onStatisticClick">
-            <v-icon class="mr-1">mdi-trending-up</v-icon>
-            {{ $t('flow.statistic') }}
-          </v-btn>
-        </v-col>
-
-        <v-col cols="1">
-          <v-btn
-              text
-              color="blue-grey"
-              class="white--text"
-              @click="onSettingsClick">
-            <v-icon class="mr-1">mdi-settings</v-icon>
-            {{ $t('flow.settings') }}
-          </v-btn>
-        </v-col>
-
-        <v-col cols="1">
-          <v-btn
-              text
-              color="success"
-              @click.native="onRunClick(true)">
-            <v-icon class="mr-1">mdi-play</v-icon>
-            {{ $t('job.run') }}:
-          </v-btn>
-          <Dialog :dialog="dialog"
-                  :content="$t('job.hint.missing_agent')"
-                  :confirmBtn="confirmBtn"
-                  :cancelBtn="cancelBtn"
-          ></Dialog>
-        </v-col>
-
-        <v-col cols="2">
-          <v-combobox dense
-                      outlined
-                      prepend-icon="mdi-source-branch"
-                      v-model="selectedBranch"
-                      :items="gitBranches"
-                      label="branch:">
-          </v-combobox>
-        </v-col>
-      </v-row>
-    </v-card-title>
-
-    <v-divider></v-divider>
-
-    <v-card-text class="pt-0">
-      <v-data-table
-          hide-default-header
-          :items="jobs"
-          :options.sync="pagination"
-          :server-items-length="total"
-          :loading="loading"
-          footer-props.items-per-page-options="[10, 25, 50]"
-      >
-
-        <template v-slot:item="{ item }">
-          <tr>
-            <td @click="onItemClick(item)">
-              <job-list-item :job="item"></job-list-item>
-            </td>
-          </tr>
-        </template>
-
-        <template slot="no-data">
-          <v-alert :value="true" color="white">
-            <span class="light-blue--text">Start first build</span>
-            <v-btn
-                text
-                icon
-                color="success"
-                @click.native="onRunClick">
-              <v-icon>mdi-play</v-icon>
-            </v-btn>
-          </v-alert>
-        </template>
-      </v-data-table>
-    </v-card-text>
-  </v-card>
+    <template slot="no-data">
+      <v-alert :value="true" color="white">
+        <span class="light-blue--text">{{ $t('job.list_empty_message') }}</span>
+      </v-alert>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
   import equal from 'fast-deep-equal'
-  import {mapState} from 'vuex'
-  import Nav from '@/components/Common/Nav'
-  import Dialog from '@/components/Common/Dialog'
+  import { mapState } from 'vuex'
   import JobListItem from '@/components/Jobs/ListItem'
   import actions from '@/store/actions'
-  import {subscribeTopic} from '@/store/subscribe'
+  import { subscribeTopic } from '@/store/subscribe'
 
   export default {
     name: 'JobList',
-    data() {
+    data () {
       return {
         dialog: false,
         loading: false,
         alert: false,
-        selectedBranch: null,
         pagination: {
           page: 1,
-          itemsPerPage: 10,
+          itemsPerPage: 10
         },
         confirmBtn: {
           text: 'Run',
@@ -136,28 +60,24 @@
       }
     },
     components: {
-      Nav,
-      Dialog,
       JobListItem
     },
-    mounted() {
+    mounted () {
       subscribeTopic.jobs(this.$store)
-      this.reload()
+      this.loadJobList()
     },
     computed: {
       ...mapState({
         flow: state => state.flows.selected.obj,
-        gitBranches: state => state.flows.gitBranches,
         jobs: state => state.jobs.items,
         total: state => state.jobs.pagination.total,
-        agents: state => state.agents.items
       }),
 
-      name() {
+      name () {
         return this.$route.params.id
       },
 
-      path() {
+      path () {
         return [
           {
             text: this.name,
@@ -167,49 +87,22 @@
       }
     },
     watch: {
-      name() {
-        this.reload()
+      name () {
+        this.loadJobList()
       },
 
-      pagination(newVal, oldVal) {
+      pagination (newVal, oldVal) {
         if (!equal(newVal, oldVal)) {
           this.loadJobList()
         }
       }
     },
     methods: {
-      reload() {
-        this.$store.dispatch(actions.flows.select, this.name).then()
-        this.$store.dispatch(actions.flows.gitBranches, this.name).catch(() => {
-        })
-        this.loadJobList()
-      },
-
-      onItemClick(job) {
+      onItemClick (job) {
         this.$router.push({path: `/flows/${this.name}/jobs/${job.buildNumber}`})
       },
 
-      onRunClick(check) {
-        if (check && this.agents.length === 0) {
-          this.dialog = true
-          return
-        }
-
-        this.$store.dispatch(actions.jobs.start, {
-          flow: this.name,
-          branch: this.selectedBranch
-        }).then()
-      },
-
-      onSettingsClick() {
-        this.$router.push({path: `/flows/${this.name}/settings`})
-      },
-
-      onStatisticClick() {
-        this.$router.push({path: `/flows/${this.name}/statistic`})
-      },
-
-      loadJobList() {
+      loadJobList () {
         this.loading = true
         const {page, itemsPerPage} = this.pagination
         this.$store.dispatch(actions.jobs.list, {flow: this.name, page, size: itemsPerPage})

@@ -16,7 +16,10 @@ export default {
   menu: {
     signedInAs: '当前用户 ',
     settings: '设置',
-    logout: '退出'
+    logout: '退出',
+    help: '获得帮助',
+    issue: '问题反馈',
+    doc: '文档'
   },
 
   flow: {
@@ -41,6 +44,9 @@ export default {
     var_value: '值',
 
     stats_date_select: '选择统计日期',
+    summary_rate_text: '成功率',
+
+    more_template: 'More template',
 
     hint: {
       name_required: '请输入 Flow 名称',
@@ -71,10 +77,13 @@ export default {
   job: {
     run: '开始任务',
     triggerBy: 'Triggered By',
+    list_empty_message: '点击 \'RUN\' 开始任务',
+
     tab: {
       summary: 'Summary',
       context: 'Context',
-      yml: 'Yml'
+      yml: 'Yml',
+      artifacts: 'Artifacts'
     },
     hint: {
       missing_agent: 'There is NO agents, the job will be started until agent has been created'

@@ -1,14 +1,6 @@
 import http from '../http'
+import { browserDownload } from '../util'
 import { LogWrapper } from '@/util/logs'
-
-const browserDownload = (url, file) => {
-  const link = document.createElement('a')
-  link.href = url
-  link.setAttribute('download', file)
-  document.body.appendChild(link)
-  link.click()
-  window.URL.revokeObjectURL(url)
-}
 
 const commitLog = (commit, cmdId, blob) => {
   const reader = new FileReader()
@@ -42,7 +34,7 @@ const actions = {
       return
     }
 
-    let url = 'jobs/logs/' + cmdId + '/download'
+    let url = `jobs/logs/${cmdId}/download`
     http.get(url, (data, _file) => {
       let blob = new Blob([ data ], {type: 'text/plain'})
       commitLog(commit, cmdId, blob)
@@ -51,7 +43,7 @@ const actions = {
   },
 
   download ({commit, state}, cmdId) {
-    let url = 'jobs/logs/' + cmdId + '/download'
+    let url = `jobs/logs/${cmdId}/download`
     http.get(url, (data, file) => {
       const url = window.URL.createObjectURL(new Blob([ data ]))
       browserDownload(url, file)

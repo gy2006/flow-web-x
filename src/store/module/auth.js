@@ -17,27 +17,33 @@ const state = {
   hasLogin: false
 }
 
+function decodeToken(token) {
+  try {
+    var decoded = jwtDecode(token)
+  } catch (error) {
+    return null
+  }
+
+  return {
+    email: decoded.jti,
+    role: decoded.role,
+    issueAt: moment.unix(decoded.iat),
+    expireAt: moment.unix(decoded.exp)
+  }
+}
+
 const mutations = {
   set (state, {token, refreshToken}) {
+    state.user = decodeToken(token)
     state.token = token
     state.refreshToken = refreshToken
+    state.hasLogin = true
 
     http.setTokens(token, refreshToken)
   },
 
   save (state, {token, refreshToken}) {
-    try {
-      var decoded = jwtDecode(token)
-    } catch (error) {
-      return
-    }
-
-    state.user = {
-      email: decoded.jti,
-      role: decoded.role,
-      issueAt: moment.unix(decoded.iat),
-      expireAt: moment.unix(decoded.exp)
-    }
+    state.user = decodeToken(token)
     state.token = token
     state.refreshToken = refreshToken
     state.hasLogin = true

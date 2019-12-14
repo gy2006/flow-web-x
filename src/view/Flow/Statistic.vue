@@ -1,104 +1,86 @@
 <template>
-  <v-card class="full-size flow-statistic">
-    <v-card-title>
-      <Nav
-          :items="[name, 'statistic']"
-          :links="['jobs', 'settings']"
-      ></Nav>
-    </v-card-title>
+  <div class="flow-statistic">
+    <v-banner single-line>
+      {{ $t('flow.stats_date_select') }}
 
-    <v-card-text class="pt-0 tab-wrapper">
-      <!-- header that includes data selection -->
-      <v-row>
-        <v-col cols="3">
-        </v-col>
-        <v-col cols="2" class="align-self-center title">
-          <span>{{ $t('flow.stats_date_select') }}</span>
-        </v-col>
-        <v-col cols="2">
-          <v-menu
-              v-model="fromDateMenu"
-              :close-on-content-click="false"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                  v-model="formattedFromDate"
-                  label="From Day"
-                  persistent-hint
-                  prepend-icon="mdi-calendar  "
-                  v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="formattedFromDate"
-                           no-title
-                           :min="min"
-                           :max="max"
-                           @input="fromDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-        <v-col cols="2">
-          <v-menu
-              v-model="toDateMenu"
-              :close-on-content-click="false"
-              lazy
-              transition="scale-transition"
-              offset-y
-              full-width
-              max-width="290px"
-              min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                  v-model="formattedToDate"
-                  label="To Day"
-                  persistent-hint
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="formattedToDate"
-                           no-title
-                           :min="min"
-                           :max="max"
-                           @input="toDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-        <v-col cols="2">
-          <v-btn outlined
-                 color="indigo"
-                 class="ml-4 mt-2"
-                 @click="onConfirmClicked"
-          >{{ $t('confirm') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <template v-slot:actions>
+        <!-- from date-->
+        <v-menu
+            v-model="fromDateMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="formattedFromDate"
+                label="From Day"
+                persistent-hint
+                prepend-icon="mdi-calendar  "
+                v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="formattedFromDate"
+                         no-title
+                         :min="min"
+                         :max="max"
+                         @input="fromDateMenu = false"
+          ></v-date-picker>
+        </v-menu>
 
-      <!-- chart list for every type -->
-      <v-row>
-        <v-col cols="10"
-               class="mb-4"
-               v-for="type in metaTypeList"
-               :key="type.name">
-          <div :id="type.name" class="chart"></div>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+        <!-- to date-->
+        <v-menu
+            v-model="toDateMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="formattedToDate"
+                label="To Day"
+                persistent-hint
+                prepend-icon="mdi-calendar"
+                readonly
+                v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="formattedToDate"
+                         no-title
+                         :min="min"
+                         :max="max"
+                         @input="toDateMenu = false"
+          ></v-date-picker>
+        </v-menu>
+
+        <v-btn small
+               outlined
+               color="indigo"
+               @click="onConfirmClicked"
+        >{{ $t('confirm') }}
+        </v-btn>
+      </template>
+    </v-banner>
+
+    <!-- chart list for every type -->
+    <v-row>
+      <v-col cols="10"
+             class="mb-4"
+             v-for="type in metaTypeList"
+             :key="type.name">
+        <div :id="type.name" class="chart"></div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import Nav from '@/components/Common/Nav'
   import * as echarts from 'echarts'
   import moment from 'moment'
   import { defaultChartOption } from '@/util/stats'
@@ -106,14 +88,11 @@
 
   export default {
     name: 'FlowStatistic',
-    components: {
-      Nav
-    },
     data () {
       return {
         echartsInstances: {},
-        min: this.momentToString(moment().subtract(31, 'days')),
-        max: this.momentToString(moment()),
+        min: moment().subtract(31, 'days').format('YYYY-MM-DD'),
+        max: moment().format('YYYY-MM-DD'),
         fromDate: moment().subtract(7, 'days'),
         fromDateMenu: false,
         toDate: moment(),
@@ -132,7 +111,7 @@
       ...mapState({
         flow: state => state.flows.selected.obj,
         metaTypeList: state => state.stats.metaTypeList,
-        statsList: state => state.stats.statsList
+        statsList: state => state.stats.statsList,
       }),
       name () {
         return this.$route.params.id
@@ -157,6 +136,10 @@
       }
     },
     watch: {
+      '$route' (to, from) {
+        console.log(to)
+      },
+
       flow () {
         this.load()
       },
@@ -186,14 +169,18 @@
       },
 
       load () {
-        this.$store.dispatch(actions.stats.metaTypeList, this.flow.name).then(() => {
-          for (const t of this.metaTypeList) {
-            let instance = this.echartsInstances[ t.name ]
+        // load all stats type
+        let name = this.flow.name
 
+        this.$store.dispatch(actions.stats.metaTypeList, name).then(() => {
+          for (const t of this.metaTypeList) {
+            // init echart instance
+            let instance = this.echartsInstances[ t.name ]
             if (!instance) {
               instance = this.echartsInstances[ t.name ] = echarts.init(document.getElementById(t.name))
             }
 
+            // fill in data
             this.setChartData(t, instance)
           }
         })
@@ -216,7 +203,12 @@
           const structured = this.structureData(this.statsList)
 
           // calculate percentage
-          const calculated = this.calculate({structured, fields, fromDay: this.fromDate, toDay: this.toDate})
+          const calculated = this.calculate({
+            structured,
+            fields,
+            fromDay: this.fromDate,
+            toDay: this.toDate
+          })
 
           const chartOpt = _.cloneDeep(this.defaultChartOption)
           chartOpt.title.text = metaType.desc
@@ -251,48 +243,59 @@
         return dataPerDay
       },
 
+      /**
+       * Calculate in total trend
+       * @param structured
+       * @param fields
+       * @param fromDay
+       * @param toDay
+       * @returns {{data: {}, dayList: [], fields: *}}
+       */
       calculate ({structured, fields, fromDay, toDay}) {
         let dayList = []
         let data = {} // counter key with array, {PASSED: [0.1, 0.2, 0.3], xxxx}
 
-        // create empty data
-        const empty = {counter: {}}
+        // init data
         for (const category of fields) {
-          empty.counter[ category ] = 0.0
+          data[ category ] = []
         }
+
+        let lastItem = {}
+        let lastSum = null
 
         for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
           let item = structured[ this.toIntDay(day) ]
           dayList.push(this.momentToString(day))
 
-          // no data, find previous day data
+          // apply previous ratio
           if (!item) {
-            for (let i = moment(day); i.isSameOrAfter(fromDay); i = i.subtract(1, 'd')) {
-              let previousVal = structured[ this.toIntDay(i) ]
-              if (previousVal) {
-                item = previousVal
-                break
+            for (const category of fields) {
+              const lastTotal = lastItem.total
+
+              if (lastTotal && lastTotal[ category ]) {
+                const percent = (lastTotal[ category ] / lastSum) * 100
+                data[ category ].push(percent.toFixed(2) || 0.0)
+                continue
               }
+
+              data[ category ].push(0.0)
             }
+            continue
           }
 
-          // not available anymore
-          if (!item) {
-            item = _.cloneDeep(empty)
+          let total = item.total
+          let sum = 0.0
+
+          for (const category of fields) {
+            sum += total[ category ]
           }
 
-          let sumPerDay = 0.0
-          let counter = item.counter
+          lastItem = item
+          lastSum = sum
 
-          // calculate sum
-          for (const category of Object.keys(counter)) {
-            data[ category ] = data[ category ] || []
-            sumPerDay += counter[ category ]
-          }
-
-          // calculate percentage
-          for (const category of Object.keys(counter)) {
-            const percent = (counter[ category ] / sumPerDay) * 100
+          // calculate percentage for each category
+          for (const category of fields) {
+            const percent = (total[ category ] / sum) * 100
             data[ category ].push(percent.toFixed(2) || 0.0)
           }
         }
@@ -303,11 +306,15 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .flow-statistic {
     .chart {
       width: 100%;
       min-height: 400px;
+    }
+
+    .v-banner__actions {
+      margin-right: 5% !important;
     }
   }
 </style>

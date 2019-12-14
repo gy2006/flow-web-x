@@ -1,4 +1,4 @@
-import { mapping } from './jobs'
+import { JobWrapper } from './jobs'
 import vars from './vars'
 
 export const GIT_TEST_FETCHING = 'FETCHING'
@@ -32,12 +32,19 @@ export const gitTestStatus = {
   }
 }
 
+export function toWrapperList (flows) {
+  let list = []
+  for (let flow of flows) {
+    list.push(new FlowWrapper(flow))
+  }
+  return list
+}
+
 export class FlowWrapper {
   constructor (flow) {
     this.flow = flow
-    this.statusIcon = 'mdi-cloud-question'
-    this.statusClass = ''
-    this.latestJob = undefined
+    this.latestJobWrapper = new JobWrapper({}) // JobWrapper
+    this.successPercentage = 0
     this.sshObj = {
       privateKey: '',
       publicKey: ''
@@ -75,14 +82,6 @@ export class FlowWrapper {
     return this.flow.name
   }
 
-  get icon () {
-    return this.statusIcon
-  }
-
-  get iconClass () {
-    return this.statusClass
-  }
-
   get webhook () {
     return this.flow.webhook || ''
   }
@@ -103,11 +102,11 @@ export class FlowWrapper {
   }
 
   get gitUrl () {
-    return this.fetchVars(vars.flow.gitUrl)
+    return this.fetchVars(vars.git.url)
   }
 
   get credential () {
-    return this.fetchVars(vars.credential.name)
+    return this.fetchVars(vars.git.credential)
   }
 
   get ssh () {
@@ -134,6 +133,16 @@ export class FlowWrapper {
     return this.authObj.username !== '' && this.authObj.password !== ''
   }
 
+  get latestJob () {
+    return this.latestJobWrapper
+  }
+
+  get successRate () {
+    return this.successPercentage
+  }
+
+  // set
+
   set name (name) {
     this.flow.name = name
   }
@@ -143,7 +152,7 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    this.flow.variables[ vars.flow.gitUrl ] = url
+    this.flow.variables[ vars.git.url ] = url
   }
 
   set ssh (sshObj) {
@@ -159,21 +168,14 @@ export class FlowWrapper {
       this.flow.variables = {}
     }
 
-    return this.flow.variables[ vars.credential.name ] = credentialName
+    return this.flow.variables[ vars.git.credential ] = credentialName
   }
 
-  // latest job
-  set job (latestJob) {
-    this.latestJob = latestJob
-    this.icon = mapping.status[ latestJob.status ].icon
-    this.iconClass = mapping.status[ latestJob.status ].class
+  set latestJob (jobObj) {
+    this.latestJobWrapper = new JobWrapper(jobObj)
   }
 
-  set icon (icon) {
-    this.statusIcon = icon
-  }
-
-  set iconClass (iconClass) {
-    this.statusClass = iconClass
+  set successRate (rate) {
+    this.successPercentage = rate
   }
 }

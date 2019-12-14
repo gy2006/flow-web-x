@@ -67,11 +67,13 @@
           <v-tab href="#yml" class="ml-0 elevation-1">
             {{ $t('job.tab.yml') }}
           </v-tab>
-
           <v-tab v-for="report in reports"
                  :key="report.id"
                  :href="'#' + report.name">
             {{ report.name }}
+          </v-tab>
+          <v-tab href="#artifacts" class="ml-0 elevation-1">
+            {{ $t('job.tab.artifacts') }}
           </v-tab>
 
           <v-tab-item value="summary">
@@ -83,7 +85,6 @@
           <v-tab-item value="yml">
             <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
           </v-tab-item>
-
           <v-tab-item v-for="report in reports"
                       :key="report.id"
                       :value="report.name">
@@ -91,6 +92,9 @@
                                 :buildNumber="number"
                                 :report="report"
                                 v-if="report.contentType.includes('html')"/>
+          </v-tab-item>
+          <v-tab-item value="artifacts">
+            <detail-tab-artifact :flow="flow" :buildNumber="number"/>
           </v-tab-item>
         </v-tabs>
       </v-col>
@@ -110,6 +114,7 @@
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
   import DetailTabContext from '@/view/Job/DetailTabContext'
   import DetailTabYml from '@/view/Job/DetailTabYml'
+  import DetailTabArtifact from '@/view/Job/DetailTabArtifact'
 
   import DetailHtmlReport from '@/view/Job/DetailHtmlReport'
 
@@ -124,6 +129,7 @@
       DetailTabContext,
       DetailTabSummary,
       DetailTabYml,
+      DetailTabArtifact,
       DetailHtmlReport
     },
     mounted () {

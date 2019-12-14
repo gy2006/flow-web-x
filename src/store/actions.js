@@ -50,6 +50,10 @@ export default {
       list: 'jobs/listReport',
       fetch: 'jobs/fetchReport'
     },
+    artifacts: {
+      list: 'jobs/listArtifact',
+      download: 'jobs/downloadArtifact'
+    },
     steps: {
       get: 'steps/get',
       update: 'steps/update'

@@ -18,7 +18,7 @@
     </v-row>
 
     <v-row class="full-height">
-      <v-col cols="2" class="py-1">
+      <v-col cols="3" class="py-1">
         <v-list dense>
           <v-list-item-group v-model="selected" color="primary">
             <v-list-item v-for="plugin in pluginList"

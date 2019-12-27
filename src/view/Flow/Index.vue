@@ -2,7 +2,7 @@
   <v-card class="full-size">
     <v-card-title class="py-0">
       <v-row>
-        <v-col cols="4">
+        <v-col cols="6">
           <v-breadcrumbs :items="navItems">
             <template v-slot:divider>
               <v-icon>mdi-chevron-right</v-icon>
@@ -19,11 +19,9 @@
           </v-breadcrumbs>
         </v-col>
 
-        <v-col cols="2"></v-col>
-
         <!-- flow and job actions-->
         <v-col cols="6" v-if="showFlowAction">
-          <v-toolbar elevation="0" bottom>
+          <v-toolbar flat bottom>
             <v-toolbar-items class="align-baseline">
               <v-btn
                   text

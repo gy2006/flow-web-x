@@ -279,6 +279,11 @@
           if (isPercent) {
             for (const category of fields) {
               let percent = item.total[ category ]
+
+              if (item.numOfTotal > 0) {
+                percent = percent / item.numOfTotal
+              }
+
               percent = percent.toFixed(2) || 0.0
               data[ category ].push(percent)
               lastPercent[ category ] = percent

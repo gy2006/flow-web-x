@@ -17,6 +17,7 @@
         <v-card>
           <v-card-title>
             <span class="subheading">{{ $t('flow.hint.delete_title') }}</span>
+            <span class="font-weight-black ml-1">{{ flow.name }}</span>
           </v-card-title>
           <v-card-text>
             <v-form ref="deleteFlowForm" lazy-validation>

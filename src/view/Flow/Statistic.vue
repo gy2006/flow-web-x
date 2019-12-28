@@ -68,7 +68,7 @@
 
     <!-- chart list for every type -->
     <v-row>
-      <v-col cols="10"
+      <v-col cols="12"
              class="mb-4"
              v-for="type in metaTypeList"
              :key="type.name">
@@ -206,6 +206,7 @@
           const calculated = this.calculate({
             structured,
             fields,
+            isPercent: metaType.percent,
             fromDay: this.fromDate,
             toDay: this.toDate
           })
@@ -247,21 +248,21 @@
        * Calculate in total trend
        * @param structured
        * @param fields
+       * @param isPercent
        * @param fromDay
        * @param toDay
        * @returns {{data: {}, dayList: [], fields: *}}
        */
-      calculate ({structured, fields, fromDay, toDay}) {
+      calculate ({structured, fields, isPercent, fromDay, toDay}) {
         let dayList = []
         let data = {} // counter key with array, {PASSED: [0.1, 0.2, 0.3], xxxx}
+        let lastPercent = {} // category, percent data
 
         // init data
         for (const category of fields) {
           data[ category ] = []
+          lastPercent[ category ] = 0.0
         }
-
-        let lastItem = {}
-        let lastSum = null
 
         for (let day = moment(fromDay); day.isSameOrBefore(toDay); day = day.add(1, 'd')) {
           let item = structured[ this.toIntDay(day) ]
@@ -270,33 +271,40 @@
           // apply previous ratio
           if (!item) {
             for (const category of fields) {
-              const lastTotal = lastItem.total
-
-              if (lastTotal && lastTotal[ category ]) {
-                const percent = (lastTotal[ category ] / lastSum) * 100
-                data[ category ].push(percent.toFixed(2) || 0.0)
-                continue
-              }
-
-              data[ category ].push(0.0)
+              data[ category ].push(lastPercent[category])
             }
             continue
           }
 
-          let total = item.total
-          let sum = 0.0
+          if (isPercent) {
+            for (const category of fields) {
+              let percent = item.total[ category ]
 
-          for (const category of fields) {
-            sum += total[ category ]
+              if (item.numOfTotal > 0) {
+                percent = percent / item.numOfTotal
+              }
+
+              percent = percent.toFixed(2) || 0.0
+              data[ category ].push(percent)
+              lastPercent[ category ] = percent
+            }
           }
 
-          lastItem = item
-          lastSum = sum
+          else {
+            let total = item.total
+            let sum = 0.0
 
-          // calculate percentage for each category
-          for (const category of fields) {
-            const percent = (total[ category ] / sum) * 100
-            data[ category ].push(percent.toFixed(2) || 0.0)
+            for (const category of fields) {
+              sum += total[ category ]
+            }
+
+            // calculate percentage for each category
+            for (const category of fields) {
+              let percent = (total[ category ] / sum) * 100
+              percent = percent.toFixed(2) || 0.0
+              data[ category ].push(percent)
+              lastPercent[ category ] = percent
+            }
           }
         }
 

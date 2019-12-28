@@ -2,7 +2,7 @@
   <v-row align="start" justify="start">
     <v-col v-for="flow in items"
            :key="flow.name"
-           cols="3"
+           cols="3" md="4" lg="3" sm="2"
     >
       <summary-card :wrapper="flow"/>
     </v-col>

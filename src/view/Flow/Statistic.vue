@@ -68,7 +68,7 @@
 
     <!-- chart list for every type -->
     <v-row>
-      <v-col cols="10"
+      <v-col cols="12"
              class="mb-4"
              v-for="type in metaTypeList"
              :key="type.name">

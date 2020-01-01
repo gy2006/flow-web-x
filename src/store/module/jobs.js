@@ -29,6 +29,7 @@ const mutations = {
     }
 
     state.items.unshift(job)
+    state.pagination.total += 1
   },
 
   setName (state, flow) {

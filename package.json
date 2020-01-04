@@ -1,11 +1,11 @@
 {
   "name": "flow-web-x",
-  "version": "0.19.35",
+  "version": "0.19.42",
   "description": "new version web of flow.ci",
   "author": "Yang Guo <32008001@qq.com>",
   "private": true,
   "scripts": {
-    "start": "VUE_APP_API_URL=http://localhost:8080 vue-cli-service serve --port 3000 --host localhost",
+    "start": "vue-cli-service serve --port 3000 --host localhost",
     "build": "VUE_APP_API_URL=http://replace:me vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"

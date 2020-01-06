@@ -9,7 +9,7 @@ export function flowNameRules (vue) {
 export function gitUrlRules (vue) {
   return [
     v => !!v || vue.$t('flow.hint.git_url_required'),
-    v => (/(^(http|https):\/\/)|(^git@)/g.test(v))
+    v => (/(^(http|https|ssh):\/\/)|(^git@)/g.test(v))
       || vue.$t('flow.hint.git_url_format')
   ]
 }

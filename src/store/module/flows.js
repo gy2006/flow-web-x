@@ -153,10 +153,10 @@ const actions = {
     })
   },
 
-  async createSshRsa ({commit, state}, email) {
+  async createSshRsa ({commit, state}) {
     await http.post('credentials/rsa/gen', (rsaKeyPair) => {
       commit('updateSshRsa', rsaKeyPair)
-    }, {email: email})
+    })
   },
 
   async gitTestStart ({commit}, wrapper) {

@@ -17,4 +17,4 @@ if [[ -n ${version} ]]; then
   versionTag="-t flowci/web:$version"
 fi
 
-docker build -f ./Dockerfile -t flowci/web:latest "$versionTag" .
+docker build -f ./Dockerfile -t flowci/web:latest $versionTag .

@@ -1,4 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<div>
+  <step-graphic :steps="steps"></step-graphic>
+
   <v-timeline
       align-top
       dense
@@ -43,16 +46,22 @@
       </v-row>
     </v-timeline-item>
   </v-timeline>
+
+</div>
 </template>
 
 <script>
   import actions from '@/store/actions'
   import { isStepFinished, StepWrapper } from '@/util/steps'
+  import StepGraphic from '@/components/Jobs/StepGraphic'
   import { Terminal } from 'xterm'
   import { mapState } from 'vuex'
 
   export default {
     name: 'DetailTabSummary',
+    components: {
+      StepGraphic
+    },
     data() {
       return {
         // key=id, value={xterm: object, expended: false, currentRow: 0}

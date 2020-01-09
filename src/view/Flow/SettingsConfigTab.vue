@@ -11,7 +11,7 @@
       <span class="tab-text">Plugins</span>
     </v-tab>
     <v-tab-item value="tab-yaml">
-      <edit-yaml :flow="flow" class="mt-2"></edit-yaml>
+      <edit-yaml :flow="flow" class="mt-2 editor"></edit-yaml>
     </v-tab-item>
     <v-tab-item value="tab-plugins">
       <plugins :flow="flow" :steps="steps" class="mt-2"></plugins>
@@ -50,5 +50,9 @@
   .tab-text {
     min-width: 65px;
     text-align: left;
+  }
+
+  .editor {
+    height: 700px;
   }
 </style>

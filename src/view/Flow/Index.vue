@@ -64,7 +64,7 @@
       ></Dialog>
     </v-card-title>
 
-    <v-card-text class="content pa-0">
+    <v-card-text class="px-2">
       <router-view></router-view>
     </v-card-text>
   </v-card>
@@ -182,9 +182,5 @@
 <style scoped>
 .title {
   height: 10%;
-}
-
-.content {
-  height: 90%;
 }
 </style>

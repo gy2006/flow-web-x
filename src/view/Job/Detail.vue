@@ -1,5 +1,5 @@
 <template>
-  <div class="job-detail">
+  <div>
     <v-row align="center" class="grey lighten-5 ma-0 title">
       <v-col cols="2">
         <v-icon small
@@ -214,31 +214,5 @@
 </script>
 
 <style lang="scss">
-  .job-detail {
-    height: 100%;
 
-    .title {
-      height: 15%;
-    }
-
-    .tab-wrapper {
-      height: 85%;
-
-      .v-tabs-bar {
-        height: 6%;
-      }
-
-      .v-window {
-        height: 93%;
-      }
-
-      .v-window__container {
-        height: 100%;
-      }
-
-      .v-window-item {
-        height: 99%;
-      }
-    }
-  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="job-detail">
-    <v-row align="center" justify="start" class="grey lighten-5">
+    <v-row align="center" class="grey lighten-5 ma-0 title">
       <v-col cols="2">
         <v-icon small
                 v-bind:class="[wrapper.status.class]"
@@ -46,7 +46,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row class="ma-0 info">
       <v-col class="pa-0">
         <v-divider></v-divider>
         <div class="error-message" v-if="wrapper.errorMsg">
@@ -55,50 +55,46 @@
       </v-col>
     </v-row>
 
-    <v-row class="tab-wrapper">
-      <v-col class="pa-0">
-        <v-tabs fixed-tabs class="mt-2 full-size">
-          <v-tab href="#summary" class="ml-0 elevation-1">
-            {{ $t('job.tab.summary') }}
-          </v-tab>
-          <v-tab href="#context" class="ml-0 elevation-1">
-            {{ $t('job.tab.context') }}
-          </v-tab>
-          <v-tab href="#yml" class="ml-0 elevation-1">
-            {{ $t('job.tab.yml') }}
-          </v-tab>
-          <v-tab v-for="report in reports"
-                 :key="report.id"
-                 :href="'#' + report.name">
-            {{ report.name }}
-          </v-tab>
-          <v-tab href="#artifacts" class="ml-0 elevation-1">
-            {{ $t('job.tab.artifacts') }}
-          </v-tab>
+    <v-tabs fixed-tabs class="mt-1 tab-wrapper">
+      <v-tab href="#summary" class="ml-0 elevation-1">
+        {{ $t('job.tab.summary') }}
+      </v-tab>
+      <v-tab href="#context" class="ml-0 elevation-1">
+        {{ $t('job.tab.context') }}
+      </v-tab>
+      <v-tab href="#yml" class="ml-0 elevation-1">
+        {{ $t('job.tab.yml') }}
+      </v-tab>
+      <v-tab v-for="report in reports"
+              :key="report.id"
+              :href="'#' + report.name">
+        {{ report.name }}
+      </v-tab>
+      <v-tab href="#artifacts" class="ml-0 elevation-1">
+        {{ $t('job.tab.artifacts') }}
+      </v-tab>
 
-          <v-tab-item value="summary">
-            <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
-          </v-tab-item>
-          <v-tab-item value="context">
-            <detail-tab-context class="ma-2" :wrapper="wrapper"/>
-          </v-tab-item>
-          <v-tab-item value="yml">
-            <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
-          </v-tab-item>
-          <v-tab-item v-for="report in reports"
-                      :key="report.id"
-                      :value="report.name">
-            <detail-html-report :flow="flow"
-                                :buildNumber="number"
-                                :report="report"
-                                v-if="report.contentType.includes('html')"/>
-          </v-tab-item>
-          <v-tab-item value="artifacts">
-            <detail-tab-artifact :flow="flow" :buildNumber="number"/>
-          </v-tab-item>
-        </v-tabs>
-      </v-col>
-    </v-row>
+      <v-tab-item value="summary">
+        <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
+      </v-tab-item>
+      <v-tab-item value="context">
+        <detail-tab-context class="ma-2" :wrapper="wrapper"/>
+      </v-tab-item>
+      <v-tab-item value="yml">
+        <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
+      </v-tab-item>
+      <v-tab-item v-for="report in reports"
+                  :key="report.id"
+                  :value="report.name">
+        <detail-html-report :flow="flow"
+                            :buildNumber="number"
+                            :report="report"
+                            v-if="report.contentType.includes('html')"/>
+      </v-tab-item>
+      <v-tab-item value="artifacts">
+        <detail-tab-artifact :flow="flow" :buildNumber="number"/>
+      </v-tab-item>
+    </v-tabs>
   </div>
 </template>
 
@@ -219,16 +215,30 @@
 
 <style lang="scss">
   .job-detail {
-    height: 80%;
+    height: 100%;
 
-    .tab-wrapper {
-      height: 90%;
+    .title {
+      height: 15%;
     }
 
-    .tab-wrapper .v-window,
-    .tab-wrapper .v-window__container,
-    .tab-wrapper .v-window-item {
-      height: 96%;
+    .tab-wrapper {
+      height: 85%;
+
+      .v-tabs-bar {
+        height: 6%;
+      }
+
+      .v-window {
+        height: 93%;
+      }
+
+      .v-window__container {
+        height: 100%;
+      }
+
+      .v-window-item {
+        height: 99%;
+      }
     }
   }
 </style>

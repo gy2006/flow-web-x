@@ -1,5 +1,5 @@
 <template>
-  <v-tabs left class="flow-settings">
+  <v-tabs left>
     <v-tab href="#tab-options">
       Options
     </v-tab>
@@ -69,13 +69,5 @@
 </script>
 
 <style lang="scss">
-  .flow-settings {
-    height: 80%;
 
-    .v-window,
-    .v-window__container,
-    .v-window-item {
-      height: 100%;
-    }
-  }
 </style>

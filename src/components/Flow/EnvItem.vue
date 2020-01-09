@@ -1,6 +1,6 @@
 <template>
   <v-row class="env-item">
-    <v-col cols="3">
+    <v-col cols="4">
       <v-text-field
           :label="$t('flow.var_name')"
           :readonly="!edit"
@@ -23,6 +23,7 @@
     <!--  show type while editing  -->
     <v-col cols="2" v-if="edit">
       <v-select
+          dense
           :items="types"
           :label="$t('flow.var_type')"
           v-model="obj.type"
@@ -147,10 +148,6 @@
 
 <style lang="scss">
   .env-item {
-    .col {
-      padding: 0;
-    }
-
     .v-input__control {
       min-height: 34px !important;
     }

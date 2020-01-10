@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="job-detail">
     <v-row align="center" class="grey lighten-5 ma-0 title">
       <v-col cols="2">
         <v-icon small
@@ -75,13 +75,13 @@
       </v-tab>
 
       <v-tab-item value="summary">
-        <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
+        <detail-tab-summary :steps="steps" ref="stepLogs"/>
       </v-tab-item>
       <v-tab-item value="context">
-        <detail-tab-context class="ma-2" :wrapper="wrapper"/>
+        <detail-tab-context :wrapper="wrapper"/>
       </v-tab-item>
       <v-tab-item value="yml">
-        <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
+        <detail-tab-yml :flow="flow" :buildNumber="number"/>
       </v-tab-item>
       <v-tab-item v-for="report in reports"
                   :key="report.id"
@@ -214,5 +214,30 @@
 </script>
 
 <style lang="scss">
+  .job-detail {
+    height: 100%;
+    position: relative;
+    overflow: auto;
 
+    .title {
+      height: 14%;
+    }
+
+    .tab-wrapper {
+      height: 85%;
+
+      .v-tabs-bar {
+        height: 6%;
+      }
+      .v-window {
+        height: 93%;
+      }
+      .v-window__container {
+        height: 99%;
+      }
+      .v-window-item {
+        height: 99%;
+      }
+    }
+  }
 </style>

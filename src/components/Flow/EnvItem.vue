@@ -150,6 +150,7 @@
   .env-item {
     .v-input__control {
       min-height: 34px !important;
+      max-height: 34px !important;
     }
 
     .v-input__slot {

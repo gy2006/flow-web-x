@@ -67,14 +67,12 @@
     </v-banner>
 
     <!-- chart list for every type -->
-    <v-row>
-      <v-col cols="12"
-             class="mb-4"
-             v-for="type in metaTypeList"
-             :key="type.name">
-        <div :id="type.name" class="chart"></div>
-      </v-col>
-    </v-row>
+    <div
+      class="my-3"
+      v-for="type in metaTypeList"
+      :key="type.name">
+      <div :id="type.name" class="chart"></div>
+    </div>
   </div>
 </template>
 
@@ -316,6 +314,10 @@
 
 <style lang="scss">
   .flow-statistic {
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+
     .chart {
       width: 100%;
       min-height: 400px;

@@ -1,5 +1,5 @@
 <template>
-  <v-tabs vertical class="flow-yml-settings full-size">
+  <v-tabs vertical class="flow-yml-settings">
     <v-tabs-slider></v-tabs-slider>
 
     <v-tab href="#tab-yaml">
@@ -47,6 +47,10 @@
 </script>
 
 <style scoped>
+  .flow-yml-settings {
+    width: 98%
+  }
+
   .tab-text {
     min-width: 65px;
     text-align: left;

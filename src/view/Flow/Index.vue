@@ -1,25 +1,27 @@
 <template>
   <v-card class="full-size pt-0">
     <v-card-title class="title py-0">
-      <v-breadcrumbs :items="navItems" class="pa-0">
-        <template v-slot:divider>
-          <v-icon>mdi-chevron-right</v-icon>
-        </template>
-
-        <template v-slot:item="{ item }">
-          <v-breadcrumbs-item
-              :href="item.href"
-              class="title font-weight-bold"
-          >
-            {{ item.text }}
-          </v-breadcrumbs-item>
-        </template>
-      </v-breadcrumbs>
-
-      <v-spacer></v-spacer>
-
       <v-toolbar flat bottom>
-        <v-toolbar-items class="align-baseline">
+        <v-toolbar-title>
+          <v-breadcrumbs :items="navItems" class="pa-0">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item
+                  :href="item.href"
+                  class="title font-weight-bold"
+              >
+                {{ item.text }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
+        </v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-toolbar-items class="align-baseline" v-if="showFlowAction">
           <v-btn
               text
               color="blue-grey"

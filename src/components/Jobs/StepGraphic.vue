@@ -1,9 +1,11 @@
 <template>
-  <div id="stepgraphic">placeholder</div>
+  <div id="stepgraphic"></div>
 </template>
 
 <script>
-import G6 from "@antv/g6";
+import G6 from "@antv/g6"
+import { StepWrapper } from '@/util/steps'
+import _ from 'lodash'
 
 export default {
   name: "StepGraphic",
@@ -15,76 +17,120 @@ export default {
   },
   data() {
     return {
-			startX: 100,
-			viewHeight: 300,
-			circleSize: 25,
-			lineWidth: 50,
-
-      nodes: [
-        {
-          id: "1",
-          label: "1",
-          x: 100,
-          y: 150
-        },
-        {
-          id: "2",
-          label: "2",
-          x: 200,
-          y: 150
+      graph: null,
+      points: {
+        terminal: {
+          size: 20,
+          style: {
+            fill: '#808080',
+            lineWidth: 0,
+          },
+          labelCfg: {
+            position: 'bottom',
+            offset: 14,
+            style: {
+              fontSize: 16,
+              fontWeight: 'normal'
+            }
+          }
         }
-      ],
-      edges: [
-        {
-          source: "node1",
-          target: "node2"
-        }
-      ]
+      }
     };
   },
   mounted() {
-    const graph = this.initG6();
-    graph.data({
-      nodes: this.nodes,
-      edges: this.edges
-    });
-    graph.render();
+    this.graph = this.initG6()
+  },
+  watch: {
+    steps () {
+      console.log(this.steps)
+      this.graph.data(this.buildGraphData())
+      this.graph.render();
+    }
   },
   methods: {
     initG6() {
-			const width = document.getElementById("stepgraphic").offsetWidth;
-			const height = this.viewHeight
-			const circle = this.circleSize
+      const width = document.getElementById('stepgraphic').scrollWidth;
+      const height = 150;
 
       return new G6.Graph({
         container: "stepgraphic",
         width: width,
         height: height,
         defaultNode: {
-          shape: "circle",
-          size: [circle],
-          color: "#5B8FF9",
+          shape: 'circle',
+          size: 30,
           style: {
-            fill: "#9EC9FF",
-            lineWidth: 3
+            fill: '#C6E5FF',
+            stroke: '#5B8FF9'
           },
           labelCfg: {
+            position: 'bottom',
+            offset: 10,
             style: {
-              fill: "#fff",
-              fontSize: 12
+              fontSize: 16,
+              fontWeight: 'normal'
             }
           }
         },
         defaultEdge: {
+          shape: 'polyline',
           style: {
-            stroke: "#e2e2e2"
+            radius: 5,
+            offset: 50,
+            endArrow: true,
+            lineWidth: 1,
+            stroke: '#C2C8D5'
           }
+        },
+        layout: {
+          type: 'dagre',
+          rankdir: 'LR',
+          ranksep: 20,
+          nodesep: 10
         }
       });
+    },
+
+    buildGraphData () {
+      let nodes = []
+      
+      const start = _.cloneDeep(this.points.terminal)
+      start.id = 'Start'
+      start.label = 'Start'
+      nodes.push(start)
+
+      this.steps.forEach((s, index) => {
+        const wrapper = new StepWrapper(s, index)
+        nodes.push({
+          id: wrapper.name,
+          label: wrapper.name
+        })
+      })
+
+      const end = _.cloneDeep(this.points.terminal)
+      end.id = 'End'
+      end.label = 'End'
+      nodes.push(end)
+
+      let edges = []
+
+      for (let i = 0; i < nodes.length - 1; i++) {
+        let current = nodes[i]
+        let next = nodes[i + 1]
+        edges.push({
+          source: current.id,
+          target: next.id
+        })
+      }
+
+      return {nodes, edges}
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.test {
+  background: #eeeeee3f;
+}
 </style>

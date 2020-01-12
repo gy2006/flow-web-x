@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 <div>
-  <step-graphic :steps="steps"></step-graphic>
+  <step-graphic></step-graphic>
 
   <v-timeline
       align-top

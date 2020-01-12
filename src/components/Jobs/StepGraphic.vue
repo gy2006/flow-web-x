@@ -5,16 +5,11 @@
 <script>
 import G6 from "@antv/g6"
 import { StepWrapper } from '@/util/steps'
+import { mapState } from 'vuex'
 import _ from 'lodash'
 
 export default {
   name: "StepGraphic",
-  props: {
-    steps: {
-      type: Array,
-      required: true
-    }
-  },
   data() {
     return {
       graph: null,
@@ -40,11 +35,26 @@ export default {
   mounted() {
     this.graph = this.initG6()
   },
+  computed: {
+      ...mapState({
+        steps: state => state.steps.items,
+        stepChange: state => state.steps.change
+      }),
+  },
   watch: {
     steps () {
-      console.log(this.steps)
       this.graph.data(this.buildGraphData())
-      this.graph.render();
+      this.graph.render()
+    },
+
+    stepChange (after) {
+      const node = this.graph.findById(after.id)
+      if (!node) {
+        return
+      }
+
+      const wrapper = new StepWrapper(after, 0)
+      this.graph.updateItem(node, this.getNodeConfig(wrapper))
     }
   },
   methods: {
@@ -61,7 +71,8 @@ export default {
           size: 30,
           style: {
             fill: '#C6E5FF',
-            stroke: '#5B8FF9'
+            stroke: '#5B8FF9',
+            lineWidth: 3,
           },
           labelCfg: {
             position: 'bottom',
@@ -101,10 +112,13 @@ export default {
 
       this.steps.forEach((s, index) => {
         const wrapper = new StepWrapper(s, index)
-        nodes.push({
-          id: wrapper.name,
+        const node = {
+          id: wrapper.id,
           label: wrapper.name
-        })
+        }
+
+        Object.assign(node, this.getNodeConfig(wrapper))
+        nodes.push(node)
       })
 
       const end = _.cloneDeep(this.points.terminal)
@@ -124,13 +138,26 @@ export default {
       }
 
       return {nodes, edges}
+    },
+
+    getNodeConfig (wrapper) {
+      let config = {
+        shape: 'circel',
+        style: wrapper.status.style
+      }
+
+      config.style.lineWidth = 3
+
+      if (wrapper.isRunning) {
+        config.shape = 'background-animate'
+      }
+
+      return config
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.test {
-  background: #eeeeee3f;
-}
+
 </style>

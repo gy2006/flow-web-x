@@ -66,6 +66,14 @@ export class StepWrapper {
     return end.diff(start, 'seconds')
   }
 
+  get isPending () {
+    return this.step.status === STATUS_PENDING
+  }
+
+  get isRunning () {
+    return this.step.status === STATUS_RUNNING
+  }
+
   get isFinished () {
     return isStepFinished(this.step)
   }
@@ -82,41 +90,73 @@ export function isStepFinished (step) {
 export const mapping = {
   default: {
     icon: 'flow-icon-stopped grey--text',
-    text: 'skipped'
+    text: 'skipped',
+    style: {
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9'
+    }
   },
 
   [ STATUS_PENDING ]: {
     icon: 'flow-icon-pending grey--text',
-    text: 'pending'
+    text: 'pending',
+    style: {
+      fill: '#EEEEEE',
+      stroke: '#BDBDBD'
+    }
   },
 
   [ STATUS_RUNNING ]: {
     icon: 'mdi-settings rotate blue--text',
-    text: 'running'
+    text: 'running',
+    style: {
+      fill: '#E1F5FE',
+      stroke: '#B3E5FC'
+    }
   },
 
   [ STATUS_SUCCESS ]: {
     icon: 'flow-icon-check green--text',
-    text: 'success'
+    text: 'success',
+    style: {
+      fill: '#C8E6C9',
+      stroke: '#81C784'
+    }
   },
 
   [ STATUS_SKIPPED ]: {
     icon: 'flow-icon-stopped grey--text',
-    text: 'skipped'
+    text: 'skipped',
+    style: {
+      fill: '#B0BEC5',
+      stroke: '#546E7A'
+    }
   },
 
   [ STATUS_EXCEPTION ]: {
     icon: 'flow-icon-failure red--text',
-    text: 'failure'
+    text: 'failure',
+    style: {
+      fill: '#EF9A9A',
+      stroke: '#EF5350'
+    }
   },
 
   [ STATUS_KILLED ]: {
     icon: 'flow-icon-stopped grey--text',
-    text: 'killed'
+    text: 'killed',
+    style: {
+      fill: '#B0BEC5',
+      stroke: '#546E7A'
+    }
   },
 
   [ STATUS_TIMEOUT ]: {
     icon: 'flow-icon-timeout orange--text',
-    text: 'pending'
+    text: 'pending',
+    style: {
+      fill: '#FFE0B2',
+      stroke: '#FFB74D'
+    }
   }
 }

@@ -1,13 +1,13 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 <div>
   <step-graphic></step-graphic>
+  <step-logging></step-logging>
 
-  <v-timeline
+  <!-- <v-timeline
       align-top
       dense
       class="job-summary">
 
-    <!-- logs -->
     <v-timeline-item
         small
         right
@@ -45,7 +45,7 @@
         </v-col>
       </v-row>
     </v-timeline-item>
-  </v-timeline>
+  </v-timeline> -->
 
 </div>
 </template>
@@ -54,13 +54,15 @@
   import actions from '@/store/actions'
   import { isStepFinished, StepWrapper } from '@/util/steps'
   import StepGraphic from '@/components/Jobs/StepGraphic'
+  import StepLogging from '@/components/Jobs/StepLogging'
   import { Terminal } from 'xterm'
   import { mapState } from 'vuex'
 
   export default {
     name: 'DetailTabSummary',
     components: {
-      StepGraphic
+      StepGraphic,
+      StepLogging
     },
     data() {
       return {
@@ -171,7 +173,10 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .logging {
+    width: 95%;
+  }
   .job-summary {
     .console {
       .v-expansion-panel-content__wrap {

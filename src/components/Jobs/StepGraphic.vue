@@ -36,10 +36,10 @@ export default {
     this.graph = this.initG6()
   },
   computed: {
-      ...mapState({
-        steps: state => state.steps.items,
-        stepChange: state => state.steps.change
-      }),
+    ...mapState({
+      steps: state => state.steps.items,
+      stepChange: state => state.steps.change
+    }),
   },
   watch: {
     steps () {
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     initG6() {
-      const width = document.getElementById('stepgraphic').scrollWidth;
+      const width = document.getElementById('stepgraphic').scrollWidth - 20;
       const height = 150;
 
       return new G6.Graph({

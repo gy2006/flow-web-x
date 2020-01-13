@@ -1,5 +1,6 @@
 <template>
   <v-expansion-panels 
+    class="step-logging"
     tile
     accordion 
     focusable>
@@ -11,15 +12,15 @@
          <template v-slot:default="{ open }">
             <v-row no-gutters>
               <v-col cols="2">
-                <span class="subheading font-weight-bold">{{ item.name }}</span>
+                <span class="caption">{{ item.name }}</span>
               </v-col>
-              <v-col cols="1" v-if="item.isFinished">
-                <span class="caption">{{ item.duration }}</span>
-                <span class="ml-1">(s)</span>
+              <v-col cols="1" class="caption" v-if="item.isFinished">
+                <span>{{ item.duration }}</span>
+                <span class="ml-1">s</span>
               </v-col>
               <v-col cols="1" v-if="item.isFinished">
                 <v-btn icon x-small>
-                  <v-icon small>flow-icon-download</v-icon>
+                  <v-icon x-small>flow-icon-download</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -69,6 +70,18 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss">
+  .step-logging {
+    .v-expansion-panel-header {
+      padding-top: 0;
+      padding-bottom: 0;
+      min-height: 38px;
+    }
 
+    .v-expansion-panel--active .v-expansion-panel-header {
+      padding-top: 0;
+      padding-bottom: 0;
+      min-height: 38px;
+    }
+  }
 </style>

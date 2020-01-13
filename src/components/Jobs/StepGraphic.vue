@@ -89,7 +89,7 @@ export default {
             radius: 5,
             offset: 50,
             endArrow: true,
-            lineWidth: 1,
+            lineWidth: 2,
             stroke: '#C2C8D5'
           }
         },

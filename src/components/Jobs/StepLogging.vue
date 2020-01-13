@@ -9,22 +9,26 @@
       :key="i"
     >
       <v-expansion-panel-header>
-         <template v-slot:default="{ open }">
-            <v-row no-gutters>
-              <v-col cols="2">
-                <span class="caption">{{ item.name }}</span>
-              </v-col>
-              <v-col cols="1" class="caption" v-if="item.isFinished">
-                <span>{{ item.duration }}</span>
-                <span class="ml-1">s</span>
-              </v-col>
-              <v-col cols="1" v-if="item.isFinished">
-                <v-btn icon x-small>
-                  <v-icon x-small>flow-icon-download</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-         </template>
+        <template v-slot:default="{ open }">
+          <div class="status" :style="{backgroundColor: item.status.config.style.fill}"></div>
+
+          <v-row no-gutters class="ml-4">
+            <v-col cols="2">
+              <v-icon small>mdi-chevron-right</v-icon>
+              <span class="caption ml-2">{{ item.name }}</span>
+            </v-col>
+            <v-col cols="9">
+            </v-col>
+            <v-col cols="1" class="caption" v-if="item.isFinished">
+              <v-btn icon x-small>
+                <v-icon x-small>flow-icon-download</v-icon>
+              </v-btn>
+              
+              <span class="ml-2">{{ item.duration }}</span>
+              <span class="ml-1">s</span>
+            </v-col>
+          </v-row>
+        </template>
       </v-expansion-panel-header>
 
       <v-expansion-panel-content>
@@ -43,6 +47,7 @@ export default {
   name: 'StepLogging',
   data () {
     return {
+      color: 'blue',
       items: []
     }
   },
@@ -72,16 +77,32 @@ export default {
 
 <style lang="scss">
   .step-logging {
+    .status {
+      position: absolute;
+      min-width: 10px;
+      max-width: 20px;
+      top: 0;
+      bottom: 0;
+    }
+
     .v-expansion-panel-header {
       padding-top: 0;
       padding-bottom: 0;
+      padding-left: 1px;
+      padding-right: 1px;
       min-height: 38px;
     }
 
     .v-expansion-panel--active .v-expansion-panel-header {
       padding-top: 0;
       padding-bottom: 0;
+      padding-left: 1px;
+      padding-right: 1px;
       min-height: 38px;
+    }
+
+    .v-expansion-panel-header__icon {
+      display: none;
     }
   }
 </style>

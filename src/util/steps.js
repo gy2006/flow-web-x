@@ -161,7 +161,8 @@ export const mapping = {
     config: {
       style: {
         fill: '#B0BEC5',
-        stroke: '#FFFFFF'
+        stroke: '#FFFFFF',
+        lineWidth: 3,
       }
     }
   },

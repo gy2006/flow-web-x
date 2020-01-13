@@ -1,45 +1,47 @@
 <template>
-  <v-expansion-panels
-    v-model="panels"
-    class="step-logging"
-    tile
-    multiple
-    accordion 
-    focusable>
-    <v-expansion-panel
+  <div class="step-logging">
+    <div 
+      class="root"
       v-for="(item, i) in items"
       :key="i"
-    >
-      <v-expansion-panel-header>
-        <template v-slot:default="{ open }">
-          <div class="status" :style="{backgroundColor: item.status.config.style.fill}"></div>
+      @click="onPanelClick(item)">
 
-          <v-row no-gutters class="ml-4">
-            <v-col cols="2">
-              <v-icon small>mdi-chevron-right</v-icon>
-              <span class="caption ml-2">{{ item.name }}</span>
-            </v-col>
-            <v-col cols="9">
-            </v-col>
-            <v-col cols="1" class="caption" v-if="item.isFinished">
-              <v-btn icon x-small @click="onLogDownload(item.id)">
-                <v-icon x-small>flow-icon-download</v-icon>
-              </v-btn>
-              
-              <span class="ml-2">{{ item.duration }}</span>
-              <span class="ml-1">s</span>
-            </v-col>
-          </v-row>
-        </template>
-      </v-expansion-panel-header>
+      <v-expansion-panels
+        tile
+        multiple
+        accordion 
+        focusable>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <template v-slot:default="{ open }">
+              <div class="status" :style="{backgroundColor: item.status.config.style.fill}"></div>
 
-      <v-expansion-panel-content>
-        <div :id="`${item.id}-terminal`" class="terminal"></div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+              <v-row no-gutters class="ml-4">
+                <v-col cols="2">
+                  <v-icon small>mdi-chevron-right</v-icon>
+                  <span class="caption ml-2">{{ item.name }}</span>
+                </v-col>
+                <v-col cols="9">
+                </v-col>
+                <v-col cols="1" class="caption" v-if="item.isFinished">
+                  <v-btn icon x-small @click="onLogDownload(item.id)">
+                    <v-icon x-small>flow-icon-download</v-icon>
+                  </v-btn>
+                  
+                  <span class="ml-2">{{ item.duration }}</span>
+                  <span class="ml-1">s</span>
+                </v-col>
+              </v-row>
+            </template>
+          </v-expansion-panel-header>
 
-    <div id="test" style="width:400px; height:400px;"></div>
-  </v-expansion-panels>
+          <v-expansion-panel-content>
+            <div :id="`${item.id}-terminal`" class="terminal"></div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -53,7 +55,6 @@ export default {
   data () {
     return {
       items: [],
-      panels: [],
       terminals: {}
     }
   },
@@ -81,60 +82,45 @@ export default {
     },
 
     logs(after, before) {
-      // for (let logWrapper of after) {
-      //     const stepId = logWrapper.id
-      //     const terminal = this.terminalsMapCache[stepId]
+      for (let logWrapper of after) {
+        const stepId = logWrapper.id
+        const terminal = this.terminals[stepId]
 
-      //     if (!terminal) {
-      //       return
-      //     }
-
-      //     terminal.writeln(logWrapper.log)
-      //     console.log(logWrapper.log)
-      // }
-    },
-
-    panels (after, before) {
-      console.log(after)
-
-      for (let index of after) {
-        let wrapper = this.items[index]
-        let t = this.terminals[wrapper.id]
-
-        if (!t) {
-          t = new Terminal({
-            fontSize: 12,
-            disableStdin: true,
-            rendererType: 'dom',
-            theme: {
-              background: '#333333',
-              foreground: '#f5f5f5'
-            }
-          })
-          this.terminals[wrapper.id] = t
-
-          // t.open(document.getElementById("test"))
-          t.open(document.getElementById(`${wrapper.id}-terminal`))
-
-          // load logs from server
-          if (wrapper.isFinished) {
-            this.$store.dispatch(actions.jobs.logs.load, wrapper.id).then()
-          }
+        if (!terminal) {
+          return
         }
 
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
-          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+        terminal.writeln(logWrapper.log)
       }
     }
   },
   methods: {
     onLogDownload(stepId) {
       this.$store.dispatch(actions.jobs.logs.download, stepId).then()
+    },
+
+    onPanelClick(wrapper) {
+      let t = this.terminals[wrapper.id]
+
+      if (!t) {
+        t = this.terminals[wrapper.id] = new Terminal({
+          fontSize: 12,
+          disableStdin: true,
+          rows: 30,
+          lineHeight: 1.2,
+          theme: {
+            background: '#333333',
+            foreground: '#f5f5f5'
+          }
+        })
+
+        t.open(document.getElementById(`${wrapper.id}-terminal`))
+
+        // load logs from server
+        if (wrapper.isFinished) {
+          this.$store.dispatch(actions.jobs.logs.load, wrapper.id).then()
+        }
+      }
     }
   }
 }
@@ -151,7 +137,11 @@ export default {
     }
 
     .terminal {
-      height: 400px;
+      height: 450px;
+    }
+
+    .v-expansion-panels {
+      border-radius: 0;
     }
 
     .v-expansion-panel-header {

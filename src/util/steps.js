@@ -103,6 +103,7 @@ export const mapping = {
     icon: 'flow-icon-pending grey--text',
     text: 'pending',
     config: {
+      shape: 'circle',
       style: {
         fill: '#FFFFFF',
         stroke: '#757575'
@@ -126,6 +127,7 @@ export const mapping = {
     icon: 'flow-icon-check green--text',
     text: 'success',
     config: {
+      shape: 'circle',
       style: {
         fill: '#9CCC65',
         stroke: '#FFFFFF'
@@ -136,7 +138,9 @@ export const mapping = {
   [ STATUS_SKIPPED ]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped',
+    shape: 'circle',
     config: {
+      shape: 'circle',
       style: {
         fill: '#B0BEC5',
         stroke: '#FFFFFF'
@@ -147,7 +151,9 @@ export const mapping = {
   [ STATUS_EXCEPTION ]: {
     icon: 'flow-icon-failure red--text',
     text: 'failure',
+    shape: 'circle',
     config: {
+      shape: 'circle',
       style: {
         fill: '#E53935',
         stroke: '#FFFFFF'
@@ -159,6 +165,7 @@ export const mapping = {
     icon: 'flow-icon-stopped grey--text',
     text: 'killed',
     config: {
+      shape: 'circle',
       style: {
         fill: '#B0BEC5',
         stroke: '#FFFFFF',
@@ -170,6 +177,7 @@ export const mapping = {
   [ STATUS_TIMEOUT ]: {
     icon: 'flow-icon-timeout orange--text',
     text: 'pending',
+    shape: 'circle',
     config: {
       style: {
         fill: '#FFE0B2',

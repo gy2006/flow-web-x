@@ -75,7 +75,7 @@
       </v-tab>
 
       <v-tab-item value="summary">
-        <detail-tab-summary :steps="steps" ref="stepLogs"/>
+        <detail-tab-summary/>
       </v-tab-item>
       <v-tab-item value="context">
         <detail-tab-context :wrapper="wrapper"/>
@@ -104,7 +104,6 @@
 
   import { isJobFinished, JobWrapper } from '@/util/jobs'
   import { icons } from '@/util/agents'
-  import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
@@ -136,7 +135,6 @@
         job: state => state.jobs.selected,
         reports: state => state.jobs.reports,
         steps: state => state.steps.items,
-        stepChange: state => state.steps.change
       }),
 
       flow () {
@@ -158,9 +156,9 @@
     destroyed () {
       unsubscribeTopic.steps(this.job.id)
 
-      for (let i = 0; i < this.steps.length; i++) {
-        unsubscribeTopic.logs(this.steps[ i ].id)
-      }
+      // for (let i = 0; i < this.steps.length; i++) {
+      //   unsubscribeTopic.logs(this.steps[ i ].id)
+      // }
     },
     watch: {
       flow () {
@@ -181,22 +179,17 @@
       },
 
       // subscribe logs when steps been loaded
-      steps (after, before) {
-        for (let step of after) {
-          if (isStepFinished(step)) {
-            continue
-          }
+      // steps (after, before) {
+      //   for (let step of after) {
+      //     if (isStepFinished(step)) {
+      //       continue
+      //     }
 
-          subscribeTopic.logs(step.id, (wrapper) => {
-            this.$refs.stepLogs.addLog(wrapper)
-          })
-        }
-      },
-
-      // update step when it has been changed
-      stepChange (after, before) {
-        this.$refs.stepLogs.updateStep(after)
-      }
+      //     subscribeTopic.logs(step.id, (wrapper) => {
+      //       this.$refs.stepLogs.addLog(wrapper)
+      //     })
+      //   }
+      // },
     },
     methods: {
       load () {

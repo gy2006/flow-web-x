@@ -1,7 +1,9 @@
 <template>
-  <v-expansion-panels 
+  <v-expansion-panels
+    v-model="panels"
     class="step-logging"
     tile
+    multiple
     accordion 
     focusable>
     <v-expansion-panel
@@ -20,7 +22,7 @@
             <v-col cols="9">
             </v-col>
             <v-col cols="1" class="caption" v-if="item.isFinished">
-              <v-btn icon x-small>
+              <v-btn icon x-small @click="onLogDownload(item.id)">
                 <v-icon x-small>flow-icon-download</v-icon>
               </v-btn>
               
@@ -32,13 +34,16 @@
       </v-expansion-panel-header>
 
       <v-expansion-panel-content>
-        <div :id="item.id + `-console`"></div>
+        <div :id="`${item.id}-terminal`" class="terminal"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
+
+    <div id="test" style="width:400px; height:400px;"></div>
   </v-expansion-panels>
 </template>
 
 <script>
+import actions from '@/store/actions'
 import { StepWrapper } from '@/util/steps'
 import { Terminal } from 'xterm'
 import { mapState } from 'vuex'
@@ -47,31 +52,91 @@ export default {
   name: 'StepLogging',
   data () {
     return {
-      color: 'blue',
-      items: []
+      items: [],
+      panels: [],
+      terminals: {}
     }
   },
   computed: {
     ...mapState({
       steps: state => state.steps.items,
-      stepChange: state => state.steps.change
+      stepChange: state => state.steps.change,
+      logs: state => state.logs.items
     }),
   },
 
   watch: {
     steps (after) {
       this.items.length = 0
+      this.terminals = {}
 
       after.forEach((s, index) => {
-        const stepWrapper = new StepWrapper(s, index)
-        this.items.push(stepWrapper)
+        const wrapper = new StepWrapper(s, index)
+        this.items.push(wrapper)
       })
     },
 
     stepChange (after) {
     
+    },
+
+    logs(after, before) {
+      // for (let logWrapper of after) {
+      //     const stepId = logWrapper.id
+      //     const terminal = this.terminalsMapCache[stepId]
+
+      //     if (!terminal) {
+      //       return
+      //     }
+
+      //     terminal.writeln(logWrapper.log)
+      //     console.log(logWrapper.log)
+      // }
+    },
+
+    panels (after, before) {
+      console.log(after)
+
+      for (let index of after) {
+        let wrapper = this.items[index]
+        let t = this.terminals[wrapper.id]
+
+        if (!t) {
+          t = new Terminal({
+            fontSize: 12,
+            disableStdin: true,
+            rendererType: 'dom',
+            theme: {
+              background: '#333333',
+              foreground: '#f5f5f5'
+            }
+          })
+          this.terminals[wrapper.id] = t
+
+          // t.open(document.getElementById("test"))
+          t.open(document.getElementById(`${wrapper.id}-terminal`))
+
+          // load logs from server
+          if (wrapper.isFinished) {
+            this.$store.dispatch(actions.jobs.logs.load, wrapper.id).then()
+          }
+        }
+
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+          t.writeln('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+      }
     }
   },
+  methods: {
+    onLogDownload(stepId) {
+      this.$store.dispatch(actions.jobs.logs.download, stepId).then()
+    }
+  }
 }
 </script>
 
@@ -85,24 +150,35 @@ export default {
       bottom: 0;
     }
 
+    .terminal {
+      height: 400px;
+    }
+
     .v-expansion-panel-header {
       padding-top: 0;
       padding-bottom: 0;
       padding-left: 1px;
-      padding-right: 1px;
+      padding-right: 3px;
       min-height: 38px;
     }
 
-    .v-expansion-panel--active .v-expansion-panel-header {
+    .v-expansion-panel--active 
+    .v-expansion-panel-header {
       padding-top: 0;
       padding-bottom: 0;
       padding-left: 1px;
-      padding-right: 1px;
+      padding-right: 3px;
       min-height: 38px;
     }
 
     .v-expansion-panel-header__icon {
       display: none;
+    }
+
+    .v-expansion-panel-content__wrap {
+      padding-left: 1px;
+      padding-bottom: 0;
+      padding-right: 0;
     }
   }
 </style>

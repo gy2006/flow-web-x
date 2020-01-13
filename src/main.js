@@ -18,12 +18,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'babel-polyfill'
 import './assets/styles/style.scss'
 
-import 'xterm/dist/xterm.css'
-import { Terminal } from 'xterm'
-import * as fit from 'xterm/lib/addons/fit/fit'
+import 'xterm/css/xterm.css'
 import G6 from "@antv/g6"
-
-Terminal.applyAddon(fit)
 
 Vue.config.productionTip = false
 VueClipboard.config.autoSetContainer = true

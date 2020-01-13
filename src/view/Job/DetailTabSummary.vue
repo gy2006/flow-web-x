@@ -2,51 +2,6 @@
 <div>
   <step-graphic></step-graphic>
   <step-logging></step-logging>
-
-  <!-- <v-timeline
-      align-top
-      dense
-      class="job-summary">
-
-    <v-timeline-item
-        small
-        right
-        v-for="(n, i) in items"
-        :key="n.id"
-        color=""
-        :icon="n.status.icon"
-    >
-      <v-row class="console">
-        <v-col @click="onExpand(i)">
-          <v-expansion-panels>
-            <v-expansion-panel>
-              <v-expansion-panel-header class="pa-1">
-                <v-row>
-                  <v-col cols="2">
-                    <span class="subheading font-weight-bold">{{ n.name }}</span>
-                  </v-col>
-                  <v-col cols="1" v-if="n.isFinished">
-                    <span class="caption">{{ n.duration }}</span>
-                    <span class="ml-1">(s)</span>
-                  </v-col>
-                  <v-col cols="1" v-if="n.isFinished">
-                    <v-btn icon x-small>
-                      <v-icon small @click="onLogDownload(n.id)">flow-icon-download</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="pa-1">
-                <div :id="n.id + `-console`"></div>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-
-        </v-col>
-      </v-row>
-    </v-timeline-item>
-  </v-timeline> -->
-
 </div>
 </template>
 
@@ -56,7 +11,6 @@
   import StepGraphic from '@/components/Jobs/StepGraphic'
   import StepLogging from '@/components/Jobs/StepLogging'
   import { Terminal } from 'xterm'
-  import { mapState } from 'vuex'
 
   export default {
     name: 'DetailTabSummary',
@@ -74,31 +28,6 @@
       steps: {
         required: true,
         type: Array
-      }
-    },
-    computed: {
-      ...mapState({
-        logs: state => state.logs.items
-      }),
-
-      items() {
-        const wrapperList = []
-
-        this.steps.forEach((s, index) => {
-          const stepWrapper = new StepWrapper(s, index)
-          wrapperList.push(stepWrapper)
-        })
-
-        this.resetConfig(wrapperList)
-
-        return wrapperList
-      }
-    },
-    watch: {
-      logs(after, before) {
-        after.forEach((logWrapper) => {
-          this.addLog(logWrapper)
-        })
       }
     },
     methods: {
@@ -138,10 +67,6 @@
             this.$store.dispatch(actions.jobs.logs.load, stepId).then()
           }
         }
-      },
-
-      onLogDownload(stepId) {
-        this.$store.dispatch(actions.jobs.logs.download, stepId).then()
       },
 
       onTermScroll(stepId, e) {

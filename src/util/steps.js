@@ -91,72 +91,89 @@ export const mapping = {
   default: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped',
-    style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9'
+    config: {
+      style: {
+        fill: '#C6E5FF',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_PENDING ]: {
     icon: 'flow-icon-pending grey--text',
     text: 'pending',
-    style: {
-      fill: '#EEEEEE',
-      stroke: '#BDBDBD'
+    config: {
+      style: {
+        fill: '#FFFFFF',
+        stroke: '#757575'
+      }
     }
   },
 
   [ STATUS_RUNNING ]: {
     icon: 'mdi-settings rotate blue--text',
     text: 'running',
-    style: {
-      fill: '#E1F5FE',
-      stroke: '#B3E5FC'
+    config: {
+      shape: 'background-animate',
+      style: {
+        fill: '#E1F5FE',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_SUCCESS ]: {
     icon: 'flow-icon-check green--text',
     text: 'success',
-    style: {
-      fill: '#C8E6C9',
-      stroke: '#81C784'
+    config: {
+      style: {
+        fill: '#9CCC65',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_SKIPPED ]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'skipped',
-    style: {
-      fill: '#B0BEC5',
-      stroke: '#546E7A'
+    config: {
+      style: {
+        fill: '#B0BEC5',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_EXCEPTION ]: {
     icon: 'flow-icon-failure red--text',
     text: 'failure',
-    style: {
-      fill: '#EF9A9A',
-      stroke: '#EF5350'
+    config: {
+      style: {
+        fill: '#E53935',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_KILLED ]: {
     icon: 'flow-icon-stopped grey--text',
     text: 'killed',
-    style: {
-      fill: '#B0BEC5',
-      stroke: '#546E7A'
+    config: {
+      style: {
+        fill: '#B0BEC5',
+        stroke: '#FFFFFF'
+      }
     }
   },
 
   [ STATUS_TIMEOUT ]: {
     icon: 'flow-icon-timeout orange--text',
     text: 'pending',
-    style: {
-      fill: '#FFE0B2',
-      stroke: '#FFB74D'
+    config: {
+      style: {
+        fill: '#FFE0B2',
+        stroke: '#FFFFFF'
+      }
     }
   }
 }

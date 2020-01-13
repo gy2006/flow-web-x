@@ -15,7 +15,7 @@ export default {
       graph: null,
       points: {
         terminal: {
-          size: 20,
+          size: 15,
           style: {
             fill: '#808080',
             lineWidth: 0,
@@ -54,7 +54,7 @@ export default {
       }
 
       const wrapper = new StepWrapper(after, 0)
-      this.graph.updateItem(node, this.getNodeConfig(wrapper))
+      this.graph.updateItem(node, wrapper.status.config)
     }
   },
   methods: {
@@ -68,10 +68,10 @@ export default {
         height: height,
         defaultNode: {
           shape: 'circle',
-          size: 30,
+          size: 20,
           style: {
             fill: '#C6E5FF',
-            stroke: '#5B8FF9',
+            stroke: '#FFFFFF',
             lineWidth: 3,
           },
           labelCfg: {
@@ -117,7 +117,7 @@ export default {
           label: wrapper.name
         }
 
-        Object.assign(node, this.getNodeConfig(wrapper))
+        Object.assign(node, wrapper.status.config)
         nodes.push(node)
       })
 
@@ -138,21 +138,6 @@ export default {
       }
 
       return {nodes, edges}
-    },
-
-    getNodeConfig (wrapper) {
-      let config = {
-        shape: 'circel',
-        style: wrapper.status.style
-      }
-
-      config.style.lineWidth = 3
-
-      if (wrapper.isRunning) {
-        config.shape = 'background-animate'
-      }
-
-      return config
     }
   }
 };

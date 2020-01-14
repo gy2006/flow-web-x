@@ -26,13 +26,6 @@
         <span class="ml-2 body-2">{{ wrapper.agentInfo.name }}</span>
       </v-col>
 
-      <!-- <v-col class="caption" cols="3">
-        <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
-        <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
-        </div>
-        <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
-      </v-col> -->
-
       <v-col class="body-2" cols="3">
         <div class="pb-2">{{ $t('job.triggerBy') }}</div>
         <div>

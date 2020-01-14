@@ -4,7 +4,7 @@
             :key="key"
             class="mb-2 elevation-1">
       <v-card-title class="pb-1" v-if="value.show">
-        {{ value.name }}
+        <span class="body-2 font-weight-medium">{{ value.name }}</span>
       </v-card-title>
 
       <v-card-text class="pt-0" v-if="value.show">
@@ -16,11 +16,11 @@
           <template v-slot:item="{ item }">
             <tr>
               <td>
-                <v-row>
-                  <v-col cols="3">
-                    {{ item.key }}
+                <v-row no-gutters>
+                  <v-col cols="3" class="caption">
+                    <span>{{ item.key }}</span>
                   </v-col>
-                  <v-col>
+                  <v-col class="caption">
                     <a v-if="item.link" :href="item.link" target="_blank">{{ item.value }}</a>
                     <span v-if="!item.link">{{ item.value }}</span>
                   </v-col>
@@ -50,6 +50,12 @@
     computed: {
       contextData () {
         return {
+          agent: {
+            name: 'Agent Detail',
+            show: true,
+            data: this.getAgentData()
+          },
+
           push: {
             name: 'Git Push Info',
             show: this.wrapper.isPushTrigger || this.wrapper.hasGitCommitInfo,
@@ -77,6 +83,23 @@
       }
     },
     methods: {
+      getAgentData () {
+        return [
+          {
+            key: 'CPU',
+            value: `${this.wrapper.agentInfo.cpu} cores`
+          },
+          {
+            key: 'Memory',
+            value: `${this.wrapper.agentInfo.freeMemory} MB (free)/ ${this.wrapper.agentInfo.totalMemory} MB`
+          },
+          {
+            key: 'Disk',
+            value: `${this.wrapper.agentInfo.freeDisk} MB (free)/ ${this.wrapper.agentInfo.totalDisk} MB`
+          }
+        ]
+      },
+
       getPushData () {
         return [
           {

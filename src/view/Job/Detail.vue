@@ -1,33 +1,40 @@
 <template>
   <div class="job-detail">
-    <v-row align="center" class="grey lighten-5 ma-0 title">
-      <v-col cols="2">
-        <v-icon small
-                v-bind:class="[wrapper.status.class]"
-        >{{ wrapper.status.icon }}
-        </v-icon>
-        <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
+    <v-row align="center" class="grey lighten-5 ma-0 title" no-gutters>
+      <v-col cols="2" class="pl-2">
+        <span v-bind:class="[wrapper.status.class, 'body-2', 'font-weight-medium']">
+          <v-icon small v-bind:class="[wrapper.status.class]">
+            {{ wrapper.status.icon }}
+          </v-icon>
+          {{ wrapper.status.text }}
+        </span>
       </v-col>
 
-      <v-col cols="2" class="caption">
-        <div>{{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)</div>
-        <div>{{ wrapper.finishedAtInStr }}</div>
+      <v-col cols="3" class="body-2">
+        <div class="pb-2">
+          <v-icon small>mdi-clock-outline</v-icon>
+          {{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)
+        </div>
+        <div>
+          <v-icon small>mdi-timer</v-icon>
+          {{ wrapper.finishedAtInStr }}
+        </div>
       </v-col>
 
-      <v-col cols="2">
+      <v-col cols="3">
         <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
-        <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
+        <span class="ml-2 body-2">{{ wrapper.agentInfo.name }}</span>
       </v-col>
 
-      <v-col class="caption" cols="3">
+      <!-- <v-col class="caption" cols="3">
         <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
         <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
         </div>
         <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
-      </v-col>
+      </v-col> -->
 
-      <v-col class="caption" cols="2">
-        <div>{{ $t('job.triggerBy') }}</div>
+      <v-col class="body-2" cols="3">
+        <div class="pb-2">{{ $t('job.triggerBy') }}</div>
         <div>
           <span>{{ wrapper.triggerBy }}</span>
           <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>

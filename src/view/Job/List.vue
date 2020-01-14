@@ -18,8 +18,8 @@
     </template>
 
     <template slot="no-data">
-      <v-alert :value="true" color="white">
-        <span class="light-blue--text">{{ $t('job.list_empty_message') }}</span>
+      <v-alert :value="true">
+        <span class="caption">{{ $t('job.list_empty_message') }}</span>
       </v-alert>
     </template>
   </v-data-table>

@@ -1,5 +1,5 @@
 <template>
-  <v-tabs vertical class="flow-yml-settings full-size">
+  <v-tabs vertical class="flow-yml-settings">
     <v-tabs-slider></v-tabs-slider>
 
     <v-tab href="#tab-yaml">
@@ -11,7 +11,7 @@
       <span class="tab-text">Plugins</span>
     </v-tab>
     <v-tab-item value="tab-yaml">
-      <edit-yaml :flow="flow" class="mt-2"></edit-yaml>
+      <edit-yaml :flow="flow" class="mt-2 editor"></edit-yaml>
     </v-tab-item>
     <v-tab-item value="tab-plugins">
       <plugins :flow="flow" :steps="steps" class="mt-2"></plugins>
@@ -47,8 +47,16 @@
 </script>
 
 <style scoped>
+  .flow-yml-settings {
+    width: 98%
+  }
+
   .tab-text {
     min-width: 65px;
     text-align: left;
+  }
+
+  .editor {
+    height: 700px;
   }
 </style>

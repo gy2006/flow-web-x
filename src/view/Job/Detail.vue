@@ -1,33 +1,33 @@
 <template>
   <div class="job-detail">
-    <v-row align="center" justify="start" class="grey lighten-5">
-      <v-col cols="2">
-        <v-icon small
-                v-bind:class="[wrapper.status.class]"
-        >{{ wrapper.status.icon }}
-        </v-icon>
-        <span v-bind:class="[wrapper.status.class, 'ml-2']">{{ wrapper.status.text }}</span>
+    <v-row align="center" class="grey lighten-5 ma-0 title" no-gutters>
+      <v-col cols="2" class="pl-2">
+        <span v-bind:class="[wrapper.status.class, 'body-2', 'font-weight-medium']">
+          <v-icon small v-bind:class="[wrapper.status.class]">
+            {{ wrapper.status.icon }}
+          </v-icon>
+          {{ wrapper.status.text }}
+        </span>
       </v-col>
 
-      <v-col cols="2" class="caption">
-        <div>{{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)</div>
-        <div>{{ wrapper.finishedAtInStr }}</div>
-      </v-col>
-
-      <v-col cols="2">
-        <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
-        <span class="ml-2">{{ wrapper.agentInfo.name }}</span>
-      </v-col>
-
-      <v-col class="caption" cols="3">
-        <div>CPU: {{ wrapper.agentInfo.cpu }} core</div>
-        <div>Memory: {{ wrapper.agentInfo.freeMemory }} MB (free)/ {{ wrapper.agentInfo.totalMemory }} MB (total)
+      <v-col cols="3" class="body-2">
+        <div class="pb-2">
+          <v-icon small>mdi-clock-outline</v-icon>
+          {{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)
         </div>
-        <div>Disk: {{ wrapper.agentInfo.freeDisk }} MB (free)/ {{ wrapper.agentInfo.totalDisk }} MB (total)</div>
+        <div>
+          <v-icon small>mdi-timer</v-icon>
+          {{ wrapper.finishedAtInStr }}
+        </div>
       </v-col>
 
-      <v-col class="caption" cols="2">
-        <div>{{ $t('job.triggerBy') }}</div>
+      <v-col cols="3">
+        <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
+        <span class="ml-2 body-2">{{ wrapper.agentInfo.name }}</span>
+      </v-col>
+
+      <v-col class="body-2" cols="3">
+        <div class="pb-2">{{ $t('job.triggerBy') }}</div>
         <div>
           <span>{{ wrapper.triggerBy }}</span>
           <v-icon small class="ml-2">{{ wrapper.triggerIcon }}</v-icon>
@@ -46,7 +46,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row class="ma-0 info">
       <v-col class="pa-0">
         <v-divider></v-divider>
         <div class="error-message" v-if="wrapper.errorMsg">
@@ -55,50 +55,46 @@
       </v-col>
     </v-row>
 
-    <v-row class="tab-wrapper">
-      <v-col class="pa-0">
-        <v-tabs fixed-tabs class="mt-2 full-size">
-          <v-tab href="#summary" class="ml-0 elevation-1">
-            {{ $t('job.tab.summary') }}
-          </v-tab>
-          <v-tab href="#context" class="ml-0 elevation-1">
-            {{ $t('job.tab.context') }}
-          </v-tab>
-          <v-tab href="#yml" class="ml-0 elevation-1">
-            {{ $t('job.tab.yml') }}
-          </v-tab>
-          <v-tab v-for="report in reports"
-                 :key="report.id"
-                 :href="'#' + report.name">
-            {{ report.name }}
-          </v-tab>
-          <v-tab href="#artifacts" class="ml-0 elevation-1">
-            {{ $t('job.tab.artifacts') }}
-          </v-tab>
+    <v-tabs fixed-tabs class="mt-1 tab-wrapper">
+      <v-tab href="#summary" class="ml-0 elevation-1">
+        {{ $t('job.tab.summary') }}
+      </v-tab>
+      <v-tab href="#context" class="ml-0 elevation-1">
+        {{ $t('job.tab.context') }}
+      </v-tab>
+      <v-tab href="#yml" class="ml-0 elevation-1">
+        {{ $t('job.tab.yml') }}
+      </v-tab>
+      <v-tab v-for="report in reports"
+              :key="report.id"
+              :href="'#' + report.name">
+        {{ report.name }}
+      </v-tab>
+      <v-tab href="#artifacts" class="ml-0 elevation-1">
+        {{ $t('job.tab.artifacts') }}
+      </v-tab>
 
-          <v-tab-item value="summary">
-            <detail-tab-summary class="ma-2" :steps="steps" ref="stepLogs"/>
-          </v-tab-item>
-          <v-tab-item value="context">
-            <detail-tab-context class="ma-2" :wrapper="wrapper"/>
-          </v-tab-item>
-          <v-tab-item value="yml">
-            <detail-tab-yml :flow="flow" :buildNumber="number" class="ma-2"/>
-          </v-tab-item>
-          <v-tab-item v-for="report in reports"
-                      :key="report.id"
-                      :value="report.name">
-            <detail-html-report :flow="flow"
-                                :buildNumber="number"
-                                :report="report"
-                                v-if="report.contentType.includes('html')"/>
-          </v-tab-item>
-          <v-tab-item value="artifacts">
-            <detail-tab-artifact :flow="flow" :buildNumber="number"/>
-          </v-tab-item>
-        </v-tabs>
-      </v-col>
-    </v-row>
+      <v-tab-item value="summary">
+        <detail-tab-summary/>
+      </v-tab-item>
+      <v-tab-item value="context">
+        <detail-tab-context :wrapper="wrapper"/>
+      </v-tab-item>
+      <v-tab-item value="yml">
+        <detail-tab-yml :flow="flow" :buildNumber="number"/>
+      </v-tab-item>
+      <v-tab-item v-for="report in reports"
+                  :key="report.id"
+                  :value="report.name">
+        <detail-html-report :flow="flow"
+                            :buildNumber="number"
+                            :report="report"
+                            v-if="report.contentType.includes('html')"/>
+      </v-tab-item>
+      <v-tab-item value="artifacts">
+        <detail-tab-artifact :flow="flow" :buildNumber="number"/>
+      </v-tab-item>
+    </v-tabs>
   </div>
 </template>
 
@@ -108,7 +104,6 @@
 
   import { isJobFinished, JobWrapper } from '@/util/jobs'
   import { icons } from '@/util/agents'
-  import { isStepFinished } from '@/util/steps'
   import { mapState } from 'vuex'
 
   import DetailTabSummary from '@/view/Job/DetailTabSummary'
@@ -140,7 +135,6 @@
         job: state => state.jobs.selected,
         reports: state => state.jobs.reports,
         steps: state => state.steps.items,
-        stepChange: state => state.steps.change
       }),
 
       flow () {
@@ -161,10 +155,6 @@
     },
     destroyed () {
       unsubscribeTopic.steps(this.job.id)
-
-      for (let i = 0; i < this.steps.length; i++) {
-        unsubscribeTopic.logs(this.steps[ i ].id)
-      }
     },
     watch: {
       flow () {
@@ -182,24 +172,6 @@
         }
 
         subscribeTopic.steps(newJob.id, this.$store)
-      },
-
-      // subscribe logs when steps been loaded
-      steps (after, before) {
-        for (let step of after) {
-          if (isStepFinished(step)) {
-            continue
-          }
-
-          subscribeTopic.logs(step.id, (wrapper) => {
-            this.$refs.stepLogs.addLog(wrapper)
-          })
-        }
-      },
-
-      // update step when it has been changed
-      stepChange (after, before) {
-        this.$refs.stepLogs.updateStep(after)
       }
     },
     methods: {
@@ -219,16 +191,29 @@
 
 <style lang="scss">
   .job-detail {
-    height: 80%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
 
-    .tab-wrapper {
-      height: 90%;
+    .title {
+      height: 14%;
     }
 
-    .tab-wrapper .v-window,
-    .tab-wrapper .v-window__container,
-    .tab-wrapper .v-window-item {
-      height: 96%;
+    .tab-wrapper {
+      height: 85%;
+
+      .v-tabs-bar {
+        height: 6%;
+      }
+      .v-window {
+        height: 93%;
+      }
+      .v-window__container {
+        height: 99%;
+      }
+      .v-window-item {
+        height: 99%;
+      }
     }
   }
 </style>

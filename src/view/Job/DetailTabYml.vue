@@ -1,5 +1,5 @@
 <template>
-  <div id="yml-editor" class="full-height"></div>
+  <div id="yml-editor"></div>
 </template>
 
 <script>
@@ -53,5 +53,7 @@
 </script>
 
 <style scoped>
-
+  #yml-editor {
+    height: 580px;
+  }
 </style>

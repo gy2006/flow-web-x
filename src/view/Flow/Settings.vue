@@ -69,13 +69,9 @@
 </script>
 
 <style lang="scss">
-  .flow-settings {
-    height: 80%;
-
-    .v-window,
-    .v-window__container,
-    .v-window-item {
-      height: 100%;
-    }
-  }
+.flow-settings {
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+}
 </style>

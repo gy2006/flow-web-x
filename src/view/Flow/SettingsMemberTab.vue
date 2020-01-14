@@ -47,8 +47,9 @@
           </template>
 
           <template v-slot:no-results>
-            <v-alert :value="true" color="error" icon="warning">
-              Your search for "{{ searchText }}" found no results.
+            <v-alert :value="true">
+              <v-icon small>mdi-alert-outline</v-icon>
+              <span class="caption ml-1"> Your search for "{{ searchText }}" found no results.</span>
             </v-alert>
           </template>
         </v-data-table>

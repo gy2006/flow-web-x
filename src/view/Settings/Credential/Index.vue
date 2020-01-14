@@ -7,7 +7,7 @@
     <template v-slot:item="{item}">
       <tr>
         <td>
-          <v-row align="center">
+          <v-row align="center" no-gutters>
             <v-col cols="3">
               {{ item.name }}
             </v-col>
@@ -27,8 +27,9 @@
     </template>
 
     <template slot="no-data">
-      <v-alert :value="true" color="primary" icon="warning">
-        Click button to create credential
+      <v-alert :value="true">
+        <v-icon small>mdi-alert-outline</v-icon>
+        <span class="caption ml-1">Click '+' to create a credential</span>
       </v-alert>
     </template>
   </v-data-table>

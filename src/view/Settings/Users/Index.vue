@@ -8,7 +8,7 @@
       :search="searchText"
   >
     <template v-slot:item="{item}">
-      <tr>
+      <tr class="caption">
         <td>{{ item.email }}</td>
         <td>{{ item.role }}</td>
         <td>{{ item.createdAt }}</td>
@@ -20,8 +20,9 @@
       </tr>
     </template>
     <template v-slot:no-results>
-      <v-alert :value="true" color="error" icon="warning">
-        Your search for "{{ searchText }}" found no results.
+      <v-alert :value="true">
+        <v-icon small>mdi-alert-outline</v-icon>
+        <span class="caption ml-1">Click '+' to create an user</span>
       </v-alert>
     </template>
   </v-data-table>

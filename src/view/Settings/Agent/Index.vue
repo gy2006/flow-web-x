@@ -48,8 +48,9 @@
     </template>
 
     <template slot="no-data">
-      <v-alert :value="true" color="primary" icon="warning">
-        Click to create new agent
+      <v-alert :value="true">
+        <v-icon small>mdi-alert-outline</v-icon>
+        <span class="caption ml-1">Click '+' to create an agent</span>
       </v-alert>
     </template>
   </v-data-table>

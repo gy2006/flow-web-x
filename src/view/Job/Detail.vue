@@ -155,10 +155,6 @@
     },
     destroyed () {
       unsubscribeTopic.steps(this.job.id)
-
-      // for (let i = 0; i < this.steps.length; i++) {
-      //   unsubscribeTopic.logs(this.steps[ i ].id)
-      // }
     },
     watch: {
       flow () {
@@ -176,20 +172,7 @@
         }
 
         subscribeTopic.steps(newJob.id, this.$store)
-      },
-
-      // subscribe logs when steps been loaded
-      // steps (after, before) {
-      //   for (let step of after) {
-      //     if (isStepFinished(step)) {
-      //       continue
-      //     }
-
-      //     subscribeTopic.logs(step.id, (wrapper) => {
-      //       this.$refs.stepLogs.addLog(wrapper)
-      //     })
-      //   }
-      // },
+      }
     },
     methods: {
       load () {

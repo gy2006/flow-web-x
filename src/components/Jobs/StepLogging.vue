@@ -46,8 +46,10 @@
 
 <script>
 import actions from '@/store/actions'
+import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
 import { StepWrapper } from '@/util/steps'
 import { Terminal } from 'xterm'
+import { FitAddon } from 'xterm-addon-fit';
 import { mapState } from 'vuex'
 
 export default {
@@ -58,6 +60,18 @@ export default {
       terminals: {}
     }
   },
+  destroyed () {
+    for (let item of this.items) {
+      unsubscribeTopic.logs(item.id)
+      
+      const t = this.terminals[item.id]
+      if (t) {
+        t.dispose()
+      }
+    }
+
+    this.terminals = null
+  },
   computed: {
     ...mapState({
       steps: state => state.steps.items,
@@ -65,7 +79,6 @@ export default {
       logs: state => state.logs.items
     }),
   },
-
   watch: {
     steps (after) {
       this.items.length = 0
@@ -74,27 +87,42 @@ export default {
       after.forEach((s, index) => {
         const wrapper = new StepWrapper(s, index)
         this.items.push(wrapper)
+
+        unsubscribeTopic.logs(wrapper.id)
+
+        if (!wrapper.isFinished) {
+          subscribeTopic.logs(wrapper.id, (logWrapper) => {
+            this.writeLog(wrapper.id, logWrapper)
+          })
+        }
       })
     },
 
     stepChange (after) {
-    
+      for (let i = 0; i < this.items.length; i++) {
+        const item = this.items[i]
+        if (item.id === after.id) {
+          this.$set(this.items, i, new StepWrapper(after, i))
+          return
+        }
+      }
     },
 
     logs(after, before) {
       for (let logWrapper of after) {
         const stepId = logWrapper.id
-        const terminal = this.terminals[stepId]
-
-        if (!terminal) {
-          return
-        }
-
-        terminal.writeln(logWrapper.log)
+        this.writeLog(stepId, logWrapper)
       }
     }
   },
   methods: {
+    writeLog(stepId, logWrapper) {
+      const terminal = this.terminals[stepId]
+      if (terminal) {
+        terminal.writeln(logWrapper.log)
+      }
+    },
+
     onLogDownload(stepId) {
       this.$store.dispatch(actions.jobs.logs.download, stepId).then()
     },
@@ -108,18 +136,24 @@ export default {
           disableStdin: true,
           rows: 30,
           lineHeight: 1.2,
+          cursorStyle: 'bar',
           theme: {
             background: '#333333',
             foreground: '#f5f5f5'
           }
         })
 
+        let fitAddon = new FitAddon();
+        t.loadAddon(fitAddon);
+
         t.open(document.getElementById(`${wrapper.id}-terminal`))
+        fitAddon.fit();
 
         // load logs from server
         if (wrapper.isFinished) {
           this.$store.dispatch(actions.jobs.logs.load, wrapper.id).then()
         }
+
       }
     }
   }
@@ -134,10 +168,6 @@ export default {
       max-width: 20px;
       top: 0;
       bottom: 0;
-    }
-
-    .terminal {
-      height: 450px;
     }
 
     .v-expansion-panels {

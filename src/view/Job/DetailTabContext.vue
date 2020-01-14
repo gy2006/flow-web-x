@@ -103,6 +103,14 @@
       getPushData () {
         return [
           {
+            key: 'Repo',
+            value: this.wrapper.gitUrl
+          },
+          {
+            key: 'Credential',
+            value: this.wrapper.gitCredential
+          },
+          {
             key: 'Branch',
             value: this.wrapper.branch
           },
@@ -125,6 +133,14 @@
       getTagData () {
         return [
           {
+            key: 'Repo',
+            value: this.wrapper.gitUrl
+          },
+          {
+            key: 'Credential',
+            value: this.wrapper.gitCredential
+          },
+          {
             key: 'Tag',
             value: this.wrapper.branch
           },
@@ -142,6 +158,14 @@
 
       getPrData () {
         return [
+          {
+            key: 'Repo',
+            value: this.wrapper.gitUrl
+          },
+          {
+            key: 'Credential',
+            value: this.wrapper.gitCredential
+          },
           {
             key: 'Title',
             value: this.wrapper.prTitle

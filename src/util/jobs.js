@@ -36,6 +36,14 @@ export class JobWrapper {
     return this.job.message
   }
 
+  get gitUrl () {
+    return this.context[ vars.git.url ]
+  }
+
+  get gitCredential () {
+    return this.context[ vars.git.credential ] || '-'
+  }
+
   get commitId () {
     return this.context[ vars.git.commit.id ]
   }

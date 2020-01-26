@@ -153,11 +153,6 @@
       },
 
       onRunClick () {
-        if (this.agents.length === 0) {
-          this.dialog = true
-          return
-        }
-
         const payload = {flow: this.flowName, branch: this.selectedBranch}
         this.$store.dispatch(actions.jobs.start, payload).then()
       },

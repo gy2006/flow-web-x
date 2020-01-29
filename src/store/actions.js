@@ -100,5 +100,9 @@ export default {
     list: 'plugins/list',
     readme: 'plugins/readme',
     icon: 'plugins/icon'
+  },
+
+  hosts: {
+    list: 'hosts/list'
   }
 }

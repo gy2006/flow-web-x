@@ -15,7 +15,7 @@ export const icons = {
 const colors = {
   [STATUS_BUSY]: 'blue',
   [STATUS_IDLE]: 'green',
-  [STATUS_OFFLINE]: 'yellow'
+  [STATUS_OFFLINE]: 'grey'
 }
 
 const text = {
@@ -49,12 +49,20 @@ export class AgentWrapper {
     this.agent = agent ? agent : emptyObject
   }
 
+  get isAgent() {
+    return true
+  }
+
+  get id () {
+    return this.agent.id
+  }
+
   get rawInstance () {
     return this.agent
   }
 
   get icon () {
-    return icons[this.agent.os]
+    return icons[this.agent.os] || 'flow-icon-agents'
   }
 
   get name () {
@@ -77,8 +85,8 @@ export class AgentWrapper {
     return this.agent.token
   }
 
-  get host () {
-    return this.agent.host ? this.agent.host : 'unknown'
+  get url () {
+    return this.agent.url ? this.agent.url : 'unknown'
   }
 
   get freeMemory () {

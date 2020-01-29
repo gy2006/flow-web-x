@@ -89,6 +89,10 @@ export class AgentWrapper {
     return this.agent.url ? this.agent.url : 'unknown'
   }
 
+  get hostId () {
+    return this.agent.hostId
+  }
+
   get freeMemory () {
     return this.fetchResource('freeMemory')
   }

@@ -1,66 +1,75 @@
 <template>
-<!--  <v-data-table-->
-<!--      :items="items"-->
-<!--      hide-default-footer-->
-<!--      hide-default-header>-->
+  <!--  <v-data-table-->
+  <!--      :items="items"-->
+  <!--      hide-default-footer-->
+  <!--      hide-default-header>-->
 
-<!--    <template v-slot:item="{item}">-->
-<!--      <tr>-->
-<!--        <td :class="[item.color, 'px-1']">-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <v-row align="center">-->
-<!--            <v-col cols="2">-->
-<!--              <span class="ml-2">{{ item.name }}</span>-->
-<!--            </v-col>-->
-<!--            <v-col cols="1">-->
-<!--              <v-icon small>{{ item.icon }}</v-icon>-->
-<!--            </v-col>-->
-<!--            <v-col cols="3">-->
-<!--              <v-chip v-for="tag in item.tags"-->
-<!--                      :key="tag"-->
-<!--                      class="my-0"-->
-<!--                      outlined-->
-<!--                      small-->
-<!--                      label-->
-<!--              >{{ tag }}-->
-<!--              </v-chip>-->
-<!--            </v-col>-->
-<!--            <v-col cols="4" class="agent-resource">-->
-<!--              <div>cpu: {{ item.numOfCpu }}</div>-->
-<!--              <div>memory: {{ item.freeMemory }} / {{ item.totalMemory }} (mb)</div>-->
-<!--              <div>disk: {{ item.freeDisk }} / {{ item.totalDisk }} (mb)</div>-->
-<!--            </v-col>-->
-<!--            <v-col cols="2">-->
-<!--              <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">-->
-<!--                <v-icon small>flow-icon-file_copy</v-icon>-->
-<!--              </v-btn>-->
-<!--              <v-btn icon class="ma-0" @click="onDownloadClick(item)">-->
-<!--                <v-icon small>mdi-download</v-icon>-->
-<!--              </v-btn>-->
-<!--              <v-btn icon class="ma-0" @click="onEditClick(item)">-->
-<!--                <v-icon small>mdi-pencil</v-icon>-->
-<!--              </v-btn>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--    </template>-->
+  <!--    <template v-slot:item="{item}">-->
+  <!--      <tr>-->
+  <!--        <td :class="[item.color, 'px-1']">-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          <v-row align="center">-->
+  <!--            <v-col cols="2">-->
+  <!--              <span class="ml-2">{{ item.name }}</span>-->
+  <!--            </v-col>-->
+  <!--            <v-col cols="1">-->
+  <!--              <v-icon small>{{ item.icon }}</v-icon>-->
+  <!--            </v-col>-->
+  <!--            <v-col cols="3">-->
+  <!--              <v-chip v-for="tag in item.tags"-->
+  <!--                      :key="tag"-->
+  <!--                      class="my-0"-->
+  <!--                      outlined-->
+  <!--                      small-->
+  <!--                      label-->
+  <!--              >{{ tag }}-->
+  <!--              </v-chip>-->
+  <!--            </v-col>-->
+  <!--            <v-col cols="4" class="agent-resource">-->
+  <!--              <div>cpu: {{ item.numOfCpu }}</div>-->
+  <!--              <div>memory: {{ item.freeMemory }} / {{ item.totalMemory }} (mb)</div>-->
+  <!--              <div>disk: {{ item.freeDisk }} / {{ item.totalDisk }} (mb)</div>-->
+  <!--            </v-col>-->
+  <!--            <v-col cols="2">-->
+  <!--              <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">-->
+  <!--                <v-icon small>flow-icon-file_copy</v-icon>-->
+  <!--              </v-btn>-->
+  <!--              <v-btn icon class="ma-0" @click="onDownloadClick(item)">-->
+  <!--                <v-icon small>mdi-download</v-icon>-->
+  <!--              </v-btn>-->
+  <!--              <v-btn icon class="ma-0" @click="onEditClick(item)">-->
+  <!--                <v-icon small>mdi-pencil</v-icon>-->
+  <!--              </v-btn>-->
+  <!--            </v-col>-->
+  <!--          </v-row>-->
+  <!--        </td>-->
+  <!--      </tr>-->
+  <!--    </template>-->
 
-<!--    <template slot="no-data">-->
-<!--      <v-alert :value="true">-->
-<!--        <v-icon small>mdi-alert-outline</v-icon>-->
-<!--        <span class="caption ml-1">Click '+' to create an agent</span>-->
-<!--      </v-alert>-->
-<!--    </template>-->
-<!--  </v-data-table>-->
+  <!--    <template slot="no-data">-->
+  <!--      <v-alert :value="true">-->
+  <!--        <v-icon small>mdi-alert-outline</v-icon>-->
+  <!--        <span class="caption ml-1">Click '+' to create an agent</span>-->
+  <!--      </v-alert>-->
+  <!--    </template>-->
+  <!--  </v-data-table>-->
 
   <v-treeview hoverable dense :items="items">
     <template v-slot:prepend="{ item }">
       <v-icon small>{{ item.icon }}</v-icon>
     </template>
     <template v-slot:append="{ item }">
-      <div v-if="item.isAgent">
+      <v-chip v-for="tag in item.tags"
+              :key="tag"
+              class="my-0"
+              outlined
+              small
+              label
+      >{{ tag }}
+      </v-chip>
+
+      <div v-if="item.isAgent && !item.hostId">
         <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
           <v-icon small>flow-icon-file_copy</v-icon>
         </v-btn>
@@ -74,14 +83,14 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import actions from '@/store/actions'
-  import { AgentWrapper } from '@/util/agents'
-  import { HostWrapper } from '@/util/hosts'
+  import {AgentWrapper} from '@/util/agents'
+  import {HostWrapper} from '@/util/hosts'
 
   export default {
     name: 'SettingsAgentHome',
-    data () {
+    data() {
       return {
         hostMap: {},
         items: [
@@ -98,7 +107,7 @@
         ]
       }
     },
-    mounted () {
+    mounted() {
       this.$emit('onConfigNav', {
         navs: [
           {
@@ -119,7 +128,7 @@
       }),
     },
     watch: {
-      hosts (newVal) {
+      hosts(newVal) {
         let hosts = this.items[1]
         hosts.children = []
         this.hostMap = {}
@@ -131,15 +140,13 @@
         }
       },
 
-      agents (newVal) {
+      agents(newVal) {
         let agents = this.items[0]
         agents.children = []
 
         for (let agent of newVal) {
           if (agent.hostId) {
-            if (this.hostMap[agent.hostId]) {
-              this.hostMap[agent.hostId].children.push(new AgentWrapper(agent))
-            }
+            this.hostMap[agent.hostId].children.push(new AgentWrapper(agent))
             continue
           }
 
@@ -148,15 +155,15 @@
       }
     },
     methods: {
-      onAddBtnClick () {
+      onAddBtnClick() {
         this.$router.push('/settings/agents/new')
       },
 
-      onDownloadClick (wrapper) {
+      onDownloadClick(wrapper) {
 
       },
 
-      onTokenCopyClick (wrapper) {
+      onTokenCopyClick(wrapper) {
         this.$copyText(wrapper.token)
           .then((e) => {
             const text = 'Token ' + e.text + ' is copied'
@@ -167,7 +174,7 @@
           })
       },
 
-      onEditClick (wrapper) {
+      onEditClick(wrapper) {
         this.$router.push('/settings/agents/edit/' + wrapper.name)
       }
     }

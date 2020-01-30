@@ -34,7 +34,7 @@
       </template>
     </v-treeview>
 
-    <v-dialog v-model="dialog" max-width="600">
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-card-text>
           <v-row>

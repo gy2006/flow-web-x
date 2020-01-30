@@ -2,7 +2,10 @@ export class HostWrapper {
 
   constructor (host) {
     this.host = host || {
-      tags: []
+      tags: [],
+      maxSize: 10,
+      maxIdleSeconds: 3600,
+      maxOfflineSeconds: 600
     }
     this.agents = []
   }
@@ -23,6 +26,18 @@ export class HostWrapper {
     return this.agents
   }
 
+  get maxSize () {
+    return this.host.maxSize
+  }
+
+  get maxIdle () {
+    return this.host.maxIdleSeconds / 60
+  }
+
+  get maxOffline () {
+    return this.host.maxOfflineSeconds / 60
+  }
+
   get icon () {
     return 'mdi-server'
   }
@@ -37,5 +52,17 @@ export class HostWrapper {
 
   set children (val) {
     this.agents = val
+  }
+
+  set maxSize (val) {
+    this.host.maxSize = val * 60
+  }
+
+  set maxIdle (val) {
+    this.host.maxIdleSeconds = val * 60
+  }
+
+  set maxOffline (val) {
+    this.host.maxOfflineSeconds = val * 60
   }
 }

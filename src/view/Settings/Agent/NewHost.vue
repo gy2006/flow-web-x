@@ -35,7 +35,27 @@
 
     <v-row v-if="type === 'SSH'">
       <v-col cols="8">
-        <v-divider></v-divider>
+        <div>SSH Host Settings</div>
+      </v-col>
+
+      <v-col cols="8">
+        <v-select dense
+                  v-model="wrapper.credential"
+                  :items="names"
+                  label="Select Credential"
+        ></v-select>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field dense
+                      v-model="wrapper.user"
+                      label="Host User"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field dense
+                      v-model="wrapper.ip"
+                      label="Host IP"
+        ></v-text-field>
       </v-col>
       <v-col cols="8">
         <v-text-field dense
@@ -70,7 +90,10 @@
     </v-row>
 
     <v-row>
-      <v-col cols="6"></v-col>
+      <v-col cols="4"></v-col>
+      <v-col cols="1">
+        <v-btn outlined @click="onTestClick">{{ $t('test') }}</v-btn>
+      </v-col>
       <v-col cols="1">
         <v-btn outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
       </v-col>
@@ -84,6 +107,9 @@
 <script>
   import { HostWrapper } from '@/util/hosts'
   import TagEditor from '@/components/Common/TagEditor'
+  import actions from '@/store/actions'
+  import { mapState } from 'vuex'
+  import { CATEGORY_SSH_RSA } from '@/util/credentials'
 
   export default {
     name: 'SettingsAgentNew',
@@ -111,9 +137,27 @@
         ],
         showAddBtn: false
       })
+
+      this.$store.dispatch(actions.credentials.listNameOnly, CATEGORY_SSH_RSA).then()
     },
-    computed: {},
+    computed: {
+      ...mapState({
+        credentials: state => state.credentials.items
+      }),
+
+      names () {
+        const nameList = []
+        for (let c of this.credentials) {
+          nameList.push(c.name)
+        }
+        return nameList
+      },
+    },
     methods: {
+      onTestClick () {
+
+      },
+
       onBackClick () {
         this.$router.push('/settings/agents')
       },

@@ -26,6 +26,18 @@ export class HostWrapper {
     return this.agents
   }
 
+  get credential () {
+    return this.host.credential
+  }
+
+  get user () {
+    return this.host.user
+  }
+
+  get ip () {
+    return this.host.ip
+  }
+
   get maxSize () {
     return this.host.maxSize
   }
@@ -52,6 +64,18 @@ export class HostWrapper {
 
   set children (val) {
     this.agents = val
+  }
+
+  set credential (val) {
+    this.host.credential = val
+  }
+
+  set user (val) {
+    this.host.user = val
+  }
+
+  set ip (val) {
+    this.host.ip = val
   }
 
   set maxSize (val) {

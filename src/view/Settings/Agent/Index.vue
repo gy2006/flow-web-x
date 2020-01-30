@@ -59,6 +59,14 @@
     <template v-slot:prepend="{ item }">
       <v-icon small>{{ item.icon }}</v-icon>
     </template>
+    <template v-slot:label="{ item }">
+      <span>{{ item.name }}</span>
+      <v-icon x-small
+              :class="[item.color, 'ml-2']"
+              v-if="item.isAgent"
+      >mdi-checkbox-blank-circle
+      </v-icon>
+    </template>
     <template v-slot:append="{ item }">
       <v-chip v-for="tag in item.tags"
               :key="tag"
@@ -144,6 +152,10 @@
         let agents = this.items[0]
         agents.children = []
 
+        Object.values(this.hostMap).forEach(value => {
+          value.children = []
+        })
+
         for (let agent of newVal) {
           if (agent.hostId) {
             this.hostMap[agent.hostId].children.push(new AgentWrapper(agent))
@@ -157,10 +169,6 @@
     methods: {
       onAddBtnClick() {
         this.$router.push('/settings/agents/new')
-      },
-
-      onDownloadClick(wrapper) {
-
       },
 
       onTokenCopyClick(wrapper) {

@@ -13,9 +13,9 @@ export const icons = {
 }
 
 const colors = {
-  [STATUS_BUSY]: 'blue',
-  [STATUS_IDLE]: 'green',
-  [STATUS_OFFLINE]: 'grey'
+  [STATUS_BUSY]: '#42A5F5',
+  [STATUS_IDLE]: '#66BB6A',
+  [STATUS_OFFLINE]: '#9e9e9e'
 }
 
 const text = {

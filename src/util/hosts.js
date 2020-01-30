@@ -24,4 +24,8 @@ export class HostWrapper {
   get icon () {
     return 'mdi-server'
   }
+
+  set children (val) {
+    this.agents = val
+  }
 }

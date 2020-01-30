@@ -1,7 +1,9 @@
 export class HostWrapper {
 
   constructor (host) {
-    this.host = host || {}
+    this.host = host || {
+      tags: []
+    }
     this.agents = []
   }
 

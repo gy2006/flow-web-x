@@ -1,6 +1,12 @@
 <template>
   <div>
     <v-row>
+      <v-col>
+        <div>Create New Agent</div>
+      </v-col>
+    </v-row>
+
+    <v-row>
       <v-col cols="8">
         <v-form ref="agentNameForm"
                 lazy-validation>
@@ -78,7 +84,7 @@
             href: '#/settings/agents'
           },
           {
-            text: 'New',
+            text: 'New Agent',
             href: ''
           }
         ],

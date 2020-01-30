@@ -1,37 +1,62 @@
 <template>
-  <v-treeview hoverable dense :items="items">
-    <template v-slot:prepend="{ item }">
-      <v-icon small>{{ item.icon }}</v-icon>
-    </template>
-    <template v-slot:label="{ item }">
-      <span>{{ item.name }}</span>
+  <div>
+    <v-treeview hoverable dense :items="items">
+      <template v-slot:prepend="{ item }">
+        <v-icon small>{{ item.icon }}</v-icon>
+      </template>
+      <template v-slot:label="{ item }">
+        <span>{{ item.name }}</span>
 
-      <v-icon x-small
-              :class="[item.color, 'mx-2']"
-              v-if="item.isAgent"
-      >mdi-checkbox-blank-circle
-      </v-icon>
+        <v-icon x-small
+                :class="[item.color, 'mx-2']"
+                v-if="item.isAgent"
+        >mdi-checkbox-blank-circle
+        </v-icon>
 
-      <v-chip v-for="tag in item.tags"
-              :key="tag"
-              class="my-0 mr-1"
-              outlined
-              x-small
-              label
-      >{{ tag }}
-      </v-chip>
-    </template>
-    <template v-slot:append="{ item }">
-      <div v-if="item.isAgent && !item.hostId">
-        <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
-          <v-icon small>flow-icon-file_copy</v-icon>
-        </v-btn>
-        <v-btn icon class="ma-0" @click="onEditClick(item)">
-          <v-icon small>mdi-pencil</v-icon>
-        </v-btn>
-      </div>
-    </template>
-  </v-treeview>
+        <v-chip v-for="tag in item.tags"
+                :key="tag"
+                class="my-0 mr-1"
+                outlined
+                x-small
+                label
+        >{{ tag }}
+        </v-chip>
+      </template>
+      <template v-slot:append="{ item }">
+        <div v-if="item.isAgent && !item.hostId">
+          <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
+            <v-icon small>flow-icon-file_copy</v-icon>
+          </v-btn>
+          <v-btn icon class="ma-0" @click="onEditClick(item)">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-treeview>
+
+    <v-dialog v-model="dialog" max-width="600">
+      <v-card>
+        <v-card-text>
+          <v-row>
+            <v-col cols="6">
+              <v-btn min-height="150"
+                     block
+                     color="primary"
+                     @click="onNewAgentClick"
+              >Manual agent</v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn min-height="150"
+                     block
+                     color="primary"
+                     @click="onNewHostClick"
+              >Host with auto agent</v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -44,6 +69,7 @@
     name: 'SettingsAgentHome',
     data() {
       return {
+        dialog: false,
         hostMap: {},
         items: [
           {
@@ -111,8 +137,16 @@
       }
     },
     methods: {
-      onAddBtnClick() {
+      onAddBtnClick () {
+        this.dialog = true
+      },
+
+      onNewAgentClick () {
         this.$router.push('/settings/agents/new')
+      },
+
+      onNewHostClick () {
+        this.$router.push('/settings/agents/host/new')
       },
 
       onTokenCopyClick(wrapper) {

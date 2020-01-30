@@ -1,7 +1,7 @@
 export class HostWrapper {
 
   constructor (host) {
-    this.host = host
+    this.host = host || {}
     this.agents = []
   }
 
@@ -23,6 +23,14 @@ export class HostWrapper {
 
   get icon () {
     return 'mdi-server'
+  }
+
+  set name (val) {
+    this.host.name = val
+  }
+
+  set tags (tags) {
+    this.host.tags = tags
   }
 
   set children (val) {

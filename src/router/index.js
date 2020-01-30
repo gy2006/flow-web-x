@@ -19,8 +19,9 @@ import SettingsUsersNew from '@/view/Settings/Users/New'
 import SettingsUsersEdit from '@/view/Settings/Users/Edit'
 
 import SettingsAgentHome from '@/view/Settings/Agent/Index'
-import SettingsAgentNew from '@/view/Settings/Agent/New'
-import SettingsAgentEdit from '@/view/Settings/Agent/Edit'
+import SettingsAgentNew from '@/view/Settings/Agent/NewAgent'
+import SettingsAgentEdit from '@/view/Settings/Agent/EditAgent'
+import SettingsHostNew from '@/view/Settings/Agent/NewHost'
 
 import SettingsCredentialHome from '@/view/Settings/Credential/Index'
 import SettingsCredentialNew from '@/view/Settings/Credential/New'
@@ -109,6 +110,11 @@ export default new Router({
           path: 'agents/edit/:name',
           name: 'SettingsAgentEdit',
           component: SettingsAgentEdit
+        },
+        {
+          path: 'agents/host/new',
+          name: 'SettingsHostNew',
+          component: SettingsHostNew
         },
 
         {

@@ -1,6 +1,12 @@
 <template>
   <div>
     <v-row>
+      <v-col>
+        <div>Edit Agent</div>
+      </v-col>
+    </v-row>
+
+    <v-row>
       <v-col cols="8">
         <v-form ref="agentNameForm"
                 lazy-validation>

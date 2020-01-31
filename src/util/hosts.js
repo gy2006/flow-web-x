@@ -1,3 +1,5 @@
+export const HOST_TYPE_SSH = 'SSH'
+
 export class HostWrapper {
 
   constructor (host) {
@@ -8,6 +10,10 @@ export class HostWrapper {
       maxOfflineSeconds: 600
     }
     this.agents = []
+  }
+
+  get rawInstance () {
+    return this.host
   }
 
   get id () {

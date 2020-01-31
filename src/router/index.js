@@ -116,6 +116,11 @@ export default new Router({
           name: 'SettingsHostNew',
           component: SettingsHostNew
         },
+        {
+          path: 'agents/host/edit/:name',
+          name: 'SettingsHostNew',
+          component: SettingsHostNew
+        },
 
         {
           path: 'credentials',

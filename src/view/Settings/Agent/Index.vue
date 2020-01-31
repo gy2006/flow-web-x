@@ -4,32 +4,44 @@
       <template v-slot:prepend="{ item }">
         <v-icon small>{{ item.icon }}</v-icon>
       </template>
+
       <template v-slot:label="{ item }">
         <span>{{ item.name }}</span>
 
         <v-icon x-small
                 :class="[item.color, 'mx-2']"
-                v-if="item.isAgent"
+                v-if="item.isAgent || item.isHost"
         >mdi-checkbox-blank-circle
         </v-icon>
 
         <v-chip v-for="tag in item.tags"
                 :key="tag"
-                class="my-0 mr-1"
+                class="mx-1"
                 outlined
                 x-small
                 label
         >{{ tag }}
         </v-chip>
       </template>
+
       <template v-slot:append="{ item }">
         <div v-if="item.isAgent && !item.hostId">
           <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
             <v-icon small>flow-icon-file_copy</v-icon>
           </v-btn>
-          <v-btn icon class="ma-0" @click="onEditClick(item)">
+          <v-btn icon class="ma-0" @click="onAgentEditClick(item)">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
+        </div>
+
+        <div v-if="item.isHost && !item.isDefaultLocal">
+          <v-btn icon class="ma-0" @click="onHostEditClick(item)">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </div>
+
+        <div v-if="item.isHost && item.isDefaultLocal">
+          <span class="overline font-weight-thin">Default Settings</span>
         </div>
       </template>
     </v-treeview>
@@ -160,8 +172,12 @@
           })
       },
 
-      onEditClick(wrapper) {
+      onAgentEditClick(wrapper) {
         this.$router.push('/settings/agents/edit/' + wrapper.name)
+      },
+
+      onHostEditClick (wrapper) {
+        this.$router.push('/settings/agents/host/edit/' + wrapper.name)
       }
     }
   }

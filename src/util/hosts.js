@@ -1,4 +1,5 @@
 export const HOST_TYPE_SSH = 'SSH'
+export const HOST_TYPE_LOCAL_SOCKET = 'LocalUnixSocket'
 
 export class HostWrapper {
 
@@ -14,6 +15,14 @@ export class HostWrapper {
 
   get rawInstance () {
     return this.host
+  }
+
+  get isHost () {
+    return true
+  }
+
+  get isDefaultLocal () {
+    return this.host.type === HOST_TYPE_LOCAL_SOCKET
   }
 
   get id () {
@@ -85,7 +94,7 @@ export class HostWrapper {
   }
 
   set maxSize (val) {
-    this.host.maxSize = val * 60
+    this.host.maxSize = val
   }
 
   set maxIdle (val) {

@@ -103,6 +103,7 @@ export default {
   },
 
   hosts: {
+    get: 'hosts/get',
     list: 'hosts/list',
     createOrUpdate: 'hosts/createOrUpdate',
   }

@@ -33,6 +33,16 @@
       tags: {
         type: Array,
         required: true
+      },
+      min: {
+        type: Number,
+        required: false,
+        default: 2
+      },
+      max: {
+        type: Number,
+        required: false,
+        default: 10
       }
     },
     data () {
@@ -66,8 +76,8 @@
           return
         }
 
-        if (this.input.length > 10) {
-          this.errors.push('Tag name length cannot over 10')
+        if (this.input.length > this.max || this.input.length < this.min) {
+          this.errors.push(`Tag name length between ${this.min} to 10 ${this.max}`)
           return
         }
 
@@ -78,7 +88,7 @@
           }
         }
 
-        this.raw.push({text: this.tagInput, enabled: true})
+        this.raw.push({text: this.input, enabled: true})
         this.tags.push(this.input)
         this.input = ''
       },

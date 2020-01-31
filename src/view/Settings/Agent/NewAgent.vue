@@ -22,30 +22,7 @@
 
     <v-row>
       <v-col cols="8">
-        <v-form ref="agentTagForm"
-                lazy-validation>
-          <v-text-field
-              dense
-              label="Tags"
-              :rules="tagRules"
-              v-model="tagInput"
-              append-icon="mdi-plus-box"
-              @click:append="onTagAddClick"
-          ></v-text-field>
-        </v-form>
-      </v-col>
-
-      <v-col cols="8" class="py-0">
-        <v-chip
-            close
-            label
-            class="mr-1"
-            v-for="(tag, index) in tagRaw"
-            v-model="tag.enabled"
-            :key="tag.text"
-            @input="onTagRemoveClick(index)"
-        >{{ tag.text }}
-        </v-chip>
+        <tag-editor :tags="wrapper.tags"></tag-editor>
       </v-col>
     </v-row>
 
@@ -63,17 +40,20 @@
 
 <script>
   import actions from '@/store/actions'
+  import TagEditor from '@/components/Common/TagEditor'
   import { AgentWrapper } from '@/util/agents'
-  import { agentNameRules, agentTagRules } from '@/util/rules'
+  import { agentNameRules } from '@/util/rules'
 
   export default {
     name: 'SettingsAgentNew',
+    components: {
+      TagEditor
+    },
     data () {
       return {
         nameRules: agentNameRules(this),
-        tagInput: '',
-        tagRules: agentTagRules(this),
-        dialog: false
+        dialog: false,
+        wrapper: new AgentWrapper()
       }
     },
     mounted () {
@@ -91,45 +71,7 @@
         showAddBtn: false
       })
     },
-    computed: {
-      wrapper () {
-        return new AgentWrapper()
-      },
-
-      tagRaw: {
-        get () {
-          const raw = []
-          for (let tag of this.wrapper.tags) {
-            raw.push({text: tag, enabled: true})
-          }
-
-          return raw
-        }
-      }
-    },
     methods: {
-      onTagAddClick () {
-        if (!this.$refs.agentTagForm.validate()) {
-          return
-        }
-
-        for (let tag of this.tagRaw) {
-          if (tag.text === this.tagInput) {
-            this.$refs.agentTagForm.reset()
-            this.tagInput = ''
-            return
-          }
-        }
-
-        this.tagRaw.push({text: this.tagInput, enabled: true})
-        this.$refs.agentTagForm.reset()
-        this.tagInput = ''
-      },
-
-      onTagRemoveClick (tagIndex) {
-        this.tagRaw.splice(tagIndex, 1)
-      },
-
       onBackClick () {
         this.$router.push('/settings/agents')
       },
@@ -138,13 +80,6 @@
         if (!this.$refs.agentNameForm.validate()) {
           return
         }
-
-        const tags = []
-        for (let tag of this.tagRaw) {
-          tags.push(tag.text)
-        }
-
-        this.wrapper.tags = tags
 
         this.$store.dispatch(actions.agents.createOrUpdate, this.wrapper.rawInstance).then(() => {
           this.$router.push('/settings/agents')

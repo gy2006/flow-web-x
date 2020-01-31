@@ -9,7 +9,8 @@
         <span>{{ item.name }}</span>
 
         <v-icon x-small
-                :class="[item.color, 'mx-2']"
+                class="mx-2"
+                :color="item.color"
                 v-if="item.isAgent || item.isHost"
         >mdi-checkbox-blank-circle
         </v-icon>
@@ -55,14 +56,16 @@
                      block
                      color="primary"
                      @click="onNewAgentClick"
-              >Manual agent</v-btn>
+              >Manual agent
+              </v-btn>
             </v-col>
             <v-col cols="6">
               <v-btn min-height="150"
                      block
                      color="primary"
                      @click="onNewHostClick"
-              >Host with auto agent</v-btn>
+              >Host with auto agent
+              </v-btn>
             </v-col>
           </v-row>
         </v-card-text>
@@ -72,14 +75,14 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import actions from '@/store/actions'
-  import {AgentWrapper} from '@/util/agents'
-  import {HostWrapper} from '@/util/hosts'
+  import { AgentWrapper } from '@/util/agents'
+  import { HostWrapper } from '@/util/hosts'
 
   export default {
     name: 'SettingsAgentHome',
-    data() {
+    data () {
       return {
         dialog: false,
         hostMap: {},
@@ -97,7 +100,7 @@
         ]
       }
     },
-    mounted() {
+    mounted () {
       this.$emit('onConfigNav', {
         navs: [
           {
@@ -108,47 +111,49 @@
       })
 
       this.$store.dispatch(actions.hosts.list).then(() => {
-        this.$store.dispatch(actions.agents.list).then()
+        this.buildHosts()
+        this.$store.dispatch(actions.agents.list).then(() => {
+          this.buildAgents()
+        })
       })
     },
     computed: {
       ...mapState({
         hosts: state => state.hosts.items,
         agents: state => state.agents.items
-      }),
+      })
     },
-    watch: {
-      hosts(newVal) {
-        let hosts = this.items[1]
+    methods: {
+      buildHosts () {
+        let hosts = this.items[ 1 ]
         hosts.children = []
         this.hostMap = {}
 
-        for (let host of newVal) {
+        for (let host of this.hosts) {
           let wrapper = new HostWrapper(host)
           hosts.children.push(wrapper)
-          this.hostMap[wrapper.id] = wrapper
+          this.hostMap[ wrapper.id ] = wrapper
         }
       },
 
-      agents(newVal) {
-        let agents = this.items[0]
+      buildAgents () {
+        let agents = this.items[ 0 ]
         agents.children = []
 
         Object.values(this.hostMap).forEach(value => {
           value.children = []
         })
 
-        for (let agent of newVal) {
+        for (let agent of this.agents) {
           if (agent.hostId) {
-            this.hostMap[agent.hostId].children.push(new AgentWrapper(agent))
+            this.hostMap[ agent.hostId ].children.push(new AgentWrapper(agent))
             continue
           }
 
           agents.children.push(new AgentWrapper(agent))
         }
-      }
-    },
-    methods: {
+      },
+
       onAddBtnClick () {
         this.dialog = true
       },
@@ -161,7 +166,7 @@
         this.$router.push('/settings/agents/host/new')
       },
 
-      onTokenCopyClick(wrapper) {
+      onTokenCopyClick (wrapper) {
         this.$copyText(wrapper.token)
           .then((e) => {
             const text = 'Token ' + e.text + ' is copied'
@@ -172,7 +177,7 @@
           })
       },
 
-      onAgentEditClick(wrapper) {
+      onAgentEditClick (wrapper) {
         this.$router.push('/settings/agents/edit/' + wrapper.name)
       },
 

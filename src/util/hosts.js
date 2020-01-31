@@ -1,6 +1,14 @@
 export const HOST_TYPE_SSH = 'SSH'
 export const HOST_TYPE_LOCAL_SOCKET = 'LocalUnixSocket'
 
+export const HOST_STATUS_CONNECTED = 'Connected'
+export const HOST_STATUS_DISCONNECTED = 'Disconnected'
+
+const colors = {
+  [HOST_STATUS_CONNECTED]: 'green lighten-1',
+  [HOST_STATUS_DISCONNECTED]: 'grey'
+}
+
 export class HostWrapper {
 
   constructor (host) {
@@ -63,6 +71,10 @@ export class HostWrapper {
 
   get maxOffline () {
     return this.host.maxOfflineSeconds / 60
+  }
+
+  get color () {
+    return colors[this.host.status]
   }
 
   get icon () {

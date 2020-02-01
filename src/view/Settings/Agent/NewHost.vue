@@ -48,7 +48,40 @@
 
     <v-row>
       <v-col>
-        <v-btn class="mx-1" outlined @click="onTestClick" v-if="isEditMode">{{ $t('test') }}</v-btn>
+        <v-btn class="mx-1"
+               outlined
+               @click="onTestClick"
+               v-if="isEditMode"
+        >{{ $t('test') }}</v-btn>
+
+        <v-btn class="mx-1"
+               outlined
+               color="error"
+               @click="deleteDialog = true"
+               v-if="isEditMode"
+        >{{ $t('delete') }}</v-btn>
+
+        <v-dialog
+            v-model="deleteDialog"
+            width="500"
+            v-if="isEditMode">
+          <v-card>
+            <v-card-title
+                class="error--text"
+                primary-title
+            >Delete agent host '{{ wrapper.name }}'?
+            </v-card-title>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" @click="deleteDialog = false">{{ $t('cancel') }}</v-btn>
+              <v-btn outlined color="error" @click="onDeleteClick">{{ $t('delete') }}</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <v-btn class="mx-1" outlined color="warning" @click="onBackClick">{{ $t('back') }}</v-btn>
         <v-btn class="mx-1" color="primary" @click="onSaveClick">{{ $t('save') }}</v-btn>
       </v-col>
@@ -74,6 +107,7 @@
     data () {
       return {
         HOST_TYPE_SSH,
+        deleteDialog: false,
         wrapper: new HostWrapper(),
         type: 'SSH',
         tagInput: [],
@@ -130,6 +164,12 @@
     methods: {
       onTestClick () {
 
+      },
+
+      onDeleteClick () {
+        this.$store.dispatch(actions.hosts.delete, this.wrapper.name).then(() => {
+          this.$router.push('/settings/agents')
+        })
       },
 
       onBackClick () {

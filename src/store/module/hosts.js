@@ -55,6 +55,12 @@ const actions = {
     await http.get(`hosts/${name}`, (host) => {
       commit('loaded', host)
     })
+  },
+
+  async delete ({commit}, name) {
+    await http.delete(`hosts/${name}`, (host) => {
+      commit('remove', host)
+    })
   }
 }
 

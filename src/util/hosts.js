@@ -57,6 +57,10 @@ export class HostWrapper {
     return this.host.user
   }
 
+  get status () {
+    return this.host.status
+  }
+
   get ip () {
     return this.host.ip
   }

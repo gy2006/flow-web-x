@@ -6,7 +6,8 @@ import http from '../http'
 
 const state = {
   items: [],
-  loaded: null
+  loaded: null,
+  updated: null
 }
 
 const mutations = {
@@ -25,7 +26,12 @@ const mutations = {
         return
       }
     }
+
     state.items.push(newOrUpdated)
+  },
+
+  updateOnly (state, updated) {
+    state.updated = updated
   },
 
   remove (state, deletedHost) {
@@ -61,6 +67,15 @@ const actions = {
     await http.delete(`hosts/${name}`, (host) => {
       commit('remove', host)
     })
+  },
+
+  async test({commit}, name) {
+    await http.post(`hosts/${name}/test`, () => {})
+  },
+
+  updated({commit}, host) {
+    commit('add', host)
+    commit('updateOnly', host)
   }
 }
 

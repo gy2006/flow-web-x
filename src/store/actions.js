@@ -106,6 +106,8 @@ export default {
     get: 'hosts/get',
     list: 'hosts/list',
     createOrUpdate: 'hosts/createOrUpdate',
-    delete: 'hosts/delete'
+    delete: 'hosts/delete',
+    test: 'hosts/test',
+    updated: 'hosts/updated'
   }
 }

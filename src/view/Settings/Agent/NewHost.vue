@@ -48,11 +48,7 @@
 
     <v-row>
       <v-col>
-        <v-btn class="mx-1"
-               outlined
-               @click="onTestClick"
-               v-if="isEditMode"
-        >{{ $t('test') }}</v-btn>
+        <host-test-btn :wrapper="wrapper" v-if="isEditMode"></host-test-btn>
 
         <v-btn class="mx-1"
                outlined
@@ -94,6 +90,7 @@
   import { required } from '@/util/rules'
   import TagEditor from '@/components/Common/TagEditor'
   import SshHostEditor from '@/components/Settings/SshHostEditor'
+  import HostTestBtn from '@/components/Settings/HostTestBtn'
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
   import { CATEGORY_SSH_RSA } from '@/util/credentials'
@@ -102,7 +99,8 @@
     name: 'SettingsAgentNew',
     components: {
       TagEditor,
-      SshHostEditor
+      SshHostEditor,
+      HostTestBtn
     },
     data () {
       return {
@@ -162,10 +160,6 @@
       }
     },
     methods: {
-      onTestClick () {
-
-      },
-
       onDeleteClick () {
         this.$store.dispatch(actions.hosts.delete, this.wrapper.name).then(() => {
           this.$router.push('/settings/agents')

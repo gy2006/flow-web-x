@@ -76,9 +76,10 @@
 
 <script>
   import { mapState } from 'vuex'
-  import actions from '@/store/actions'
   import { AgentWrapper } from '@/util/agents'
   import { HostWrapper } from '@/util/hosts'
+  import { subscribeTopic } from '@/store/subscribe'
+  import actions from '@/store/actions'
 
   export default {
     name: 'SettingsAgentHome',
@@ -112,9 +113,12 @@
 
       this.$store.dispatch(actions.hosts.list).then(() => {
         this.buildHosts()
+
         this.$store.dispatch(actions.agents.list).then(() => {
           this.buildAgents()
         })
+
+        subscribeTopic.hosts(this.$store)
       })
     },
     computed: {

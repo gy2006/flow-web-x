@@ -52,7 +52,7 @@ const actions = {
   },
 
   async createOrUpdate ({commit}, obj) {
-    await http.post('hosts/ssh', (host) => {
+    await http.post('hosts', (host) => {
       commit('add', host)
     }, obj)
   },

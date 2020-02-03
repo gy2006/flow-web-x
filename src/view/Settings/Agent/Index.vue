@@ -35,14 +35,11 @@
           </v-btn>
         </div>
 
-        <div v-if="item.isHost && !item.isDefaultLocal">
+        <div v-if="item.isHost">
+          <span class="overline font-weight-thin" v-if="item.isDefaultLocal">Default</span>
           <v-btn icon class="ma-0" @click="onHostEditClick(item)">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
-        </div>
-
-        <div v-if="item.isHost && item.isDefaultLocal">
-          <span class="overline font-weight-thin">Default Settings</span>
         </div>
       </template>
     </v-treeview>

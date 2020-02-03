@@ -4,6 +4,7 @@
       <v-btn color="info"
              outlined
              v-on="on"
+             :disabled="disabled"
              @click="onClick"
              :loading="loading"
       >
@@ -32,6 +33,11 @@
       host: {
         type: Object,
         required: true
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {

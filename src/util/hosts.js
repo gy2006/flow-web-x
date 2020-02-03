@@ -15,6 +15,7 @@ export class HostWrapper {
     this.host = host || {
       tags: [],
       maxSize: 10,
+      type: HOST_TYPE_SSH,
       maxIdleSeconds: 3600,
       maxOfflineSeconds: 600
     }
@@ -51,6 +52,10 @@ export class HostWrapper {
 
   get credential () {
     return this.host.credential
+  }
+
+  get type () {
+    return this.host.type
   }
 
   get user () {

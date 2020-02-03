@@ -14,6 +14,7 @@
           <v-text-field
               dense
               label="Name"
+              :disabled="wrapper.type === HOST_TYPE_LOCAL_SOCKET"
               :rules="rules.required"
               v-model="wrapper.name"
           ></v-text-field>
@@ -23,7 +24,9 @@
 
     <v-row>
       <v-col cols="8">
-        <tag-editor :tags="wrapper.tags"></tag-editor>
+        <tag-editor :tags="wrapper.tags"
+                    :disabled="wrapper.type === HOST_TYPE_LOCAL_SOCKET"
+        ></tag-editor>
       </v-col>
     </v-row>
 
@@ -39,10 +42,14 @@
     </v-row>
 
     <v-row>
-      <v-col cols="8">
-        <v-form ref="sshSettingsForm" lazy-validation v-if="type === HOST_TYPE_SSH">
+      <v-col cols="8" v-if="wrapper.type === HOST_TYPE_SSH">
+        <v-form ref="sshSettingsForm" lazy-validation>
           <ssh-host-editor :wrapper="wrapper" :credentials="credentialNameList"></ssh-host-editor>
         </v-form>
+      </v-col>
+
+      <v-col cols="8" v-if="wrapper.type === HOST_TYPE_LOCAL_SOCKET">
+        <pool-size-editor :wrapper="wrapper"></pool-size-editor>
       </v-col>
 
       <v-col cols="8" v-if="wrapper.error">
@@ -52,14 +59,18 @@
 
     <v-row>
       <v-col>
-        <host-test-btn :host="wrapper.rawInstance" v-if="isEditMode"></host-test-btn>
+        <host-test-btn :host="wrapper.rawInstance"
+                       v-if="isEditMode"
+                       :disabled="wrapper.type === HOST_TYPE_LOCAL_SOCKET"></host-test-btn>
 
         <v-btn class="mx-1"
                outlined
                color="error"
+               :disabled="wrapper.type === HOST_TYPE_LOCAL_SOCKET"
                @click="deleteDialog = true"
                v-if="isEditMode"
-        >{{ $t('delete') }}</v-btn>
+        >{{ $t('delete') }}
+        </v-btn>
 
         <v-dialog
             v-model="deleteDialog"
@@ -90,10 +101,11 @@
 </template>
 
 <script>
-  import { HostWrapper, HOST_TYPE_SSH } from '@/util/hosts'
+  import { HOST_TYPE_LOCAL_SOCKET, HOST_TYPE_SSH, HostWrapper } from '@/util/hosts'
   import { required } from '@/util/rules'
   import TagEditor from '@/components/Common/TagEditor'
   import SshHostEditor from '@/components/Settings/SshHostEditor'
+  import PoolSizeEditor from '@/components/Settings/PoolSizeEditor'
   import HostTestBtn from '@/components/Settings/HostTestBtn'
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
@@ -102,6 +114,7 @@
   export default {
     name: 'SettingsAgentNew',
     components: {
+      PoolSizeEditor,
       TagEditor,
       SshHostEditor,
       HostTestBtn
@@ -109,9 +122,9 @@
     data () {
       return {
         HOST_TYPE_SSH,
+        HOST_TYPE_LOCAL_SOCKET,
         deleteDialog: false,
         wrapper: new HostWrapper(),
-        type: HOST_TYPE_SSH,
         tagInput: [],
         rules: {
           required: required('Required')
@@ -185,7 +198,7 @@
           return
         }
 
-        if (!this.$refs.sshSettingsForm.validate()) {
+        if (this.$refs.sshSettingsForm && !this.$refs.sshSettingsForm.validate()) {
           return
         }
 

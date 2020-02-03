@@ -8,6 +8,7 @@
           append-icon="mdi-plus-box"
           :error-messages="errors"
           @input="onTagInput"
+          :disabled="disabled"
           @click:append="onAddClick"
       ></v-text-field>
     </div>
@@ -43,6 +44,11 @@
         type: Number,
         required: false,
         default: 10
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {

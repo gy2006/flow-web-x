@@ -85,6 +85,10 @@ export class HostWrapper {
     return 'mdi-server'
   }
 
+  get error () {
+    return this.host.error
+  }
+
   set name (val) {
     this.host.name = val
   }

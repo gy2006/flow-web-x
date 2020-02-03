@@ -44,11 +44,15 @@
           <ssh-host-editor :wrapper="wrapper" :credentials="credentialNameList"></ssh-host-editor>
         </v-form>
       </v-col>
+
+      <v-col cols="8" v-if="wrapper.error">
+        <span class="error--text">{{ wrapper.error }}</span>
+      </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <host-test-btn :wrapper="wrapper" v-if="isEditMode"></host-test-btn>
+        <host-test-btn :host="wrapper.rawInstance" v-if="isEditMode"></host-test-btn>
 
         <v-btn class="mx-1"
                outlined
@@ -107,7 +111,7 @@
         HOST_TYPE_SSH,
         deleteDialog: false,
         wrapper: new HostWrapper(),
-        type: 'SSH',
+        type: HOST_TYPE_SSH,
         tagInput: [],
         rules: {
           required: required('Required')
@@ -140,7 +144,8 @@
     computed: {
       ...mapState({
         host: state => state.hosts.loaded,
-        credentials: state => state.credentials.items
+        credentials: state => state.credentials.items,
+        updated: state => state.hosts.updated
       }),
 
       credentialNameList () {
@@ -157,6 +162,11 @@
 
       isEditMode () {
         return this.hostName !== undefined
+      }
+    },
+    watch: {
+      updated (val) {
+        this.wrapper = new HostWrapper(val)
       }
     },
     methods: {

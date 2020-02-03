@@ -78,7 +78,7 @@
   import { mapState } from 'vuex'
   import { AgentWrapper } from '@/util/agents'
   import { HostWrapper } from '@/util/hosts'
-  import { subscribeTopic } from '@/store/subscribe'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
   import actions from '@/store/actions'
 
   export default {
@@ -120,6 +120,9 @@
 
         subscribeTopic.hosts(this.$store)
       })
+    },
+    beforeDestroy () {
+      unsubscribeTopic.hosts()
     },
     computed: {
       ...mapState({

@@ -1,31 +1,35 @@
 <template>
-  <v-btn color="info"
-         outlined
-         @click="onClick"
-         :loading="loading"
-  >
-    {{ $t('test') }}
-
-    <v-icon small :class="['ml-2', statusClass]">{{ statusIcon }}</v-icon>
-
-    <template v-slot:loader>
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on }">
+      <v-btn color="info"
+             outlined
+             v-on="on"
+             @click="onClick"
+             :loading="loading"
+      >
+        {{ $t('test') }}
+        <v-icon small :class="['ml-2', statusClass]">{{ statusIcon }}</v-icon>
+        <template v-slot:loader>
         <span class="custom-loader">
           <v-icon small light>flow-icon-loading1</v-icon>
         </span>
+        </template>
+      </v-btn>
     </template>
-  </v-btn>
+    <span>Save current settings and test connection</span>
+  </v-tooltip>
 </template>
 
 <script>
   import actions from '@/store/actions'
   import { subscribeTopic } from '@/store/subscribe'
-  import { HOST_STATUS_CONNECTED, HOST_STATUS_DISCONNECTED } from '@/util/hosts'
+  import { HostWrapper, HOST_STATUS_CONNECTED, HOST_STATUS_DISCONNECTED } from '@/util/hosts'
   import { mapState } from 'vuex'
 
   export default {
     name: 'HostTestBtn',
     props: {
-      wrapper: {
+      host: {
         type: Object,
         required: true
       }
@@ -33,6 +37,7 @@
     data () {
       return {
         loading: false,
+        wrapper: new HostWrapper(this.host),
         statusData: {
           [ HOST_STATUS_CONNECTED ]: {
             icon: 'mdi-checkbox-blank-circle',
@@ -62,20 +67,28 @@
       }
     },
     watch: {
+      host (val) {
+        this.wrapper = new HostWrapper(val)
+      },
+
       updated(val) {
         if (val.id === this.wrapper.id) {
           this.loading = false
+          this.wrapper = new HostWrapper(val)
         }
       }
     },
     methods: {
       onClick () {
         subscribeTopic.hosts(this.$store)
-        this.loading = true
 
-        setTimeout(() => {
-          this.$store.dispatch(actions.hosts.test, this.wrapper.name).then()
-        }, 1000)
+        this.$store.dispatch(actions.hosts.createOrUpdate, this.wrapper.rawInstance).then(() => {
+          this.loading = true
+
+          setTimeout(() => {
+            this.$store.dispatch(actions.hosts.test, this.wrapper.name).then()
+          }, 1000)
+        })
       }
     }
   }

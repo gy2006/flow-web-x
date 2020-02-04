@@ -100,5 +100,14 @@ export default {
     list: 'plugins/list',
     readme: 'plugins/readme',
     icon: 'plugins/icon'
+  },
+
+  hosts: {
+    get: 'hosts/get',
+    list: 'hosts/list',
+    createOrUpdate: 'hosts/createOrUpdate',
+    delete: 'hosts/delete',
+    test: 'hosts/test',
+    updated: 'hosts/updated'
   }
 }

@@ -12,11 +12,11 @@
 
       <v-col cols="3" class="body-2">
         <div class="pb-2">
-          <v-icon small>mdi-clock-outline</v-icon>
+          <v-icon small>mdi-clock-fast</v-icon>
           {{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)
         </div>
         <div>
-          <v-icon small>mdi-timer</v-icon>
+          <v-icon small>mdi-clock-outline</v-icon>
           {{ wrapper.finishedAtInStr }}
         </div>
       </v-col>

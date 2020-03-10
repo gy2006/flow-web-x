@@ -3,6 +3,9 @@ import moment from 'moment'
 
 // status
 const STATUS_UNKNOWN = 'UNKNOWN'
+const STATUS_PENDING = 'PENDING'
+const STATUS_LOADING = 'LOADING'
+const STATUS_CREATED = 'CREATED'
 const STATUS_QUEUED = 'QUEUED'
 const STATUS_RUNNING = 'RUNNING'
 const STATUS_SUCCESS = 'SUCCESS'
@@ -223,9 +226,30 @@ export const mapping = {
       bg: 'grey lighten-1'
     },
 
-    [ STATUS_QUEUED ]: {
+    [ STATUS_PENDING ]: {
+      icon: 'flow-icon-pending',
+      class: 'grey--text',
+      text: STATUS_PENDING,
+      bg: 'grey'
+    },
+
+    [ STATUS_LOADING ]: {
+      icon: 'mdi-git',
+      class: 'grey--text',
+      text: STATUS_LOADING,
+      bg: 'grey'
+    },
+
+    [ STATUS_CREATED ]: {
       icon: 'flow-icon-pending',
       class: 'green--text',
+      text: STATUS_CREATED,
+      bg: 'grey'
+    },
+
+    [ STATUS_QUEUED ]: {
+      icon: 'flow-icon-pending',
+      class: 'yellow--text',
       text: STATUS_QUEUED,
       bg: 'yellow'
     },

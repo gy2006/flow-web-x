@@ -17,16 +17,6 @@ const mutations = {
 
   setSteps (state, steps) {
     state.items = steps
-  },
-
-  updateStep (state, newStep) {
-    for (let i = 0; i < state.items.length; i++) {
-      if (state.items[ i ].id === newStep.id) {
-        state.items[ i ] = newStep
-        state.change = newStep
-        return
-      }
-    }
   }
 }
 
@@ -45,11 +35,8 @@ const actions = {
     })
   },
 
-  /**
-   * Update step instance (step == executedCmd)
-   */
-  update ({commit}, executedCmd) {
-    commit('updateStep', executedCmd)
+  update ({commit}, steps) {
+    commit('setSteps', steps)
   }
 }
 

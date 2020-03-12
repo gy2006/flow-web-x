@@ -90,13 +90,8 @@ export const subscribeTopic = {
   steps (jobId, store) {
     subscribe('/topic/steps/' + jobId, (data) => {
       let message = JSON.parse(data.body)
-
-      if (events.change !== message.event) {
-        return
-      }
-
-      let executedCmd = message.body
-      store.dispatch(actions.jobs.steps.update, executedCmd)
+      let steps = message.body
+      store.dispatch(actions.jobs.steps.update, steps)
     })
   },
 

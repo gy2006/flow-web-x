@@ -242,16 +242,16 @@ export const mapping = {
 
     [ STATUS_CREATED ]: {
       icon: 'flow-icon-pending',
-      class: 'green--text',
+      class: 'grey--text',
       text: STATUS_CREATED,
       bg: 'grey'
     },
 
     [ STATUS_QUEUED ]: {
-      icon: 'flow-icon-pending',
-      class: 'yellow--text',
+      icon: 'mdi-loading',
+      class: [ 'blue--text', 'rotate' ],
       text: STATUS_QUEUED,
-      bg: 'yellow'
+      bg: 'light-blue lighten-1'
     },
 
     [ STATUS_RUNNING ]: {

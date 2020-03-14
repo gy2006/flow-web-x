@@ -7,7 +7,7 @@
         <v-divider></v-divider>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="7">
         <option-flow-name :flow="flow"></option-flow-name>
       </v-col>
 
@@ -17,7 +17,7 @@
         <v-divider></v-divider>
       </v-col>
 
-      <v-col cols="12">
+      <v-col cols="7">
         <option-git-access :flow="flow"></option-git-access>
       </v-col>
 
@@ -26,7 +26,7 @@
         <span class="font-weight-black title">Danger Zone</span>
       </v-col>
 
-      <v-col cols="12" class="danger-zone pa-3">
+      <v-col cols="10" class="danger-zone pa-3">
         <option-delete-flow :flow="flow"></option-delete-flow>
       </v-col>
     </v-row>

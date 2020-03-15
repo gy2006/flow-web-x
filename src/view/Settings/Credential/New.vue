@@ -139,7 +139,7 @@
             privateKey: this.instance.pair.privateKey
           }
 
-          this.$store.dispatch(actions.credentials.createRsa, param).then(() => {
+          this.$store.dispatch(actions.secrets.createRsa, param).then(() => {
             this.onBackClick()
           })
 
@@ -153,7 +153,7 @@
             password: this.instance.pair.password
           }
 
-          this.$store.dispatch(actions.credentials.createAuth, param).then(() => {
+          this.$store.dispatch(actions.secrets.createAuth, param).then(() => {
             this.onBackClick()
           })
 

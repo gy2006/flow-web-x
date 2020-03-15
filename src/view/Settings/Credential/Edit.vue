@@ -179,7 +179,7 @@
       },
 
       onDeleteClick () {
-        this.$store.dispatch(actions.credentials.delete, this.credentialObj).then(() => {
+        this.$store.dispatch(actions.secrets.delete, this.credentialObj).then(() => {
           this.onBackClick()
         })
       }

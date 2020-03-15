@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-      :items="credentials"
+      :items="secrets"
       :loading="loading"
       hide-default-footer
       hide-default-headers>
@@ -57,13 +57,13 @@
       })
 
       this.loading = true
-      this.$store.dispatch(actions.credentials.list).then(() => {
+      this.$store.dispatch(actions.secrets.list).then(() => {
         this.loading = false
       })
     },
     computed: {
       ...mapState({
-        credentials: state => state.credentials.items
+        secrets: state => state.secrets.items
       })
     },
     methods: {

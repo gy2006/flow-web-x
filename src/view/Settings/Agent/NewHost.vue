@@ -44,7 +44,7 @@
     <v-row>
       <v-col cols="8" v-if="wrapper.type === HOST_TYPE_SSH">
         <v-form ref="sshSettingsForm" lazy-validation>
-          <ssh-host-editor :wrapper="wrapper" :credentials="secretNameList"></ssh-host-editor>
+          <ssh-host-editor :wrapper="wrapper" :secrets="secretNameList"></ssh-host-editor>
         </v-form>
       </v-col>
 

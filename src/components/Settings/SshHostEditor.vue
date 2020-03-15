@@ -6,8 +6,8 @@
       </v-col>
       <v-col cols="12">
         <v-select dense
-                  v-model="wrapper.credential"
-                  :items="credentials"
+                  v-model="wrapper.secret"
+                  :items="secrets"
                   :rules="rules.required"
                   label="Select Credential"
         ></v-select>
@@ -45,7 +45,7 @@
         type: Object,
         required: true
       },
-      credentials: {
+      secrets: {
         type: Array,
         required: true
       }

@@ -102,6 +102,10 @@ export class HostWrapper {
     this.host.tags = tags
   }
 
+  set type (type) {
+    this.host.type = type
+  }
+
   set children (val) {
     this.agents = val
   }

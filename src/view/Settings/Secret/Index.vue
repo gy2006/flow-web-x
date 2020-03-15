@@ -40,7 +40,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsCredentialHome',
+    name: 'SettingsSecretHome',
     data () {
       return {
         loading: false
@@ -50,7 +50,7 @@
       this.$emit('onConfigNav', {
         navs: [
           {
-            text: 'Credentials'
+            text: 'Secrets'
           }
         ],
         showAddBtn: true
@@ -69,15 +69,15 @@
     methods: {
       onAddBtnClick () {
         this.$router.push({
-          name: 'SettingsCredentialNew'
+          name: 'SettingsSecretNew'
         })
       },
 
-      onEditClick (credential) {
+      onEditClick (secret) {
         this.$router.push({
-          name: 'SettingsCredentialEdit',
+          name: 'SettingsSecretEdit',
           params: {
-            credentialObj: credential
+            credentialObj: secret
           }
         })
       }

@@ -109,7 +109,7 @@
   import HostTestBtn from '@/components/Settings/HostTestBtn'
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA } from '@/util/secrets'
 
   export default {
     name: 'SettingsAgentNew',

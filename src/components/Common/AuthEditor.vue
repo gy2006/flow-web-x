@@ -58,8 +58,7 @@
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
   import { authFormRules } from '@/util/rules'
-  import { CATEGORY_AUTH } from '@/util/credentials'
-
+  import { CATEGORY_AUTH } from '@/util/secrets'
 
   export default {
     name: 'AuthEditor',

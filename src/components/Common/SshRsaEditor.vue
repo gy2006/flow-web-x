@@ -62,7 +62,7 @@
 <script>
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA } from '@/util/secrets'
   import {
     sshEmailRules,
     sshPrivateKeyRules,

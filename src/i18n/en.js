@@ -114,7 +114,7 @@ export default {
       users: 'Users',
       security: 'Security',
       agent: 'Agents',
-      credential: 'Credentials'
+      credential: 'Secrets'
     },
 
     profile: {
@@ -125,9 +125,9 @@ export default {
 
   credential: {
     hint: {
-      name_required: 'Credential name is required',
-      name_size: 'Credential name length should be 2 - 20 characters',
-      name_rule: 'Credential name only accept characters of a-z, A-Z, 0-9, _, -',
+      name_required: 'Secret name is required',
+      name_size: 'Secret name length should be 2 - 20 characters',
+      name_rule: 'Secret name only accept characters of a-z, A-Z, 0-9, _, -',
 
       auth_required: 'Value is required',
       auth_length: 'length should be 1 - 100 characters',

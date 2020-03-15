@@ -112,7 +112,7 @@ export default {
       users: 'Users',
       security: '安全',
       agent: 'Agents',
-      credential: '证书'
+      credential: '秘钥'
     },
 
     profile: {
@@ -123,9 +123,9 @@ export default {
 
   credential: {
     hint: {
-      name_required: 'Credential name is required',
-      name_size: 'Credential name length should be 2 - 20 characters',
-      name_rule: 'Credential name only accept characters of a-z, A-Z, 0-9, _, -',
+      name_required: 'Secret name is required',
+      name_size: 'Secret name length should be 2 - 20 characters',
+      name_rule: 'Secret name only accept characters of a-z, A-Z, 0-9, _, -',
 
       auth_required: '此项为必填',
       auth_length: '长度必须在 1 - 100 字符之间',

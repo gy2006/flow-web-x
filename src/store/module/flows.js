@@ -35,6 +35,18 @@ const mutations = {
     state.gitBranches = branchList
   },
 
+  update (state, updatedFlow) {
+    state.items.forEach((flow, index) => {
+      if (flow.id === updatedFlow.id) {
+        Object.assign(flow, updatedFlow)
+      }
+    })
+
+    if (state.selected.obj.id === updatedFlow.id) {
+      Object.assign(state.selected.obj, updatedFlow)
+    }
+  },
+
   select (state, flow) {
     state.selected.obj = flow
   },
@@ -220,6 +232,16 @@ const actions = {
     }
 
     await confirmFunc()
+  },
+
+  async update ({commit}, {name, isYamlFromRepo, yamlRepoBranch}) {
+    await http.post(
+      `flows/${name}/update`,
+      (flow) => {
+        commit('update', flow)
+      },
+      {name, isYamlFromRepo, yamlRepoBranch}
+    )
   },
 
   async delete ({commit, state}, name) {

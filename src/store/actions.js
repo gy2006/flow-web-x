@@ -15,6 +15,7 @@ export default {
     create: 'flows/create',
     createSshRsa: 'flows/createSshRsa',
     confirm: 'flows/confirm',
+    update: 'flows/update',
     list: 'flows/list',
     listByCredential: 'flows/listByCredential',
     select: 'flows/select',

@@ -50,8 +50,8 @@ export class HostWrapper {
     return this.agents
   }
 
-  get credential () {
-    return this.host.credential
+  get secret () {
+    return this.host.secret
   }
 
   get type () {
@@ -106,8 +106,8 @@ export class HostWrapper {
     this.agents = val
   }
 
-  set credential (val) {
-    this.host.credential = val
+  set secret (val) {
+    this.host.secret = val
   }
 
   set user (val) {

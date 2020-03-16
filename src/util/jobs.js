@@ -153,6 +153,14 @@ export class JobWrapper {
     }
   }
 
+  get isYamlFromRepo () {
+    return this.job.yamlFromRepo
+  }
+
+  get yamlRepoBranch () {
+    return this.job.yamlRepoBranch
+  }
+
   get prTitle () {
     return this.context[ vars.git.pr.title ]
   }
@@ -248,7 +256,7 @@ export const mapping = {
     },
 
     [ STATUS_QUEUED ]: {
-      icon: 'mdi-loading',
+      icon: 'mdi-refresh',
       class: [ 'blue--text', 'rotate' ],
       text: STATUS_QUEUED,
       bg: 'light-blue lighten-1'

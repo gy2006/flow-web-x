@@ -2,6 +2,11 @@
   <v-card flat class="full-size">
     <v-card-text class="editor pa-0">
       <div id="yml-editor" class="full-height"></div>
+
+      <div class="info-message" v-if="flow.yamlFromRepo">
+        <span class="px-5 py-1">{{ $t('flow.hint.yaml_from_git', [flow.yamlRepoBranch]) }}</span>
+      </div>
+
       <div class="error-message" v-if="errorOnSave">
         <span class="px-5 py-1">{{ errorOnSave }}</span>
       </div>

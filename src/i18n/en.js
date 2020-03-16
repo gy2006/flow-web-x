@@ -70,7 +70,9 @@ export default {
       delete_title: 'Please type in the name of the flow to confirm',
       delete_confirm_name_not_same: 'The typed in name not the same of the flow',
 
-      stats_invalid_date: 'Invalid statistic date'
+      stats_invalid_date: 'Invalid statistic date',
+
+      yaml_from_git: 'Current yaml will be loaded from Git repo on branch {0}'
     }
   },
 

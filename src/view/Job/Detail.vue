@@ -10,20 +10,27 @@
         </span>
       </v-col>
 
-      <v-col cols="3" class="body-2">
+      <v-col cols="2" class="body-2">
         <div class="pb-2">
-          <v-icon small>mdi-clock-outline</v-icon>
+          <v-icon small>mdi-clock-fast</v-icon>
           {{ wrapper.finishedAt }} / {{ wrapper.duration }} (s)
         </div>
         <div>
-          <v-icon small>mdi-timer</v-icon>
+          <v-icon small>mdi-clock-outline</v-icon>
           {{ wrapper.finishedAtInStr }}
         </div>
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="2">
         <v-icon small>{{ agentIcons[wrapper.agentInfo.os] }}</v-icon>
         <span class="ml-2 body-2">{{ wrapper.agentInfo.name }}</span>
+      </v-col>
+
+      <v-col cols="2">
+        <span class="body-2" v-if="wrapper.isYamlFromRepo">
+          <div>.flowci.yaml</div>
+          <div>from branch {{ wrapper.yamlRepoBranch }}</div>
+        </span>
       </v-col>
 
       <v-col class="body-2" cols="3">

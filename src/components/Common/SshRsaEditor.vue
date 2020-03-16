@@ -17,7 +17,7 @@
     </div>
 
     <div v-if="isEditOption">
-      <v-btn small outlined v-on="on" color="indigo" open-delay="2000" :loading="loading" @click="onCreateSSHClick">
+      <v-btn small outlined color="indigo" open-delay="2000" :loading="loading" @click="onCreateSSHClick">
         Create new SSH key
         <v-icon right small>mdi-plus-box</v-icon>
 
@@ -62,7 +62,7 @@
 <script>
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA } from '@/util/secrets'
   import {
     sshEmailRules,
     sshPrivateKeyRules,

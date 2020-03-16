@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-      :items="credentials"
+      :items="secrets"
       :loading="loading"
       hide-default-footer
       hide-default-headers>
@@ -40,7 +40,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsCredentialHome',
+    name: 'SettingsSecretHome',
     data () {
       return {
         loading: false
@@ -50,34 +50,34 @@
       this.$emit('onConfigNav', {
         navs: [
           {
-            text: 'Credentials'
+            text: 'Secrets'
           }
         ],
         showAddBtn: true
       })
 
       this.loading = true
-      this.$store.dispatch(actions.credentials.list).then(() => {
+      this.$store.dispatch(actions.secrets.list).then(() => {
         this.loading = false
       })
     },
     computed: {
       ...mapState({
-        credentials: state => state.credentials.items
+        secrets: state => state.secrets.items
       })
     },
     methods: {
       onAddBtnClick () {
         this.$router.push({
-          name: 'SettingsCredentialNew'
+          name: 'SettingsSecretNew'
         })
       },
 
-      onEditClick (credential) {
+      onEditClick (secret) {
         this.$router.push({
-          name: 'SettingsCredentialEdit',
+          name: 'SettingsSecretEdit',
           params: {
-            credentialObj: credential
+            credentialObj: secret
           }
         })
       }

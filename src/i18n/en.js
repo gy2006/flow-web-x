@@ -70,7 +70,9 @@ export default {
       delete_title: 'Please type in the name of the flow to confirm',
       delete_confirm_name_not_same: 'The typed in name not the same of the flow',
 
-      stats_invalid_date: 'Invalid statistic date'
+      stats_invalid_date: 'Invalid statistic date',
+
+      yaml_from_git: 'Current yaml will be loaded from Git repo on branch {0}'
     }
   },
 
@@ -114,7 +116,7 @@ export default {
       users: 'Users',
       security: 'Security',
       agent: 'Agents',
-      credential: 'Credentials'
+      credential: 'Secrets'
     },
 
     profile: {
@@ -125,9 +127,9 @@ export default {
 
   credential: {
     hint: {
-      name_required: 'Credential name is required',
-      name_size: 'Credential name length should be 2 - 20 characters',
-      name_rule: 'Credential name only accept characters of a-z, A-Z, 0-9, _, -',
+      name_required: 'Secret name is required',
+      name_size: 'Secret name length should be 2 - 20 characters',
+      name_rule: 'Secret name only accept characters of a-z, A-Z, 0-9, _, -',
 
       auth_required: 'Value is required',
       auth_length: 'length should be 1 - 100 characters',

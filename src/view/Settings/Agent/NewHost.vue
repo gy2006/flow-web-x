@@ -35,7 +35,7 @@
         <v-select
             :items="[HOST_TYPE_SSH]"
             label="Host Types"
-            v-model="type"
+            v-model="wrapper.type"
             dense
         ></v-select>
       </v-col>
@@ -44,7 +44,7 @@
     <v-row>
       <v-col cols="8" v-if="wrapper.type === HOST_TYPE_SSH">
         <v-form ref="sshSettingsForm" lazy-validation>
-          <ssh-host-editor :wrapper="wrapper" :credentials="credentialNameList"></ssh-host-editor>
+          <ssh-host-editor :wrapper="wrapper" :secrets="secretNameList"></ssh-host-editor>
         </v-form>
       </v-col>
 
@@ -109,7 +109,7 @@
   import HostTestBtn from '@/components/Settings/HostTestBtn'
   import actions from '@/store/actions'
   import { mapState } from 'vuex'
-  import { CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA } from '@/util/secrets'
 
   export default {
     name: 'SettingsAgentNew',
@@ -146,7 +146,7 @@
         showAddBtn: false
       })
 
-      this.$store.dispatch(actions.credentials.listNameOnly, CATEGORY_SSH_RSA).then()
+      this.$store.dispatch(actions.secrets.listNameOnly, CATEGORY_SSH_RSA).then()
 
       if (this.isEditMode) {
         this.$store.dispatch(actions.hosts.get, this.hostName).then(() => {
@@ -157,13 +157,13 @@
     computed: {
       ...mapState({
         host: state => state.hosts.loaded,
-        credentials: state => state.credentials.items,
+        secrets: state => state.secrets.items,
         updated: state => state.hosts.updated
       }),
 
-      credentialNameList () {
+      secretNameList () {
         const nameList = []
-        for (let c of this.credentials) {
+        for (let c of this.secrets) {
           nameList.push(c.name)
         }
         return nameList

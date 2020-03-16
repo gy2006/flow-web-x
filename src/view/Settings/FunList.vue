@@ -41,7 +41,7 @@
           },
           {
             i18n: 'settings.li.credential',
-            path: 'credentials'
+            path: 'secrets'
           }
         ]
       }

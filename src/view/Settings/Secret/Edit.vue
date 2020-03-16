@@ -89,11 +89,11 @@
   import actions from '@/store/actions'
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
   import AuthEditor from '@/components/Common/AuthEditor'
-  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/secrets'
   import { mapState } from 'vuex'
 
   export default {
-    name: 'SettingsCredentialEdit',
+    name: 'SettingsSecretEdit',
     components: {
       SshRsaEditor,
       AuthEditor
@@ -131,8 +131,8 @@
       navs () {
         return [
           {
-            text: 'Credentials',
-            href: '#/settings/credentials'
+            text: 'Secrets',
+            href: '#/settings/secrets'
           },
           {
             text: 'Edit'
@@ -179,7 +179,7 @@
       },
 
       onDeleteClick () {
-        this.$store.dispatch(actions.credentials.delete, this.credentialObj).then(() => {
+        this.$store.dispatch(actions.secrets.delete, this.credentialObj).then(() => {
           this.onBackClick()
         })
       }

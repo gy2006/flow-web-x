@@ -10,7 +10,7 @@ import { Store as StepStore } from './module/steps'
 import { Store as LogStore } from './module/logs'
 import { Store as AgentStore } from './module/agents'
 import { Store as HostStore } from './module/hosts'
-import { Store as CredentialStore } from './module/credentials'
+import { Store as SecretsStore } from './module/secrets'
 import { Store as UserStore } from './module/users'
 import { Store as StatsStore } from './module/stats'
 import { Store as PluginStore } from './module/plugins'
@@ -28,7 +28,7 @@ const store = new Vuex.Store({
     'logs': LogStore,
     'agents': AgentStore,
     'hosts': HostStore,
-    'credentials': CredentialStore,
+    'secrets': SecretsStore,
     'users': UserStore,
     'stats': StatsStore,
     'plugins': PluginStore

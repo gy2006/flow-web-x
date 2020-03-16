@@ -141,6 +141,14 @@ export class FlowWrapper {
     return this.successPercentage
   }
 
+  get isLoadYamlFromRepo () {
+    return this.flow.isYamlFromRepo
+  }
+
+  get yamlRepoBranch () {
+    return this.flow.yamlRepoBranch
+  }
+
   // set
 
   set name (name) {
@@ -177,5 +185,13 @@ export class FlowWrapper {
 
   set successRate (rate) {
     this.successPercentage = rate
+  }
+
+  set isLoadYamlFromRepo (val) {
+    this.flow.isYamlFromRepo = val
+  }
+
+  set yamlRepoBranch (branch) {
+    this.flow.yamlRepoBranch = branch
   }
 }

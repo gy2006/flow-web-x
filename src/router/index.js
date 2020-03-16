@@ -23,9 +23,9 @@ import SettingsAgentNew from '@/view/Settings/Agent/NewAgent'
 import SettingsAgentEdit from '@/view/Settings/Agent/EditAgent'
 import SettingsHostNew from '@/view/Settings/Agent/NewHost'
 
-import SettingsCredentialHome from '@/view/Settings/Credential/Index'
-import SettingsCredentialNew from '@/view/Settings/Credential/New'
-import SettingsCredentialEdit from '@/view/Settings/Credential/Edit'
+import SettingsSecretHome from '@/view/Settings/Secret/Index'
+import SettingsSecretNew from '@/view/Settings/Secret/New'
+import SettingsSecretEdit from '@/view/Settings/Secret/Edit'
 
 Vue.use(Router)
 
@@ -123,20 +123,20 @@ export default new Router({
         },
 
         {
-          path: 'credentials',
-          name: 'SettingsCredentialHome',
-          component: SettingsCredentialHome
+          path: 'secrets',
+          name: 'SettingsSecretHome',
+          component: SettingsSecretHome
         },
         {
-          path: 'credentials/new',
-          name: 'SettingsCredentialNew',
-          component: SettingsCredentialNew,
+          path: 'secrets/new',
+          name: 'SettingsSecretNew',
+          component: SettingsSecretNew,
           props: true
         },
         {
-          path: 'credentials/edit',
-          name: 'SettingsCredentialEdit',
-          component: SettingsCredentialEdit,
+          path: 'secrets/edit',
+          name: 'SettingsSecretEdit',
+          component: SettingsSecretEdit,
           props: true
         }
       ]

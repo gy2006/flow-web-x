@@ -15,6 +15,7 @@ export default {
     create: 'flows/create',
     createSshRsa: 'flows/createSshRsa',
     confirm: 'flows/confirm',
+    update: 'flows/update',
     list: 'flows/list',
     listByCredential: 'flows/listByCredential',
     select: 'flows/select',
@@ -73,13 +74,13 @@ export default {
     select: 'agents/select'
   },
 
-  credentials: {
-    createRsa: 'credentials/createRsa',
-    createAuth: 'credentials/createAuth',
-    list: 'credentials/list',
-    listNameOnly: 'credentials/listNameOnly',
-    get: 'credentials/get',
-    delete: 'credentials/delete'
+  secrets: {
+    createRsa: 'secrets/createRsa',
+    createAuth: 'secrets/createAuth',
+    list: 'secrets/list',
+    listNameOnly: 'secrets/listNameOnly',
+    get: 'secrets/get',
+    delete: 'secrets/delete'
   },
 
   users: {

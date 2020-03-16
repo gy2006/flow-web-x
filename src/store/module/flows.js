@@ -35,6 +35,18 @@ const mutations = {
     state.gitBranches = branchList
   },
 
+  update (state, updatedFlow) {
+    state.items.forEach((flow, index) => {
+      if (flow.id === updatedFlow.id) {
+        Object.assign(flow, updatedFlow)
+      }
+    })
+
+    if (state.selected.obj.id === updatedFlow.id) {
+      Object.assign(state.selected.obj, updatedFlow)
+    }
+  },
+
   select (state, flow) {
     state.selected.obj = flow
   },
@@ -154,7 +166,7 @@ const actions = {
   },
 
   async createSshRsa ({commit, state}) {
-    await http.post('credentials/rsa/gen', (rsaKeyPair) => {
+    await http.post('secrets/rsa/gen', (rsaKeyPair) => {
       commit('updateSshRsa', rsaKeyPair)
     })
   },
@@ -191,7 +203,7 @@ const actions = {
 
     if (wrapper.hasSSH) {
       await http.post(
-        `flows/${wrapper.name}/credentials/rsa`,
+        `flows/${wrapper.name}/secret/rsa`,
         (credential) => {
           console.log('[DONE]: setup credential: ' + credential)
           gitSettings.credential = credential
@@ -206,7 +218,7 @@ const actions = {
 
     if (wrapper.hasAuth) {
       await http.post(
-        `flows/${wrapper.name}/credentials/auth`,
+        `flows/${wrapper.name}/secret/auth`,
         (credential) => {
           console.log('[DONE]: setup credential: ' + credential)
           gitSettings.credential = credential
@@ -220,6 +232,16 @@ const actions = {
     }
 
     await confirmFunc()
+  },
+
+  async update ({commit}, {name, isYamlFromRepo, yamlRepoBranch}) {
+    await http.post(
+      `flows/${name}/update`,
+      (flow) => {
+        commit('update', flow)
+      },
+      {name, isYamlFromRepo, yamlRepoBranch}
+    )
   },
 
   async delete ({commit, state}, name) {
@@ -262,8 +284,8 @@ const actions = {
     })
   },
 
-  listByCredential ({commit}, credentialName) {
-    return http.get(`flows/credentials/${credentialName}`, (list) => {
+  listByCredential ({commit}, secretName) {
+    return http.get(`flows/secret/${secretName}`, (list) => {
       commit('listByCredential', list)
     })
   },

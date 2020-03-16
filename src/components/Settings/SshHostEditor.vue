@@ -9,7 +9,7 @@
                   v-model="wrapper.secret"
                   :items="secrets"
                   :rules="rules.required"
-                  label="Select Credential"
+                  label="Secret"
         ></v-select>
       </v-col>
       <v-col cols="12">

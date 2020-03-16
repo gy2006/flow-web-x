@@ -14,12 +14,12 @@
 
     <v-row>
       <v-col>
-        <span class="caption grey--text text--darken-1">YAML from Git Repo</span>
+        <span class="caption grey--text text--darken-1">Is load YAML from Git (.flowci.yaml)</span>
         <v-row align="center">
           <v-col cols="4">
             <v-switch inset
                       :loading="loading"
-                      :label="isYamlFromRepo ? 'Git Repo' : 'Yaml Setting'"
+                      :label="isYamlFromRepo ? 'Load from branch' : 'Disabled'"
                       v-model="isYamlFromRepo"
                       @change="onSwitchChange"
             ></v-switch>

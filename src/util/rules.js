@@ -65,3 +65,9 @@ export function authFormRules (vue) {
     v => (v.length >= 1 && v.length <= 100) || vue.$t('credential.hint.auth_length'),
   ]
 }
+
+export function required (message) {
+  return [
+    v => !!v || message,
+  ]
+}

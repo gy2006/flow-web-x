@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+      class="job-list"
       hide-default-header
       :items="jobs"
       :options.sync="pagination"
@@ -17,8 +18,8 @@
     </template>
 
     <template slot="no-data">
-      <v-alert :value="true" color="white">
-        <span class="light-blue--text">{{ $t('job.list_empty_message') }}</span>
+      <v-alert :value="true">
+        <span class="caption">{{ $t('job.list_empty_message') }}</span>
       </v-alert>
     </template>
   </v-data-table>
@@ -119,12 +120,8 @@
 
 <style lang="scss">
   .job-list {
-    .fix-height {
-      max-height: 32px;
-    }
-
-    .v-text-field.v-text-field--solo .v-input__control {
-      min-height: 32px;
-    }
+    height: 100%;
+    position: relative;
+    overflow: auto;
   }
 </style>

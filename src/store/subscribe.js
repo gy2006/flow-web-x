@@ -90,13 +90,8 @@ export const subscribeTopic = {
   steps (jobId, store) {
     subscribe('/topic/steps/' + jobId, (data) => {
       let message = JSON.parse(data.body)
-
-      if (events.change !== message.event) {
-        return
-      }
-
-      let executedCmd = message.body
-      store.dispatch(actions.jobs.steps.update, executedCmd)
+      let steps = message.body
+      store.dispatch(actions.jobs.steps.update, steps)
     })
   },
 
@@ -115,6 +110,14 @@ export const subscribeTopic = {
       let agent = message.body
       store.dispatch(actions.agents.update, agent)
     })
+  },
+
+  hosts (store) {
+    subscribe('/topic/hosts', (data) => {
+      let message = JSON.parse(data.body)
+      let host = message.body
+      store.dispatch(actions.hosts.updated, host)
+    })
   }
 }
 
@@ -129,5 +132,9 @@ export const unsubscribeTopic = {
 
   logs (cmdId) {
     unsubscribe('/topic/logs/' + cmdId)
+  },
+
+  hosts () {
+    unsubscribe('/topic/hosts')
   }
 }

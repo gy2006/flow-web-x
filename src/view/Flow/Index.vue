@@ -1,9 +1,9 @@
 <template>
-  <v-card class="full-size">
-    <v-card-title class="py-0">
-      <v-row>
-        <v-col cols="5">
-          <v-breadcrumbs :items="navItems">
+  <v-card class="full-size pt-0">
+    <v-card-title class="title py-0">
+      <v-toolbar flat bottom>
+        <v-toolbar-title>
+          <v-breadcrumbs :items="navItems" class="pa-0">
             <template v-slot:divider>
               <v-icon>mdi-chevron-right</v-icon>
             </template>
@@ -17,58 +17,56 @@
               </v-breadcrumbs-item>
             </template>
           </v-breadcrumbs>
-        </v-col>
+        </v-toolbar-title>
 
-        <!-- flow and job actions-->
-        <v-col cols="7" v-if="showFlowAction">
-          <v-toolbar flat bottom>
-            <v-toolbar-items class="align-baseline">
-              <v-btn
-                  text
-                  color="blue-grey"
-                  class="white--text"
-                  @click="onStatisticClick"
-              >
-                <v-icon class="mr-1">mdi-trending-up</v-icon>
-                {{ $t('flow.statistic') }}
-              </v-btn>
+        <v-spacer></v-spacer>
 
-              <v-btn
-                  text
-                  color="blue-grey"
-                  class="white--text"
-                  @click="onSettingsClick"
-              >
-                <v-icon class="mr-1">mdi-settings</v-icon>
-                {{ $t('flow.settings') }}
-              </v-btn>
+        <v-toolbar-items class="align-baseline" v-if="showFlowAction">
+          <v-btn
+              text
+              color="blue-grey"
+              class="white--text"
+              @click="onStatisticClick"
+          >
+            <v-icon class="mr-1">mdi-trending-up</v-icon>
+            {{ $t('flow.statistic') }}
+          </v-btn>
 
-              <v-btn
-                  text
-                  color="success"
-                  @click="onRunClick"
-              >
-                <v-icon class="mr-1">mdi-play</v-icon>
-                {{ $t('job.run') }}:
-              </v-btn>
+          <v-btn
+              text
+              color="blue-grey"
+              class="white--text"
+              @click="onSettingsClick"
+          >
+            <v-icon class="mr-1">mdi-settings</v-icon>
+            {{ $t('flow.settings') }}
+          </v-btn>
 
-              <v-combobox dense
-                          outlined
-                          prepend-icon="mdi-source-branch"
-                          :items="gitBranches"
-                          v-model="selectedBranch"
-                          label="branch:">
-              </v-combobox>
-            </v-toolbar-items>
-          </v-toolbar>
-        </v-col>
+          <v-btn
+              text
+              color="success"
+              @click="onRunClick"
+          >
+            <v-icon class="mr-1">mdi-play</v-icon>
+            {{ $t('job.run') }}:
+          </v-btn>
 
-        <Dialog :dialog="dialog"
-                :content="$t('job.hint.missing_agent')"
-        ></Dialog>
-      </v-row>
+          <v-combobox dense
+                      outlined
+                      prepend-icon="mdi-source-branch"
+                      :items="gitBranches"
+                      v-model="selectedBranch"
+                      label="branch:">
+          </v-combobox>
+        </v-toolbar-items>
+      </v-toolbar>
+
+      <Dialog :dialog="dialog"
+              :content="$t('job.hint.missing_agent')"
+      ></Dialog>
     </v-card-title>
-    <v-card-text class="fill-height">
+
+    <v-card-text class="content px-2">
       <router-view></router-view>
     </v-card-text>
   </v-card>
@@ -155,11 +153,6 @@
       },
 
       onRunClick () {
-        if (this.agents.length === 0) {
-          this.dialog = true
-          return
-        }
-
         const payload = {flow: this.flowName, branch: this.selectedBranch}
         this.$store.dispatch(actions.jobs.start, payload).then()
       },
@@ -184,5 +177,12 @@
 </script>
 
 <style scoped>
+.title {
+  height: 10%;
+}
 
+.content {
+  height: 90%;
+  position: absolute;
+}
 </style>

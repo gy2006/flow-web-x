@@ -79,7 +79,7 @@
   import actions from '@/store/actions'
   import { FlowWrapper } from '@/util/flows'
   import { mapState } from 'vuex'
-  import { CATEGORY_AUTH, CATEGORY_SSH_RSA } from '@/util/credentials'
+  import { CATEGORY_AUTH, CATEGORY_SSH_RSA } from '@/util/secrets'
 
   export default {
     name: 'FlowCreateDialog',

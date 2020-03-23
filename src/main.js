@@ -18,11 +18,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'babel-polyfill'
 import './assets/styles/style.scss'
 
-import 'xterm/dist/xterm.css'
-import { Terminal } from 'xterm'
-import * as fit from 'xterm/lib/addons/fit/fit'
-
-Terminal.applyAddon(fit)
+import 'xterm/css/xterm.css'
+import G6 from "@antv/g6"
 
 Vue.config.productionTip = false
 VueClipboard.config.autoSetContainer = true
@@ -72,6 +69,86 @@ Vue.mixin({
     }
   }
 })
+
+G6.registerNode(
+  'background-animate',
+  {
+    afterDraw(cfg, group) {
+      let r = cfg.size / 2;
+      if (isNaN(r)) {
+        r = cfg.size[0] / 2;
+      }
+      const back1 = group.addShape('circle', {
+        zIndex: -3,
+        attrs: {
+          x: 0,
+          y: 0,
+          r,
+          fill: cfg.color,
+          opacity: 0.6,
+        },
+      });
+      const back2 = group.addShape('circle', {
+        zIndex: -2,
+        attrs: {
+          x: 0,
+          y: 0,
+          r,
+          fill: 'blue',
+          opacity: 0.6,
+        },
+      });
+      const back3 = group.addShape('circle', {
+        zIndex: -1,
+        attrs: {
+          x: 0,
+          y: 0,
+          r,
+          fill: 'green',
+          opacity: 0.6,
+        },
+      });
+      group.sort();
+
+      back1.animate(
+        {
+          r: r + 10,
+          opacity: 0.1,
+          repeat: true
+        },
+        3000,
+        'easeCubic',
+        null,
+        0,
+      );
+
+      back2.animate(
+        {
+          r: r + 10,
+          opacity: 0.1,
+          repeat: true
+        },
+        3000,
+        'easeCubic',
+        null,
+        1000,
+      );
+
+      back3.animate(
+        {
+          r: r + 10,
+          opacity: 0.1,
+          repeat: true
+        },
+        3000,
+        'easeCubic',
+        null,
+        2000,
+      );
+    },
+  },
+  'circle',
+);
 
 new Vue({
   i18n: new VueI18n({

@@ -1,67 +1,103 @@
 <template>
-  <v-data-table
-      :items="items"
-      hide-default-footer
-      hide-default-header>
+  <div>
+    <v-treeview hoverable dense :items="items">
+      <template v-slot:prepend="{ item }">
+        <v-icon small>{{ item.icon }}</v-icon>
+      </template>
 
-    <template v-slot:item="{item}">
-      <tr>
-        <td :class="[item.color, 'px-1']">
-        </td>
-        <td>
-          <v-row align="center">
-            <v-col cols="2">
-              <span class="ml-2">{{ item.name }}</span>
-            </v-col>
-            <v-col cols="1">
-              <v-icon small>{{ item.icon }}</v-icon>
-            </v-col>
-            <v-col cols="3">
-              <v-chip v-for="tag in item.tags"
-                      :key="tag"
-                      class="my-0"
-                      outlined
-                      small
-                      label
-              >{{ tag }}
-              </v-chip>
-            </v-col>
-            <v-col cols="4" class="agent-resource">
-              <div>cpu: {{ item.numOfCpu }}</div>
-              <div>memory: {{ item.freeMemory }} / {{ item.totalMemory }} (mb)</div>
-              <div>disk: {{ item.freeDisk }} / {{ item.totalDisk }} (mb)</div>
-            </v-col>
-            <v-col cols="2">
-              <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
-                <v-icon small>flow-icon-file_copy</v-icon>
+      <template v-slot:label="{ item }">
+        <span>{{ item.name }}</span>
+
+        <v-icon x-small
+                class="mx-2"
+                :color="item.color"
+                v-if="item.isAgent || item.isHost"
+        >mdi-checkbox-blank-circle
+        </v-icon>
+
+        <v-chip v-for="tag in item.tags"
+                :key="tag"
+                class="mx-1"
+                outlined
+                x-small
+                label
+        >{{ tag }}
+        </v-chip>
+      </template>
+
+      <template v-slot:append="{ item }">
+        <div v-if="item.isAgent && !item.hostId">
+          <v-btn icon class="ma-0" @click="onTokenCopyClick(item)">
+            <v-icon small>flow-icon-file_copy</v-icon>
+          </v-btn>
+          <v-btn icon class="ma-0" @click="onAgentEditClick(item)">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </div>
+
+        <div v-if="item.isHost">
+          <span class="overline font-weight-thin" v-if="item.isDefaultLocal">Default</span>
+          <v-btn icon class="ma-0" @click="onHostEditClick(item)">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-treeview>
+
+    <v-dialog v-model="dialog" max-width="500">
+      <v-card>
+        <v-card-text>
+          <v-row>
+            <v-col cols="6">
+              <v-btn min-height="150"
+                     block
+                     color="primary"
+                     @click="onNewAgentClick"
+              >Manual agent
               </v-btn>
-              <v-btn icon class="ma-0" @click="onDownloadClick(item)">
-                <v-icon small>mdi-download</v-icon>
-              </v-btn>
-              <v-btn icon class="ma-0" @click="onEditClick(item)">
-                <v-icon small>mdi-pencil</v-icon>
+            </v-col>
+            <v-col cols="6">
+              <v-btn min-height="150"
+                     block
+                     color="primary"
+                     @click="onNewHostClick"
+              >Host with auto agent
               </v-btn>
             </v-col>
           </v-row>
-        </td>
-      </tr>
-    </template>
-
-    <template slot="no-data">
-      <v-alert :value="true" color="primary" icon="warning">
-        Click to create new agent
-      </v-alert>
-    </template>
-  </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import { AgentWrapper } from '@/util/agents'
+  import { HostWrapper } from '@/util/hosts'
+  import { subscribeTopic, unsubscribeTopic } from '@/store/subscribe'
   import actions from '@/store/actions'
-  import { util } from '@/util/agents'
 
   export default {
     name: 'SettingsAgentHome',
+    data () {
+      return {
+        dialog: false,
+        hostMap: {},
+        items: [
+          {
+            id: 1,
+            name: 'Agents:',
+            children: []
+          },
+          {
+            id: 2,
+            name: 'Hosts:',
+            children: []
+          }
+        ]
+      }
+    },
     mounted () {
       this.$emit('onConfigNav', {
         navs: [
@@ -71,24 +107,67 @@
         ],
         showAddBtn: true
       })
-      this.$store.dispatch(actions.agents.list).then()
+
+      this.$store.dispatch(actions.hosts.list).then(() => {
+        this.buildHosts()
+
+        this.$store.dispatch(actions.agents.list).then(() => {
+          this.buildAgents()
+        })
+
+        subscribeTopic.hosts(this.$store)
+      })
+    },
+    beforeDestroy () {
+      unsubscribeTopic.hosts()
     },
     computed: {
       ...mapState({
+        hosts: state => state.hosts.items,
         agents: state => state.agents.items
-      }),
-
-      items () {
-        return util.convert(this.agents)
-      }
+      })
     },
     methods: {
+      buildHosts () {
+        let hosts = this.items[ 1 ]
+        hosts.children = []
+        this.hostMap = {}
+
+        for (let host of this.hosts) {
+          let wrapper = new HostWrapper(host)
+          hosts.children.push(wrapper)
+          this.hostMap[ wrapper.id ] = wrapper
+        }
+      },
+
+      buildAgents () {
+        let agents = this.items[ 0 ]
+        agents.children = []
+
+        Object.values(this.hostMap).forEach(value => {
+          value.children = []
+        })
+
+        for (let agent of this.agents) {
+          if (agent.hostId) {
+            this.hostMap[ agent.hostId ].children.push(new AgentWrapper(agent))
+            continue
+          }
+
+          agents.children.push(new AgentWrapper(agent))
+        }
+      },
+
       onAddBtnClick () {
+        this.dialog = true
+      },
+
+      onNewAgentClick () {
         this.$router.push('/settings/agents/new')
       },
 
-      onDownloadClick (wrapper) {
-
+      onNewHostClick () {
+        this.$router.push('/settings/agents/host/new')
       },
 
       onTokenCopyClick (wrapper) {
@@ -102,20 +181,16 @@
           })
       },
 
-      onEditClick (wrapper) {
+      onAgentEditClick (wrapper) {
         this.$router.push('/settings/agents/edit/' + wrapper.name)
+      },
+
+      onHostEditClick (wrapper) {
+        this.$router.push('/settings/agents/host/edit/' + wrapper.name)
       }
     }
   }
 </script>
 
 <style scoped>
-  .agent-state {
-    height: 100%;
-    width: 5%;
-  }
-
-  .agent-resource {
-    font-size: 10px;
-  }
 </style>

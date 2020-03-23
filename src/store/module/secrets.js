@@ -34,19 +34,19 @@ const mutations = {
 
 const actions = {
   list ({commit}) {
-    http.get('credentials', (c) => {
+    http.get('secrets', (c) => {
       commit('list', c)
     })
   },
 
   listNameOnly ({commit}, category) {
-    http.get('credentials/list/name', (c) => {
+    http.get('secrets/list/name', (c) => {
       commit('list', c)
     }, {category})
   },
 
   async createRsa ({commit}, {name, publicKey, privateKey}) {
-    await http.post('credentials/rsa', (c) => {
+    await http.post('secrets/rsa', (c) => {
       commit('add', c)
     }, {
       name,
@@ -56,7 +56,7 @@ const actions = {
   },
 
   async createAuth({commit}, {name, username, password}) {
-    await http.post('credentials/auth', (c) => {
+    await http.post('secrets/auth', (c) => {
       commit('add', c)
     }, {
       name,
@@ -66,13 +66,13 @@ const actions = {
   },
 
   async delete ({commit}, credential) {
-    await http.delete(`credentials/${credential.name}`, (c) => {
+    await http.delete(`secrets/${credential.name}`, (c) => {
       commit('remove', c)
     })
   },
 
   get ({commit}, name) {
-    http.get(`credentials/${name}`, (c) => {
+    http.get(`secrets/${name}`, (c) => {
       commit('loaded', c)
     })
   }

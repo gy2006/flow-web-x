@@ -1,7 +1,7 @@
 <template>
   <v-form ref="gitAccessForm" lazy-validation>
     <v-row align="center">
-      <v-col cols="6">
+      <v-col>
         <span class="caption grey--text text--darken-1">{{ `Webhook (${vars.flow.webhook})` }}</span>
         <v-text-field
             class="pt-0"
@@ -17,7 +17,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="6">
+      <v-col cols="11">
         <span class="caption grey--text text--darken-1">{{ `Git URL (${vars.git.url})` }}</span>
         <v-text-field
             class="pt-0"
@@ -32,7 +32,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="6">
+      <v-col cols="11">
         <span class="caption grey--text text--darken-1">{{ `Credential (${vars.git.credential})` }}</span>
         <v-text-field
             class="pt-0"
@@ -46,7 +46,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="6">
+      <v-col cols="11">
         <git-test-btn :wrapper="wrapper" :onBeforeTest="onTestClick"></git-test-btn>
       </v-col>
     </v-row>

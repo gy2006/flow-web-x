@@ -1,13 +1,13 @@
 <template>
   <v-data-table
-      :items="credentials"
+      :items="secrets"
       :loading="loading"
       hide-default-footer
       hide-default-headers>
     <template v-slot:item="{item}">
       <tr>
         <td>
-          <v-row align="center">
+          <v-row align="center" no-gutters>
             <v-col cols="3">
               {{ item.name }}
             </v-col>
@@ -27,8 +27,9 @@
     </template>
 
     <template slot="no-data">
-      <v-alert :value="true" color="primary" icon="warning">
-        Click button to create credential
+      <v-alert :value="true">
+        <v-icon small>mdi-alert-outline</v-icon>
+        <span class="caption ml-1">Click '+' to create a credential</span>
       </v-alert>
     </template>
   </v-data-table>
@@ -39,7 +40,7 @@
   import actions from '@/store/actions'
 
   export default {
-    name: 'SettingsCredentialHome',
+    name: 'SettingsSecretHome',
     data () {
       return {
         loading: false
@@ -49,34 +50,34 @@
       this.$emit('onConfigNav', {
         navs: [
           {
-            text: 'Credentials'
+            text: 'Secrets'
           }
         ],
         showAddBtn: true
       })
 
       this.loading = true
-      this.$store.dispatch(actions.credentials.list).then(() => {
+      this.$store.dispatch(actions.secrets.list).then(() => {
         this.loading = false
       })
     },
     computed: {
       ...mapState({
-        credentials: state => state.credentials.items
+        secrets: state => state.secrets.items
       })
     },
     methods: {
       onAddBtnClick () {
         this.$router.push({
-          name: 'SettingsCredentialNew'
+          name: 'SettingsSecretNew'
         })
       },
 
-      onEditClick (credential) {
+      onEditClick (secret) {
         this.$router.push({
-          name: 'SettingsCredentialEdit',
+          name: 'SettingsSecretEdit',
           params: {
-            credentialObj: credential
+            credentialObj: secret
           }
         })
       }

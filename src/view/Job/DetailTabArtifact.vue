@@ -1,37 +1,43 @@
 <template>
-  <v-treeview
-      :open="open"
-      :items="treeItems"
-      activatable
-      item-key="id"
-      open-on-click
-  >
-    <template v-slot:prepend="{ item, open }">
-      <v-icon v-if="item.isDir">
-        {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
-      </v-icon>
-      <v-icon v-else>
-        {{ files[item.extension] || 'mdi-application' }}
-      </v-icon>
-    </template>
+  <div>
+    <div v-if="!hasArtifacts" class="text-center pa-2">
+      There are no artifacts for this job
+    </div>
 
-    <template v-slot:append="{ item }">
-<!--      <span class="mx-2" v-if="item.isDir">-->
-<!--        {{ moment(item.createdAt).format('YYYY/MM/DD hh:mm A') }}-->
-<!--      </span>-->
-      <span class="mx-2" v-if="!item.isDir">
-        {{ item.contentSize }} bytes
-      </span>
+    <v-treeview
+        :open="open"
+        :items="treeItems"
+        activatable
+        item-key="id"
+        open-on-click
+    >
+      <template v-slot:prepend="{ item, open }">
+        <v-icon v-if="item.isDir">
+          {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
+        </v-icon>
+        <v-icon v-else>
+          {{ files[item.extension] || 'mdi-application' }}
+        </v-icon>
+      </template>
 
-      <v-btn icon
-             class="mx-2"
-             @click="onDownloadClick(item)"
-             v-if="!item.isDir"
-      >
-        <v-icon small>mdi-download</v-icon>
-      </v-btn>
-    </template>
-  </v-treeview>
+      <template v-slot:append="{ item }">
+  <!--      <span class="mx-2" v-if="item.isDir">-->
+  <!--        {{ moment(item.createdAt).format('YYYY/MM/DD hh:mm A') }}-->
+  <!--      </span>-->
+        <span class="mx-2" v-if="!item.isDir">
+          {{ item.contentSize }} bytes
+        </span>
+
+        <v-btn icon
+              class="mx-2"
+              @click="onDownloadClick(item)"
+              v-if="!item.isDir"
+        >
+          <v-icon small>mdi-download</v-icon>
+        </v-btn>
+      </template>
+    </v-treeview>
+  </div>
 </template>
 
 <script>
@@ -108,6 +114,10 @@
       ...mapState({
         artifacts: state => state.jobs.artifacts
       }),
+
+      hasArtifacts() {
+        return this.artifacts.length > 0
+      },
 
       treeItems() {
         let tree = this.buildTree(this.artifacts, {})

@@ -54,11 +54,11 @@
   import SshRsaEditor from '@/components/Common/SshRsaEditor'
   import AuthEditor from '@/components/Common/AuthEditor'
   import actions from '@/store/actions'
-  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/credentials'
+  import { CATEGORY_SSH_RSA, CATEGORY_AUTH } from '@/util/secrets'
   import { credentialNameRules } from '@/util/rules'
 
   export default {
-    name: 'SettingsCredentialNew',
+    name: 'SettingsSecretNew',
     components: {
       SshRsaEditor,
       AuthEditor
@@ -101,8 +101,8 @@
       navs () {
         return [
           {
-            text: 'Credentials',
-            href: '#/settings/credentials'
+            text: 'Secrets',
+            href: '#/settings/secrets'
           },
           {
             text: 'New'
@@ -124,7 +124,7 @@
     },
     methods: {
       onBackClick () {
-        this.$router.push('/settings/credentials')
+        this.$router.push('/settings/secrets')
       },
 
       onSaveClick () {
@@ -139,7 +139,7 @@
             privateKey: this.instance.pair.privateKey
           }
 
-          this.$store.dispatch(actions.credentials.createRsa, param).then(() => {
+          this.$store.dispatch(actions.secrets.createRsa, param).then(() => {
             this.onBackClick()
           })
 
@@ -153,7 +153,7 @@
             password: this.instance.pair.password
           }
 
-          this.$store.dispatch(actions.credentials.createAuth, param).then(() => {
+          this.$store.dispatch(actions.secrets.createAuth, param).then(() => {
             this.onBackClick()
           })
 

@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="10">
+  <div class="env-tab">
 
     <v-row align="center">
       <v-col class="mb-4">
@@ -39,7 +39,7 @@
               :editable="obj.editable"
     ></env-item>
 
-  </v-col>
+  </div>
 </template>
 
 <script>
@@ -143,5 +143,8 @@
 </script>
 
 <style scoped>
-
+.env-tab {
+  padding-left: 5px;
+  width: 90%;
+}
 </style>

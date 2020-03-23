@@ -3,6 +3,9 @@ import moment from 'moment'
 
 // status
 const STATUS_UNKNOWN = 'UNKNOWN'
+const STATUS_PENDING = 'PENDING'
+const STATUS_LOADING = 'LOADING'
+const STATUS_CREATED = 'CREATED'
 const STATUS_QUEUED = 'QUEUED'
 const STATUS_RUNNING = 'RUNNING'
 const STATUS_SUCCESS = 'SUCCESS'
@@ -34,6 +37,14 @@ export class JobWrapper {
 
   get errorMsg () {
     return this.job.message
+  }
+
+  get gitUrl () {
+    return this.context[ vars.git.url ]
+  }
+
+  get gitCredential () {
+    return this.context[ vars.git.credential ] || '-'
   }
 
   get commitId () {
@@ -142,6 +153,14 @@ export class JobWrapper {
     }
   }
 
+  get isYamlFromRepo () {
+    return this.job.yamlFromRepo
+  }
+
+  get yamlRepoBranch () {
+    return this.job.yamlRepoBranch
+  }
+
   get prTitle () {
     return this.context[ vars.git.pr.title ]
   }
@@ -215,11 +234,32 @@ export const mapping = {
       bg: 'grey lighten-1'
     },
 
-    [ STATUS_QUEUED ]: {
+    [ STATUS_PENDING ]: {
       icon: 'flow-icon-pending',
-      class: 'green--text',
+      class: 'grey--text',
+      text: STATUS_PENDING,
+      bg: 'grey'
+    },
+
+    [ STATUS_LOADING ]: {
+      icon: 'mdi-git',
+      class: 'grey--text',
+      text: STATUS_LOADING,
+      bg: 'grey'
+    },
+
+    [ STATUS_CREATED ]: {
+      icon: 'flow-icon-pending',
+      class: 'grey--text',
+      text: STATUS_CREATED,
+      bg: 'grey'
+    },
+
+    [ STATUS_QUEUED ]: {
+      icon: 'mdi-refresh',
+      class: [ 'blue--text', 'rotate' ],
       text: STATUS_QUEUED,
-      bg: 'yellow'
+      bg: 'light-blue lighten-1'
     },
 
     [ STATUS_RUNNING ]: {

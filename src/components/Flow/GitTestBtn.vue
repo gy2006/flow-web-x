@@ -56,14 +56,14 @@
 
       currentGitTest () {
         if (this.error !== '') {
-          return gitTestStatus[GIT_TEST_ERROR]
+          return gitTestStatus[ GIT_TEST_ERROR ]
         }
 
         if (this.gitTestMessage === undefined) {
           return gitTestStatus.default
         }
 
-        const gitTest = gitTestStatus[this.gitTestMessage.status] || gitTestStatus.default
+        const gitTest = gitTestStatus[ this.gitTestMessage.status ] || gitTestStatus.default
         let message = gitTest.message
 
         if (this.gitTestMessage.status === GIT_TEST_ERROR) {
@@ -101,12 +101,12 @@
           subscribeTopic.gitTest(this.$store, this.wrapper.id)
 
           this.$store.dispatch(actions.flows.gitTestStart, this.wrapper)
-              .then(() => {
-                this.loading = true
-              })
-              .catch((err) => {
-                this.error = err.message
-              })
+            .then(() => {
+              this.loading = true
+            })
+            .catch((err) => {
+              this.error = err.message
+            })
         }
       }
     }

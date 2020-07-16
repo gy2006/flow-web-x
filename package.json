@@ -20,7 +20,7 @@
     "fast-deep-equal": "^2.0.1",
     "js-base64": "^2.4.9",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "marked": "^0.7.0",
     "moment": "^2.22.2",
     "monaco-editor": "^0.17.0",
